@@ -1909,6 +1909,47 @@ body.review-focus .fact-card[open] .field.emphasis-review{
   .mobile-menu-item,.mobile-menu-fact{gap:0!important;}
 }
 
+
+/* 2026-07-10 hard override: restore mobile menu top-right + 50% transparent bg */
+@media (max-width:760px){
+  body > .mobile-menu-bar{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 12px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:1400!important;
+    width:42px!important;
+    height:42px!important;
+    margin:0!important;
+    padding:0!important;
+    display:block!important;
+    pointer-events:none!important;
+    transform:none!important;
+    will-change:auto!important;
+  }
+  body > .mobile-menu-bar .mobile-menu-button{
+    position:relative!important;
+    width:42px!important;
+    height:42px!important;
+    pointer-events:auto!important;
+    background:rgba(255,255,255,.5)!important;
+    background-color:rgba(255,255,255,.5)!important;
+    -webkit-backdrop-filter:blur(6px)!important;
+    backdrop-filter:blur(6px)!important;
+  }
+  body > .mobile-menu-drawer{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 58px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    max-height:calc(100dvh - env(safe-area-inset-top, 0px) - 72px)!important;
+  }
+  .mobile-menu-drawer .mobile-menu-icon-square{display:none!important;}
+  .mobile-menu-item,.mobile-menu-fact{gap:0!important;}
+}
+
 </style>
 </head>
 <body class="auth-locked">
