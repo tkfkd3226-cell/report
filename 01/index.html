@@ -1655,11 +1655,12 @@ body.auth-locked > .floating-toc{visibility:hidden;}
 .review-toggle.active,
 .review-toggle[aria-pressed="true"]{background:#92400e;color:#fff;border-color:#92400e}
 .fact-card[open] .fact-detail{
-  animation:factSlideDown .18s ease both;
+  animation:factSlideDown .42s cubic-bezier(.2,.75,.25,1) both;
   transform-origin:top center;
 }
 @keyframes factSlideDown{
-  from{opacity:.15;transform:translateY(-6px)}
+  from{opacity:0;transform:translateY(-18px)}
+  60%{opacity:1;transform:translateY(3px)}
   to{opacity:1;transform:translateY(0)}
 }
 body.review-focus .fact-card[open] .field:not(.emphasis-review){
@@ -1676,12 +1677,15 @@ body.review-focus .fact-card[open] .field.emphasis-review{
 @media (max-width:760px){
   .navbar .tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px 10px;overflow:visible;}
   .mobile-menu-bar{
-    position:fixed;
-    top:12px;
-    right:12px;
+    position:fixed!important;
+    top:112px!important;
+    right:12px!important;
+    left:auto!important;
     z-index:1400;
-    width:auto;
-    padding:0;
+    width:auto!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
     display:block;
     pointer-events:none;
   }
@@ -1694,10 +1698,10 @@ body.review-focus .fact-card[open] .field.emphasis-review{
     justify-content:center;
     padding:0;
     border:1px solid rgba(17,24,39,.88);
-    border-radius:8px;
-    background:rgba(255,255,255,.94);
+    border-radius:4px;
+    background:#fff;
     color:#111827;
-    box-shadow:0 8px 22px rgba(15,23,42,.18);
+    box-shadow:0 4px 12px rgba(15,23,42,.14);
   }
   .hamburger-lines{width:18px;gap:4px}
   .hamburger-lines span{height:2px;background:currentColor}
@@ -1706,14 +1710,14 @@ body.review-focus .fact-card[open] .field.emphasis-review{
   .mobile-menu-drawer{
     left:auto;
     right:10px;
-    top:62px;
+    top:160px;
     bottom:auto;
     z-index:1500;
     width:min(340px,calc(100vw - 20px));
-    max-height:calc(100dvh - 76px);
+    max-height:calc(100dvh - 174px);
     border:1px solid #111827;
-    border-radius:8px;
-    box-shadow:0 18px 46px rgba(15,23,42,.26);
+    border-radius:4px;
+    box-shadow:0 14px 34px rgba(15,23,42,.22);
     transform:translateY(-8px);
     opacity:0;
     visibility:hidden;
@@ -1742,16 +1746,46 @@ body.review-focus .fact-card[open] .field.emphasis-review{
     -webkit-box-orient:vertical;
     line-height:1.35;
   }
-  .fact-filter-bar{padding:11px 10px 2px;gap:6px;overflow-x:auto;flex-wrap:nowrap;}
-  .filter-chip{flex:0 0 auto;padding:8px 10px;font-size:12px;}
-  .fact-controls>.btns{grid-template-columns:1fr 1fr 1fr!important}
-  .review-toggle{grid-column:auto}
+  .fact-filter-bar{padding:10px 10px 2px;gap:5px;overflow-x:auto;flex-wrap:nowrap;}
+  .filter-chip{flex:0 0 auto;padding:7px 9px;font-size:11px;}
+  .fact-controls>.btns{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+  .fact-controls .btn,.needed-controls .btn{padding:6px 6px!important;font-size:11px!important;border-radius:9px!important;gap:3px!important;line-height:1.15!important;min-height:30px;}
+  .review-toggle{grid-column:auto;white-space:nowrap;}
   body.auth-locked .mobile-menu-bar,
   body.auth-locked .mobile-menu-backdrop,
   body.auth-locked .mobile-menu-drawer,
   body.modal-open .mobile-menu-bar,
   body.modal-open .mobile-menu-backdrop,
   body.modal-open .mobile-menu-drawer{display:none!important;}
+}
+
+
+/* final fix: mobile menu button must be viewport-fixed, not tied to sticky nav */
+@media (max-width:760px){
+  body > .mobile-menu-bar{
+    position:fixed!important;
+    top:112px!important;
+    right:12px!important;
+    left:auto!important;
+    z-index:1400!important;
+    width:42px!important;
+    height:42px!important;
+    display:block!important;
+    margin:0!important;
+    padding:0!important;
+    pointer-events:none!important;
+    transform:translateZ(0);
+    will-change:transform;
+  }
+  body > .mobile-menu-bar .mobile-menu-button{
+    position:relative!important;
+    pointer-events:auto!important;
+  }
+  body.auth-locked > .mobile-menu-bar,
+  body.modal-open > .mobile-menu-bar,
+  body.mobile-menu-open > .mobile-menu-bar{
+    display:none!important;
+  }
 }
 
 </style>
@@ -1791,13 +1825,14 @@ body.review-focus .fact-card[open] .field.emphasis-review{
       <button class="tab" data-tab="needed">추가 확보 필요</button>
       <button class="tab" data-tab="timeline">타임라인</button>
     </div>
-    <div class="wrap mobile-menu-bar">
-      <button id="mobileMenuBtn" class="mobile-menu-button" type="button" aria-label="빠른 이동" aria-controls="mobileMenuDrawer" aria-expanded="false">
-        <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
-      </button>
-      <div id="mobileMenuCurrent" class="mobile-menu-current">사실관계 반박</div>
-    </div>
   </nav>
+
+  <div class="mobile-menu-bar" aria-hidden="false">
+    <button id="mobileMenuBtn" class="mobile-menu-button" type="button" aria-label="빠른 이동" aria-controls="mobileMenuDrawer" aria-expanded="false">
+      <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <div id="mobileMenuCurrent" class="mobile-menu-current">사실관계 반박</div>
+  </div>
 
   <div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
   <aside id="mobileMenuDrawer" class="mobile-menu-drawer" aria-hidden="true" aria-label="모바일 메뉴">
@@ -2788,6 +2823,11 @@ function handleMobileFactJump(selector){
 
 function showTab(name, options={}){
   const shouldScroll = options.scroll !== false;
+  if(name === "fact" && FACT_FILTER !== "__all__"){
+    FACT_FILTER = "__all__";
+    renderFactCards();
+    highlightSearchResults();
+  }
   $$(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
   $("#factPanel").classList.toggle("hidden", name !== "fact");
   $("#neededPanel").classList.toggle("hidden", name !== "needed");
