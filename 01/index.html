@@ -1788,6 +1788,215 @@ body.review-focus .fact-card[open] .field.emphasis-review{
   }
 }
 
+
+/* final position: mobile quick menu at viewport top-right */
+@media (max-width:760px){
+  body > .mobile-menu-bar{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 12px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:1400!important;
+    width:42px!important;
+    height:42px!important;
+    display:block!important;
+    margin:0!important;
+    padding:0!important;
+    pointer-events:none!important;
+    transform:none!important;
+    will-change:auto!important;
+  }
+  body > .mobile-menu-bar .mobile-menu-button{
+    position:relative!important;
+    width:42px!important;
+    height:42px!important;
+    pointer-events:auto!important;
+  }
+  .mobile-menu-drawer{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 58px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    max-height:calc(100dvh - env(safe-area-inset-top, 0px) - 72px)!important;
+  }
+  body.auth-locked > .mobile-menu-bar,
+  body.modal-open > .mobile-menu-bar,
+  body.mobile-menu-open > .mobile-menu-bar{
+    display:none!important;
+  }
+}
+
+
+
+/* 2026-07-09 mobile: 추가 확보 필요 > 증빙 참고 표를 카드형으로 표시 */
+@media (max-width:760px){
+  .needed-support-wrap{
+    border:0!important;
+    background:transparent!important;
+    overflow:visible!important;
+  }
+  .needed-support-table-two{
+    display:block!important;
+    width:100%!important;
+    border:0!important;
+    background:transparent!important;
+  }
+  .needed-support-table-two tbody{
+    display:grid!important;
+    gap:10px!important;
+    width:100%!important;
+  }
+  .needed-support-table-two tr{
+    display:grid!important;
+    gap:0!important;
+    width:100%!important;
+    border:1px solid #fed7aa!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+    background:#fffaf4!important;
+    box-shadow:0 4px 12px rgba(146,64,14,.06)!important;
+  }
+  .needed-support-table-two td{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    border:0!important;
+    border-bottom:1px solid #ffedd5!important;
+    padding:11px 12px!important;
+    background:transparent!important;
+    white-space:normal!important;
+    word-break:keep-all!important;
+    overflow-wrap:anywhere!important;
+    font-size:12px!important;
+    line-height:1.55!important;
+  }
+  .needed-support-table-two td:last-child{
+    border-bottom:0!important;
+  }
+  .needed-support-table-two td::before{
+    content:attr(data-label);
+    display:inline-flex!important;
+    width:auto!important;
+    margin:0 0 7px!important;
+    padding:3px 7px!important;
+    border-radius:999px!important;
+    background:#ffedd5!important;
+    color:#9a3412!important;
+    font-size:10px!important;
+    font-weight:900!important;
+    line-height:1.2!important;
+  }
+  .needed-support-table-two .text-block{
+    display:block!important;
+    font-size:12px!important;
+    line-height:1.56!important;
+  }
+}
+
+
+
+/* 2026-07-09 tiny fix: translucent mobile menu button, remove square menu icons */
+@media (max-width:760px){
+  body > .mobile-menu-bar .mobile-menu-button{
+    background:rgba(255,255,255,.5)!important;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .mobile-menu-drawer .mobile-menu-icon-square{display:none!important;}
+  .mobile-menu-item,.mobile-menu-fact{gap:0!important;}
+}
+
+
+/* 2026-07-10 hard override: restore mobile menu top-right + 50% transparent bg */
+@media (max-width:760px){
+  body > .mobile-menu-bar{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 12px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:1400!important;
+    width:42px!important;
+    height:42px!important;
+    margin:0!important;
+    padding:0!important;
+    display:block!important;
+    pointer-events:none!important;
+    transform:none!important;
+    will-change:auto!important;
+  }
+  body > .mobile-menu-bar .mobile-menu-button{
+    position:relative!important;
+    width:42px!important;
+    height:42px!important;
+    pointer-events:auto!important;
+    background:rgba(255,255,255,.5)!important;
+    background-color:rgba(255,255,255,.5)!important;
+    -webkit-backdrop-filter:blur(6px)!important;
+    backdrop-filter:blur(6px)!important;
+  }
+  body > .mobile-menu-drawer{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 58px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    max-height:calc(100dvh - env(safe-area-inset-top, 0px) - 72px)!important;
+  }
+  .mobile-menu-drawer .mobile-menu-icon-square{display:none!important;}
+  .mobile-menu-item,.mobile-menu-fact{gap:0!important;}
+}
+
+
+
+/* 2026-07-10 mobile menu: hamburger becomes X in the same fixed top-right spot */
+@media (max-width:760px){
+  body.mobile-menu-open > .mobile-menu-bar{
+    display:block!important;
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 12px)!important;
+    right:12px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:1700!important;
+    width:42px!important;
+    height:42px!important;
+    margin:0!important;
+    padding:0!important;
+    pointer-events:none!important;
+  }
+  body.mobile-menu-open > .mobile-menu-bar .mobile-menu-button{
+    pointer-events:auto!important;
+    background:rgba(255,255,255,.5)!important;
+    background-color:rgba(255,255,255,.5)!important;
+    -webkit-backdrop-filter:blur(6px)!important;
+    backdrop-filter:blur(6px)!important;
+  }
+  body.mobile-menu-open > .mobile-menu-bar .hamburger-lines{
+    position:relative;
+    width:18px;
+    height:18px;
+    display:block;
+  }
+  body.mobile-menu-open > .mobile-menu-bar .hamburger-lines span{
+    position:absolute;
+    left:0;
+    top:8px;
+    width:18px;
+    height:2px;
+    transform-origin:center;
+    transition:transform .14s ease, opacity .14s ease;
+  }
+  body.mobile-menu-open > .mobile-menu-bar .hamburger-lines span:nth-child(1){transform:rotate(45deg);}
+  body.mobile-menu-open > .mobile-menu-bar .hamburger-lines span:nth-child(2){opacity:0;}
+  body.mobile-menu-open > .mobile-menu-bar .hamburger-lines span:nth-child(3){transform:rotate(-45deg);}
+  .mobile-menu-close{display:none!important;}
+  .mobile-menu-head{padding-right:12px!important;}
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -1837,8 +2046,7 @@ body.review-focus .fact-card[open] .field.emphasis-review{
   <div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
   <aside id="mobileMenuDrawer" class="mobile-menu-drawer" aria-hidden="true" aria-label="모바일 메뉴">
     <div class="mobile-menu-head">
-      <div class="mobile-menu-title"><span class="mobile-menu-icon-square" aria-hidden="true"></span><span>빠른 이동</span></div>
-      <button id="mobileMenuClose" class="mobile-menu-close" type="button" aria-label="메뉴 닫기">×</button>
+      <div class="mobile-menu-title"><span>빠른 이동</span></div>
     </div>
     <div id="mobileMenuList" class="mobile-menu-list"></div>
   </aside>
@@ -2014,7 +2222,7 @@ function initApp(){
   const mobileBtn = $("#mobileMenuBtn");
   const mobileClose = $("#mobileMenuClose");
   const mobileBackdrop = $("#mobileMenuBackdrop");
-  if(mobileBtn) mobileBtn.addEventListener("click", openMobileMenu);
+  if(mobileBtn) mobileBtn.addEventListener("click", toggleMobileMenu);
   if(mobileClose) mobileClose.addEventListener("click", closeMobileMenu);
   if(mobileBackdrop) mobileBackdrop.addEventListener("click", closeMobileMenu);
 }
@@ -2755,6 +2963,13 @@ function activeTabName(){
   const active = document.querySelector(".tab.active");
   return active ? active.dataset.tab : "fact";
 }
+function toggleMobileMenu(){
+  if(document.body.classList.contains("mobile-menu-open")){
+    closeMobileMenu();
+  }else{
+    openMobileMenu();
+  }
+}
 function openMobileMenu(){
   if(document.body.classList.contains("modal-open")) return;
   const drawer = $("#mobileMenuDrawer");
@@ -2777,7 +2992,6 @@ function closeMobileMenu(){
 }
 function mobileMenuItem(label, tab, active){
   return `<button type="button" class="mobile-menu-item ${active ? "active" : ""}" data-mobile-tab="${escapeHtml(tab)}">
-    <span class="mobile-menu-icon-square" aria-hidden="true"></span>
     <span class="mobile-menu-text">${escapeHtml(label)}</span>
   </button>`;
 }
@@ -2791,7 +3005,6 @@ function renderMobileMenu(){
     const title = cleanDisplayText(row["반박 필요 항목"] || "");
     const target = `#${factCardId(no)}`;
     return `<button type="button" class="mobile-menu-fact" data-mobile-fact="${escapeHtml(target)}">
-      <span class="mobile-menu-icon-square" aria-hidden="true"></span>
       <span class="mobile-menu-text">${escapeHtml(no ? `${no}. ${title}` : title)}</span>
     </button>`;
   }).join("");
