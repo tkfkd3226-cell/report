@@ -1191,6 +1191,132 @@ body.modal-open{overflow:hidden}
 }
 @media print{.html-modal{display:none!important}}
 
+
+/* 2026-07-09 mobile usability pass */
+@media (max-width:760px){
+  html, body{max-width:100%;overflow-x:hidden;}
+  body{font-size:14px;background:#f6f7fb;}
+  .wrap{width:100%;max-width:100%;}
+  header.hero{padding:20px 14px 18px;}
+  .kicker{font-size:11px;margin-bottom:7px;}
+  h1{font-size:24px;line-height:1.18;letter-spacing:-.045em;}
+  .subtitle{font-size:13px;line-height:1.55;margin-top:10px;}
+
+  .navbar{position:sticky;top:0;}
+  .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px 10px;overflow:visible;}
+  .tab{width:100%;padding:10px 8px;font-size:13px;text-align:center;}
+
+  main{padding:14px 10px 44px;}
+  .toolbar{gap:8px;margin-bottom:12px;}
+  .searchbox{min-width:0;width:100%;padding:10px 11px;border-radius:13px;}
+  .searchbox input{font-size:14px;}
+  .toolbar>.btns{width:100%;justify-content:flex-end;}
+  #zipDownloadBtn:not(.hidden){width:100%;justify-content:center;padding:11px 12px;}
+
+  .panel{border-radius:15px;box-shadow:0 8px 22px rgba(17,24,39,.06);}
+  .panel-head{padding:14px 14px 13px;align-items:flex-start;}
+  .panel-head h2{font-size:19px;}
+  .panel-head p{font-size:13px;line-height:1.5;}
+  .small{font-size:12px;}
+  .fact-controls,.needed-controls{padding:12px 12px 2px!important;}
+  .fact-controls>.btns,.needed-controls>.btns{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .fact-controls .btn,.needed-controls .btn{justify-content:center;padding:9px 10px;font-size:13px;}
+
+  .fact-list,.evidence-list,.needed-list{padding:10px;gap:10px;}
+  .fact-card,.evidence-card,.needed-card{border-radius:14px;}
+  .fact-card summary{grid-template-columns:46px minmax(0,1fr) 62px;gap:9px;padding:12px 12px;align-items:start;}
+  .no{width:38px;height:38px;border-radius:12px;font-size:14px;}
+  .fact-title b{font-size:15px;line-height:1.35;margin-bottom:4px;}
+  .fact-title span{font-size:12px;line-height:1.35;}
+  .fact-card summary:after{grid-column:3;grid-row:1;align-self:start;margin-top:6px;font-size:11px;}
+  .clause-chip{grid-column:1 / -1;justify-self:stretch;width:100%;max-width:none;border-radius:12px;padding:7px 9px;line-height:1.35;white-space:normal;}
+  .clause-chip .clause-label{flex:0 0 auto;}
+  .clause-chip .clause-value{white-space:normal;word-break:keep-all;overflow-wrap:anywhere;}
+  .fact-detail{grid-template-columns:1fr;padding:10px;gap:10px;}
+  .field{border-radius:12px;padding:11px;}
+  .field label{font-size:12px;margin-bottom:6px;}
+  .field .value,.text-block{font-size:13px;line-height:1.58;}
+  .text-block p{margin-bottom:7px;}
+  .evidence-chip-line{align-items:flex-start;gap:6px;line-height:1.5;font-size:13px;}
+  .evidence-status-chip{font-size:10px;padding:3px 7px;margin-top:1px;}
+  .evidence-detail{padding:10px;border-radius:14px;}
+  .evidence-detail h4{font-size:15px;line-height:1.35;}
+  .subblock{border-radius:12px;}
+  .subblock-title-row{padding:10px;gap:8px;}
+  .subblock-title-actions{width:100%;display:grid;grid-template-columns:1fr;gap:6px;}
+  .download-btn{justify-content:center;max-width:100%;white-space:normal;text-align:center;}
+  .download-btn.small{font-size:11px;}
+  .sheet-note.inline-note{white-space:normal;overflow:visible;margin:8px 8px 0;font-size:12px;line-height:1.45;}
+  .subblock-body{padding:8px;overflow:visible;}
+
+  .compact-table,.needed-support-table{display:block;width:100%!important;min-width:0!important;border:0!important;border-collapse:separate!important;}
+  .compact-table colgroup,.needed-support-table colgroup,
+  .compact-table thead,.needed-support-table thead{display:none!important;}
+  .compact-table tbody,.needed-support-table tbody{display:grid;gap:8px;width:100%;}
+  .compact-table tr,.needed-support-table tr{display:block;width:100%;border:1px solid #dbe2ea;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.035);}
+  .compact-table td,.needed-support-table td{display:grid!important;grid-template-columns:86px minmax(0,1fr);gap:8px;align-items:start;width:100%!important;min-width:0!important;max-width:none!important;border:0!important;border-bottom:1px solid #eef2f7!important;padding:9px 10px!important;white-space:normal!important;word-break:keep-all!important;overflow-wrap:anywhere!important;text-align:left!important;font-size:12px;line-height:1.5;}
+  .compact-table td:last-child,.needed-support-table td:last-child{border-bottom:0!important;}
+  .compact-table td::before,.needed-support-table td::before{content:attr(data-label);font-size:11px;font-weight:900;color:#64748b;line-height:1.45;}
+  .compact-table .sender-cell,.compact-table .fit-cell,.compact-table .file-cell,.compact-table .note-cell,.compact-table .download-cell,.compact-table .no-cell,.compact-table .ref-cell,.compact-table .statement-cell,
+  .needed-support-table .support-kind,.needed-support-table .support-ref,.needed-support-table .support-content-cell{width:100%!important;min-width:0!important;max-width:none!important;white-space:normal!important;}
+  .compact-table .message-cell .text-block,.compact-table .statement-cell .text-block,.needed-support-table .text-block{font-size:12px;line-height:1.52;}
+  .ref-line{white-space:normal!important;word-break:keep-all;overflow-wrap:anywhere;}
+  .note-cell .note-empty{display:none;}
+  .download-cell .download-btn{justify-self:start;}
+  .compact-table.evidence-table tr.evidence-row-chat{background:#f3f4f6!important;}
+  .compact-table.evidence-table tr.evidence-row-needs{background:#fff7ed!important;}
+  .compact-table.evidence-table tr.evidence-row-chat td{background:transparent!important;}
+  .compact-table.evidence-table tr.evidence-row-needs td{background:transparent!important;}
+
+  .note-bubble{position:fixed;left:14px;right:14px;top:50%;bottom:auto;width:auto;max-width:none;transform:translateY(-50%);z-index:99999;}
+  .note-bubble:after{display:none;}
+  .note-tooltip:hover .note-bubble,.note-tooltip:focus-within .note-bubble{transform:translateY(-50%);}
+
+  .evidence-card{padding:12px;}
+  .evidence-card-head{gap:9px;margin-bottom:9px;}
+  .evidence-file-row{grid-template-columns:1fr;align-items:start;gap:7px;padding:9px;border-radius:11px;}
+  .evidence-file-name{font-size:12px;line-height:1.42;}
+  .evidence-file-action .download-btn{width:100%;}
+  .meta-grid{grid-template-columns:1fr;gap:8px;}
+  .meta-box{padding:9px;border-radius:11px;}
+  .meta-box div{font-size:12px;line-height:1.5;}
+
+  .needed-card-head{grid-template-columns:44px minmax(0,1fr);padding:12px;gap:9px;}
+  .needed-card summary.needed-card-head:after{grid-column:1 / -1;justify-self:stretch;text-align:center;padding:7px 9px;}
+  .needed-no{width:38px;height:38px;border-radius:12px;font-size:14px;}
+  .needed-title .needed-file-name{font-size:14px;line-height:1.35;}
+  .needed-title span{font-size:12px;}
+  .needed-body{padding:10px;gap:10px;}
+  .needed-box{padding:12px;border-radius:12px;}
+  .needed-box b{font-size:12px;line-height:1.35;}
+  .needed-related-item{padding:9px;}
+
+  .timeline-card{grid-template-columns:1fr;gap:8px;padding:10px 0;}
+  .date-pill{position:static;text-align:left;font-size:13px;padding:9px 10px;}
+  .event-body{padding:12px;border-radius:13px;}
+  .event-body h3{font-size:15px;line-height:1.35;}
+  .event-content,.issue{font-size:13px;line-height:1.55;}
+
+  .html-modal{padding:8px;}
+  .html-modal-card{width:calc(100vw - 16px);height:calc(100dvh - 16px);border-radius:16px;}
+  .html-modal-head{min-height:54px;padding:10px 10px 10px 12px;gap:8px;}
+  .html-modal-title{font-size:13px;line-height:1.35;}
+  .html-modal-kicker{font-size:10px;}
+  .html-modal-close{width:36px;height:36px;}
+}
+@media (max-width:420px){
+  .tabs{grid-template-columns:1fr 1fr;}
+  .tab{font-size:12px;padding:9px 6px;}
+  .compact-table td,.needed-support-table td{grid-template-columns:78px minmax(0,1fr);}
+}
+
+@media (max-width:760px){
+  .compact-table.evidence-table tr::before{content:attr(data-mobile-title);display:block;padding:9px 10px;background:#f8fafc;border-bottom:1px solid #e5e7eb;font-size:12px;font-weight:900;line-height:1.45;color:#111827;}
+  .compact-table.evidence-table tr.evidence-row-chat::before{background:#e5e7eb;}
+  .compact-table.evidence-table tr.evidence-row-needs::before{background:#ffedd5;color:#7c2d12;}
+  .compact-table.evidence-table td.no-cell,.compact-table.evidence-table td.statement-cell{display:none!important;}
+}
+
 </style>
 </head>
 <body>
@@ -1224,7 +1350,6 @@ body.modal-open{overflow:hidden}
       </div>
       <div class="btns">
         <button class="btn hidden" id="zipDownloadBtn">전체 다운로드</button>
-        <button class="btn" id="printBtn">인쇄/PDF</button>
       </div>
     </div>
 
@@ -1561,7 +1686,7 @@ function renderSmallTable(headers, rows, kind="default"){
           ${rows.map(row => `<tr>${useHeaders.map(h => {
             const value = row[h] ?? "";
             const body = h.includes("대화") || h.includes("내용") ? textBlock(value) : escapeHtml(cleanDisplayText(value));
-            return `<td class="${tableCellClass(h, "chat")}">${body}</td>`;
+            return `<td class="${tableCellClass(h, "chat")}" data-label="${escapeHtml(smallTableHeaderLabel(h))}">${body}</td>`;
           }).join("")}</tr>`).join("")}
         </tbody>
       </table>`;
@@ -1612,13 +1737,14 @@ function renderSmallTable(headers, rows, kind="default"){
               .join(" ");
             const span = groupSpans[idx] || 0;
             const mergedCells = span > 0
-              ? `<td class="no-cell merged-cell" rowspan="${span}">${escapeHtml(no)}</td><td class="statement-cell merged-cell" rowspan="${span}">${textBlock(statement)}</td>`
+              ? `<td class="no-cell merged-cell" data-label="No." rowspan="${span}">${escapeHtml(no)}</td><td class="statement-cell merged-cell" data-label="문구" rowspan="${span}">${textBlock(statement)}</td>`
               : "";
-            return `<tr class="${trClass}">
+            const mobileTitle = `${no ? "No. " + no + " · " : ""}${cleanDisplayText(statement || "")}`;
+            return `<tr class="${trClass}" data-mobile-title="${escapeHtml(mobileTitle)}">
               ${mergedCells}
-              <td class="ref-cell">${refHtml}</td>
-              <td class="note-cell">${noteIcon}</td>
-              <td class="download-cell">${downloads}</td>
+              <td class="ref-cell" data-label="근거">${refHtml}</td>
+              <td class="note-cell" data-label="비고">${noteIcon}</td>
+              <td class="download-cell" data-label="다운로드">${downloads}</td>
             </tr>`;
           }).join("")}
         </tbody>
@@ -1628,7 +1754,7 @@ function renderSmallTable(headers, rows, kind="default"){
     <table class="compact-table">
       <thead><tr>${headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead>
       <tbody>
-        ${rows.map(row => `<tr>${headers.map(h => `<td>${textBlock(row[h] ?? "")}</td>`).join("")}</tr>`).join("")}
+        ${rows.map(row => `<tr>${headers.map(h => `<td data-label="${escapeHtml(h)}">${textBlock(row[h] ?? "")}</td>`).join("")}</tr>`).join("")}
       </tbody>
     </table>`;
 }
@@ -1819,9 +1945,9 @@ function renderNeededSupport(sheet, item){
       <colgroup><col class="support-kind-col"><col class="support-half-col"><col class="support-half-col"></colgroup>
       <thead><tr><th>구분</th><th class="support-content">증빙시트 내용</th><th class="support-ref-head">근거/출처</th></tr></thead>
       <tbody>${rows.map(row => `<tr>
-        <td class="support-kind">${escapeHtml(row.kind)}</td>
-        <td class="support-content-cell">${textBlock(row.content || "-")}</td>
-        <td class="support-ref">${textBlock(row.ref || "-")}</td>
+        <td class="support-kind" data-label="구분">${escapeHtml(row.kind)}</td>
+        <td class="support-content-cell" data-label="증빙시트 내용">${textBlock(row.content || "-")}</td>
+        <td class="support-ref" data-label="근거/출처">${textBlock(row.ref || "-")}</td>
       </tr>`).join("")}</tbody>
     </table>
   </div>`;
@@ -2049,7 +2175,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#neededExpandBtn").addEventListener("click", expandNeeded);
   $("#neededCollapseBtn").addEventListener("click", collapseNeeded);
   $("#zipDownloadBtn").addEventListener("click", downloadZip);
-  $("#printBtn").addEventListener("click", () => window.print());
 });
   </script>
 </body>
