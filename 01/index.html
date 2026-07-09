@@ -1620,6 +1620,140 @@ body.auth-locked > .floating-toc{visibility:hidden;}
   .mobile-menu-bar,.mobile-menu-backdrop,.mobile-menu-drawer{display:none!important}
 }
 
+
+/* final dynamic UI: filters, highlight, review focus, card motion, floating mobile menu */
+.search-mark{
+  background:#fef08a;
+  color:#111827;
+  border-radius:3px;
+  padding:0 .12em;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+.fact-filter-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:14px 16px 2px;
+  border-top:1px solid #f1f5f9;
+}
+.filter-chip{
+  appearance:none;
+  border:1px solid #d1d5db;
+  background:#fff;
+  color:#334155;
+  border-radius:999px;
+  padding:8px 11px;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.2;
+  cursor:pointer;
+}
+.filter-chip:hover{background:#f8fafc;border-color:#94a3b8}
+.filter-chip.active{background:#111827;color:#fff;border-color:#111827}
+.review-toggle.active,
+.review-toggle[aria-pressed="true"]{background:#92400e;color:#fff;border-color:#92400e}
+.fact-card[open] .fact-detail{
+  animation:factSlideDown .18s ease both;
+  transform-origin:top center;
+}
+@keyframes factSlideDown{
+  from{opacity:.15;transform:translateY(-6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+body.review-focus .fact-card[open] .field:not(.emphasis-review){
+  opacity:.34;
+  filter:saturate(.7);
+}
+body.review-focus .fact-card[open] .field.emphasis-review{
+  border-color:#f59e0b;
+  box-shadow:0 0 0 3px rgba(245,158,11,.18), 0 10px 24px rgba(146,64,14,.10);
+}
+@media (prefers-reduced-motion:reduce){
+  .fact-card[open] .fact-detail{animation:none}
+}
+@media (max-width:760px){
+  .navbar .tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px 10px;overflow:visible;}
+  .mobile-menu-bar{
+    position:fixed;
+    top:12px;
+    right:12px;
+    z-index:1400;
+    width:auto;
+    padding:0;
+    display:block;
+    pointer-events:none;
+  }
+  .mobile-menu-button{
+    pointer-events:auto;
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    border:1px solid rgba(17,24,39,.88);
+    border-radius:8px;
+    background:rgba(255,255,255,.94);
+    color:#111827;
+    box-shadow:0 8px 22px rgba(15,23,42,.18);
+  }
+  .hamburger-lines{width:18px;gap:4px}
+  .hamburger-lines span{height:2px;background:currentColor}
+  .mobile-menu-current{display:none!important}
+  .mobile-menu-backdrop{z-index:1300;background:rgba(15,23,42,.22);backdrop-filter:none;}
+  .mobile-menu-drawer{
+    left:auto;
+    right:10px;
+    top:62px;
+    bottom:auto;
+    z-index:1500;
+    width:min(340px,calc(100vw - 20px));
+    max-height:calc(100dvh - 76px);
+    border:1px solid #111827;
+    border-radius:8px;
+    box-shadow:0 18px 46px rgba(15,23,42,.26);
+    transform:translateY(-8px);
+    opacity:0;
+    visibility:hidden;
+    overflow:auto;
+    background:#fff;
+    transition:opacity .14s ease, transform .14s ease, visibility .14s ease;
+  }
+  .mobile-menu-drawer.open{
+    display:block;
+    transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+  }
+  .mobile-menu-head{padding:11px 12px;border-bottom:1px solid #e5e7eb;}
+  .mobile-menu-title{font-size:13px;gap:7px}
+  .mobile-menu-close{border-radius:6px;width:31px;height:31px;font-size:18px}
+  .mobile-menu-list{gap:6px;padding:9px}
+  .mobile-menu-item,.mobile-menu-fact{border-radius:6px;padding:9px 10px}
+  .mobile-menu-sub{margin-left:13px;padding-left:10px;gap:5px}
+  .mobile-menu-fact{font-size:12px;font-weight:800;align-items:flex-start;}
+  .mobile-menu-text{
+    white-space:normal;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    line-height:1.35;
+  }
+  .fact-filter-bar{padding:11px 10px 2px;gap:6px;overflow-x:auto;flex-wrap:nowrap;}
+  .filter-chip{flex:0 0 auto;padding:8px 10px;font-size:12px;}
+  .fact-controls>.btns{grid-template-columns:1fr 1fr 1fr!important}
+  .review-toggle{grid-column:auto}
+  body.auth-locked .mobile-menu-bar,
+  body.auth-locked .mobile-menu-backdrop,
+  body.auth-locked .mobile-menu-drawer,
+  body.modal-open .mobile-menu-bar,
+  body.modal-open .mobile-menu-backdrop,
+  body.modal-open .mobile-menu-drawer{display:none!important;}
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -1658,9 +1792,8 @@ body.auth-locked > .floating-toc{visibility:hidden;}
       <button class="tab" data-tab="timeline">타임라인</button>
     </div>
     <div class="wrap mobile-menu-bar">
-      <button id="mobileMenuBtn" class="mobile-menu-button" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false">
+      <button id="mobileMenuBtn" class="mobile-menu-button" type="button" aria-label="빠른 이동" aria-controls="mobileMenuDrawer" aria-expanded="false">
         <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span>메뉴</span>
       </button>
       <div id="mobileMenuCurrent" class="mobile-menu-current">사실관계 반박</div>
     </div>
@@ -1669,7 +1802,7 @@ body.auth-locked > .floating-toc{visibility:hidden;}
   <div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
   <aside id="mobileMenuDrawer" class="mobile-menu-drawer" aria-hidden="true" aria-label="모바일 메뉴">
     <div class="mobile-menu-head">
-      <div class="mobile-menu-title"><span class="mobile-menu-icon-square" aria-hidden="true"></span><span>메뉴</span></div>
+      <div class="mobile-menu-title"><span class="mobile-menu-icon-square" aria-hidden="true"></span><span>빠른 이동</span></div>
       <button id="mobileMenuClose" class="mobile-menu-close" type="button" aria-label="메뉴 닫기">×</button>
     </div>
     <div id="mobileMenuList" class="mobile-menu-list"></div>
@@ -1690,13 +1823,15 @@ body.auth-locked > .floating-toc{visibility:hidden;}
       <div class="panel-head">
         <div>
           <h2>사실관계 반박</h2>
-          <p>엑셀의 사실관계 반박 시트를 기준으로, 검토 요청사항 아래에 각 No.별 증빙 시트 내용을 연결했습니다.</p>
+          <p>주요 쟁점별 사실관계와 반박 방향을 정리하고, 관련 증빙과 검토사항을 함께 연결했습니다.</p>
         </div>
         <div class="small">현재 표시 항목: <b id="factCount">-</b>건</div>
       </div>
+      <div id="factFilterBar" class="fact-filter-bar" aria-label="사실관계 반박 구분 필터"></div>
       <div class="toolbar fact-controls">
         <div></div>
         <div class="btns">
+          <button class="btn review-toggle" id="reviewFocusBtn" type="button" aria-pressed="false">검토사항 강조</button>
           <button class="btn" id="expandBtn">전체 펼침</button>
           <button class="btn" id="collapseBtn">전체 접기</button>
         </div>
@@ -1712,7 +1847,7 @@ body.auth-locked > .floating-toc{visibility:hidden;}
       <div class="panel-head">
         <div>
           <h2>추가 확보 필요</h2>
-          <p>사실관계 반박 시트의 추가 확보 필요 증거를 별도로 모아, 각 증빙시트의 카톡 대화방 근거와 증빙 내용을 참고해 보강 필요성을 정리했습니다.</p>
+          <p>반박 논리를 보강하기 위해 추가 확인이 필요한 자료와 그 필요성을 쟁점별로 정리했습니다.</p>
         </div>
         <div class="small">현재 표시 항목: <b id="neededCount">-</b>건</div>
       </div>
@@ -1771,6 +1906,7 @@ body.auth-locked > .floating-toc{visibility:hidden;}
 let APP_DATA = null;
 let FILES_BY_ID = {};
 let appInitialized = false;
+let FACT_FILTER = "__all__";
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 const AUTH_SESSION_KEY = "golfzone_dispute_session_pass_v2";
@@ -1834,6 +1970,8 @@ function initApp(){
   $("#globalSearch").addEventListener("input", renderAll);
   $("#expandBtn").addEventListener("click", expandAll);
   $("#collapseBtn").addEventListener("click", collapseAll);
+  const reviewBtn = $("#reviewFocusBtn");
+  if(reviewBtn) reviewBtn.addEventListener("click", toggleReviewFocus);
   $("#neededExpandBtn").addEventListener("click", expandNeeded);
   $("#neededCollapseBtn").addEventListener("click", collapseNeeded);
   $("#zipDownloadBtn").addEventListener("click", downloadZip);
@@ -1929,6 +2067,60 @@ function textBlockFromHtml(html){
 }
 function textBlock(value){
   return textBlockFromHtml(escapeHtml(cleanDisplayText(value)));
+}
+
+function currentSearchQuery(){
+  const input = $("#globalSearch");
+  return input ? input.value.trim() : "";
+}
+function searchTerms(){
+  return currentSearchQuery().split(/\s+/).map(v => v.trim()).filter(v => v.length >= 1).slice(0, 8);
+}
+function highlightSearchResults(){
+  const terms = searchTerms();
+  if(!terms.length) return;
+  const panels = ["#factPanel", "#neededPanel", "#evidencePanel", "#timelinePanel"].map(sel => $(sel)).filter(Boolean);
+  const pattern = new RegExp(terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi");
+  panels.forEach(root => {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        const parent = node.parentElement;
+        if(!parent) return NodeFilter.FILTER_REJECT;
+        if(parent.closest("script,style,textarea,input,button,.search-mark")) return NodeFilter.FILTER_REJECT;
+        pattern.lastIndex = 0;
+        return pattern.test(node.nodeValue || "") ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const frag = document.createDocumentFragment();
+      const text = node.nodeValue || "";
+      let last = 0;
+      pattern.lastIndex = 0;
+      text.replace(pattern, (match, offset) => {
+        if(offset > last) frag.appendChild(document.createTextNode(text.slice(last, offset)));
+        const mark = document.createElement("mark");
+        mark.className = "search-mark";
+        mark.textContent = match;
+        frag.appendChild(mark);
+        last = offset + match.length;
+        return match;
+      });
+      if(last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+}
+function toggleReviewFocus(){
+  const on = !document.body.classList.contains("review-focus");
+  document.body.classList.toggle("review-focus", on);
+  const btn = $("#reviewFocusBtn");
+  if(btn){
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.textContent = on ? "검토사항 강조 중" : "검토사항 강조";
+  }
 }
 
 function fileNorm(s){
@@ -2259,9 +2451,31 @@ function renderFactSubnav(rows){
       }).join("")}</div>
     </div>`;
 }
+
+function factCategory(row){
+  return cleanDisplayText(row && row["구분"] || "기타");
+}
+function renderFactFilters(){
+  const root = $("#factFilterBar");
+  if(!root || !APP_DATA) return;
+  const q = currentSearchQuery();
+  const baseRows = APP_DATA.factRows.filter(row => matchesText(row, q));
+  const categories = [...new Set((APP_DATA.factRows || []).map(factCategory).filter(Boolean))];
+  const button = (label, value, count) => `<button type="button" class="filter-chip ${FACT_FILTER === value ? "active" : ""}" data-fact-filter="${escapeHtml(value)}">${escapeHtml(label)} <span>${count}</span></button>`;
+  const allCount = baseRows.length;
+  const chips = [button("전체", "__all__", allCount), ...categories.map(cat => {
+    const count = baseRows.filter(row => factCategory(row) === cat).length;
+    return button(cat, cat, count);
+  })];
+  root.innerHTML = chips.join("");
+}
+
 function renderFactCards(){
-  const q = $("#globalSearch").value.trim();
-  const rows = APP_DATA.factRows.filter(row => matchesText(row, q));
+  const q = currentSearchQuery();
+  renderFactFilters();
+  const rows = APP_DATA.factRows
+    .filter(row => matchesText(row, q))
+    .filter(row => FACT_FILTER === "__all__" || factCategory(row) === FACT_FILTER);
   $("#factCount").textContent = rows.length;
   const root = $("#factCards");
   if(!rows.length){
@@ -2308,7 +2522,7 @@ function renderFactCards(){
   }).join("");
 }
 function renderEvidenceMaster(){
-  const q = $("#globalSearch").value.trim();
+  const q = currentSearchQuery();
   const rows = APP_DATA.evidenceMaster.filter(row => matchesText(row, q));
   $("#evidenceCount").textContent = rows.length;
   const root = $("#evidenceRoot");
@@ -2426,7 +2640,7 @@ function renderRelatedFactList(rows){
   </div>`).join("")}</div>`;
 }
 function renderNeededEvidence(){
-  const q = $("#globalSearch").value.trim();
+  const q = currentSearchQuery();
   const groups = neededGroups().filter(group => matchesText(group, q));
   const countEl = $("#neededCount");
   if(countEl) countEl.textContent = groups.length;
@@ -2471,7 +2685,7 @@ function renderNeededEvidence(){
   }).join("");
 }
 function renderTimeline(){
-  const q = $("#globalSearch").value.trim();
+  const q = currentSearchQuery();
   const root = $("#timelineRoot");
   let html = "";
   let count = 0;
@@ -2628,6 +2842,7 @@ function renderAll(){
   renderEvidenceMaster();
   renderNeededEvidence();
   renderTimeline();
+  highlightSearchResults();
 }
 function openHtmlModal(file, url){
   closeMobileMenu();
@@ -2677,6 +2892,14 @@ document.addEventListener("click", (e) => {
   if(e.target.closest("#htmlModalClose") || (modal && e.target.id === "htmlModal")){
     e.preventDefault();
     closeHtmlModal();
+    return;
+  }
+  const filterChip = e.target.closest("[data-fact-filter]");
+  if(filterChip){
+    e.preventDefault();
+    FACT_FILTER = filterChip.dataset.factFilter || "__all__";
+    renderFactCards();
+    highlightSearchResults();
     return;
   }
   const mobileTab = e.target.closest("[data-mobile-tab]");
