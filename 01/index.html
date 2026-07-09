@@ -615,6 +615,24 @@ main{padding:22px 18px 60px}
   padding:14px 16px;
   border-bottom:1px solid #f3e8b6;
 }
+.needed-card summary.needed-card-head{
+  list-style:none;
+  cursor:pointer;
+}
+.needed-card summary.needed-card-head::-webkit-details-marker{display:none}
+.needed-card summary.needed-card-head:after{
+  content:"펼치기";
+  justify-self:end;
+  color:#92400e;
+  font-size:12px;
+  font-weight:900;
+  border:1px solid #fde68a;
+  background:#fff7ed;
+  border-radius:999px;
+  padding:5px 9px;
+}
+.needed-card[open] summary.needed-card-head:after{content:"접기"}
+.needed-card[open]{box-shadow:0 12px 26px rgba(146,64,14,.12)}
 .needed-no{
   width:42px;height:42px;border-radius:14px;background:#92400e;color:#fff;font-weight:900;
   display:flex;align-items:center;justify-content:center;
@@ -915,6 +933,175 @@ button.file-link,button.download-btn{appearance:none}
   .needed-support-table td{padding:10px 11px!important;font-size:12px;}
 }
 
+
+/* 2026-07-09 refinement 9: namuwiki-style right hover TOC */
+.fact-layout{
+  display:block!important;
+  position:relative;
+}
+.fact-subnav{display:none!important}
+.floating-toc{
+  position:fixed;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:120;
+  pointer-events:auto;
+}
+.floating-toc:empty{display:none}
+.floating-toc-trigger{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  min-height:72px;
+  padding:10px 6px;
+  border:1px solid #d1d5db;
+  border-radius:14px 0 0 14px;
+  background:rgba(255,255,255,.94);
+  color:#334155;
+  box-shadow:0 8px 22px rgba(15,23,42,.14);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:-.02em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  user-select:none;
+}
+.floating-toc-panel{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%) translateX(14px);
+  width:292px;
+  padding:12px;
+  border:1px solid #d1d5db;
+  border-radius:18px;
+  background:rgba(255,255,255,.98);
+  box-shadow:0 20px 50px rgba(15,23,42,.22);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+.floating-toc:hover .floating-toc-panel,
+.floating-toc:focus-within .floating-toc-panel{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(-50%) translateX(0);
+}
+.floating-toc:hover .floating-toc-trigger,
+.floating-toc:focus-within .floating-toc-trigger{
+  opacity:0;
+  visibility:hidden;
+}
+.floating-toc-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin:0 0 8px;
+  padding:0 2px 8px;
+  border-bottom:1px solid #e5e7eb;
+  color:#0f172a;
+  font-size:13px;
+  font-weight:900;
+}
+.floating-toc-title small{
+  color:#64748b;
+  font-size:11px;
+  font-weight:800;
+}
+.floating-toc-list{
+  display:grid;
+  gap:6px;
+}
+.toc-link{
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  min-height:36px;
+  padding:6px 8px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  background:#fff;
+  color:#334155;
+  text-decoration:none;
+  box-shadow:0 2px 8px rgba(15,23,42,.04);
+}
+.toc-link:hover,
+.toc-link:focus{
+  outline:none;
+  background:#f0fdfa;
+  border-color:#99f6e4;
+  color:#0f766e;
+}
+.toc-no{
+  width:28px;
+  height:26px;
+  border-radius:9px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111827;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+.toc-text{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.25;
+}
+@media (max-width:1180px){
+  .floating-toc{right:6px}
+  .floating-toc-panel{width:260px}
+}
+@media (max-width:760px){
+  .floating-toc{display:none!important}
+}
+@media print{
+  .floating-toc{display:none!important}
+}
+
+/* 2026-07-09 patch 9: GitHub Pages relative downloads + visible grid in needed support */
+.needed-support-wrap{
+  border:1px solid #d1d5db!important;
+  background:#fff;
+}
+.needed-support-table{
+  border-collapse:collapse!important;
+  border-spacing:0!important;
+}
+.needed-support-table th,
+.needed-support-table td{
+  border:1px solid #d1d5db!important;
+}
+.needed-support-table th{
+  border-color:#4b5563!important;
+}
+.needed-support-table td{
+  background:#fff!important;
+}
+.needed-support-table tr:nth-child(even) td{
+  background:#f8fafc!important;
+}
+.needed-controls{
+  padding:18px 16px 4px!important;
+  margin-bottom:0!important;
+  border-top:1px solid #f1f5f9;
+}
+
 </style>
 </head>
 <body>
@@ -947,6 +1134,7 @@ button.file-link,button.download-btn{appearance:none}
         <input id="globalSearch" type="search" placeholder="날짜, 쟁점, 인물, 문구, 증빙명으로 검색">
       </div>
       <div class="btns">
+        <button class="btn hidden" id="zipDownloadBtn">전체 다운로드</button>
         <button class="btn" id="printBtn">인쇄/PDF</button>
       </div>
     </div>
@@ -967,8 +1155,8 @@ button.file-link,button.download-btn{appearance:none}
         </div>
       </div>
       <div class="fact-layout">
-        <aside id="factSubnav" class="fact-subnav" aria-label="사실관계 반박 바로가기"></aside>
         <div id="factCards" class="fact-list"></div>
+        <nav id="floatingToc" class="floating-toc" aria-label="사실관계 반박 목차"></nav>
       </div>
     </section>
 
@@ -980,6 +1168,13 @@ button.file-link,button.download-btn{appearance:none}
           <p>사실관계 반박 시트의 추가 확보 필요 증거를 별도로 모아, 각 증빙시트의 카톡 대화방 근거와 증빙 내용을 참고해 보강 필요성을 정리했습니다.</p>
         </div>
         <div class="small">현재 표시 항목: <b id="neededCount">-</b>건</div>
+      </div>
+      <div class="toolbar fact-controls needed-controls">
+        <div></div>
+        <div class="btns">
+          <button class="btn" id="neededExpandBtn">전체 펼침</button>
+          <button class="btn" id="neededCollapseBtn">전체 접기</button>
+        </div>
       </div>
       <div id="neededRoot" class="needed-list"></div>
     </section>
@@ -1084,7 +1279,7 @@ function fileUrl(file){
   if(!file) return "#";
   if(file.href) return file.href;
   const name = file.fileName || file.display || file.base || "";
-  return "/data/" + encodeURIComponent(name).replace(/%2F/g, "/");
+  return "data/" + encodeURIComponent(name).replace(/%2F/g, "/");
 }
 function filesForText(value){
   const text = (value ?? "").toString();
@@ -1360,17 +1555,22 @@ function factCardId(no){
   return "fact-no-" + encodeURIComponent((no || "").toString().trim() || "x").replace(/%/g, "");
 }
 function renderFactSubnav(rows){
-  const root = $("#factSubnav");
+  const root = $("#floatingToc");
   if(!root) return;
   if(!rows.length){
     root.innerHTML = "";
     return;
   }
-  root.innerHTML = `<div class="fact-subnav-title">No. 바로가기</div><div class="fact-subnav-list">${rows.map(row => {
-    const no = row["No."] || "-";
-    const title = row["반박 필요 항목"] || "";
-    return `<a class="fact-jump" href="#${factCardId(no)}" title="${escapeHtml(title)}"><span class="fact-jump-no">${escapeHtml(no)}</span><span class="fact-jump-title">${escapeHtml(title)}</span></a>`;
-  }).join("")}</div>`;
+  root.innerHTML = `
+    <div class="floating-toc-trigger">목차</div>
+    <div class="floating-toc-panel">
+      <div class="floating-toc-title"><span>사실관계 반박</span><small>${rows.length}개 항목</small></div>
+      <div class="floating-toc-list">${rows.map(row => {
+        const no = row["No."] || "-";
+        const title = row["반박 필요 항목"] || "";
+        return `<a class="toc-link" href="#${factCardId(no)}" title="${escapeHtml(title)}"><span class="toc-no">${escapeHtml(no)}</span><span class="toc-text">${escapeHtml(title)}</span></a>`;
+      }).join("")}</div>
+    </div>`;
 }
 function renderFactCards(){
   const q = $("#globalSearch").value.trim();
@@ -1436,11 +1636,11 @@ function renderEvidenceMaster(){
           const isHtml = (file.ext || "").toLowerCase() === "html";
           const actionLabel = isHtml ? "새창 열기" : "다운로드";
           return `<div class="evidence-file-row">
-            <div class="evidence-file-name">${escapeHtml(file.display || file.fileName || file.base || "-")}</div>
+            <div class="evidence-file-name">${escapeHtml(evidenceMasterDisplayName(file))}</div>
             <div class="evidence-file-action">${downloadButton(file, actionLabel, "small")}</div>
           </div>`;
         }).join("")
-      : splitLinesForDisplay(row["근거"] || "").map(line => `<div class="evidence-file-row no-action"><div class="evidence-file-name">${escapeHtml(line)}</div></div>`).join("");
+      : splitLinesForDisplay(row["근거"] || "").map(line => `<div class="evidence-file-row no-action"><div class="evidence-file-name">${escapeHtml(stripEvidenceNumberPrefix(line))}</div></div>`).join("");
     return `
       <article class="evidence-card">
         <div class="evidence-card-head evidence-card-head-vertical">
@@ -1462,6 +1662,12 @@ function renderEvidenceMaster(){
 }
 function splitLinesForDisplay(value){
   return cleanDisplayText(value).split(/\n+/).map(v => v.trim()).filter(Boolean);
+}
+function stripEvidenceNumberPrefix(text){
+  return cleanDisplayText(text).replace(/^(\d+)\./, "").replace(/\.(pdf|jpg|jpeg|png|html)$/i, "");
+}
+function evidenceMasterDisplayName(file){
+  return stripEvidenceNumberPrefix(file.display || file.base || file.fileName || "-");
 }
 function sheetForFactRow(row){
   const sheetName = (row["링크"] || "").trim();
@@ -1550,25 +1756,19 @@ function renderNeededEvidence(){
     const sheetName = (primary["링크"] || "-").trim() || "-";
     const why = group.rows.map(row => row["피고 측 확인할 사실관계"] || "").filter(Boolean).join("\n\n");
     const reviews = group.rows.map(row => row["검토 요청사항"] || "").filter(Boolean).join("\n\n");
-    return `<article class="needed-card">
-      <div class="needed-card-head">
+    return `<details class="needed-card">
+      <summary class="needed-card-head">
         <div class="needed-no">${idx + 1}</div>
         <div class="needed-title">
           <span class="needed-file-chip">필요 자료</span>
           <span class="needed-file-name">${escapeHtml(group.item)}</span>
           <span>관련 반박 항목 ${group.rows.length}건</span>
         </div>
-      </div>
+      </summary>
       <div class="needed-body">
-        <div class="needed-two">
-          <div class="needed-box">
-            <b>⚠️ 추가 확보 필요 증거</b>
-            <div class="needed-extra-list"><div class="needed-extra-item">${escapeHtml(group.item)}</div></div>
-          </div>
-          <div class="needed-box">
-            <b>🔍 왜 필요한지</b>
-            <div class="value">${textBlock(why || "-")}</div>
-          </div>
+        <div class="needed-box">
+          <b>🔍 왜 필요한지</b>
+          <div class="value">${textBlock(why || "-")}</div>
         </div>
         <div class="needed-box">
           <b>📌 관련 반박 필요 항목</b>
@@ -1581,7 +1781,7 @@ function renderNeededEvidence(){
         </div>
         ${hasValue(reviews) ? `<div class="needed-box"><b>🧾 검토 요청사항</b><div class="value">${textBlock(reviews)}</div></div>` : ""}
       </div>
-    </article>`;
+    </details>`;
   }).join("");
 }
 function renderTimeline(){
@@ -1621,10 +1821,38 @@ function showTab(name){
   $("#neededPanel").classList.toggle("hidden", name !== "needed");
   $("#evidencePanel").classList.toggle("hidden", name !== "evidence");
   $("#timelinePanel").classList.toggle("hidden", name !== "timeline");
+  const zipBtn = $("#zipDownloadBtn");
+  if(zipBtn) zipBtn.classList.toggle("hidden", name !== "evidence");
   window.scrollTo({top:0, behavior:"smooth"});
 }
 function expandAll(){ $$("#factCards details").forEach(d => d.open = true); }
 function collapseAll(){ $$("#factCards details").forEach(d => d.open = false); }
+function expandNeeded(){ $$("#neededRoot details").forEach(d => d.open = true); }
+function collapseNeeded(){ $$("#neededRoot details").forEach(d => d.open = false); }
+async function downloadZip(){
+  const fileName = APP_DATA.zipName || "전체파일.zip";
+  const url = "data/" + encodeURIComponent(fileName);
+  try{
+    const res = await fetch(url, {cache:"no-store"});
+    if(!res.ok) throw new Error("zip download failed");
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+  }catch(err){
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+}
 function renderAll(){
   renderFactCards();
   renderEvidenceMaster();
@@ -1674,7 +1902,7 @@ document.addEventListener("click", (e) => {
     handleFileAction(fileButton);
     return;
   }
-  const factJump = e.target.closest(".fact-jump");
+  const factJump = e.target.closest(".fact-jump, .toc-link");
   if(factJump){
     e.preventDefault();
     handleFactJump(factJump);
@@ -1687,6 +1915,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#globalSearch").addEventListener("input", renderAll);
   $("#expandBtn").addEventListener("click", expandAll);
   $("#collapseBtn").addEventListener("click", collapseAll);
+  $("#neededExpandBtn").addEventListener("click", expandNeeded);
+  $("#neededCollapseBtn").addEventListener("click", collapseNeeded);
+  $("#zipDownloadBtn").addEventListener("click", downloadZip);
   $("#printBtn").addEventListener("click", () => window.print());
 });
   </script>
