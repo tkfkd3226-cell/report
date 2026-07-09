@@ -11,26 +11,32 @@
   --ink:#111827;
   --muted:#6b7280;
   --line:#e5e7eb;
-  --brand:#1f2937;
+  --brand:#111827;
   --brand2:#374151;
   --accent:#0f766e;
-  --accent-soft:#e6fffb;
-  --danger:#b45309;
+  --accent2:#0891b2;
+  --accent-soft:#ecfeff;
+  --green-soft:#ecfdf5;
+  --warn-soft:#fffbeb;
+  --warn:#92400e;
+  --danger-soft:#fef2f2;
   --soft:#f3f4f6;
   --chip:#eef2ff;
   --shadow:0 12px 30px rgba(17,24,39,.08);
   --radius:18px;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,Arial,sans-serif;
   background:linear-gradient(180deg,#f8fafc 0%, #f3f4f6 100%);
   color:var(--ink);
 }
+a{color:inherit}
 header.hero{
   padding:32px 18px 22px;
-  background:linear-gradient(135deg,#111827 0%,#374151 65%,#0f766e 100%);
+  background:linear-gradient(135deg,#111827 0%,#374151 62%,#0f766e 100%);
   color:white;
 }
 .wrap{max-width:1280px;margin:0 auto}
@@ -53,7 +59,7 @@ h1{margin:0;font-size:clamp(24px,4vw,40px);letter-spacing:-.04em;line-height:1.1
 }
 .tab{
   appearance:none;border:1px solid var(--line);background:#fff;color:var(--brand);
-  padding:11px 16px;border-radius:999px;font-weight:800;white-space:nowrap;cursor:pointer;
+  padding:11px 16px;border-radius:999px;font-weight:900;white-space:nowrap;cursor:pointer;
 }
 .tab.active{background:#111827;color:#fff;border-color:#111827}
 main{padding:22px 18px 60px}
@@ -69,11 +75,15 @@ main{padding:22px 18px 60px}
   width:100%;border:0;outline:0;font-size:15px;background:transparent;
 }
 .btns{display:flex;gap:8px;flex-wrap:wrap}
-.btn{
+.btn, .download-all{
   border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;
-  font-weight:800;cursor:pointer;color:#374151;
+  font-weight:900;cursor:pointer;color:#374151;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
 }
-.btn:hover{background:#f9fafb}
+.btn:hover,.download-all:hover{background:#f9fafb}
+.download-all{
+  background:#111827;color:#fff;border-color:#111827;
+}
+.download-all:hover{background:#0f766e;border-color:#0f766e}
 .panel{
   background:var(--panel);
   border:1px solid var(--line);
@@ -81,7 +91,7 @@ main{padding:22px 18px 60px}
   border-radius:var(--radius);
   overflow:hidden;
 }
-#factPanel{overflow:visible;}
+#factPanel{overflow:visible}
 .panel-head{
   padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;
 }
@@ -96,6 +106,24 @@ main{padding:22px 18px 60px}
 .section-title:before{
   content:"";width:9px;height:24px;background:#111827;border-radius:99px;display:inline-block;
 }
+.hidden{display:none!important}
+.small{font-size:13px;color:var(--muted)}
+.empty{
+  text-align:center;padding:32px;color:var(--muted);
+}
+.notice{
+  margin:16px 0;
+  padding:13px 14px;
+  border:1px solid #fde68a;
+  background:#fffbeb;
+  border-radius:14px;
+  color:#92400e;
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+
+/* timeline */
 .timeline{
   position:relative;
   padding:0 4px 4px;
@@ -135,15 +163,17 @@ main{padding:22px 18px 60px}
   border-radius:999px;
   padding:4px 9px;
   font-size:12px;
-  font-weight:800;
+  font-weight:900;
   background:#eef2ff;
   color:#3730a3;
 }
 .badge.gray{background:#f3f4f6;color:#4b5563}
 .badge.green{background:var(--accent-soft);color:#0f766e}
 .event-body h3{margin:0 0 7px;font-size:17px;letter-spacing:-.02em}
-.event-content{white-space:pre-line;line-height:1.72;color:#374151;font-size:14px}
+.event-content{white-space:pre-wrap;line-height:1.72;color:#374151;font-size:14px}
 .issue{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:13px;color:#4b5563}
+
+/* facts */
 .fact-list{display:grid;gap:12px;padding:16px}
 .fact-card{
   border:1px solid var(--line);
@@ -158,7 +188,7 @@ main{padding:22px 18px 60px}
 .fact-card summary{
   list-style:none;
   display:grid;
-  grid-template-columns:60px minmax(160px,1fr) 96px 64px;
+  grid-template-columns:60px minmax(160px,1fr) minmax(150px,auto) 86px;
   gap:12px;align-items:center;
   padding:14px 16px;
   cursor:pointer;
@@ -172,6 +202,7 @@ main{padding:22px 18px 60px}
 .fact-card summary::-webkit-details-marker{display:none}
 .fact-card summary:after{
   content:"펼치기";
+  grid-column:4;
   justify-self:end;
   color:#6b7280;
   font-size:12px;
@@ -184,18 +215,32 @@ main{padding:22px 18px 60px}
   background:#111827;color:white;font-weight:900;
 }
 .fact-title b{display:block;font-size:16px;letter-spacing:-.02em;margin-bottom:5px}
-.fact-title span{font-size:13px;color:var(--muted);white-space:pre-line}
-.priority{
+.fact-title span{font-size:13px;color:var(--muted);white-space:pre-wrap}
+.clause-chip{
   justify-self:end;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  max-width:260px;
+  border:1px solid #c7d2fe;
+  background:#eef2ff;
+  color:#3730a3;
   border-radius:999px;
-  padding:6px 10px;
-  font-weight:900;
+  padding:7px 10px;
   font-size:12px;
-  background:#fff7ed;
-  color:#9a3412;
-  border:1px solid #fed7aa;
+  font-weight:900;
+  line-height:1.25;
+  white-space:pre-wrap;
+  word-break:keep-all;
 }
-.priority.mid{background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+.clause-chip .clause-label{
+  color:#64748b;
+  font-size:11px;
+  font-weight:800;
+}
+.clause-chip .clause-value{
+  color:#312e81;
+}
 .fact-detail{
   border-top:1px solid var(--line);
   padding:14px 16px 16px;
@@ -220,122 +265,210 @@ main{padding:22px 18px 60px}
   font-size:13px;
   margin-bottom:7px;
 }
-.field.emphasis-rebuttal{background:#f0fdfa;border-color:#99f6e4}
-.field.emphasis-confirmed{background:#eff6ff;border-color:#bfdbfe}
-.field.emphasis-needed{background:#fff7ed;border-color:#fed7aa}
 .field .field-icon{font-size:16px;line-height:1}
-.field div{
-  white-space:pre-line;
+.field .value{
+  white-space:pre-wrap;
   color:#374151;
   line-height:1.68;
   font-size:14px;
 }
-.ev-done{
-  color:#ef4444;
-  font-weight:800;
+.field.emphasis-rebuttal{background:#f0fdfa;border-color:#99f6e4}
+.field.emphasis-confirmed{background:#eff6ff;border-color:#bfdbfe}
+.field.emphasis-review{background:#fffbeb;border-color:#fde68a}
+.field.emphasis-needed{background:#fff7ed;border-color:#fed7aa}
+.field.emphasis-evidence{background:#f8fafc;border-color:#dbeafe}
+.value.evidence-value{font-weight:800}
+.value.evidence-existing{color:#111827}
+.value.evidence-new{color:#dc2626}
+.value.evidence-opponent{color:#2563eb}
+.value.evidence-new .file-link{border-color:#fecaca;background:#fef2f2;color:#991b1b}
+.value.evidence-new .file-ext{border-color:#fecaca;color:#991b1b}
+.value.evidence-opponent .file-link{border-color:#bfdbfe;background:#eff6ff;color:#1e3a8a}
+.value.evidence-opponent .file-ext{border-color:#bfdbfe;color:#1e40af}
+.evidence-legend{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:2px 0 6px;
+  font-size:12px;
+  font-weight:900;
 }
-.ev-needed{
-  color:#2563eb;
-  font-weight:800;
+.evidence-legend span{display:inline-flex;align-items:center;gap:4px}
+.legend-existing{color:#111827}
+.legend-new{color:#dc2626}
+.legend-opponent{color:#2563eb}
+
+.evidence-detail{
+  grid-column:1/-1;
+  border:1px solid #c7d2fe;
+  background:#f8fafc;
+  border-radius:16px;
+  padding:13px;
 }
-.evidence-cell{
-  white-space:pre-line;
+.evidence-detail h4{
+  margin:0 0 10px;
+  font-size:16px;
+  letter-spacing:-.02em;
 }
-.table-wrap{overflow:auto;padding:16px}
-table{
+.evidence-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+.subblock{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  overflow:hidden;
+}
+.subblock-title{
+  padding:11px 12px;
+  background:#f3f4f6;
+  font-weight:900;
+  border-bottom:1px solid #e5e7eb;
+}
+.subblock-body{padding:10px;overflow:auto}
+.compact-table{
+  width:100%;
   border-collapse:separate;
   border-spacing:0;
-  min-width:1100px;
-  width:100%;
+  font-size:13px;
+  min-width:760px;
+}
+.compact-table th,.compact-table td{
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:8px 9px;
+  vertical-align:top;
+  line-height:1.55;
+  white-space:pre-wrap;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+.compact-table th{
+  background:#374151;color:white;
+  text-align:left;
+  position:static;
+}
+.compact-table tr td:first-child,.compact-table tr th:first-child{border-left:1px solid var(--line)}
+.compact-table tr:first-child th{border-top:1px solid var(--line)}
+.compact-table td{background:#fff}
+.sheet-note{
+  margin-top:10px;
+  padding:10px 11px;
+  border:1px dashed #cbd5e1;
+  background:#f8fafc;
+  border-radius:12px;
+  white-space:pre-wrap;
+  color:#475569;
+  font-size:13px;
+  line-height:1.55;
+}
+
+/* evidence collection */
+.evidence-list{display:grid;gap:12px;padding:16px}
+.evidence-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  padding:14px;
+}
+.evidence-card-head{
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;
+  padding-bottom:10px;margin-bottom:10px;border-bottom:1px dashed var(--line);
+}
+.evidence-card h3{margin:0;font-size:16px;letter-spacing:-.02em}
+.file-stack{display:flex;gap:8px;flex-wrap:wrap}
+.file-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  max-width:100%;
+  border:1px solid #bfdbfe;
+  background:#eff6ff;
+  color:#1e3a8a;
+  border-radius:999px;
+  padding:6px 10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.3;
+  word-break:break-all;
+}
+.file-link:hover{background:#dbeafe}
+.file-ext{
+  display:inline-flex;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #bfdbfe;
+  padding:1px 5px;
+  font-size:10px;
+  color:#1e40af;
+}
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.meta-box{
+  border:1px solid #eef2f7;
+  border-radius:12px;
+  background:#fbfdff;
+  padding:10px;
+}
+.meta-box b{display:block;font-size:12px;margin-bottom:5px}
+.meta-box div{white-space:pre-wrap;line-height:1.6;color:#374151;font-size:13px}
+
+/* full tables */
+.table-wrap{overflow:auto;padding:16px}
+.fact-table{
+  width:max(100%, 2460px);
+  min-width:2460px;
+  table-layout:fixed;
+  border-collapse:separate;
+  border-spacing:0;
   font-size:13px;
 }
-th,td{
+.fact-table th,.fact-table td{
   border-right:1px solid var(--line);
   border-bottom:1px solid var(--line);
   padding:10px 11px;
   vertical-align:top;
   line-height:1.55;
-  white-space:pre-line;
+  white-space:pre-wrap;
   word-break:keep-all;
   overflow-wrap:break-word;
 }
-th{
-  position:sticky;top:61px;
+.fact-table th{
   background:#111827;color:white;z-index:6;
   text-align:left;
   vertical-align:middle;
-  white-space:normal;
-  word-break:keep-all;
-  overflow-wrap:normal;
-}
-tr td:first-child, tr th:first-child{border-left:1px solid var(--line)}
-tr:first-child th{border-top:1px solid var(--line)}
-td{background:#fff}
-tr:nth-child(even) td{background:#fafafa}
-#factTableWrap{
-  width:calc(100vw - 24px);
-  max-width:calc(100vw - 24px);
-  margin-left:50%;
-  transform:translateX(-50%);
-  padding:16px 12px;
-  overflow-x:auto;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 10px 24px rgba(17,24,39,.06);
-}
-#factTable{min-width:100%;}
-.fact-table{
-  width:max(100%, 2426px);
-  min-width:2426px;
-  table-layout:fixed;
-}
-.fact-table th{
   position:static;
-  top:auto;
-  font-size:13px;
-  letter-spacing:-.02em;
 }
-.fact-table td{
-  font-size:13px;
-}
-.hidden{display:none!important}
-.notice{
-  margin:16px 0;
-  padding:13px 14px;
-  border:1px solid #fde68a;
-  background:#fffbeb;
-  border-radius:14px;
-  color:#92400e;
-  font-size:14px;
-  line-height:1.6;
-}
-.small{font-size:13px;color:var(--muted)}
-.view-toggle{display:flex;gap:6px;flex-wrap:wrap}
-.view-toggle .tabmini{
-  border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:800;cursor:pointer;
-}
-.view-toggle .tabmini.active{background:#0f766e;color:#fff;border-color:#0f766e}
-.empty{
-  text-align:center;padding:32px;color:var(--muted);
-}
+.fact-table tr td:first-child,.fact-table tr th:first-child{border-left:1px solid var(--line)}
+.fact-table tr:first-child th{border-top:1px solid var(--line)}
+.fact-table td{background:#fff}
+.fact-table tr:nth-child(even) td{background:#fafafa}
+.fact-table td.evidence-existing{color:#111827;font-weight:800}
+.fact-table td.evidence-new{color:#dc2626;font-weight:800}
+.fact-table td.evidence-opponent{color:#2563eb;font-weight:800}
+
 @media (max-width:760px){
   header.hero{padding-top:24px}
-  #factTableWrap{width:calc(100vw - 12px);max-width:calc(100vw - 12px);padding:12px 6px;}
-  .timeline-card{grid-template-columns:1fr;gap:8px}
-  .date-pill{position:static;text-align:left}
-  .fact-card summary{grid-template-columns:52px 1fr 58px;gap:10px}
-  .priority{grid-column:2;justify-self:start}
-  .fact-card summary:after{grid-column:3;grid-row:1 / span 2}
-  .fact-detail{grid-template-columns:1fr}
-  .tabs{padding-left:12px;padding-right:12px}
   main{padding-left:12px;padding-right:12px}
+  .tabs{padding-left:12px;padding-right:12px}
   .panel-head{padding:16px}
   .searchbox{min-width:100%}
-  th{top:57px}
+  .timeline-card{grid-template-columns:1fr;gap:8px}
+  .date-pill{position:static;text-align:left}
+  .fact-card summary{grid-template-columns:52px minmax(0,1fr) 70px;gap:10px}
+  .clause-chip{grid-column:2;justify-self:start;max-width:100%;}
+  .fact-card summary:after{grid-column:3;grid-row:1 / span 2}
+  .fact-detail{grid-template-columns:1fr}
+  .meta-grid{grid-template-columns:1fr}
 }
 @media print{
-  .navbar,.toolbar,.btns,.searchbox,.view-toggle{display:none!important}
+  .navbar,.toolbar,.btns,.searchbox,.view-toggle,.download-all{display:none!important}
   body{background:white}
   header.hero{background:white;color:#111827;padding:0 0 18px}
   .subtitle,.kicker{color:#374151}
@@ -343,136 +476,456 @@ tr:nth-child(even) td{background:#fafafa}
   .fact-card{break-inside:avoid}
   details{display:block}
   details:not([open]) .fact-detail{display:grid}
+  .hidden{display:block!important}
+}
+  
+/* requested evidence/evidence-sheet refinements */
+.field.evidence-field label .evidence-parenthetical{display:none}
+.evidence-chip-list{display:grid;gap:7px;margin-top:2px}
+.evidence-chip-line{display:flex;align-items:flex-start;gap:8px;color:#111827;font-weight:500;line-height:1.58;white-space:pre-wrap}
+.evidence-chip-line.section-line{font-weight:900;color:#334155;margin-top:2px}
+.evidence-status-chip{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:900;line-height:1.2;border:1px solid transparent;white-space:nowrap;color:#111827}
+.evidence-status-existing{background:#f1f5f9;border-color:#cbd5e1}
+.evidence-status-new{background:#dcfce7;border-color:#86efac}
+.evidence-status-opponent{background:#dbeafe;border-color:#93c5fd}
+.evidence-chip-text{color:#111827;font-weight:500}
+.fact-table .evidence-chip-list{gap:5px}
+.fact-table .evidence-chip-line{font-size:12px;line-height:1.45}
+.fact-table th.evidence-master-head .evidence-parenthetical{display:none}
+.value.evidence-value,.value.evidence-existing,.value.evidence-new,.value.evidence-opponent{color:#111827!important;font-weight:500!important}
+.evidence-legend{display:none!important}
+
+.subblock-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:#f3f4f6;border-bottom:1px solid #e5e7eb}
+.subblock-title-row .subblock-title{padding:0;background:transparent;border-bottom:0}
+.subblock-title-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.download-btn{display:inline-flex;align-items:center;gap:5px;border:1px solid #cbd5e1;background:#fff;color:#111827;border-radius:999px;padding:5px 9px;text-decoration:none;font-size:12px;font-weight:900;line-height:1.25;white-space:nowrap}
+.download-btn:hover{background:#f8fafc;border-color:#94a3b8}
+.download-btn.small{padding:4px 8px;font-size:11px}
+.download-btn.muted{background:#f8fafc;color:#334155}
+.sheet-note.inline-note{margin:8px 10px 0;padding:8px 10px;white-space:nowrap;overflow-x:auto;line-height:1.4}
+
+.compact-table.fit-table{width:100%;table-layout:auto;border-collapse:separate;border-spacing:0;min-width:760px}
+.compact-table .fit-cell{width:1%;white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important}
+.compact-table .sender-cell{width:110px;min-width:110px;max-width:110px;white-space:normal!important}
+.compact-table .message-cell,.compact-table .statement-cell{width:auto;white-space:pre-wrap!important}
+.compact-table .note-cell{width:34px;min-width:34px;max-width:34px;text-align:center;padding-left:6px;padding-right:6px;white-space:nowrap!important}
+.note-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:#e0f2fe;color:#075985;border:1px solid #bae6fd;font-size:12px;font-weight:900;cursor:help}
+.note-empty{display:inline-block;width:20px;height:20px}
+.compact-table.evidence-table .ref-cell{width:1%;white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;color:#111827}
+.compact-table.evidence-table .download-cell{width:1%;white-space:nowrap!important;text-align:right}
+.compact-table.evidence-table .statement-cell{width:auto}
+.compact-table.evidence-table .no-cell{width:1%;white-space:nowrap!important;text-align:center;font-weight:900;color:#111827}
+.compact-table.evidence-table tr.evidence-row-chat td{background:#f3f4f6!important}
+.compact-table.evidence-table tr.evidence-row-needs td{background:#fff7ed!important}
+.ref-line{white-space:nowrap}
+@media (max-width:760px){
+  .subblock-title-row{align-items:flex-start;flex-direction:column}
+  .subblock-title-actions{justify-content:flex-start}
 }
 
-/* PIN gate for GitHub Pages casual access control */
-body.auth-locked{
+
+/* 2026-07-09 refinement: needed-evidence tab, custom tooltips, compact file columns */
+.fit-table th.fit-cell,.fit-table td.fit-cell,
+.fit-table th.file-cell,.fit-table td.file-cell{
+  width:1%;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+.chat-table th.file-cell,.chat-table td.file-cell{
+  width:1%;
+  max-width:360px;
+  white-space:nowrap!important;
   overflow:hidden;
+  text-overflow:ellipsis;
+  color:#374151;
 }
-body.auth-locked header.hero,
-body.auth-locked .navbar,
-body.auth-locked main{
-  visibility:hidden;
-  pointer-events:none;
-}
-.pin-gate{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:flex;
+.note-tooltip{
+  position:relative;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:24px;
-  background:linear-gradient(135deg,#111827 0%,#1f2937 58%,#0f766e 100%);
-}
-.pin-box{
-  width:min(420px,100%);
-  background:rgba(255,255,255,.96);
-  border:1px solid rgba(255,255,255,.45);
-  border-radius:24px;
-  box-shadow:0 24px 70px rgba(0,0,0,.35);
-  padding:28px;
-  color:#111827;
-}
-.pin-kicker{
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#0f766e;
-  font-weight:800;
-  margin-bottom:8px;
-}
-.pin-box h2{
-  margin:0 0 8px;
-  font-size:26px;
-  letter-spacing:-.04em;
-}
-.pin-box p{
-  margin:0 0 18px;
-  color:#6b7280;
-  line-height:1.6;
-  font-size:14px;
-}
-.pin-form{
-  display:flex;
-  gap:10px;
-}
-.pin-form input{
-  flex:1;
-  height:48px;
-  border:1px solid #d1d5db;
-  border-radius:14px;
-  padding:0 14px;
-  font-size:22px;
-  letter-spacing:.16em;
-  font-weight:800;
-  text-align:center;
+  width:22px;
+  height:22px;
   outline:none;
 }
-.pin-form input:focus{
-  border-color:#0f766e;
-  box-shadow:0 0 0 4px rgba(15,118,110,.12);
-}
-.pin-form button{
-  border:0;
-  border-radius:14px;
-  padding:0 18px;
-  font-weight:900;
-  color:white;
+.note-icon{
+  width:20px;
+  height:20px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   background:#111827;
-  cursor:pointer;
-}
-.pin-form button:hover{
-  background:#0f766e;
-}
-.pin-error{
-  min-height:20px;
-  margin-top:10px;
-  color:#dc2626;
-  font-size:13px;
-  font-weight:800;
-}
-.pin-note{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid #e5e7eb;
+  color:#fff;
   font-size:12px;
-  color:#6b7280;
+  font-weight:900;
+  font-family:Georgia,serif;
+  cursor:help;
+}
+.note-bubble{
+  position:absolute;
+  right:0;
+  bottom:calc(100% + 10px);
+  z-index:80;
+  width:max-content;
+  max-width:min(380px,70vw);
+  padding:10px 12px;
+  border-radius:12px;
+  background:#111827;
+  color:#fff;
+  box-shadow:0 14px 35px rgba(17,24,39,.24);
+  font-size:12px;
+  line-height:1.55;
+  white-space:pre-line;
+  text-align:left;
+  opacity:0;
+  transform:translateY(4px);
+  pointer-events:none;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.note-bubble:after{
+  content:"";
+  position:absolute;
+  right:7px;
+  top:100%;
+  border-width:7px 6px 0 6px;
+  border-style:solid;
+  border-color:#111827 transparent transparent transparent;
+}
+.note-tooltip:hover .note-bubble,
+.note-tooltip:focus-within .note-bubble{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.needed-list{display:grid;gap:14px;padding:16px}
+.needed-card{
+  border:1px solid #fde68a;
+  background:linear-gradient(180deg,#fffbeb 0%,#fff 48%);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 22px rgba(17,24,39,.06);
+}
+.needed-card-head{
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:14px 16px;
+  border-bottom:1px solid #f3e8b6;
+}
+.needed-no{
+  width:42px;height:42px;border-radius:14px;background:#92400e;color:#fff;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.needed-title b{display:block;font-size:16px;letter-spacing:-.02em;margin-bottom:4px}
+.needed-title span{font-size:13px;color:#6b7280;white-space:pre-line}
+.needed-body{display:grid;gap:12px;padding:14px 16px 16px;background:#fff}
+.needed-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.needed-box{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  background:#fff;
+  padding:12px;
+}
+.needed-box b{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:13px;color:#111827}
+.needed-box .value{white-space:pre-line;line-height:1.68;font-size:14px;color:#374151}
+.needed-extra-list{display:grid;gap:7px}
+.needed-extra-item{
+  display:flex;align-items:flex-start;gap:8px;line-height:1.58;font-size:14px;color:#111827;
+}
+.needed-extra-item:before{
+  content:"필요";
+  flex:0 0 auto;
+  border-radius:999px;
+  padding:3px 8px;
+  background:#fef3c7;
+  border:1px solid #fcd34d;
+  font-size:11px;
+  font-weight:900;
+  color:#92400e;
+}
+.needed-support-table{width:100%;min-width:760px;border-collapse:separate;border-spacing:0;font-size:12px}
+.needed-support-table th{position:static;background:#374151;color:#fff;white-space:nowrap;width:1%}
+.needed-support-table th.support-content{width:auto}
+.needed-support-table td{background:#fff;vertical-align:top;white-space:pre-line}
+.needed-support-table .support-kind{width:1%;white-space:nowrap!important;font-weight:900;color:#374151}
+.needed-support-table .support-ref{width:1%;min-width:220px;white-space:pre-line;color:#4b5563}
+.needed-support-wrap{overflow:auto;border-radius:12px;border:1px solid #e5e7eb}
+@media (max-width:760px){
+  .needed-card-head{grid-template-columns:48px 1fr;align-items:flex-start}
+  .needed-card-head .clause-chip{grid-column:1/-1;justify-self:start}
+  .needed-two{grid-template-columns:1fr}
+  .chat-table th.file-cell,.chat-table td.file-cell{max-width:220px}
+}
+
+
+/* 2026-07-09 refinement 2: paragraph rhythm, file-based needed tab, tighter table ratios */
+.text-block{white-space:normal;line-height:1.66;color:inherit}
+.text-block p{margin:0 0 8px}
+.text-block p:last-child{margin-bottom:0}
+.field .value{white-space:normal}
+.field.emphasis-needed{padding:16px;background:#fff7ed;border-color:#fbbf24}
+.field.emphasis-needed .value{padding:2px 1px}
+.needed-extra-item{padding:9px 10px;border:1px solid #fde68a;background:#fffbeb;border-radius:12px}
+.needed-box{padding:15px 16px}
+.needed-box .value{white-space:normal}
+.needed-file-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;background:#fef3c7;border:1px solid #fcd34d;color:#78350f;font-size:12px;font-weight:900;white-space:nowrap}
+.needed-title .needed-file-name{display:block;font-size:16px;font-weight:900;color:#111827;margin-bottom:4px;word-break:keep-all;overflow-wrap:anywhere}
+.needed-related-list{display:grid;gap:8px;margin-top:8px}
+.needed-related-item{border:1px solid #e5e7eb;background:#f8fafc;border-radius:12px;padding:10px 12px}
+.needed-related-item b{display:block;font-size:13px;margin-bottom:4px;color:#111827}
+.needed-related-item span{display:block;font-size:12px;color:#6b7280;line-height:1.5}
+.needed-support-table{table-layout:fixed;min-width:760px}
+.needed-support-table col.support-kind-col{width:1%}
+.needed-support-table col.support-half-col{width:50%}
+
+.needed-support-table th.support-content,.needed-support-table th.support-ref-head{width:50%}
+.needed-support-table .support-kind{width:1%;white-space:nowrap!important}
+.needed-support-table .support-content-cell,.needed-support-table .support-ref{width:auto!important;white-space:normal!important}
+.needed-support-table .support-content-cell .text-block,.needed-support-table .support-ref .text-block{line-height:1.55}
+.compact-table.evidence-table tr.evidence-row-needs td{background:#fff7ed!important;padding-top:14px;padding-bottom:14px}
+.file-ext{display:none!important}
+@media (max-width:760px){
+  .needed-support-table{min-width:680px}
+}
+
+/* 2026-07-09 refinement 6 */
+.fact-controls{padding:18px 16px 4px!important;margin-bottom:0!important;border-top:1px solid #f1f5f9;}
+.evidence-chip-line.section-line{font-weight:900;color:#111827;margin-top:14px;padding-top:8px;}
+.evidence-chip-list .evidence-chip-line.section-line:first-child{margin-top:2px;padding-top:0;}
+.evidence-chip-line.section-line .evidence-chip-text{font-weight:900;}
+.clause-chip{white-space:nowrap;max-width:340px;}
+.clause-chip .clause-value{white-space:nowrap;}
+@media (max-width:760px){
+  .clause-chip,.clause-chip .clause-value{white-space:normal;}
+}
+
+
+
+/* 2026-07-09 refinement 7: fact side navigation and softer file-action exposure */
+.fact-layout{
+  display:grid;
+  grid-template-columns:132px minmax(0,1fr);
+  gap:0;
+  align-items:start;
+}
+.fact-subnav{
+  position:sticky;
+  top:74px;
+  align-self:start;
+  max-height:calc(100vh - 90px);
+  overflow:auto;
+  padding:16px 0 16px 16px;
+  border-right:1px solid #eef2f7;
+  background:linear-gradient(180deg,#fbfdff 0%,#ffffff 100%);
+  z-index:10;
+}
+.fact-subnav-title{
+  font-size:12px;
+  font-weight:900;
+  color:#64748b;
+  margin:0 10px 8px 0;
+  letter-spacing:-.01em;
+}
+.fact-subnav-list{
+  display:grid;
+  gap:6px;
+  padding-right:10px;
+}
+.fact-jump{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  width:100%;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  color:#334155;
+  border-radius:12px;
+  padding:8px 9px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.25;
+  cursor:pointer;
+  text-align:left;
+}
+.fact-jump:hover{background:#f0fdfa;border-color:#99f6e4;color:#0f766e}
+.fact-jump-no{
+  flex:0 0 auto;
+  width:24px;
+  height:24px;
+  border-radius:8px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111827;
+  color:#fff;
+  font-size:11px;
+}
+.fact-jump-title{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.fact-card{scroll-margin-top:86px;}
+.file-link,.download-btn{font-family:inherit;cursor:pointer}
+button.file-link,button.download-btn{appearance:none}
+.file-action-note{
+  margin:8px 16px 0;
+  color:#64748b;
+  font-size:12px;
   line-height:1.5;
 }
-@media (max-width:560px){
-  .pin-box{padding:22px;border-radius:20px}
-  .pin-form{flex-direction:column}
-  .pin-form button{height:46px}
+@media (max-width:960px){
+  .fact-layout{grid-template-columns:1fr}
+  .fact-subnav{
+    position:sticky;
+    top:57px;
+    z-index:20;
+    max-height:none;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:10px 12px;
+    border-right:0;
+    border-bottom:1px solid #eef2f7;
+  }
+  .fact-subnav-title{display:none}
+  .fact-subnav-list{display:flex;gap:6px;padding-right:0;min-width:max-content}
+  .fact-jump{width:auto;min-width:54px;justify-content:center;padding:7px 8px}
+  .fact-jump-title{display:none}
 }
-@media print{
-  .pin-gate{display:none!important}
+
+
+/* 2026-07-09 refinement 8: no internal subnav scroll, evidence master file rows, needed-support spacing */
+.fact-layout{
+  grid-template-columns:180px minmax(0,1fr);
+}
+.fact-subnav{
+  overflow:hidden!important;
+  max-height:none!important;
+  padding:16px 14px 16px 16px;
+}
+.fact-subnav-list{
+  padding-right:0;
+}
+.fact-jump{
+  min-width:0;
+}
+.fact-jump-title{
+  display:block;
+  min-width:0;
+  max-width:112px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.fact-subnav::-webkit-scrollbar{display:none}
+.fact-subnav{scrollbar-width:none}
+.evidence-card-head-vertical{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.evidence-file-list{
+  display:grid;
+  gap:7px;
+}
+.evidence-file-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  background:#f8fafc;
+}
+.evidence-file-row.no-action{grid-template-columns:1fr}
+.evidence-file-name{
+  min-width:0;
+  color:#111827;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.45;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.evidence-file-action{white-space:nowrap}
+.needed-support-wrap{
+  overflow:visible!important;
+  border-radius:14px;
+}
+.needed-support-table{
+  width:100%!important;
+  min-width:0!important;
+  table-layout:fixed!important;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:13px;
+}
+.needed-support-table col.support-kind-col{width:124px!important}
+.needed-support-table col.support-half-col{width:calc((100% - 124px) / 2)!important}
+.needed-support-table th,
+.needed-support-table td{
+  padding:12px 14px!important;
+  line-height:1.68!important;
+  vertical-align:top!important;
+  overflow:visible!important;
+}
+.needed-support-table th{
+  white-space:nowrap!important;
+}
+.needed-support-table .support-kind{
+  width:124px!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+.needed-support-table .support-content-cell,
+.needed-support-table .support-ref{
+  white-space:normal!important;
+  word-break:keep-all!important;
+  overflow-wrap:anywhere!important;
+  min-width:0!important;
+}
+.needed-support-table .support-content-cell .text-block,
+.needed-support-table .support-ref .text-block{
+  line-height:1.68!important;
+}
+@media (max-width:960px){
+  .fact-subnav{
+    overflow:visible!important;
+  }
+  .fact-subnav-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    min-width:0;
+  }
+  .fact-jump{width:auto;}
+}
+@media (max-width:760px){
+  .needed-support-table col.support-kind-col{width:98px!important}
+  .needed-support-table col.support-half-col{width:calc((100% - 98px) / 2)!important}
+  .needed-support-table .support-kind{width:98px!important}
+  .needed-support-table th,
+  .needed-support-table td{padding:10px 11px!important;font-size:12px;}
 }
 
 </style>
 </head>
-<body class="auth-locked">
-
-  <div id="pinGate" class="pin-gate" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
-    <div class="pin-box">
-      <div class="pin-kicker">Restricted View</div>
-      <h2 id="pinTitle">비밀번호 입력</h2>
-      <p>이 문서는 분쟁 정리 자료이므로 접근 비밀번호를 입력해야 내용을 볼 수 있습니다.</p>
-      <form id="pinForm" class="pin-form" autocomplete="off">
-        <input id="pinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="12" placeholder="••••" aria-label="비밀번호">
-        <button type="submit">확인</button>
-      </form>
-      <div id="pinError" class="pin-error" aria-live="polite"></div>
-      <div class="pin-note">브라우저 세션 기준으로 인증 상태가 유지됩니다. 창을 닫았다가 다시 열면 다시 입력합니다.</div>
-    </div>
-  </div>
+<body>
+  <script type="application/json" id="appData">{"createdAt":"2026. 7. 9.","timelineSections":[{"section":"Ⅰ. 계약 체결 전후","rows":[{"일자":"2025. 4. 22.","구분":"사전 통화","주체":"조명래–박상준","내용":"골프존 시설 투자·운영 구조 관련 통화.\n피고 측은 위탁운영형 구조 및 가맹계약 주체가 이지벤처스라는 전제의 정황으로 봄","쟁점":"계약 성격, 위탁운영, 가맹계약"},{"일자":"2025. 4. 26.","구분":"임대차계약 체결","주체":"이지벤처스–늘푸른골프","내용":"지축역현대프리미어캠퍼스 C-S-B1-01~09호 임대차계약 체결.\n보증금 3억, 월차임 2,500만 원, 기간 2025.5.1.~2030.4.30.","쟁점":"계약 성격"},{"일자":"2025. 5. 1.","구분":"계약상 기일","주체":"늘푸른골프","내용":"계약서상 잔금 2억 7천만 원 지급일 및 임대차 개시일","쟁점":"잔금 지체, 동시이행"},{"일자":"2025. 5.~8.","구분":"공사 진행","주체":"이지벤처스/골프존/시공업체","내용":"골프존 시설 및 인테리어 공사 진행.\n원고는 미완공·미인도 주장, 피고는 8월경 영업 가능 상태 주장","쟁점":"완공, 인도, 가오픈"}]},{"section":"Ⅱ. 2025년 8월 분쟁 발생","rows":[{"일자":"2025. 8. 15.경","구분":"현장 근무/가오픈 정황","주체":"양희정, 조규철 등","내용":"양희정 진술서 기준 조규철이 면접·현장 관리·기계 점검 등에 관여했다는 취지","쟁점":"가오픈, 인도, 운영 관여"},{"일자":"2025. 8. 16.","구분":"통화","주체":"김은주–박상준","내용":"피고 측은 손님 유입·가오픈 정황 및 박상준 이탈 의사 정황으로 봄.\n원고는 박상준 개인의 운영 관여 축소일 뿐 계약 포기가 아니라고 주장","쟁점":"가오픈, 계약 포기 여부"},{"일자":"2025. 8. 18.","구분":"단체대화","주체":"조명래–박상준–조규철","내용":"운영·분쟁 관련 정황 자료로 피고 측에서 사용","쟁점":"운영 상태, 신뢰관계"},{"일자":"2025. 8. 19.","구분":"송금","주체":"늘푸른골프→이지벤처스","내용":"6,000만 원 송금. 피고 측은 문자상 “중도금” 표현을 문제 삼고,\n원고는 잔금 일부 이행이라고 주장","쟁점":"잔금 일부인지, 중도금인지"},{"일자":"2025. 8. 19.","구분":"대화/통화","주체":"양측","내용":"원고는 7/3 준비서면에서 8/19 대화·통화를 근거로\n가맹점 명의 이전 논의 및 피고의 반환 의사 등을 주장","쟁점":"가맹계약 양도, 잔금 지급 의사"},{"일자":"2025. 8. 22.","구분":"계약해제 문자","주체":"이지벤처스→늘푸른골프","내용":"잔금 미지급을 이유로 계약해제 의사 표시","쟁점":"계약해제"},{"일자":"2025. 8. 28.","구분":"백송 1차 내용증명","주체":"이지벤처스 측","내용":"2025.9.5.까지 잔금 2억 1천만 원, 지연이자, 재인수, 운영위탁계약 체결 요구.\n미이행 시 해제 통보","쟁점":"최고, 해제"},{"일자":"2025. 8. 29.","구분":"이신 1차 내용증명","주체":"늘푸른골프 측","내용":"잔금 지급과 점포 인도는 동시이행. 운영위탁계약 체결 의무 없음.\n점포 인도 및 가맹점 명의 이전 요구","쟁점":"동시이행, 인도"}]},{"section":"Ⅲ. 2025년 9월 내용증명 왕복","rows":[{"일자":"2025. 9. 5.","구분":"최고기한","주체":"늘푸른골프","내용":"백송 8/28 내용증명상 이행기한","쟁점":"해제 요건"},{"일자":"2025. 9. 6.","구분":"해제 주장일","주체":"이지벤처스 측","내용":"피고는 9/5 미이행으로 계약이 9/6 해제되었다고 주장","쟁점":"계약해제 효력"},{"일자":"2025. 9. 8.","구분":"백송 2차 내용증명","주체":"이지벤처스 측","내용":"계약해제 확정 통보, 6천만 원 반환 및 집기 처리 협의 요청","쟁점":"해제, 정산"},{"일자":"2025. 9. 12./15.","구분":"이신 3차 내용증명","주체":"늘푸른골프 측","내용":"실제 송달된 이신 후속 내용증명. 점포 인도, 시설물 인도, 가맹점 명의 이전 요구","쟁점":"인도, 가맹계약"},{"일자":"2025. 9. 12.","구분":"백송 3차 내용증명","주체":"이지벤처스 측","내용":"원고가 목적물을 인도받았고, 조규철이 업장 운영을 개시했다고 주장.\n가맹점 명의 이전은 계약서상 의무가 아니라고 주장","쟁점":"인도, 가오픈, 가맹계약"},{"일자":"2025. 9. 15.","구분":"이신 4차 내용증명","주체":"늘푸른골프 측","내용":"인도받지 않았고, 조규철은 개점 준비만 했다고 반박. 위탁운영계약 체결 의사 없음","쟁점":"인도 부인, 위탁운영 거부"},{"일자":"2025. 9. 16./17.","구분":"백송 4차 내용증명","주체":"이지벤처스 측","내용":"계약해제 재확인, 가맹점 명의 이전 요구는 계약서에 없는 조건이라고 주장.\n6천만 원 반환계좌 요청","쟁점":"해제, 공탁"},{"일자":"2025. 9. 23.","구분":"이신 5차 내용증명","주체":"늘푸른골프 측","내용":"계약은 계속 유효하므로 6천만 원 반환받을 의사 없음.\n가맹점 명의 이전은 영업상 필수라고 주장","쟁점":"계약 존속, 가맹계약"},{"일자":"2025. 9. 25.","구분":"변제공탁","주체":"이지벤처스","내용":"반환계좌 미제공을 이유로 6천만 원 공탁","쟁점":"정산, 해제 후 원상회복"}]},{"section":"Ⅳ. 소송 제기 및 소장 접수 후","rows":[{"일자":"2025. 10. 2.","구분":"소장 접수","주체":"늘푸른골프","내용":"서울중앙지방법원 2025가합14077 건물인도 사건 제기.\n청구는 건물인도 + 골프존 가맹계약 양도 및 통지","쟁점":"소송 개시"},{"일자":"2025. 10. 2.","구분":"소장상 주장","주체":"늘푸른골프","내용":"시설대 임대차, 동시이행, 피고의 부당해제, 위탁운영 강요, 가맹계약 양도 필수 주장","쟁점":"본안 쟁점"},{"일자":"2025. 10. 이후","구분":"내부 반박안 작성","주체":"이지벤처스→백송","내용":"백송 요청에 따라 원고 소장에 대한 당사자 입장 반박자료와 증거자료 목록 전달","쟁점":"내부자료"},{"일자":"2025. 12. 18./19.","구분":"이신 6차 내용증명","주체":"늘푸른골프 측","내용":"정수기렌탈, 공기청정기렌탈, LG U+ 인터넷전화 등 부대서비스 명의이전 요청","쟁점":"부대서비스"},{"일자":"2025. 12. 이후","구분":"후속조치","주체":"이지벤처스","내용":"요청받은 부대서비스 명의이전 진행. 단, 골프존 가맹계약 양도와는 별개","쟁점":"손해확대 방지"}]},{"section":"Ⅴ. 제1회 변론기일 전 준비","rows":[{"일자":"2026. 3. 4.","구분":"변론기일통지서","주체":"법원","내용":"2026.4.21. 14:20 제1회 변론기일 지정","쟁점":"절차"},{"일자":"2026. 4. 1.","구분":"증거 보완 요청","주체":"백송→이지벤처스","내용":"문자/카톡은 날짜 보이게 원본 캡처 요청","쟁점":"증거 형식"},{"일자":"2026. 4. 1.","구분":"사실확인","주체":"백송→이지벤처스","내용":"조규철 8/19~8/21 업장 운영 개시 증거 문의","쟁점":"가오픈"},{"일자":"2026. 4. 1.","구분":"사실확인","주체":"백송→이지벤처스","내용":"월차임 2,500만 원이 주변 시세보다 높은지 확인","쟁점":"시설 포함 계약"},{"일자":"2026. 4. 3.","구분":"Q&A 요청","주체":"백송→이지벤처스","내용":"4.22 통화, 8.16 통화, 위탁운영 구조 등 질문","쟁점":"계약 성격"},{"일자":"2026. 4. 6.","구분":"Q&A 답변 제출","주체":"이지벤처스→백송","내용":"문서로 백송 질문에 답변","쟁점":"내부자료"},{"일자":"2026. 4. 14.","구분":"진술서 작성","주체":"양희정","내용":"조규철 현장 관여, 면접, 업무관리 등 진술","쟁점":"가오픈, 운영관여"},{"일자":"2026. 4. 16.","구분":"진술서 전달","주체":"이지벤처스→백송","내용":"양희정 진술서와 신분증 사본 전달","쟁점":"증거 보강"},{"일자":"2026. 4. 15.","구분":"준비서면 초안","주체":"백송→이지벤처스","내용":"피고 준비서면 초안 전달","쟁점":"소장 반박"},{"일자":"2026. 4. 16.","구분":"준비서면 최종","주체":"백송/이지벤처스","내용":"내부 검토 후 피고 제1준비서면 최종 확정","쟁점":"피고 주장"},{"일자":"2026. 4. 16.","구분":"녹취록 작성","주체":"백송","내용":"250422, 250816 전화통화 녹취록 작성","쟁점":"위탁운영, 가오픈"}]},{"section":"Ⅵ. 제1회 변론기일","rows":[{"일자":"2026. 4. 21.","구분":"제1회 변론기일","주체":"법원/양측","내용":"재판 진행. 다음 기일 2026.7.7. 10:20 지정","쟁점":"절차"},{"일자":"2026. 4. 21.","구분":"재판부 질의","주체":"재판부","내용":"2025.5.1.이 아니라 2025.8. 기준으로 이행지체 발생을 보아야 하는 것 아닌지 질의","쟁점":"8월 영업가능상태"},{"일자":"2026. 4. 21.","구분":"원고 입증계획","주체":"원고 측","내용":"골프존 사실조회 예정, 영업 지연 손해배상청구 예정, 가오픈 부인","쟁점":"향후 쟁점"},{"일자":"2026. 4. 21.","구분":"피고 대응방향","주체":"백송/이지벤처스","내용":"상대방 서면 후 인테리어 계약서, 완공자료, 골프존 매출 발생자료 등 제출 검토","쟁점":"추가증거"}]},{"section":"Ⅶ. 제2회 변론기일 직전 원고 서면 및 신청서","rows":[{"일자":"2026. 7. 3.","구분":"원고 준비서면 제출","주체":"이신","내용":"금요일 오후 늦게 원고 준비서면 제출","쟁점":"피고 준비서면 반박"},{"일자":"2026. 7. 6. 오전","구분":"송달/공유","주체":"백송→이지벤처스","내용":"박소진 변호사가 원고 준비서면 공유.\n제출이 늦어 7/7 기일에서 속행 요청 예정","쟁점":"절차"},{"일자":"2026. 7. 6.","구분":"백송 미팅","주체":"백송/이지벤처스","내용":"이지벤처스는 이미 반박서면에서 다 말한 것 아니냐고 질의.\n백송은 원고의 새로운 주장에 대한 사실관계 반박이 필요하다고 설명","쟁점":"반박자료 필요"},{"일자":"2026. 7. 6. 오후","구분":"증인신청서","주체":"원고","내용":"조규철 증인신청","쟁점":"증인 필요성"},{"일자":"2026. 7. 6. 오후","구분":"문서제출명령신청","주체":"원고","내용":"피고 매출, 게임수, 비용, 관리비, 인건비 등 영업자료 제출 요구","쟁점":"손해배상 자료"},{"일자":"2026. 7. 6. 오후","구분":"사실조회촉탁신청","주체":"원고","내용":"골프존에 가맹계약, 영업개시일, 매출, 게임수, 명의이전 절차 등 조회 신청","쟁점":"가맹계약, 손해액"},{"일자":"2026. 7. 6.","구분":"단톡방 논의","주체":"백송/이지벤처스","내용":"증인신청, 문서제출명령, 사실조회촉탁에 대한 대응 논의","쟁점":"신청서 의견"},{"일자":"2026. 7. 7.","구분":"제2회 변론기일","주체":"법원/양측","내용":"원고 신청서 3건 채택 여부 보류. 재판부는 검토 예정. 피고 측 의견 있으면 짧게 제출 가능","쟁점":"절차"},{"일자":"2026. 7. 7.","구분":"재판부 언급","주체":"재판부","내용":"조규철 증인신청에 대해 굳이 증인신문이 아니라\n사실확인서나 진술서로 제출하면 되지 않겠냐는 취지 언급","쟁점":"증인 불필요성"},{"일자":"2026. 7. 7.","구분":"다음 기일","주체":"법원","내용":"다음 재판 2026.9.15. 16:45 지정","쟁점":"절차"},{"일자":"2026. 7. 7.","구분":"대응 방향","주체":"백송/이지벤처스","내용":"각 신청에 대한 의견서 제출 후, 원고 준비서면 반박서면 준비","쟁점":"다음 준비"}]}],"factHeaders":["구분","No.","반박 필요 항목","원고 서면 조항","원고 주장 요지","피고 측 확인할 사실관계","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)","추가 확보 필요 증거","반박 방향","확인된 내용","검토 요청사항","비고"],"factRows":[{"구분":"가맹명의","No.":"1","반박 필요 항목":"골프존 프로그램 사용 가능 여부","원고 서면 조항":"1.다.2)④","원고 주장 요지":"원고는 골프존 영업을 위해서는 가맹점주 명의가 필수이고, 가맹점주가 되지 않으면 골프존 프로그램을 사용할 수 없어 골프존 영업이 불가능하다고 주장","피고 측 확인할 사실관계":"가맹점주 명의가 피고인 상태에서도 조규철 또는 원고 측이 실제로 골프존 프로그램에 로그인하거나 게임 진행·운영을 할 수 있었는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"계정정보 제공 정황자료\n골프존 게임수·매출자료\n조규철의 삼송스크린 운영 정황자료","추가 확보 필요 증거":"필요 시 양희정 추가 진술서 확보","반박 방향":"원고는 가맹점주 명의가 이전되지 않아 골프존 프로그램 사용 자체가 불가능했다고 주장하나, 실제로는 조규철이 기존 매장을 운영하면서 골프존 프로그램 계정정보를 제공받았고, 창릉프리미어에서도 프로그램 사용이 가능한 상태였다는 정황이 있음.\n\n다만 현재 객관증빙은 확보되지 않았으므로, 자료가 확인되면 증거로 제출하고, 자료가 없으면 단정적 표현을 피하고 정황적 사실로 서술하는 방향.","확인된 내용":"지축골프존방(4인)_대화기록에 따르면, 조규철은 2025. 5. 30.경 삼송스크린의 5월 운영비용, 직원 근무 현황, 현금매출 입금, 골프존 교육 완료 등을 피고 측에 보고하였고, 2025. 6. 25.~7. 1.경에도 현금매출, 골프존 홈페이지 매출, 순매출, 운영비용, 직원급여 등을 정리·보고한 정황이 확인됨.\n\n또한 2025. 7. 22. 조명래가 “점주 들어가는 방법”을 묻자 조규철은 골프존 비즈몰 접속 URL을 알려주었고, 조명래가 “매장관리(매출 등)” 접속 방법을 묻자 GPM 접속 URL을 알려준 사실이 확인됨. 같은 대화에서 조규철이 점주용 계정정보를 알려준 정황도 확인됨. 따라서 조규철은 늦어도 2025. 7. 22.경에는 골프존 비즈몰 및 GPM 등 점주용 시스템 접근정보와 사용방법을 알고 있었던 것으로 정리 가능함.\n\n이후 창릉프리미어에서도 2025. 8. 15. 전후 방 예약, 현장 출근, 직원 교육, 데스크 POS 업무, 고객 응대 등 운영 준비 정황이 있고, 2025. 8. 15.~8. 21. 라운드 현황 및 2025. 8. 21. GPM·KS마이장부 매출자료가 존재함.\n\n다만 창릉프리미어에서 조규철이 실제로 어떤 계정으로 로그인하였는지, 관리자계정인지 직원계정인지, 피고 측 동석 없이 독자적으로 로그인하였는지는 현재 자료만으로는 직접 확인되지 않음.","검토 요청사항":"현재 자료상 조규철이 삼송스크린 운영 과정에서 골프존 비즈몰·GPM 등 점주용 시스템 접근정보와 사용방법을 알고 있었던 정황은 있으나, 창릉프리미어에서 조규철이 특정 관리자계정으로 직접 로그인하였다는 직접 증거는 부족함.\n\n특히 관리자 로그인 기록이 최근 30일 범위만 확인 가능하다면 당시 로그인 기록 확보가 어려울 수 있고, 설령 로그인 기록이 확인되더라도\n① 당시 조규철이 창릉프리미어에서 직접 운영한 것으로 평가할 수 있는지,\n② 당시 이지벤처스 대표 또는 피고 측 인원이 함께 있었는지,\n③ 조규철이 관리자계정이 아니라 직원계정으로 이용했다는 반박 가능성이 있는지 문제가 남을 수 있음.\n\n또한 삼송스크린에서 조규철이 가맹점주가 아니었음에도 골프존 시스템을 이용하여 운영에 관여했다는 사정을 반박자료로 사용할 경우, 원고가 이를 피고의 가맹계약상 위탁운영·대리운영 승인 위반 문제로 공격할 가능성이 있으므로, 골프존 가맹계약서상 승인대상 행위와 관련 리스크 검토 필요.\n\n따라서 이 쟁점은 “조규철이 창릉프리미어에서 관리자계정으로 직접 로그인했다”고 단정하기보다, 원고의 “가맹점주 명의이전 없이는 골프존 프로그램 사용 자체가 불가능했다”는 단정이 기존 운영정황과 맞지 않는다는 취지로 제한하여 주장할 실익이 있는지 검토 필요.","비고":"계정정보 원문, 비밀번호 등은 제출자료에서 반드시 마스킹 필요.\n\n핵심은 “조규철이 특정 계정으로 직접 로그인했다”는 직접 입증보다, 원고의 “가맹점주가 아니면 골프존 프로그램 사용 자체가 불가능했다”는 단정이 실제 운영 정황과 맞지 않는다는 점을 다투는 방향.","링크":"1번 증빙","_evidenceItems":[{"text":"계정정보 제공 정황자료","tone":"existing"},{"text":"골프존 게임수·매출자료","tone":"existing"},{"text":"조규철의 삼송스크린 운영 정황자료","tone":"existing"}]},{"구분":"가맹명의","No.":"2","반박 필요 항목":"8.19 대화상 가맹명의 이전 논의","원고 서면 조항":"1.다.2)④\n3.","원고 주장 요지":"원고는 2025. 8. 19. 대화에서 피고가 가맹점주 명의이전 논의를 하였고, 골프존 영업을 위해 가맹점주 명의 이전이 필수이므로 피고에게 이전 의무가 있다고 주장","피고 측 확인할 사실관계":"8.19 대화에서 피고가 가맹점 명의이전을 확정적으로 약속한 것인지, 아니면 계약서에 없는 사항으로서 사후 협의 가능성 또는 조건부 논의에 불과했는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"갑16호증 2025. 8. 19. 대화녹취록","추가 확보 필요 증거":"","반박 방향":"명의이전 논의가 일부 있었다고 하더라도, 조명래 대표의 발언상 가맹점 명의이전은 임대차계약 체결 당시 계약서에 포함된 내용이 아니었다는 취지로 정리 가능함.\n\n따라서 갑16호증은 원고 주장처럼 피고가 명의이전 의무를 인정한 자료라기보다, 임대차계약서에 명의이전 관련 조항이 포함되어 있지 않았다는 피고 측 인식을 보여주는 자료로 정리 가능","확인된 내용":"갑16호증 2025. 8. 19. 대화녹취록상 조명래 대표는 가맹점 명의이전과 관련하여 “가계약을 할 때 명의 양도 내용은 없다”, “최초에는 그런 얘기가 없었다”, “그렇게 해도 된다고 얘기해주기는 했지만 원 계약할 때는 그런 내용이 없다”, “그 내용이 있으면 계약서에 적시했을 것”이라는 취지로 발언함.\n\n이는 가맹점 명의이전이 임대차계약서에 명시된 내용은 아니었고, 계약 후 별도로 논의되었거나 협의 가능성이 언급된 사항이라는 피고 측 입장을 뒷받침하는 내용으로 정리 가능함.","검토 요청사항":"갑16호증상 명의이전 관련 대화가 원고 주장처럼 피고의 계약상 의무 인정으로 평가될 수 있는지, 아니면 계약서에 없는 사항에 대한 사후 협의 가능성 또는 조건부 논의로 평가될 수 있는지 법리 검토 필요.\n\n갑16호증은 원고가 명의이전 의무 인정 자료로 활용하는 핵심 증거이므로, 조명래 대표 발언의 전후 문맥을 어느 범위까지 인용하는 것이 적절한지 검토 필요.","비고":"“명의이전 논의 존재”와 “명의이전 확정 의무 존재”를 구분하여 정리할 필요.","링크":"2번 증빙","_evidenceItems":[{"text":"갑16호증 2025. 8. 19. 대화녹취록","tone":"existing"}]},{"구분":"가맹명의","No.":"3","반박 필요 항목":"가맹점 명의 이전이 계약 본질인지","원고 서면 조항":"1.다.2)④\n3.","원고 주장 요지":"원고는 피고가 특약 제5조를 “원고가 가맹점주가 아님”의 근거로 보지만, 오히려 특약 제5조는 시설비는 피고가 부담하고 영업활동에 드는 비용은 영업주인 원고가 부담한다는 의미라고 주장함.\n\n또한 골프존 가맹계약서 제32조상 가맹점운영권 양도가 가능하고, 한 점포에 2명의 가맹점주가 존재할 수 없으므로 원고가 이 사건 건물에서 골프존 매장을 운영하기 위해서는 가맹점주 명의 이전이 필수라고 주장함.\n\n특히 원고 주장의 취지는 특약 제5조의 “영업활동에 소모되는 소모품 등”을 영업활동 비용 전반으로 넓게 해석하여, 골프존 본사에 지급하는 유지보수료 등도 원고가 부담해야 하고, 이를 위해서는 원고가 가맹계약의 주체가 되어야 한다는 논리로 보임","피고 측 확인할 사실관계":"특약 제5조의 “영업활동에 소모되는 소모품 등”이 골프존 본사 유지보수료 등 가맹계약상 고정비용까지 포함하는지, 아니면 특약 제2조상 피고 소유 시설·장비 비용과 구분하여 원고가 영업 과정에서 소비하는 식음료·비품 등 소모성 비용을 부담하도록 정한 조항인지 정리","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"임대차계약서\n골프존 가맹계약서\n260416 피고 준비서면\n갑16호증 2025. 8.19. 대화녹취록\n250422 전화통화 녹취록","추가 확보 필요 증거":"","반박 방향":"특약 제5조는 특약 제2조와 함께 검토할 필요가 있음. 특약 제2조에서 해당 번지 내 시설, 인테리어, 골프존 장비 등의 소유권은 피고에게 있다고 정하고 있으므로, 특약 제5조의 “영업활동에 소모되는 소모품 등”은 피고 소유 시설·장비 관련 비용과 구분하여 원고가 영업 과정에서 실제로 소비하는 식음료·비품·기타 소모성 물품 비용을 부담한다는 취지로 해석될 여지가 있음.\n\n“영업활동에 소모되는 소모품 등”이라는 문구에서도 중심 단어는 “소모품”이고, “등”의 범위도 소모품과 유사한 성격의 소모성 물품 또는 비용으로 제한하여 볼 여지가 있음.\n\n골프존 본사 유지보수료 등은 영업 과정에서 소모되는 물품이라기보다 가맹계약에 따른 정기적·고정적 비용에 가까우므로, 이를 근거로 곧바로 원고가 가맹계약의 직접 주체가 되어야 한다는 결론으로 연결되는지는 다툴 필요가 있음. \n\n설령 골프존 본사 지급 비용을 원고가 최종 부담하는 구조라고 보더라도, 위탁운영 방식에서 피고가 가맹점주로서 먼저 지급하고 원고와 정산·공제·청구하는 방식으로도 처리 가능함.\n\n또한 제32조상 양도가 가능하다는 점과 피고가 원고에게 이를 양도하기로 약정했는지는 구분하여 검토할 필요가 있음.","확인된 내용":"피고 260416 준비서면은\n① 임대차계약서에 골프존 가맹계약 양도 또는 가맹점주 명의이전 의무가 기재되어 있지 않고,\n② 특약 제5조에서 원고 부담으로 정한 것은 “영업활동에 소모되는 소모품 등”에 관한 것으로, 이는 원고가 가맹점주라는 의미가 아니라 위탁운영 과정에서 발생하는 식음료·비품 등 소모성 비용을 원고가 부담한다는 취지이며,\n③ 골프존 가맹계약서 제32조상 가맹점운영권 양도뿐 아니라 위탁운영·대리행사·동업·전전세 등도 골프존 승인 대상 방식으로 예정되어 있으므로, 가맹점주 명의이전이 이 사건 계약서상 명시된 내용은 아니라는 취지로 주장함.\n\n이에 대해 원고 260703 준비서면은\n① 특약 제5조가 오히려 원고가 영업주로서 영업활동 비용을 부담한다는 의미라고 주장하고,\n② 골프존 가맹계약서 제32조상 가맹점운영권 양도가 가능하며,\n③ 한 점포에 2명의 가맹점주가 존재할 수 없으므로 원고가 이 사건 점포에서 골프존 매장을 운영하기 위해서는 가맹점주 명의 이전이 필수라는 취지로 반박함.\n\n그러나 특약 제5조의 문언은 “영업활동에 소모되는 소모품 등”으로 되어 있어, 유지보수료 등 골프존 본사에 지급하는 고정적·계약상 비용까지 포함되는지는 다툴 여지가 있음.\n\n특히 특약 제2조에서 해당 번지 내 모든 시설, 인테리어, 골프존 장비 등의 소유권은 피고에게 있다고 정하고 있으므로, 특약 제5조는 피고 소유 시설·장비 관련 비용과 구분하여 원고가 영업 과정에서 실제로 소비하는 식음료·비품·기타 소모품류를 부담하도록 정한 조항으로 볼 여지가 있음.\n\n또한 설령 골프존 본사에 지급하는 유지보수료 등 일부 비용을 원고가 최종 부담하는 구조라고 보더라도, 이는 위탁운영 방식에서 피고가 가맹점주로서 먼저 지급한 뒤 원고와 정산·공제·청구하는 방식도 가능하다는 점에서, 곧바로 원고가 가맹계약의 직접 주체가 되어야 한다거나 가맹점주 명의이전이 계약의 본질이라는 원고 주장에 대해서는 다툴 여지가 있음.","검토 요청사항":"특약 제5조의 해석, 골프존 가맹계약서 제32조의 의미, 가맹점주 명의이전이 계약상 본질적 내용인지 여부는 백송의 별도 법리 검토 필요.\n\n특히 원고가 특약 제5조를 근거로 “원고가 영업주였고, 따라서 가맹계약 주체가 되어야 한다”고 주장하는 논리와, 피고가 이를 “소모품 등 운영비 부담 조항”으로 보는 논리 중 어느 쪽이 계약 전체 구조와 더 부합하는지 검토 필요.","비고":"","링크":"3번 증빙","_evidenceItems":[{"text":"임대차계약서","tone":"existing"},{"text":"골프존 가맹계약서","tone":"existing"},{"text":"260416 피고 준비서면","tone":"existing"},{"text":"갑16호증 2025. 8.19. 대화녹취록","tone":"opponent"},{"text":"250422 전화통화 녹취록","tone":"existing"}]},{"구분":"인도·동시이행·해제 적법성","No.":"4","반박 필요 항목":"건물 인도 또는 이행제공 여부","원고 서면 조항":"1.다.2)①~③\n1.다.3) 소결","원고 주장 요지":"원고는 피고가 이 사건 건물을 인도하거나 이행제공을 한 사실이 없고, 원고 측의 현장 출입·비품 반입은 건물 인도 즉시 영업을 개시하기 위한 사전 준비에 불과하다고 주장함.\n\n또한 피고가 보안카드·열쇠를 제공하지 않았고, 박상준·조규철에게 보안장치 지문등록도 해준 바 없으므로 원고에게 점유가 이전된 사실이 없다고 주장함.","피고 측 확인할 사실관계":"원고 측이 언제부터 현장에 출입했는지, 어떤 방식으로 출입했는지, 피고 측 동행 없이도 현장 사용·비품 반입·직원 면접·직원 출근·운영 준비가 가능했는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"[8. 가오픈 관련 자료]\n골프존 게임수·매출자료\n250816 전화통화 녹취록\n260414_진술서(양희정)\n\n[9. 인테리어 완공 자료]\n인테리어 계약서\n골프존 설치완료 정황\n장비 사용 가능일 정황\n실제 장비 사용 정황\n\n[10. 양희정 채용 및 조규철 현장 운영 관여 자료]\n260414_진술서(양희정)","추가 확보 필요 증거":"공사완료확인서(확보 필요)\n\n인테리어 업체 진술서(확보 필요)\n\n필요 시 양희정 추가 진술서 확보\n\nCCTV 보안업체 사실조회신청","반박 방향":"원고는 열쇠·보안카드·지문등록 부재를 근거로 인도 또는 이행제공이 없었다고 주장하나, 실제 현장 출입, 비품 반입, 직원 면접·출근, 영업 준비, 장비 점검, 고객 응대 등 사용·운영 준비 정황도 함께 검토될 필요가 있음.\n\n원고가 주장하는 비품 반입 역시 단순 사전 준비였는지, 실제 현장 사용과 영업개시를 전제로 한 행위였는지 사실관계를 구분하여 정리할 필요가 있음.\n\n원고가 주장하는 열쇠·보안카드·지문등록 부재는 인도 부인의 근거 중 하나일 뿐이고, 실제 현장 사용 가능 상태 및 원고 측의 영업준비·운영 관여 정황과 함께 종합적으로 검토될 필요가 있음.\n\n다만 “인도”는 법률평가이므로, 실제 사용 가능 상태·출입·점유 정황·영업 준비 행위 중심으로 반박.","확인된 내용":"백송 2025. 8. 28.자 내용증명에서는 원고가 임차목적물을 인도받아 인테리어 공사뿐만 아니라 CCTV 및 보안장비 설치, 정수기·커피머신 등의 집기 반입까지 하였음에도 잔금을 지급하지 않았다는 취지로 기재되어 있음.\n\n백송 2025. 9. 12.자 내용증명에서도 피고는 원고가 임차목적물을 인도받아 인테리어 공사, CCTV 및 보안장비 설치, 정수기·커피머신 반입을 하였고, 조규철 대표가 2025. 8. 19.부터 2025. 8. 21.까지 업장 운영을 개시하였다는 취지로 주장함.\n\n반면 원고는 2025. 8. 29.자 이신 내용증명 및 2026. 7. 3.자 준비서면에서 피고가 공사 완료 통지나 점포 인수 통지를 한 사실이 없고, 보안카드·열쇠·지문등록이 제공되지 않았으므로 인도가 없었다고 주장함.\n\n원고 260703 준비서면 21면 및 제15호증에는 커피머신 구매 관련 내용이 기재되어 있으므로, 원고 측이 커피머신 등 영업 준비용 비품을 구매하였다는 정황으로 활용 가능함.\n\n또한 정수기의 경우 임대 방식으로 설치되었고, 이후 이신 측 내용증명을 통해 명의변경을 요청한 경위가 있으므로, 원고 측이 현장 영업 준비 과정에서 정수기 등 부대설비를 사용·관리 대상으로 인식하고 있었다는 정황으로 정리 가능함.\n\n지축골프존방(4인)_대화기록 및 지축골프존(8인·인테리어)_대화기록에서는 2025. 8. 13. 실제 스크린 이용 정황, 2025. 8. 14. 현장 출근 및 현장 대응, 2025. 8. 15. 예약, 2025. 8. 16. 손님 응대 및 무료 응대 관련 대화가 확인됨.\n\n따라서 기존 문서 및 대화방상 피고는 원고 측의 현장 출입, 공사 진행, 집기 반입, 조규철의 현장 운영 관여, 예약·손님 응대 정황을 인도 또는 사용 가능 상태의 근거로 주장해 온 것으로 정리 가능함.","검토 요청사항":"열쇠·보안카드·지문등록 부재에도 불구하고, 원고 측의 현장 출입, 비품 반입, 직원 면접·출근, 예약·손님 응대, 라운드·매출 발생 정황을 종합하여 인도 또는 이행제공으로 평가할 수 있는지 법리 검토 필요.\n\n비품 구매·반입 자료는 인도 자체를 직접 입증하는 자료라기보다, 원고 측의 현장 사용·영업 준비 정황으로 활용하는 것이 적절한지 검토 필요.","비고":"비품 구매·반입 자료는 인도 자체를 단정하는 자료라기보다, 원고 측의 현장 사용·영업 준비 정황으로 활용.\n\n향후 집기·비품 정산 문제와 연결될 수 있으므로 정산대상 여부는 별도 관리 필요. (금액이 맞는지 확인 필요하므로 견적서, 계산서 등 구체적 증빙 필요)","링크":"4번 증빙","_evidenceItems":[{"text":"[8. 가오픈 관련 자료]","tone":"existing"},{"text":"골프존 게임수·매출자료","tone":"new"},{"text":"250816 전화통화 녹취록","tone":"existing"},{"text":"260414_진술서(양희정)","tone":"existing"},{"text":"[9. 인테리어 완공 자료]","tone":"existing"},{"text":"인테리어 계약서","tone":"existing"},{"text":"골프존 설치완료 정황","tone":"new"},{"text":"장비 사용 가능일 정황","tone":"new"},{"text":"실제 장비 사용 정황","tone":"new"},{"text":"[10. 양희정 채용 및 조규철 현장 운영 관여 자료]","tone":"existing"},{"text":"260414_진술서(양희정)","tone":"existing"}]},{"구분":"인도·동시이행·해제 적법성","No.":"5","반박 필요 항목":"5.1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석","원고 서면 조항":"1.나","원고 주장 요지":"원고는 임대차계약서상 2025. 5. 1. 잔금 지급일은 시설 완공일을 알 수 없어 임의로 기재한 날짜에 불과하고, 피고가 5~6월에 잔금 지급을 독촉하지 않았으므로 잔금 지급의무가 2025. 5. 1.에 확정적으로 발생한 것이 아니며, 인도와 잔금 지급은 동시이행관계에 있다고 주장함.\n\n또한 원고는 피고가 특약 제8조의 “인테리어 기간 중 월세를 받지 않는다”는 렌탈프리 조항을 근거로 인도와 잔금 지급이 동시이행관계가 아니라고 주장하나, 위 조항은 인테리어 기간 중 임대목적물을 사용·수익할 수 없으므로 임대료를 청구하지 않는다는 의미일 뿐, 동시이행항변권 포기나 잔금 선지급 약정이 아니라고 반박함.","피고 측 확인할 사실관계":"계약서 작성 당시 2025. 5. 1.을 잔금 지급일로 정한 경위, 잔금 지급일을 인테리어 완료 시점까지 유예하기로 합의한 사실이 있는지, 특약 제8조가 인테리어 기간 중 차임만 면제한다는 취지였는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"임대차계약서","추가 확보 필요 증거":"","반박 방향":"잔금 지급일은 계약서상 2025. 5. 1.로 특정되어 있고, 계약 체결일로부터 불과 5일 뒤라는 점에서 인테리어 완료 여부와 별개로 정해진 지급일로 볼 여지가 있음.\n\n특약 제8조는 “인테리어가 모두 완료되어야 임대차가 개시된다”는 조항이라기보다, 계약 체결 이후 일정 기간 인테리어 공사가 진행될 수 있음을 전제로 그 기간의 월세만 면제한 조항으로 볼 여지가 있음.\n\n따라서 특약 제8조가 곧바로 잔금 지급을 인테리어 완료 또는 인도 시점까지 유예한다는 의미인지 여부는 다툴 필요가 있음. 또한 5~6월 독촉이 없었다는 사정만으로 잔금 지급일 변경 합의나 동시이행 합의가 있었다고 볼 수 있는지도 검토가 필요함.\n\n설령 재판부가 2025. 5. 1.이 아니라 2025. 8월 사용 가능 시점을 기준으로 보더라도, 2025. 8. 15.경 또는 늦어도 2025. 8. 21.경에는 원고의 잔금 지급의무 발생 및 지체를 주장할 수 있도록 정리.","확인된 내용":"임대차계약서에는 보증금 3억 원 중 계약금 3,000만 원은 계약 시 지급하고, 잔금 2억 7,000만 원은 2025. 5. 1.에 지급한다고 기재되어 있음.\n\n같은 계약서 제2조에는 임대인이 위 부동산을 임대차 목적대로 사용할 수 있는 상태로 2025. 5. 1.까지 임차인에게 인도하고, 임대차기간은 인도일로부터 2030. 4. 30.까지로 한다고 기재되어 있음.\n\n특약 제8조에는 “임대인은 인테리어 기간 중에는 월세를 받지 않는다”고 기재되어 있음.\n\n피고 2026. 4. 16.자 준비서면에서는 잔금 지급일이 계약 체결일로부터 5일 뒤로 정해져 있고, 5일 만에 인테리어가 물리적으로 완료되기 어려운 점 및 특약 제8조의 렌탈프리 조항을 근거로, 잔금 지급일은 인테리어 완료와 별개로 특정된 것이라는 취지로 주장함.\n\n원고 2026. 7. 3.자 준비서면은 특약 제8조가 인테리어 기간 중 임대료를 청구하지 않는다는 의미일 뿐, 동시이행항변권 포기나 잔금 선지급 약정은 아니라고 반박함.\n\n따라서 계약서상 잔금 지급일, 제2조 인도 문구, 특약 제8조 렌탈프리 문구 자체는 기존 계약서로 확인 가능함.","검토 요청사항":"특약 제8조의 의미와 잔금 지급일·인도 의무의 관계는 백송 법리 검토 필요.\n\n특히 특약 제8조를 “동시이행항변권 포기 조항”으로 단정하기보다, 계약 체결 이후 일정 기간 인테리어 공사가 진행될 수 있음을 전제로 그 기간의 월세만 면제한 조항으로 볼 수 있는지 검토 필요.\n\n재판부가 2025. 5. 1.보다 2025. 8월 사용 가능 시점을 기준으로 볼 가능성에 대비하여, 5.1 잔금 지급일 주장과 8월 사용 가능 시점 이후 지체 주장을 병행할지 검토 필요.","비고":"재판부가 2025. 8월 기준에 관심을 보였으므로, 5.1 주장과 8월 기준 주장을 병행하는 방향이 안전.","링크":"5번 참고","_evidenceItems":[{"text":"임대차계약서","tone":"existing"}]},{"구분":"인도·동시이행·해제 적법성","No.":"6","반박 필요 항목":"8.19 6천만 원 송금 및 잔금 이행제공 여부","원고 서면 조항":"1.다.2)⑦\n1.라","원고 주장 요지":"원고는 2025. 8. 19. 임대차보증금 잔금 중 일부로 6천만 원을 송금했고, 2025. 8. 29. 내용증명에 잔고증명서를 첨부하여 잔금 지급 준비가 되어 있음을 표시했음에도, 피고가 화를 내며 6천만 원을 반환하겠다고 했으므로 피고에게 잔금을 받을 의사가 없었다고 주장함.","피고 측 확인할 사실관계":"8.19 송금 당시 원고가 이를 무엇이라고 표현했는지, 계약상 중도금 약정이 있었는지, 잔금 전액에 대한 무조건적 지급 제안이 있었는지, 지급에 가맹명의 이전 등 조건이 붙어 있었는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"","추가 확보 필요 증거":"","반박 방향":"계약상 중도금 약정이 없었고, 6천만 원은 잔금 전액이 아니라 일부금 송금이었다는 점을 정리.\n\n피고가 잔금 수령 자체를 거절한 것이 아니라, 가맹명의 이전을 전제로 한 지급 태도 또는 계약상 예정되지 않은 일부금 송금 문제를 지적한 것으로 정리.\n\n자금 보유 또는 일부 송금만으로 잔금 전액에 대한 무조건적 이행제공이 있었다고 볼 수 있는지, 원고의 지급 의사에 가맹점 명의이전 등 조건이 붙어 있었는지를 구분하여 검토하는 방향.","확인된 내용":"2025. 8. 19. 원고 측 문자에는 “계약서상 잔금 지급일은 5월 1일로 정해져 있으나, 임차 목적물의 완공이 지연되어 현재까지는 정상적인 영업 개시가 불가능한 상황”이라는 취지와 함께, “비즈니스 신뢰 차원에서 우선 중도금으로 60,000,000원을 지급한다”, “잔금은 공사가 완료되고 정상적인 영업이 가능해지는 시점에 지급하도록 하겠다”는 취지의 내용이 기재되어 있음.\n\n이신 2025. 8. 29.자 내용증명에서는 원고가 2025. 8. 19. 임대차보증금 잔금 중 6,000만 원을 송금하였고, 문자메시지에 중도금이라고 표시하였으나 계약서상 중도금 약정이 없으므로 잔금 일부 이행이라는 취지로 주장함.\n\n같은 내용증명에서 원고는 피고가 점포를 골프존 영업이 가능한 상태로 인도할 경우 나머지 잔금을 지급하고 점포를 인도받아 영업을 개시하고자 한다는 취지로 기재함.\n\n백송 2025. 8. 28.자 내용증명에서는 원고가 2025. 8. 19. 6,000만 원을 일방적으로 송금하였고, 피고가 즉시 반환 의사를 밝혔으나 원고가 계좌를 회신하지 않았다는 취지로 기재되어 있음.\n\n이후 피고는 6,000만 원에 관하여 변제공탁을 진행한 자료가 있음.\n\n따라서 6,000만 원 송금 사실, 원고가 이를 문자에서 “중도금”이라고 표현한 사실, 원고가 이후 내용증명에서 이를 잔금 일부라고 주장한 사실, 피고가 반환 의사를 표시하고 공탁을 진행한 사실은 기존 자료로 정리 가능함.","검토 요청사항":"6,000만 원 송금이 잔금 전액에 대한 무조건적 이행제공으로 평가될 수 있는지, 또는 잔금 일부 송금 및 조건부 지급 의사에 가까운지 법리 검토 필요.\n\n원고가 나머지 잔금 지급에 가맹명의 이전 또는 영업 가능 상태 인도 조건을 붙였는지, 그 조건이 동시이행항변으로 인정될 수 있는지 검토 필요.","비고":"핵심은 “돈을 일부 보냈다”가 아니라 “잔금 전액을 조건 없이 이행제공했는지”임.","링크":"-"},{"구분":"인도·동시이행·해제 적법성","No.":"7","반박 필요 항목":"8.28 최고 및 해제 적법성","원고 서면 조항":"1.라","원고 주장 요지":"원고는 2025. 8. 28. 내용증명이 잔금 및 이자 지급만을 최고한 것이 아니라 골프존 운영 위탁용역계약서 체결까지 조건으로 부과한 것이므로, 계약상 이행의 최고로 볼 수 없고 그에 기초한 해제도 부적법하다고 주장함.\n\n원고는 피고의 해제가 적법하려면\n① 원고의 책임 있는 이행지체\n② 상당한 기간을 정한 이행 최고\n③ 최고기간 내 미이행\n④ 해제 의사표시 도달이 모두 필요하다고 주장함.\n\n또한 피고의 8.28 내용증명은 잔금 지급뿐 아니라 위탁운영계약 체결까지 요구한 것이므로, 본래 이행하여야 할 채무를 초과하는 과다한 최고에 해당하여 적법한 최고가 아니라고 주장함.","피고 측 확인할 사실관계":"8.28 내용증명에서 잔금 지급 최고와 위탁운영계약 체결 요구가 어떻게 구성되어 있는지, 위탁운영계약 요구가 잔금 지급 최고의 조건인지 또는 분쟁 해결을 위한 별도 협의 요구인지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"","추가 확보 필요 증거":"","반박 방향":"8.28 내용증명 중 잔금 지급 최고 부분과 운영구조 정리 요구 부분을 구분하여 검토해야 함.\n\n피고 입장에서는 8.28 내용증명이 기본적으로 잔금 지급 및 계약 이행을 요구한 것이고, 운영위탁계약은 골프존 가맹계약자 문제와 실제 운영구조를 정리하기 위한 협의 요구였다는 방향으로 정리.\n\n원고의 잔금 지급 의사에 가맹명의 이전 등 조건이 결부되어 있었다는 점이 확인된다면, 피고의 최고 및 해제가 잔금 미지급과 이행지체에 따른 조치였다는 방향으로 설명 가능함.\n\n즉, 8.28 내용증명은 잔금 지급 및 계약 이행을 요구한 것이 핵심이고, 위탁운영계약 관련 언급은 골프존 가맹계약자 문제와 실제 운영구조를 정리하기 위한 협의 요구로 구분하여 볼 여지가 있음. 다만 8.28 내용증명에 위탁운영계약 관련 언급이 포함되어 있는 것은 사실이므로, 이 부분이 적법한 최고 판단에 미치는 영향은 백송에서 별도 법리 검토가 필요함.","확인된 내용":"백송 2025. 8. 28.자 내용증명에서는 원고에게 2025. 9. 5.까지 ① 잔금 2억 1,000만 원 및 잔금 지연에 따른 이자 지급, ② 임대차목적물 현황 확인 후 재인수, ③ 임대차계약서에 정하지 않은 내용을 정하는 골프존 운영위탁 용역계약서 체결을 요구한 것으로 기재되어 있음.\n\n같은 내용증명에서는 원고가 2025. 9. 5.까지 위 각 조건을 모두 이행하지 않을 경우, 해당 내용증명의 송달로써 임대차계약 해제의 의사표시에 갈음한다는 취지로 기재되어 있음.\n\n백송 2025. 9. 8.자 내용증명에서는 2025. 8. 28.자 내용증명을 통해 2025. 9. 5.까지 잔금 지급 및 계약 이행을 최고하였으나 원고가 기한 내 이행이나 회신을 하지 않았고, 이에 따라 임대차계약이 2025. 9. 6.자로 해제되었다는 취지로 통보함.\n\n백송 2025. 9. 17.자 내용증명에서는 피고가 2025. 8. 22. 문자메시지, 2025. 8. 28. 내용증명, 2025. 9. 8. 및 2025. 9. 12. 내용증명을 통해 계약 해제 또는 해제 확정을 통지하였다는 취지로 기재되어 있음.\n\n다만 2025. 8. 28.자 내용증명에 잔금 지급 요구 외에 운영위탁계약 체결 요구가 포함되어 있는 것은 사실임.","검토 요청사항":"2025. 8. 28. 내용증명에 잔금 지급 요구 외에 운영위탁계약 체결 요구가 포함된 점이 적법한 최고 및 해제 판단에 미치는 영향은 백송 법리 검토 필요.\n\n원고가 이를 “본래 채무를 초과하는 과다한 최고”라고 주장하고 있으므로, 잔금 지급 최고 부분과 운영구조 정리 요구 부분을 구분하여 볼 수 있는지 검토 필요.\n\nNo.11의 위탁운영계약서 초안 및 후속 협의 경위와 연결하여 설명할 필요가 있는지도 검토 필요.","비고":"위탁운영계약 요구 부분은 원고가 과다한 최고 주장에 활용하고 있으므로, 최고 효력에 미치는 영향은 별도 법리 검토 필요.","링크":"-"},{"구분":"가오픈·현장 운영 정황","No.":"8","반박 필요 항목":"2025. 8. 15.경 가오픈 및 실제 운영 정황","원고 서면 조항":"1.다.2)⑤","원고 주장 요지":"원고는 2025. 8. 15. 당시 인테리어가 마무리되지 않았고, 피고 측 지인들이 가끔 무료로 게임한 정도일 뿐 원고가 가오픈한 사실은 없다고 주장함.\n\n또한 8.16 박상준 발언은 건강 문제로 자신이 직접 운영에서 빠지고 조규철에게 매장운영을 일임하겠다는 뜻이었을 뿐, 원고 회사가 계약을 포기하거나 운영 의사를 철회한 것이 아니라고 주장함.","피고 측 확인할 사실관계":"8.15 전후 실제 고객 방문·게임 진행·직원 근무·운영 준비가 있었는지, 이용자가 피고 지인에 한정되었는지, 무료게임과 유료매출이 어떻게 구분되는지, 박상준 8.16 발언의 전체 맥락 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"골프존 게임수·매출자료\n8.16 통화녹취록\n260414_진술서(양희정)","추가 확보 필요 증거":"필요 시 양희정 추가 진술서 확보","반박 방향":"정식 오픈이 아니더라도 가오픈 또는 영업 가능한 상태였고, 실제 게임 진행·고객 응대·운영 준비 정황이 있었다는 점을 정리.\n\n설령 일부 이용자가 피고 측 지인이거나 무료 이용이었다고 하더라도, 실제 라운드 진행·직원 근무·고객응대·매출 발생 정황은 영업 가능 상태를 뒷받침하는 자료로 활용 가능함.\n\n박상준 발언은 계약 포기라고 단정하기보다, 원고 측 운영 주체와 이행 의사가 불안정했고 조규철이 현장 운영에 관여하게 된 정황 정도로 활용하는 것이 안전함.","확인된 내용":"지축골프존방(4인)_대화기록에 따르면, 2025. 8. 11. 김은주는 조규철에게 “15일 13,14방 오후 1시에 3명씩 2게임 예약”을 요청하였고, 조규철은 이를 알겠다고 답함.\n\n2025. 8. 12.에도 김은주는 8.15 예약 시간과 인원을 조규철에게 전달하였고, 조규철은 예약 내용을 정리하여 답변함.\n\n2025. 8. 13. 조명래는 “오늘 스크린치고 차키를 그 방에 두고 온 것 같다”고 말하여, 2025. 8. 15. 이전에도 창릉프리미어에서 스크린 이용이 가능했던 정황이 있음.\n\n2025. 8. 14. 김은주는 “현장에 누가 있어야 할 것 같다”고 하였고, 조규철은 현장에 가고 있다고 답함. 같은 날 김은주는 2025. 8. 15. 예약을 조규철에게 요청하였고, 조규철은 이를 수락함.\n\n2025. 8. 16. 김은주는 방 예약, 손님 방문, 무료 응대 관련 내용을 공유하였고, 조명래가 다음 날 현장에 사람이 있는지 묻자 조규철은 “제가 오전 일찍은 아니지만 나가 있겠습니다”라고 답함.\n\n기존 확보자료로는 2025. 8. 15.~8. 21. 라운드 현황, 2025. 8. 21. GPM 매출자료 및 KS마이장부 카드매출자료, 양희정 진술서가 있음.\n\n또한 대표님 제공 자료에 따르면 양희정이 2025. 8. 16. 밴드에 무료시타 공지를 올리고 2025. 8. 18. 무료시타를 진행한 정황이 있는 것으로 보임.\n\n따라서 2025. 8. 15.경부터 창릉프리미어에서 예약, 손님 응대, 무료시타, 라운드 진행, 현장 운영 준비가 이루어진 정황은 대화방 및 기존 자료로 정리 가능함.","검토 요청사항":"무료시타 및 2025. 8. 18. 단체행사 정황은 원고의 “피고 측 지인들이 가끔 무료로 게임한 정도”라는 주장을 반박하는 자료로 활용 가능성이 있음.\n\n다만 현재 밴드 공지 캡처만으로는 양희정이 누구의 지시를 받아 무료시타 공지를 올렸는지 직접 확인되지는 않음. 원고 측은 실제 지시 주체가 원고 측 조규철·박상준이 아니라 피고 측이었다고 반박할 가능성이 있으므로, 양희정 추가 진술서 제출의 실익과 쟁점 확대 가능성 검토 필요.\n\n무료시타·단체행사 자료를 “정식 영업” 단정 자료로 쓸지, 아니면 예약·방 배정·고객응대·라운드 진행 등 영업 가능 상태와 운영 준비 정황을 보강하는 자료로 제한하여 쓸지 검토 필요.","비고":"무료 시타 또는 지인 이용이 일부 포함되더라도, 방 예약·손님 응대·라운드 진행·직원 출근 정황은 영업 가능 상태를 뒷받침하는 자료로 활용 가능.\n\n고객명, 예약자명, 연락처 등 개인정보가 포함된 자료는 마스킹 필요.","링크":"8번 증빙","_evidenceItems":[{"text":"골프존 게임수·매출자료","tone":"new"},{"text":"8.16 통화녹취록","tone":"existing"},{"text":"260414_진술서(양희정)","tone":"existing"}]},{"구분":"가오픈·현장 운영 정황","No.":"9","반박 필요 항목":"8.15 당시 인테리어 완공 및 사용 가능 상태","원고 서면 조항":"1.다.2)③\n1.다.2)⑤","원고 주장 요지":"원고는 이 사건 점포가 2025. 8월 초순경 골프존 시설설치는 완료되었으나, 인테리어 공사는 2025. 8. 중순까지 계속 중이었고 피고가 공사 완료를 통지한 사실도 없으므로 임대차 목적대로 사용할 수 있는 상태가 아니었다고 주장함.","피고 측 확인할 사실관계":"2025. 8. 15. 기준 핵심 영업시설이 사용 가능한 상태였는지, 남은 공사가 영업을 방해하는 본공사였는지 또는 잔손보기 수준이었는지, 골프존 장비와 룸 사용이 가능했는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"인테리어 계약서\n골프존 게임수·매출자료\n골프존 설치완료 정황\n장비 사용 가능일 정황\n실제 장비 사용 정황","추가 확보 필요 증거":"공사완료확인서(확보 필요)\n\n골프존 본사 잔금 20% 이체내역","반박 방향":"“완전한 준공” 여부가 아니라 임대차 목적대로 사용 가능한 상태였는지가 핵심임.\n\n인테리어 계약서상 준공일, 골프존 시설설치 완료, 실제 라운드 진행·매출 발생 정황을 결합하여, 2025. 8. 15.경 핵심 영업시설 사용이 가능했거나 적어도 가오픈 가능한 상태였다는 방향으로 정리.","확인된 내용":"인테리어공사 계약서상 준공일은 2025. 8. 11.로 기재되어 있음.\n\n원고도 2025. 8. 29.자 이신 내용증명 및 2026. 7. 3.자 준비서면에서, 2025. 8월 초순경 골프존 시설물 설치가 완료되었다는 점 자체는 인정하는 취지로 기재함.\n\n지축골프존(8인·인테리어)_대화기록에서 2025. 8. 6. “룸14개”, “룸 14대”라는 대화가 확인됨.\n\n지축골프존방(4인)_대화기록에서 2025. 8. 7. 김은주는 “골프존은 다 설치하고 갔다”, “양타방만 안 되어 있고 나머지는 다 됐다”, “한번 쳐볼게”라고 말함.\n\n지축골프존(8인·인테리어)_대화기록에서 2025. 8. 11. 인테리어업체 박한수 대표는 “소방 필증 나왔습니다”라고 하였고, 이어 “전기안전 필증도 나왔습니다”라고 하였음.\n\n같은 날 인테리어업체 측은 “인허가 잘 끝나서 너무 기쁘다”는 취지로 언급하였고, 조명래·김은주·박상준·조규철도 소방필증 및 전기안전필증 발급을 확인하는 취지의 대화를 나눔.\n\n다만 같은 날 이후 자동문, 유리, 카운터, 조명, 탕비실, 가구, 셀프바 등 잔여 마무리 일정이 언급되므로 일부 잔여 마무리 공사가 남아 있었던 정황도 확인됨.\n\n지축골프존방(4인)_대화기록에서는 2025. 8. 13. 조명래가 “오늘 스크린치고 차키를 그 방에 두고 온 것 같다”고 말한 내용이 확인되고, 2025. 8. 15. 예약 및 2025. 8. 16. 손님 응대 관련 대화도 확인됨.\n\n기존 자료상 2025. 8. 15.~8. 21. 라운드 현황, 2025. 8. 21. GPM 매출자료 및 KS마이장부 카드매출자료도 확보되어 있음.\n\n따라서 2025. 8. 15.경 창릉프리미어의 핵심 영업시설 사용 가능 여부는 인테리어 계약서상 준공일, 2025. 8. 7.경 골프존 장비 설치 상당 부분 완료 정황, 2025. 8. 11. 소방필증·전기안전필증 발급 대화, 2025. 8. 13. 실제 스크린 이용 정황, 2025. 8. 15. 이후 예약·라운드·매출자료를 종합하여 정리 가능함.","검토 요청사항":"2025. 8. 7.경 골프존 장비 설치 상당 부분 완료 정황, 2025. 8. 11. 소방필증·전기안전필증 발급, 2025. 8. 13. 실제 스크린 이용 정황, 2025. 8. 15. 이후 예약·라운드·매출자료를 근거로, 2025. 8. 15.경 핵심 영업시설 사용 가능 상태 또는 가오픈 가능한 상태였다고 주장할 수 있는지 검토 필요.\n\n다만 일부 잔여 마무리 공사가 남아 있었던 점도 대화방에서 확인되므로, 남은 공사가 단순 잔손보기 수준인지, 임대차 목적대로 사용 가능한 상태였는지에 대한 최종 평가는 백송 검토 필요.","비고":"소방필증·전기안전필증 발급, 실제 스크린 이용, 예약·라운드·매출자료를 No.8과 연결하여 사용 가능 상태를 보강.","링크":"9번 증빙","_evidenceItems":[{"text":"인테리어 계약서","tone":"existing"},{"text":"골프존 게임수·매출자료","tone":"new"},{"text":"골프존 설치완료 정황","tone":"new"},{"text":"장비 사용 가능일 정황","tone":"new"},{"text":"실제 장비 사용 정황","tone":"new"}]},{"구분":"가오픈·현장 운영 정황","No.":"10","반박 필요 항목":"양희정 채용 및 조규철의 현장 운영 관여","원고 서면 조항":"1.다.2)⑥","원고 주장 요지":"원고는 조규철이 건물 인도 즉시 영업을 개시하기 위해 미리 채용절차만 진행했을 뿐이고, 양희정은 원고가 아니라 피고가 채용·고용하여 피고를 위해 일했다고 주장함. 양희정이 조규철과 면접을 본 사실은 인정하면서도, 법적 고용주와 실제 근무 주체는 피고였다고 주장함.","피고 측 확인할 사실관계":"양희정의 최종 고용관계 명의와 별개로, 최초 면접자, 출근 경위, 업무지시자, 현장 상주자, 실제 수행 업무, 조규철의 현장 운영 관여 정도 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"260414_진술서(양희정)","추가 확보 필요 증거":"필요 시 양희정 추가 진술서 확보","반박 방향":"법적 고용주가 누구인지에 깊게 들어가기보다, 조규철이 직접 면접을 보고 직원을 출근시켰으며, 현장에서 직원 교육, 데스크 POS 업무, 룸 기계 에러 체크, 인테리어 미흡 부분 점검, 청소, 고객응대 등 매장 운영 관련 업무에 관여했다는 점을 중심으로 정리. \n\n양희정의 최종 근로계약 주체보다 조규철이 현장 운영에 실질적으로 관여한 정황이 핵심","확인된 내용":"양희정 진술서에는\n① 양희정이 조규철 대표와 면접을 통해 2025. 8. 15. 출근하였고,\n② 1층 커피숍에서 조규철 대표와 면접하였으며,\n③ 조규철 대표가 2025. 8. 15.부터 일주일 정도 현장에 출근·상주하였고,\n④ 조규철 대표가 직원 교육, 데스크 POS 업무, 룸 기계 에러 체크, 인테리어 미흡 부분 점검, 청소, 손님 응대 등 매장 운영 관련 업무에 관여하였으며,\n⑤ 양희정은 조규철 대표가 매장을 운영하는 것으로 알고 근무하였다는 취지의 내용이 기재되어 있음.\n\n원고 2026. 7. 3.자 준비서면에서도 조규철이 양희정과 면접을 본 사실 자체는 인정하는 취지로 기재되어 있음.\n\n지축골프존방(4인)_대화기록에서도 2025. 8. 14. 김은주가 현장에 누가 있어야 할 것 같다고 하자 조규철이 현장에 가고 있다고 답한 내용, 2025. 8. 15. 예약을 조규철이 처리하는 내용, 2025. 8. 16. 다음 날 현장 출근 여부와 관련하여 조규철이 “제가 오전 일찍은 아니지만 나가 있겠습니다”라고 답한 내용이 확인됨.\n\n대표님 제공 자료에 따르면 양희정이 2025. 8. 16. 밴드에 무료시타 공지를 올리고 2025. 8. 18. 무료시타를 진행한 정황이 있는 것으로 보임. 다만 조규철 또는 박상준이 해당 공지를 직접 지시하였는지는 현재 밴드 공지 캡처만으로는 직접 확인되지 않음.\n\n따라서 법적 고용주가 누구인지와 별개로, 조규철이 양희정 면접 및 현장 운영 관련 업무에 관여한 정황은 기존 진술서, 원고 준비서면, 단톡 내용으로 정리 가능함.","검토 요청사항":"양희정 추가 진술서는 No.1 골프존 프로그램 사용 가능 여부, No.8 가오픈·무료시타 정황, No.10 조규철 현장 운영 관여를 동시에 보강할 수 있는 자료가 될 수 있음.\n\n다만 원고도 조규철을 증인으로 신청한 상태이므로, 양희정 진술과 조규철 증언이 충돌할 경우 진술인 간 사실관계 다툼으로 쟁점이 확대될 가능성이 있음. 또한 추가 진술서 문구가 지나치게 핵심 쟁점에 맞춰져 있으면, 원고가 “분쟁 이후 요구에 따라 작성된 유도성 진술”이라고 공격할 수 있음.\n\n따라서 추가 진술서를 받을 경우에는 “관리자계정으로 로그인했다” 또는 “매출정보를 확인했다”는 결론형 문구를 유도하기보다, 양희정이 직접 본 화면, 조규철이 데스크에서 한 업무, 손님 방 배정·라운드 진행·결제 또는 매출 확인과 관련하여 설명하거나 지시한 구체적 행동을 사실 중심으로 기재하도록 하는 것이 안전함.\n\n양희정 추가 진술서 제출이 원고의 프로그램 사용 불가능 주장 및 가오픈 부인 주장을 반박하는 데 실익이 있는지, 그 실익이 위 리스크를 감수할 정도인지 백송 검토 필요.","비고":"노동관계 쟁점으로 확대하지 말고, 조규철의 면접·출근·현장 운영 관여 정황 중심으로 정리.\n\n추가 진술서는 유도형 문구보다 양희정이 직접 본 사실, 들은 지시, 수행한 업무를 구체적으로 기재하는 방식이 안전함.","링크":"10번 증빙","_evidenceItems":[{"text":"260414_진술서(양희정)","tone":"existing"}]},{"구분":"위탁운영계약·계약 성격","No.":"11","반박 필요 항목":"위탁운영계약 강요 주장 및 4.22 통화의 의미","원고 서면 조항":"1.가\n1.라\n4.가","원고 주장 요지":"원고는 2025. 4.22 통화는 계약 전 일반적인 대화에 불과하고, 위탁운영계약 조건에 관한 의사합치나 위탁운영계약 체결 사실은 없었다고 주장함.\n\n또한 피고가 시설공사 완료 무렵 변심하여 임대차계약을 해제하고 원고에게 위탁운영계약 체결을 강요했다고 주장함.","피고 측 확인할 사실관계":"4.22 통화에서 가맹계약 주체, 시설비 부담, 운영구조, 위탁운영 또는 운영참여 방식이 어떻게 논의되었는지, 이후 위탁운영계약서 제안이 어떤 경위로 이루어졌는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"4.22 전화통화 녹취록","추가 확보 필요 증거":"","반박 방향":"피고 입장에서는 임대차계약 자체를 부인하는 것이 아니라, 임대차계약 체결 전부터 피고 명의 가맹계약과 원고 측 운영참여 구조가 전제로 논의되었다는 점을 설명하는 방향.\n\n4.22 통화는 원고도 가맹계약 주체가 피고라는 전제와 운영참여 구조를 인식하고 있었다는 정황으로 활용 가능함.\n\n위탁운영계약서 제안은 피고의 변심이나 강요가 아니라, 골프존 승인·가맹계약자 문제와 실제 운영구조를 명확히 하기 위한 협의 또는 문서화 시도였다는 취지로 정리.","확인된 내용":"2025. 4. 22. 조명래-박상준 통화녹취록에는 박상준이 기존에 연습장을 운영했던 방식과 관련하여 “권리라든지 이런 건 전혀 없다”, “월세를 충분히 많이 드리고 이렇게 운영을 보통 인도 연습장들이 그렇게 하거든요”, “그게 보통 그렇게 위탁 운영이라고 될 수도 있고”라는 취지로 말한 내용이 확인됨.\n\n같은 통화에서 조명래는 비용은 피고가 부담하되 운영하는 사람도 남아야 한다는 취지로 말하고, 박상준은 골프존과의 계약은 조명래 측이 해야 한다는 취지의 대화에 응한 내용이 확인됨.\n\n지축골프존방(4인)_대화기록 2025. 7. 21. 대화에서는 조명래가 창릉프리미어 오픈을 앞두고 역할분담을 정리하면서, 시스템·인테리어·가구 비용은 이지벤처스가 부담하고 전자기기 등 나머지는 늘푸른골프가 준비하는 것으로 이야기되었다고 정리함. 또한 인테리어는 늘푸른골프가 주관하고, 운영 관련 내용은 늘푸른골프가 진행하는 취지의 대화가 있음.\n\n2025. 8. 18. 조명래는 박상준·조규철에게 “오늘 계약서 초안이 나오면 전달하겠다. 마음에 걸리는 부분이 있으면 계약서 도장 찍기 전에 Drop 해도 된다”는 취지로 메시지를 보냄.\n\n피고 2026. 4. 16.자 준비서면은 4.22 통화 내용을 근거로, 원고 측이 임대차계약 체결 전부터 피고 명의 가맹계약 및 원고 측 운영참여 구조를 인식하고 있었다는 취지로 주장함.\n\n반면 원고 2026. 7. 3.자 준비서면은 2025. 4. 22. 통화가 계약 전 일반적인 대화에 불과하고, 위탁운영계약 조건에 관한 의사합치나 위탁운영계약 체결 사실은 없었다고 주장함.","검토 요청사항":"2025. 8. 18. 계약서 초안이 임대차계약 자체가 아니라, 임대차계약에서 정하지 않은 골프존 운영·용역 구조를 문서화하기 위한 후속 계약서 초안으로 볼 수 있는지 검토 필요.\n\n위탁운영계약서 초안 제안이 원고 주장처럼 피고의 변심 또는 위탁운영계약 강요로 평가될 수 있는지, 아니면 기존에 협의된 운영 구조를 문서화하기 위한 후속 협의로 평가될 수 있는지 검토 필요.\n\n삼송스크린에서 조규철이 운영에 관여한 정황은 No.1의 보조정황이 될 수 있으나, 이를 강하게 주장할 경우 원고가 피고의 가맹계약상 위탁운영·대리운영 승인 위반 문제 또는 위탁운영계약 강요 주장과 연결하여 공격할 가능성이 있으므로, 해당 정황을 어느 범위까지 활용할지 검토 필요.\n\nNo.7 최고 적법성 쟁점과 연결되므로, 8.28 내용증명상 위탁운영계약 요구 부분을 어떻게 설명할지 함께 검토 필요.","비고":"“강요가 아니었다”는 단정 표현보다, 기존 협의된 운영 구조를 문서화하려는 후속 협의였다는 방향으로 정리.\n\nNo.7 최고 적법성 쟁점과 연결됨.","링크":"11번 증빙","_evidenceItems":[{"text":"4.22 전화통화 녹취록","tone":"existing"}]},{"구분":"손해배상·손해액","No.":"12","반박 필요 항목":"피고 운영에 따른 손해배상 책임 및 손해액 산정 방식","원고 서면 조항":"4.가\n4.나","원고 주장 요지":"원고는 피고가 이행을 거절한 후 현재까지 직접 골프존 매장을 운영하고 있으므로 원고에게 영업손실 상당의 손해배상책임을 부담한다고 주장함.\n\n또한 원고의 손해액은 2025.9.1.부터 변론종결일까지 피고의 골프존 영업매출액에서 피고의 영업비용을 공제한 금액이라고 주장함.","피고 측 확인할 사실관계":"원고가 실제로 영업을 개시할 준비를 완료했는지, 잔금 지급·가맹승인·인허가·운영인력·자금 준비가 갖추어졌는지, 피고 매출과 원고 예상이익을 동일하게 볼 수 있는지 확인","확보된 증거/자료\n(기존자료 / 신규 / 원고자료)":"","추가 확보 필요 증거":"","반박 방향":"피고가 현재 매장을 운영하고 있다는 사실만으로 원고의 손해 발생, 인과관계, 손해액이 당연히 인정되는 것은 아니라는 점을 정리할 필요가 있음.\n\n원고의 잔금 미지급, 가맹명의 이전 조건 주장, 실제 영업 준비상태, 운영능력, 인허가 상태 등을 종합하면 책임·인과관계·손해액 산정은 모두 별도 검토 대상임.\n\n또한 피고의 실제 매출과 원고가 운영했을 경우의 예상 영업이익은 동일하지 않으므로, 피고 매출에서 비용을 공제한 금액을 원고 손해액으로 볼 수 있는지는 백송에서 별도 검토할 필요가 있음.","확인된 내용":"원고 2026. 7. 3.자 준비서면에서는 피고가 이행을 거절한 후 현재까지 직접 골프존 매장을 운영하고 있으므로 원고에게 영업손실 상당의 손해배상책임을 부담한다고 주장함.\n\n또한 원고는 손해액을 2025. 9. 1.부터 변론종결일까지 피고의 골프존 영업매출액에서 피고의 영업비용을 공제한 금액으로 산정하겠다는 취지로 주장함.\n\n원고는 위 손해액 입증을 위해 문서제출명령신청 및 골프존에 대한 사실조회촉탁신청을 한 상태임.\n\n현재까지 정리된 자료상 원고의 잔금 지급 여부, 가맹명의 이전 조건 주장, 2025. 8. 15.경 사용 가능 상태 및 가오픈 정황, 원고 측 조규철의 운영 관여 정황 등이 손해배상 책임 및 손해액 산정과 연결될 수 있음.","검토 요청사항":"피고의 실제 매출에서 비용을 공제한 금액이 곧바로 원고의 손해액으로 평가될 수 있는지, 원고의 영업개시 가능성, 잔금 지급 여부, 가맹명의 이전 조건 주장, 인과관계 및 손해액 산정 방식은 백송에서 별도 법리 검토 필요.\n\n문서제출명령 또는 사실조회가 채택될 경우, 제출 범위 제한, 영업비밀 보호, 개인정보 마스킹, 매출자료와 비용자료의 범위 설정이 필요한지 검토 필요.","비고":"현 단계에서는 책임·인과관계 중심으로 간단히 대응하고, 손해배상 청구취지 확장 또는 문서제출명령 채택 시 손해액 산정은 별도 대응.","링크":"-"}],"evidenceMaster":[{"근거":"1.250426_임대차계약서","반박 필요 항목":"No.3 가맹점 명의 이전이 계약 본질인지\nNo.4 건물 인도 또는 이행제공 여부\nNo.5 5.1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석\nNo.11 위탁운영계약 강요 주장 및 4.22 통화의 의미","원고 서면 조항":"No.3: 1.다.2)④, 3.\nNo.4: 1.다.2)①~③, 1.다.3) 소결\nNo.5: 1.나\nNo.11: 1.가, 1.라, 4.가","files":[{"id":1,"base":"1.250426_임대차계약서","display":"1.250426_임대차계약서","fileName":"1.250426_임대차계약서.jpg","href":"/data/1.250426_%EC%9E%84%EB%8C%80%EC%B0%A8%EA%B3%84%EC%95%BD%EC%84%9C.jpg","ext":"jpg"}]},{"근거":"2.250725_골프존가맹계약서","반박 필요 항목":"No.3 가맹점 명의 이전이 계약 본질인지","원고 서면 조항":"No.3: 1.다.2)④, 3.","files":[{"id":2,"base":"2.250725_골프존가맹계약서","display":"2.250725_골프존가맹계약서","fileName":"2.250725_골프존가맹계약서.pdf","href":"/data/2.250725_%EA%B3%A8%ED%94%84%EC%A1%B4%EA%B0%80%EB%A7%B9%EA%B3%84%EC%95%BD%EC%84%9C.pdf","ext":"pdf"}]},{"근거":"3.250422_전화통화녹취록","반박 필요 항목":"No.3 가맹점 명의 이전이 계약 본질인지\nNo.11 위탁운영계약 강요 주장 및 4.22 통화의 의미","원고 서면 조항":"No.3: 1.다.2)④, 3.\nNo.11: 1.가, 1.라, 4.가","files":[{"id":3,"base":"3.250422_전화통화녹취록","display":"3.250422_전화통화녹취록","fileName":"3.250422_전화통화녹취록.pdf","href":"/data/3.250422_%EC%A0%84%ED%99%94%ED%86%B5%ED%99%94%EB%85%B9%EC%B7%A8%EB%A1%9D.pdf","ext":"pdf"}]},{"근거":"4.250816_전화통화녹취록","반박 필요 항목":"No.4 건물 인도 또는 이행제공 여부\nNo.8 2025.8.15.경 가오픈 및 실제 운영 정황","원고 서면 조항":"No.4: 1.다.2)①~③, 1.다.3) 소결\nNo.8: 1.다.2)⑤","files":[{"id":4,"base":"4.250816_전화통화녹취록","display":"4.250816_전화통화녹취록","fileName":"4.250816_전화통화녹취록.pdf","href":"/data/4.250816_%EC%A0%84%ED%99%94%ED%86%B5%ED%99%94%EB%85%B9%EC%B7%A8%EB%A1%9D.pdf","ext":"pdf"}]},{"근거":"5.260414_진술서(양희정)","반박 필요 항목":"No.1 골프존 프로그램 사용 가능 여부\nNo.4 건물 인도 또는 이행제공 여부\nNo.8 2025.8.15.경 가오픈 및 실제 운영 정황\nNo.10 양희정 채용 및 조규철의 현장 운영 관여","원고 서면 조항":"No.1: 1.다.2)④\nNo.4: 1.다.2)①~③, 1.다.3) 소결\nNo.8: 1.다.2)⑤\nNo.10: 1.다.2)⑥","files":[{"id":5,"base":"5.260414_진술서(양희정)","display":"5.260414_진술서(양희정)","fileName":"5.260414_진술서(양희정).pdf","href":"/data/5.260414_%EC%A7%84%EC%88%A0%EC%84%9C(%EC%96%91%ED%9D%AC%EC%A0%95).pdf","ext":"pdf"}]},{"근거":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","반박 필요 항목":"No.4 건물 인도 또는 이행제공 여부","원고 서면 조항":"No.4: 1.다.2)①~③, 1.다.3) 소결","files":[{"id":6,"base":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","display":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","fileName":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트).pdf","href":"/data/6.260703_%EC%9B%90%EA%B3%A0%EC%A4%80%EB%B9%84%EC%84%9C%EB%A9%B4_%EA%B0%91%EC%A0%9C15%ED%98%B8%EC%A6%9D(7~8%EC%9B%94%EA%B5%AC%EC%9E%85%ED%92%88%EB%AA%A9%EB%A6%AC%EC%8A%A4%ED%8A%B8).pdf","ext":"pdf"}]},{"근거":"7.260703_원고준비서면_갑제16호증(250819대화녹취록)","반박 필요 항목":"No.2 8.19 대화상 가맹명의 이전 논의\nNo.3 가맹점 명의 이전이 계약 본질인지","원고 서면 조항":"No.2: 1.다.2)④, 3.\nNo.3: 1.다.2)④, 3.","files":[{"id":7,"base":"7.260703_원고준비서면_갑제16호증(250819대화녹취록)","display":"7.260703_원고준비서면_갑제16호증(250819대화녹취록)","fileName":"7.260703_원고준비서면_갑제16호증(250819대화녹취록).pdf","href":"/data/7.260703_%EC%9B%90%EA%B3%A0%EC%A4%80%EB%B9%84%EC%84%9C%EB%A9%B4_%EA%B0%91%EC%A0%9C16%ED%98%B8%EC%A6%9D(250819%EB%8C%80%ED%99%94%EB%85%B9%EC%B7%A8%EB%A1%9D).pdf","ext":"pdf"}]},{"근거":"8.260703_원고준비서면_2025가합14077","반박 필요 항목":"No.9 8.15 당시 인테리어 완공 및 사용 가능 상태\nNo.10 양희정 채용 및 조규철의 현장 운영 관여","원고 서면 조항":"No.9: 1.다.2)③, 1.다.2)⑤\nNo.10: 1.다.2)⑥","files":[{"id":8,"base":"8.260703_원고준비서면_2025가합14077","display":"8.260703_원고준비서면_2025가합14077","fileName":"8.260703_원고준비서면_2025가합14077.pdf","href":"/data/8.260703_%EC%9B%90%EA%B3%A0%EC%A4%80%EB%B9%84%EC%84%9C%EB%A9%B4_2025%EA%B0%80%ED%95%A914077.pdf","ext":"pdf"}]},{"근거":"9.251218_내용증명(이신)","반박 필요 항목":"No.4 건물 인도 또는 이행제공 여부","원고 서면 조항":"No.4: 1.다.2)①~③, 1.다.3) 소결","files":[{"id":9,"base":"9.251218_내용증명(이신)","display":"9.251218_내용증명(이신)","fileName":"9.251218_내용증명(이신).pdf","href":"/data/9.251218_%EB%82%B4%EC%9A%A9%EC%A6%9D%EB%AA%85(%EC%9D%B4%EC%8B%A0).pdf","ext":"pdf"}]},{"근거":"10.250611_인테리어공사_계약서","반박 필요 항목":"No.4 건물 인도 또는 이행제공 여부\nNo.9 8.15 당시 인테리어 완공 및 사용 가능 상태","원고 서면 조항":"No.4: 1.다.2)①~③, 1.다.3) 소결\nNo.9: 1.다.2)③, 1.다.2)⑤","files":[{"id":10,"base":"10.250611_인테리어공사_계약서","display":"10.250611_인테리어공사_계약서","fileName":"10.250611_인테리어공사_계약서.pdf","href":"/data/10.250611_%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4%EA%B3%B5%EC%82%AC_%EA%B3%84%EC%95%BD%EC%84%9C.pdf","ext":"pdf"}]},{"근거":"11.250815~21_GPM_매출및라운드현황_캡쳐\n12.250821_GPM_당일매출_캡쳐\n13.250821_KS마이장부_신용카드거래내역1_캡쳐\n14.250821_KS마이장부_신용카드거래내역2_캡쳐","반박 필요 항목":"No.1 골프존 프로그램 사용 가능 여부\nNo.4 건물 인도 또는 이행제공 여부\nNo.8 2025.8.15.경 가오픈 및 실제 운영 정황\nNo.9 8.15 당시 인테리어 완공 및 사용 가능 상태","원고 서면 조항":"No.1: 1.다.2)④\nNo.4: 1.다.2)①~③, 1.다.3) 소결\nNo.8: 1.다.2)⑤\nNo.9: 1.다.2)③, 1.다.2)⑤","files":[{"id":11,"base":"11.250815~21_GPM_매출및라운드현황_캡쳐","display":"11.250815~21_GPM_매출및라운드현황_캡쳐","fileName":"11.250815~21_GPM_매출및라운드현황_캡쳐.png","href":"/data/11.250815~21_GPM_%EB%A7%A4%EC%B6%9C%EB%B0%8F%EB%9D%BC%EC%9A%B4%EB%93%9C%ED%98%84%ED%99%A9_%EC%BA%A1%EC%B3%90.png","ext":"png"},{"id":12,"base":"12.250821_GPM_당일매출_캡쳐","display":"12.250821_GPM_당일매출_캡쳐","fileName":"12.250821_GPM_당일매출_캡쳐.png","href":"/data/12.250821_GPM_%EB%8B%B9%EC%9D%BC%EB%A7%A4%EC%B6%9C_%EC%BA%A1%EC%B3%90.png","ext":"png"},{"id":13,"base":"13.250821_KS마이장부_신용카드거래내역1_캡쳐","display":"13.250821_KS마이장부_신용카드거래내역1_캡쳐","fileName":"13.250821_KS마이장부_신용카드거래내역1_캡쳐.png","href":"/data/13.250821_KS%EB%A7%88%EC%9D%B4%EC%9E%A5%EB%B6%80_%EC%8B%A0%EC%9A%A9%EC%B9%B4%EB%93%9C%EA%B1%B0%EB%9E%98%EB%82%B4%EC%97%AD1_%EC%BA%A1%EC%B3%90.png","ext":"png"},{"id":14,"base":"14.250821_KS마이장부_신용카드거래내역2_캡쳐","display":"14.250821_KS마이장부_신용카드거래내역2_캡쳐","fileName":"14.250821_KS마이장부_신용카드거래내역2_캡쳐.png","href":"/data/14.250821_KS%EB%A7%88%EC%9D%B4%EC%9E%A5%EB%B6%80_%EC%8B%A0%EC%9A%A9%EC%B9%B4%EB%93%9C%EA%B1%B0%EB%9E%98%EB%82%B4%EC%97%AD2_%EC%BA%A1%EC%B3%90.png","ext":"png"}]},{"근거":"15.250816_밴드무료시타공지캡쳐\n16.250818_무료시타행사후기","반박 필요 항목":"No.8 2025.8.15.경 가오픈 및 실제 운영 정황","원고 서면 조항":"No.8: 1.다.2)⑤","files":[{"id":15,"base":"15.250816_밴드무료시타공지캡쳐","display":"15.250816_밴드무료시타공지캡쳐","fileName":"15.250816_밴드무료시타공지캡쳐.jpg","href":"/data/15.250816_%EB%B0%B4%EB%93%9C%EB%AC%B4%EB%A3%8C%EC%8B%9C%ED%83%80%EA%B3%B5%EC%A7%80%EC%BA%A1%EC%B3%90.jpg","ext":"jpg"},{"id":16,"base":"16.250818_무료시타행사후기","display":"16.250818_무료시타행사후기","fileName":"16.250818_무료시타행사후기.jpg","href":"/data/16.250818_%EB%AC%B4%EB%A3%8C%EC%8B%9C%ED%83%80%ED%96%89%EC%82%AC%ED%9B%84%EA%B8%B0.jpg","ext":"jpg"}]},{"근거":"17.지축골프존방(4인)_대화기록.html","반박 필요 항목":"No.1 골프존 프로그램 사용 가능 여부\nNo.3 가맹점 명의 이전이 계약 본질인지\nNo.4 건물 인도 또는 이행제공 여부\nNo.5 5.1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석\nNo.8 2025.8.15.경 가오픈 및 실제 운영 정황\nNo.9 8.15 당시 인테리어 완공 및 사용 가능 상태\nNo.10 양희정 채용 및 조규철의 현장 운영 관여\nNo.11 위탁운영계약 강요 주장 및 4.22 통화의 의미","원고 서면 조항":"No.1: 1.다.2)④\nNo.3: 1.다.2)④, 3.\nNo.4: 1.다.2)①~③, 1.다.3) 소결\nNo.5: 1.나\nNo.8: 1.다.2)⑤\nNo.9: 1.다.2)③, 1.다.2)⑤\nNo.10: 1.다.2)⑥\nNo.11: 1.가, 1.라, 4.가","files":[{"id":17,"base":"17.지축골프존방(4인)_대화기록.html","display":"17.지축골프존방(4인)_대화기록.html","fileName":"17.지축골프존방(4인)_대화기록.html","href":"/data/17.%EC%A7%80%EC%B6%95%EA%B3%A8%ED%94%84%EC%A1%B4%EB%B0%A9(4%EC%9D%B8)_%EB%8C%80%ED%99%94%EA%B8%B0%EB%A1%9D.html","ext":"html"}]},{"근거":"18.지축골프존(8인·인테리어)_대화기록.html","반박 필요 항목":"No.3 가맹점 명의 이전이 계약 본질인지\nNo.4 건물 인도 또는 이행제공 여부\nNo.5 5.1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석\nNo.9 8.15 당시 인테리어 완공 및 사용 가능 상태","원고 서면 조항":"No.3: 1.다.2)④, 3.\nNo.4: 1.다.2)①~③, 1.다.3) 소결\nNo.5: 1.나\nNo.9: 1.다.2)③, 1.다.2)⑤","files":[{"id":18,"base":"18.지축골프존(8인·인테리어)_대화기록.html","display":"18.지축골프존(8인·인테리어)_대화기록.html","fileName":"18.지축골프존(8인·인테리어)_대화기록.html","href":"/data/18.%EC%A7%80%EC%B6%95%EA%B3%A8%ED%94%84%EC%A1%B4(8%EC%9D%B8%C2%B7%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4)_%EB%8C%80%ED%99%94%EA%B8%B0%EB%A1%9D.html","ext":"html"}]}],"evidenceSheets":{"1번 증빙":{"sheet":"1번 증빙","title":"1. 골프존 프로그램 사용 가능 여부","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.5.30 오전 10:45","발신자":"조규철","대화내용":"“5월 운영비용, 직원 근무 현황 상무님 이메일로 보내드렸습니다. 그동안 나온 현금 매출도 법인 통장으로 입금 완료 하였습니다.”"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.5.30 오전 10:45","발신자":"조규철","대화내용":"“골프존 교육도 완료 하였습니다”"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.6.25 오전 10:28~10:32","발신자":"조규철","대화내용":"현금매출, 골프존 홈페이지 매출, 영수증 기준 일자별 매출 내역 공유"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.6.30 오후 4:08~4:13","발신자":"조규철","대화내용":"매출, 현금매출 차이, 직원 급여, 운영비 지출·영수증 송부 보고"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.7.1 오전 11:20","발신자":"조규철","대화내용":"“초록색을 더하면 순매출 / 보라색을 더하면 홈페이지 총매출…”"},{"No.":"6","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025.7.22 오전 11:35~11:44","발신자":"조명래·조규철","대화내용":"조명래가 점주 접속방법, 매장관리/매출 접속방법을 묻고, 조규철이 bizmall 및 GPM URL, 계정정보 제공"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"직원 교육, 데스크 POS 업무","근거":"260414_진술서(양희정)","비고":""},{"No.":"2","문구":"2025. 8. 15.~8. 21. 라운드 현황","근거":"250815~21_GPM_매출및라운드현황_캡쳐","비고":"실제 라운드 진행 정황"},{"No.":"3","문구":"2025. 8. 21. GPM·KS마이장부 매출자료","근거":"250821_GPM_당일매출_캡쳐\n250821_KS마이장부_신용카드거래내역1_캡쳐\n250821_KS마이장부_신용카드거래내역2_캡쳐","비고":"매출·결제 발생 정황"},{"No.":"","문구":"양희정이 실제로 조규철이 GPM, POS, 방 배정, 라운드 진행, 매출 확인 등 데스크 업무를 수행하거나 교육하는 장면을 보았는지 확인","근거":"필요 시 양희정 추가 진술서 확보","비고":""}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"2번 증빙":{"sheet":"2번 증빙","title":"2. 8.19 대화상 가맹명의 이전 논의","chatTitle":"260703 원고 준비서면 중 갑 제16호증 2025. 8. 19.자 원고와 피고측 대화 녹취록","chatHeaders":["대화자","대화내용"],"chatRows":[{"대화자":"조명래","대화내용":"가계약을 할 때 명의에 대한 양도에 대한 부분은 그 내용에 없어."},{"대화자":"박상준","대화내용":"아이, 계약서,"},{"대화자":"조명래","대화내용":"들어봐요. 그러니까 그 내용은 없어. 그런데 박 프로가 나한테 “아, 우리가 이거를 잘해보려면 명의를 좀 넘겨주는 게 좋을 것 같습니다.”"},{"대화자":"박상준","대화내용":"아니요, 아니요, 아니요. 그거는 명의 온다고 처음부터 얘기했던 것 같은데, 명의가 가고, 왜 그러냐면 그래야 장사가 되는 거니까,"},{"대화자":"조명래","대화내용":"무슨 소리예요? 그거는 최초에는 그런 얘기가 없었고, 계약하고 나서 명의도 우리 쪽에 넘겨주면 우리가 사람들,"},{"대화자":"박상준","대화내용":"아니요, 그 명의 온다고 얘기,"},{"대화자":"조명래","대화내용":"들어봐요. 들어봐요. 들어봐요."},{"대화자":"박상준","대화내용":"예."},{"대화자":"조명래","대화내용":"그렇게 얘기를 해서 “어. 그럼 그렇게 해도 된다.”라고 내가 얘기를 했어. 그렇게 해도 된다고 얘기를, 내가 그리고 그거는 안 된다라고 나는 얘기를 하지 않았고 그렇게 해도 된다라고 내가 얘기를 해주기는 했어, 사실. 그런데 원 계약할 때는, 원 계약할 때는 그런 내용이 없어요. 그거는 내용이 있으면 내가 거기에다가 내용을 적시를 했을 거야, 분명히."}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"갑16호증 2025. 8. 19. 대화녹취록상 조명래 대표는 가맹점 명의이전과 관련하여 “가계약을 할 때 명의 양도 내용은 없다”, “최초에는 그런 얘기가 없었다”, “그렇게 해도 된다고 얘기해주기는 했지만 원 계약할 때는 그런 내용이 없다”, “그 내용이 있으면 계약서에 적시했을 것”이라는 취지로 발언함.","근거":"260703_원고준비서면_갑제16호증(250819대화녹취록)","비고":"가맹점 명의이전이 계약상 본질적 의무인지 검토할 기본 자료"}],"notes":[]},"3번 증빙":{"sheet":"3번 증빙","title":"3. 가맹점 명의 이전이 계약 본질인지","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 3:39","발신자":"조명래","대화내용":"창릉프리미어 오픈을 앞두고 시스템·인테리어·가구 비용은 이지벤처스가 부담하고, 전자기기 등 나머지는 늘푸른골프가 준비하는 역할분담을 정리한 대화"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 3:39","발신자":"조명래","대화내용":"인테리어는 늘푸른골프가 주관하고, 필요한 요구사항은 인테리어업체에 반영하도록 하겠다는 취지의 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 4:57","발신자":"김은주","대화내용":"상호를 “골프존파크 창릉 프리미어”로 정리하고, 삼송 장비 이전설치 및 신규설치 일정, 구매물품은 늘푸른골프가 준비한다는 내용을 공유한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 22. 오전 11:53~오후 12:04","발신자":"조명래·조규철·김은주","대화내용":"골프존 유지보수비, 미납 이자, 전용계좌 입금 등 골프존 본사 비용 처리와 관련하여 논의한 대화"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 22. 오후 12:16~12:22","발신자":"조명래","대화내용":"고정비, 인건비, 임대료, 유지보수비, 마케팅 비용 등 향후 매장 운영방식을 박상준·조규철 측에서 정리해 가라는 취지의 대화"},{"No.":"6","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 3:35~3:44","발신자":"김은주·조규철·박상준·조명래","대화내용":"바닥스크린 구매, 창릉프리미어 상호, 이전설치·신규설치 일정 등 창릉프리미어 오픈 준비사항을 인테리어업체와 공유한 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"임대차계약서에 골프존 가맹계약 양도 또는 가맹점주 명의이전 의무가 기재되어 있지 않은 점\n\n특약 제2조상 해당 번지 내 시설, 인테리어, 골프존 장비 등의 소유권이 피고에게 있다는 점\n\n특약 제5조상 원고 부담 항목이 “영업활동에 소모되는 소모품 등”으로 기재되어 있는 점","근거":"250426_임대차계약서","비고":"가맹점 명의이전이 계약상 본질적 의무인지 검토할 기본 자료"},{"No.":"2","문구":"골프존 가맹계약서 제32조상 가맹점운영권 양도뿐 아니라 위탁운영·대리행사·동업·전전세 등도 승인 대상 방식으로 예정되어 있는 점","근거":"250725_골프존가맹계약서","비고":"가맹점 운영 방식이 명의이전 하나로 한정되는지 검토할 자료"},{"No.":"3","문구":"8.19 대화에서 조명래가 명의이전은 원 계약 당시 계약서에 없었다는 취지로 발언한 내용","근거":"260703_원고준비서면_갑제16호증(250819대화녹취록)","비고":"명의이전 논의가 계약 체결 후 쟁점화된 사정 확인 자료"},{"No.":"4","문구":"계약 전 박상준이 기존 운영방식을 위탁운영으로 볼 수도 있다는 취지로 말한 내용","근거":"250422_전화통화 녹취록","비고":"계약 전 운영 구조 협의 경위 확인 자료"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"4번 증빙":{"sheet":"4번 증빙","title":"4. 건물 인도 또는 이행제공 여부","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 5. 오후 12:09","발신자":"김은주","대화내용":"철거팀 작업 전 문을 열어두어야 한다는 내용으로, 공사 진행 중 현장 출입이 가능했던 정황을 보여주는 대화"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 12:41","발신자":"조명래","대화내용":"조명래가 “게임 한번 쳐봐”라고 하여 골프존 장비 사용 점검을 요청한 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 12:53~오후 12:55","발신자":"조명래·박상준","대화내용":"골프존 시스템을 확인해야 한다는 내용과 함께, 장비·물건이 들어온 상태에서 시건장치·세콤 설치 필요성을 논의한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 2:27~오후 2:29","발신자":"김은주·조명래","대화내용":"김은주가 “골프존은 다 설치하고 갔다”, “양타방만 안 되어 있고 나머지는 다 됐다”, “한번 쳐 볼게”라고 하여 골프존 설치완료 및 장비 사용 가능 정황이 확인되는 대화"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 2:35","발신자":"김은주","대화내용":"김은주가 “일단 쳐보고 오늘 거의 마무리작업”이라고 하여 장비 사용 점검과 현장 마무리 상황을 함께 언급한 대화"},{"No.":"6","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 3:48~오후 6:31","발신자":"김은주·조규철","대화내용":"자동문·바닥·유리 설치 일정, 시건장치 문제, CCTV 업체 방문 설치 일정을 논의한 대화"},{"No.":"7","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 2:15~오후 2:26","발신자":"박한수대표·박상준·조규철·김은주·조명래","대화내용":"소방필증 및 전기안전필증 발급, 인허가 완료, 매장 오픈 및 잔여 마무리 진행을 공유한 대화"},{"No.":"8","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 6:37~오후 6:41","발신자":"조명래·김은주","대화내용":"잔여 마무리 일정과 자동문·유리·카운터·조명·탕비실·가구·셀프바 등 마무리 범위를 확인한 대화"},{"No.":"9","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 2:04","발신자":"김은주·조규철","대화내용":"김은주가 8.15 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"10","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 12. 오후 9:41~오후 10:04","발신자":"김은주·조규철","대화내용":"8.15 예약 시간·인원·방 배정을 정리하고, 추가 예약 가능 여부와 공사 미완료 가능성 고지를 논의한 대화"},{"No.":"11","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 3:05","발신자":"김은주·박상준","대화내용":"김은주가 8.15 추가 예약을 요청하고 박상준이 수락한 대화"},{"No.":"12","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 9:30~오후 10:24","발신자":"조명래·조규철·박상준","대화내용":"조명래가 현장에서 실제 스크린을 이용한 뒤 차키를 방에 두고 온 것으로 보이는 대화"},{"No.":"13","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 9:36~오전 9:40","발신자":"김은주·조규철","대화내용":"김은주가 현장에 사람이 있어야 한다고 하자 조규철이 현장으로 가고 있다고 답한 대화"},{"No.":"14","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 11:07~오전 11:15","발신자":"김은주·조규철","대화내용":"김은주가 8.15 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"15","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오후 2:44~오후 2:54","발신자":"김은주·조규철·박상준","대화내용":"안전수칙, 이용수칙, 피난안내도 등 영업장 게시물 준비와 부착을 논의한 대화"},{"No.":"16","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오후 3:22","발신자":"조명래","대화내용":"조명래가 현장에 도착하여 현장 인원 위치를 확인한 대화"},{"No.":"17","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오전 10:07~오전 10:08","발신자":"김은주·조규철","대화내용":"김은주가 방 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"18","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오후 1:55~오후 1:57","발신자":"김은주·박상준","대화내용":"손님 방문, 무료 응대, 방 배정, 현장 응대 가능성을 공유한 대화"},{"No.":"19","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오후 5:15~오후 5:23","발신자":"조명래·조규철·김은주","대화내용":"조명래가 다음 날 현장 근무 여부를 묻고, 조규철이 현장에 나가 있겠다고 답한 대화"},{"No.":"20","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 17. 오후 8:44","발신자":"조명래","대화내용":"조명래가 다음 날 오전 단체팀 방문 여부를 확인한 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"임대차 목적물 및 인도 관련 기본 약정","근거":"250426_임대차계약서","비고":"계약서 제2조 등 확인"},{"No.":"2","문구":"No.8 가오픈 및 조규철 현장 운영 관여 자료","근거":"250815~21_GPM_매출및라운드현황_캡쳐\n250821_GPM_당일매출_캡쳐\n250821_KS마이장부_신용카드거래내역1_캡쳐\n250821_KS마이장부_신용카드거래내역2_캡쳐\n250816_전화통화 녹취록\n260414_진술서(양희정)","비고":"가오픈·실제 운영 정황 자료\n8.16 손님 방문·응대 통화 정황 포함"},{"No.":"3","문구":"No.9 인테리어 완공 자료","근거":"250611_인테리어공사_계약서\n공사완료확인서(확보 필요)","비고":"인테리어 완공 및 사용 가능 상태 자료"},{"No.":"4","문구":"원고 측 커피머신 구매 정황","근거":"260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","비고":"원고 측 비품 반입·영업 준비 정황"},{"No.":"5","문구":"정수기 등 명의변경 요청 정황","근거":"251218_내용증명(이신)","비고":"정수기 등 부대설비 관련 자료"},{"No.":"","문구":"CCTV 및 보안장비 설치·출입권한 제공 정황","근거":"보안업체 사실조회신청으로 최초 계약자, 설치일, 보안키·출입권한 제공 여부 확인 필요","비고":""},{"No.":"","문구":"원고 측의 피고 동행 없는 현장 출입 가능 정황","근거":"인테리어 업체 진술서(확보 필요)","비고":""},{"No.":"","문구":"양희정이 조규철의 POS, GPM, 방 배정, 라운드 진행, 고객 응대, 매출 확인 등 현장 운영 관여를 직접 보았는지 확인","근거":"필요 시 양희정 추가 진술서 확보","비고":""},{"No.":"","문구":"골프존 설치완료 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.7 대화:\n“골프존은 다 설치하고 갔다”, “양타방만 안 되어 있고 나머지는 다 됐다”","비고":""},{"No.":"","문구":"공사 중 현장 출입 및 보안조치 필요 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.5, 2025.8.7 대화","비고":"공사 중에는 문을 열어두고 출입 가능한 상태였으며, 골프존 장비 반입 후 시건장치·CCTV 설치 필요성이 논의된 자료"},{"No.":"","문구":"원고 측의 현장 출입·사용·운영 준비 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.7, 8.13, 8.14, 8.16 대화","비고":"카톡 대화방 근거"},{"No.":"","문구":"실제 장비 사용 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.7 대화:\n“게임 한번 쳐봐”, “한번 쳐 볼게”, “나도 내일 올라가면 쳐봐야겠다”\n\n지축골프존방(4인)_대화기록.html 2025.8.13 대화:\n조명래가 현장에서 스크린을 이용한 뒤 차키를 방에 두고 온 것으로 보이는 대화","비고":"카톡 대화방 근거"},{"No.":"","문구":"인테리어 완공 및 인허가 완료 정황","근거":"지축골프존(8인·인테리어)_대화기록.html 2025.8.11 대화:\n소방필증, 전기안전필증, 인허가 완료 공유","비고":"카톡 대화방 근거"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"5번 참고":{"sheet":"5번 참고","title":"5. 1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명2","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명2":"지축골프존방(4인)_대화기록.html\n지축골프존(8인·인테리어)_대화기록.html\n삼송골프존(5인)_대화기록.html","날짜/시간":"2025. 5.~6월 대화 전반","발신자":"각 대화 참여자","대화내용":"5~6월 대화방 기준 잔금 지급일을 인테리어 완료 시점으로 변경하거나 유예하기로 한 직접 대화는 확인되지 않음"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"잔금 지급일이 2025. 5. 1.로 특정되어 있는 점\n임대차 목적물 인도일 및 임대차기간 관련 약정\n특약 제8조의 인테리어 기간 중 월세 면제 조항","근거":"250426_임대차계약서","비고":"계약서 보증금 및 잔금 지급 조항 확인\n계약서 제2조 확인\n렌탈프리 조항 문구 확인"},{"No.":"","문구":"5~6월 잔금 독촉 부재의 의미","근거":"5~6월 잔금 독촉은 없었음 사실","비고":"잔금 지급일 변경 합의로 볼 수 있는지 백송 법리 검토 필요"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"8번 증빙":{"sheet":"8번 증빙","title":"8. 2025. 8. 15.경 가오픈 및 실제 운영 정황","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 2:04","발신자":"김은주·조규철","대화내용":"김은주가 8.15 오후 1시 13·14번 방 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 12. 오후 9:41~오후 9:43","발신자":"김은주·조규철","대화내용":"김은주가 8.15 예약 시간·인원·방 번호를 정리해 전달하고, 조규철이 예약 내용을 확인한 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 12. 오후 10:02~오후 10:04","발신자":"김은주·조규철","대화내용":"김은주가 8.15 추가 예약 가능 여부를 묻고, 조규철이 공사 미완료 가능성만 양해 구하면 추가 예약 가능하다고 답한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 3:05","발신자":"김은주·박상준","대화내용":"김은주가 8.15 추가 예약을 요청하고 박상준이 이를 수락한 대화"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 9:30~오후 10:24","발신자":"조명래·조규철·박상준","대화내용":"조명래가 창릉프리미어에서 실제 스크린을 이용한 뒤 차키를 방에 두고 온 것으로 보이는 대화"},{"No.":"6","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 9:36~오전 9:40","발신자":"김은주·조규철","대화내용":"김은주가 현장에 사람이 있어야 한다고 하자 조규철이 현장으로 가고 있다고 답한 대화"},{"No.":"7","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 11:07~오전 11:15","발신자":"김은주·조규철","대화내용":"김은주가 8.15 예약을 추가 요청하고 조규철이 이를 수락한 대화"},{"No.":"8","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오후 2:44~오후 2:54","발신자":"김은주·조규철·박상준","대화내용":"안전수칙, 이용수칙, 피난안내도 등 영업장 게시물 준비와 부착을 논의한 대화"},{"No.":"9","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오전 10:07~오전 10:08","발신자":"김은주·조규철","대화내용":"김은주가 2시 방 2개 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"10","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오후 1:55~오후 1:57","발신자":"김은주·박상준","대화내용":"손님 방문 연락, 무료 응대, 방 배정, 현장 응대 가능성을 공유한 대화"},{"No.":"11","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오후 5:15~오후 5:23","발신자":"조명래·조규철·김은주","대화내용":"조명래가 다음 날 현장 근무 여부를 묻고 조규철이 현장에 나가 있겠다고 답한 대화"},{"No.":"12","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 17. 오후 8:44","발신자":"조명래","대화내용":"조명래가 다음 날 오전 단체팀 방문 여부를 확인한 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"2025. 8. 15.~8. 21. 골프존 게임수","근거":"250815~21_GPM_매출및라운드현황_캡쳐","비고":"실제 라운드 진행 정황"},{"No.":"2","문구":"2025. 8. 21. GPM 매출자료","근거":"250821_GPM_당일매출_캡쳐","비고":"골프존 시스템상 매출·이용 내역 확인 자료"},{"No.":"3","문구":"2025. 8. 21. KS마이장부 카드매출자료","근거":"250821_KS마이장부_신용카드거래내역1_캡쳐\n250821_KS마이장부_신용카드거래내역2_캡쳐","비고":"카드결제 발생 정황"},{"No.":"4","문구":"8.16 손님 방문·응대 관련 통화 정황","근거":"250816_전화통화 녹취록","비고":"가오픈·손님 응대 정황 자료"},{"No.":"5","문구":"직원 출근, 데스크 업무, 고객 응대, 조규철 현장 운영 관여 정황","근거":"260414_진술서(양희정)","비고":""},{"No.":"6","문구":"밴드 무료시타 공지 및 게시일자","근거":"250816_밴드 무료시타 공지 캡쳐\n250818_무료시타 행사 후기","비고":"무료시타·가오픈 홍보 정황"},{"No.":"","문구":"밴드 무료시타 공지 지시 경위","근거":"필요 시 양희정 추가 진술서 확보","비고":""},{"No.":"","문구":"예약, 방 배정, 손님 응대, 단체팀 방문 확인 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.11~8.17 대화","비고":"카톡 대화방 근거"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"9번 증빙":{"sheet":"9번 증빙","title":"9. 8.15 당시 인테리어 완공 및 사용 가능 상태","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 6. 오후 3:29~오후 3:32","발신자":"김은주·비엘 윤공팀장","대화내용":"룸 14개, 탕비실, 홀·복도 설비 수량을 확인한 대화로, 주요 인테리어·설비 구성이 상당 부분 진행되고 있었던 정황"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 12:41","발신자":"조명래","대화내용":"조명래가 “게임 한번 쳐봐”라고 하여 골프존 장비 사용 점검을 요청한 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 2:27~오후 2:30","발신자":"김은주·조명래","대화내용":"김은주가 골프존 장비는 다 설치되었고 양타방 외 나머지는 다 되었다고 하며, 실제로 쳐보겠다고 말한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 2:35","발신자":"김은주","대화내용":"김은주가 일단 쳐보고 오늘 거의 마무리 작업이라고 하여, 장비 사용 점검과 현장 마무리 상태를 함께 언급한 대화"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 7. 오후 3:48~오후 3:52","발신자":"김은주·박상준","대화내용":"자동문·바닥·유리 설치 일정과 시건장치 설치 시점을 논의한 대화로, 잔여 마무리 공사의 범위가 확인되는 대화"},{"No.":"6","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 2:15~오후 2:26","발신자":"박한수대표·박상준·조규철·김은주·조명래","대화내용":"소방필증 및 전기안전필증 발급, 인허가 완료, 매장 오픈 및 잔여 마무리 진행을 공유한 대화"},{"No.":"7","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 11. 오후 6:37~오후 6:41","발신자":"조명래·김은주","대화내용":"잔여 마무리 일정과 자동문·유리·카운터·조명·탕비실·가구·셀프바 등 마무리 범위를 확인한 대화"},{"No.":"8","파일명":"지축골프존(8인·인테리어)_대화기록.html","날짜/시간":"2025. 8. 12. 오전 8:27~오전 9:09","발신자":"박한수대표·김은주·박상준","대화내용":"인테리어업체가 이번 주 마무리를 위해 노력 중이라고 하고, 홀쪽 마무리를 우선 요청한 대화"},{"No.":"9","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 1:55~오후 2:00","발신자":"김은주·조규철·박상준·조명래","대화내용":"일부 마감·상판 등 잔여 작업이 언급되나, 현장 상태를 직접 확인하고 마무리 수준을 논의한 대화"},{"No.":"10","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 13. 오후 9:30~오후 10:24","발신자":"조명래·조규철·박상준","대화내용":"조명래가 현장에서 실제 스크린을 이용한 뒤 차키를 방에 두고 온 것으로 보이는 대화"},{"No.":"11","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오후 2:44~오후 2:54","발신자":"김은주·조규철·박상준","대화내용":"안전수칙, 이용수칙, 피난안내도 등 영업장 게시물 준비와 부착을 논의한 대화"},{"No.":"12","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 15. 전후","발신자":"김은주·조규철·박상준","대화내용":"8.15 전후 예약, 방 배정, 손님 응대 대화로 핵심 영업시설 사용 가능 상태를 보강하는 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"인테리어 공사 범위 및 준공 예정일","근거":"250611_인테리어공사_계약서","비고":"공사 범위와 준공일 확인 자료"},{"No.":"2","문구":"2025. 8. 15.~8. 21. 라운드 현황 및 매출자료","근거":"250815~21_GPM_매출및라운드현황_캡쳐\n250821_GPM_당일매출_캡쳐\n250821_KS마이장부_신용카드거래내역1_캡쳐\n250821_KS마이장부_신용카드거래내역2_캡쳐","비고":"No.8 가오픈 자료와 연결"},{"No.":"3","문구":"원고도 2025. 8월 초순경 골프존 시설 설치 완료 자체는 인정하는 취지의 주장","근거":"260703_원고준비서면_2025가합14077","비고":"원고 주장 내용 확인 자료"},{"No.":"","문구":"인테리어 공사 완료 또는 납품완료 정황","근거":"공사완료확인서(확보 필요)\n골프존 본사 잔금 20% 이체내역(확보 필요)","비고":"골프존 설치 완료 또는 설치대금 정산 정황"},{"No.":"","문구":"골프존 설치완료 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.7 대화","비고":"“골프존은 다 설치하고 갔다”, “양타방만 안 되어 있고 나머지는 다 됐다” 대화"},{"No.":"","문구":"장비 사용 가능일 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.7 대화","비고":"“게임 한번 쳐봐”, “한번 쳐 볼게”, “나도 내일 올라가면 쳐봐야겠다” 대화"},{"No.":"","문구":"실제 장비 사용 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.13 대화","비고":"조명래가 실제 스크린을 이용한 뒤 차키를 방에 두고 온 정황"},{"No.":"","문구":"소방필증·전기안전필증 발급 및 인허가 완료 정황","근거":"지축골프존(8인·인테리어)_대화기록.html 2025.8.11 대화","비고":"인허가 및 핵심 영업시설 사용 가능 상태 보강 자료"},{"No.":"","문구":"잔여 마무리 공사의 범위","근거":"지축골프존(8인·인테리어)_대화기록.html 2025.8.11~8.12 대화","비고":"자동문·유리·카운터·조명·탕비실·가구·셀프바 등 잔손보기 범위 확인 자료"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"10번 증빙":{"sheet":"10번 증빙","title":"10. 양희정 채용 및 조규철의 현장 운영 관여","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 9:36~오전 9:40","발신자":"김은주·조규철","대화내용":"김은주가 현장에 사람이 있어야 한다고 하자 조규철이 현장으로 가고 있다고 답한 대화"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 14. 오전 11:07~오전 11:15","발신자":"김은주·조규철","대화내용":"김은주가 8.15 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오전 10:07~오전 10:08","발신자":"김은주·조규철","대화내용":"김은주가 방 예약을 요청하고 조규철이 이를 수락한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 16. 오후 5:15~오후 5:23","발신자":"조명래·조규철·김은주","대화내용":"조명래가 다음 날 현장 근무 여부를 묻자 조규철이 현장에 나가 있겠다고 답한 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"양희정의 출근 경위, 조규철 면접, 현장 상주 및 운영 관여 정황","근거":"260414_진술서(양희정)","비고":""},{"No.":"2","문구":"원고도 조규철이 양희정과 면접을 본 사실 자체는 인정하는 취지의 주장","근거":"260703_원고준비서면_2025가합14077","비고":"원고 제출 자료"},{"No.":"3","문구":"양희정이 조규철의 POS, GPM, 방 배정, 라운드 진행, 고객 응대, 매출 확인 등 현장 운영 관여를 직접 보았는지 확인","근거":"필요 시 양희정 추가 진술서 확보","비고":""},{"No.":"","문구":"조규철의 현장 출근, 예약 처리, 현장 근무 예정 정황","근거":"지축골프존방(4인)_대화기록.html 2025.8.14, 8.16 대화","비고":""}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]},"11번 증빙":{"sheet":"11번 증빙","title":"11. 위탁운영계약 강요 주장 및 4.22 통화의 의미","chatTitle":"1. 카톡 대화방 근거","chatHeaders":["No.","파일명","날짜/시간","발신자","대화내용"],"chatRows":[{"No.":"1","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 3:39","발신자":"조명래","대화내용":"창릉프리미어 오픈을 앞두고 시스템·인테리어·가구 비용은 이지벤처스가 부담하고, 전자기기 등 나머지는 늘푸른골프가 준비하는 역할분담을 정리한 대화"},{"No.":"2","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 3:39","발신자":"조명래","대화내용":"인테리어는 늘푸른골프가 주관하고, 필요한 요구사항은 인테리어업체에 반영하도록 하겠다는 취지의 대화"},{"No.":"3","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 21. 오후 4:57","발신자":"김은주","대화내용":"상호, 삼송 장비 이전설치 및 신규설치 일정, 구매물품은 늘푸른골프가 준비한다는 내용을 공유한 대화"},{"No.":"4","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 7. 22. 오후 12:16~오후 12:22","발신자":"조명래","대화내용":"고정비, 인건비, 임대료, 유지보수비, 마케팅 비용 등 향후 매장 운영방식을 박상준·조규철 측에서 정리해 가라는 취지의 대화"},{"No.":"5","파일명":"지축골프존방(4인)_대화기록.html","날짜/시간":"2025. 8. 18. 오후 1:36","발신자":"조명래","대화내용":"조명래가 계약서 초안을 전달하겠다고 하면서, 마음에 걸리는 부분이 있으면 계약서 날인 전 중단해도 된다고 말한 대화"}],"evidenceTitle":"2. 증빙","evidenceHeaders":["No.","문구","근거","비고"],"evidenceRows":[{"No.":"1","문구":"계약 전 박상준이 기존 운영방식을 위탁운영으로 볼 수도 있다는 취지로 말한 내용","근거":"250422_전화통화 녹취록","비고":"계약 전 운영 구조 협의 경위 확인 자료"},{"No.":"2","문구":"임대차계약상 피고 소유 시설을 원고가 이용하여 영업하는 구조","근거":"250426_임대차계약서","비고":"임대차계약의 기본 구조 확인 자료"}],"notes":["이중에 준비서면 작성에 필요한 내용이 있을 경우\n시트명과 No.를 알려주시면 캡쳐하여 전달하겠습니다."]}},"fileMap":{"250426_임대차계약서":{"id":1,"base":"1.250426_임대차계약서","display":"1.250426_임대차계약서","fileName":"1.250426_임대차계약서.jpg","ext":"jpg"},"250725_골프존가맹계약서":{"id":2,"base":"2.250725_골프존가맹계약서","display":"2.250725_골프존가맹계약서","fileName":"2.250725_골프존가맹계약서.pdf","ext":"pdf"},"250422_전화통화녹취록":{"id":3,"base":"3.250422_전화통화녹취록","display":"3.250422_전화통화녹취록","fileName":"3.250422_전화통화녹취록.pdf","ext":"pdf"},"250816_전화통화녹취록":{"id":4,"base":"4.250816_전화통화녹취록","display":"4.250816_전화통화녹취록","fileName":"4.250816_전화통화녹취록.pdf","ext":"pdf"},"260414_진술서(양희정)":{"id":5,"base":"5.260414_진술서(양희정)","display":"5.260414_진술서(양희정)","fileName":"5.260414_진술서(양희정).pdf","ext":"pdf"},"260703_원고준비서면_갑제15호증(7~8월구입품목리스트)":{"id":6,"base":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","display":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트)","fileName":"6.260703_원고준비서면_갑제15호증(7~8월구입품목리스트).pdf","ext":"pdf"},"260703_원고준비서면_갑제16호증(250819대화녹취록)":{"id":7,"base":"7.260703_원고준비서면_갑제16호증(250819대화녹취록)","display":"7.260703_원고준비서면_갑제16호증(250819대화녹취록)","fileName":"7.260703_원고준비서면_갑제16호증(250819대화녹취록).pdf","ext":"pdf"},"260703_원고준비서면_2025가합14077":{"id":8,"base":"8.260703_원고준비서면_2025가합14077","display":"8.260703_원고준비서면_2025가합14077","fileName":"8.260703_원고준비서면_2025가합14077.pdf","ext":"pdf"},"251218_내용증명(이신)":{"id":9,"base":"9.251218_내용증명(이신)","display":"9.251218_내용증명(이신)","fileName":"9.251218_내용증명(이신).pdf","ext":"pdf"},"250611_인테리어공사_계약서":{"id":10,"base":"10.250611_인테리어공사_계약서","display":"10.250611_인테리어공사_계약서","fileName":"10.250611_인테리어공사_계약서.pdf","ext":"pdf"},"250815~21_gpm_매출및라운드현황_캡쳐":{"id":11,"base":"11.250815~21_GPM_매출및라운드현황_캡쳐","display":"11.250815~21_GPM_매출및라운드현황_캡쳐","fileName":"11.250815~21_GPM_매출및라운드현황_캡쳐.png","ext":"png"},"250821_gpm_당일매출_캡쳐":{"id":12,"base":"12.250821_GPM_당일매출_캡쳐","display":"12.250821_GPM_당일매출_캡쳐","fileName":"12.250821_GPM_당일매출_캡쳐.png","ext":"png"},"250821_ks마이장부_신용카드거래내역1_캡쳐":{"id":13,"base":"13.250821_KS마이장부_신용카드거래내역1_캡쳐","display":"13.250821_KS마이장부_신용카드거래내역1_캡쳐","fileName":"13.250821_KS마이장부_신용카드거래내역1_캡쳐.png","ext":"png"},"250821_ks마이장부_신용카드거래내역2_캡쳐":{"id":14,"base":"14.250821_KS마이장부_신용카드거래내역2_캡쳐","display":"14.250821_KS마이장부_신용카드거래내역2_캡쳐","fileName":"14.250821_KS마이장부_신용카드거래내역2_캡쳐.png","ext":"png"},"250816_밴드무료시타공지캡쳐":{"id":15,"base":"15.250816_밴드무료시타공지캡쳐","display":"15.250816_밴드무료시타공지캡쳐","fileName":"15.250816_밴드무료시타공지캡쳐.jpg","ext":"jpg"},"250818_무료시타행사후기":{"id":16,"base":"16.250818_무료시타행사후기","display":"16.250818_무료시타행사후기","fileName":"16.250818_무료시타행사후기.jpg","ext":"jpg"},"지축골프존방(4인)_대화기록":{"id":17,"base":"17.지축골프존방(4인)_대화기록.html","display":"17.지축골프존방(4인)_대화기록.html","fileName":"17.지축골프존방(4인)_대화기록.html","ext":"html"},"지축골프존(8인·인테리어)_대화기록":{"id":18,"base":"18.지축골프존(8인·인테리어)_대화기록.html","display":"18.지축골프존(8인·인테리어)_대화기록.html","fileName":"18.지축골프존(8인·인테리어)_대화기록.html","ext":"html"}},"zipName":"전체파일.zip"}</script>
 
   <header class="hero">
     <div class="wrap">
-      <div class="kicker">Dispute Timeline & Fact Rebuttal</div>
+      <div class="kicker">Dispute Timeline · Fact Rebuttal · Evidence</div>
       <h1>이지벤처스 - 늘푸른골프 분쟁 정리</h1>
       <p class="subtitle">
-        계약 체결 전후부터 제2회 변론기일까지의 흐름과, 2026. 7. 3. 원고 준비서면에 대한 사실관계 반박 항목을 함께 정리한 검토용 화면입니다.
+        사실관계 반박, 증빙 모음, 타임라인을 한 화면에서 검토할 수 있도록 구성한 내부 검토용 화면입니다.
         <br>작성 기준일: <strong id="createdAt"></strong>
       </p>
     </div>
@@ -481,6 +934,8 @@ body.auth-locked main{
   <nav class="navbar">
     <div class="wrap tabs">
       <button class="tab active" data-tab="fact">사실관계 반박</button>
+      <button class="tab" data-tab="evidence">증빙 모음</button>
+      <button class="tab" data-tab="needed">추가 확보 필요</button>
       <button class="tab" data-tab="timeline">타임라인</button>
     </div>
   </nav>
@@ -489,18 +944,62 @@ body.auth-locked main{
     <div class="toolbar">
       <div class="searchbox">
         <span>🔎</span>
-        <input id="globalSearch" type="search" placeholder="날짜, 쟁점, 인물, 내용으로 검색">
+        <input id="globalSearch" type="search" placeholder="날짜, 쟁점, 인물, 문구, 증빙명으로 검색">
       </div>
       <div class="btns">
         <button class="btn" id="printBtn">인쇄/PDF</button>
       </div>
     </div>
 
+    <section id="factPanel" class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>사실관계 반박</h2>
+          <p>엑셀의 사실관계 반박 시트를 기준으로, 검토 요청사항 아래에 각 No.별 증빙 시트 내용을 연결했습니다.</p>
+        </div>
+        <div class="small">현재 표시 항목: <b id="factCount">-</b>건</div>
+      </div>
+      <div class="toolbar fact-controls">
+        <div></div>
+        <div class="btns">
+          <button class="btn" id="expandBtn">전체 펼침</button>
+          <button class="btn" id="collapseBtn">전체 접기</button>
+        </div>
+      </div>
+      <div class="fact-layout">
+        <aside id="factSubnav" class="fact-subnav" aria-label="사실관계 반박 바로가기"></aside>
+        <div id="factCards" class="fact-list"></div>
+      </div>
+    </section>
+
+
+    <section id="neededPanel" class="panel hidden">
+      <div class="panel-head">
+        <div>
+          <h2>추가 확보 필요</h2>
+          <p>사실관계 반박 시트의 추가 확보 필요 증거를 별도로 모아, 각 증빙시트의 카톡 대화방 근거와 증빙 내용을 참고해 보강 필요성을 정리했습니다.</p>
+        </div>
+        <div class="small">현재 표시 항목: <b id="neededCount">-</b>건</div>
+      </div>
+      <div id="neededRoot" class="needed-list"></div>
+    </section>
+
+    <section id="evidencePanel" class="panel hidden">
+      <div class="panel-head">
+        <div>
+          <h2>증빙 모음</h2>
+          <p>증빙통합 시트의 근거명을 기준으로 파일 링크와 관련 반박 항목을 정리했습니다.</p>
+        </div>
+      </div>
+      <div class="small" style="padding:0 16px 0">현재 표시 항목: <b id="evidenceCount">-</b>건</div>
+      <div id="evidenceRoot" class="evidence-list"></div>
+    </section>
+
     <section id="timelinePanel" class="panel hidden">
       <div class="panel-head">
         <div>
           <h2>타임라인</h2>
-          <p>계약 체결, 내용증명 왕복, 소송 진행, 제2회 변론기일 전후 흐름을 시기별로 정리했습니다.</p>
+          <p>계약 체결 전후부터 제2회 변론기일 전후 흐름까지 시기별로 정리했습니다.</p>
         </div>
         <div class="small">현재 표시 항목: <b id="timelineCount">-</b>건</div>
       </div>
@@ -508,864 +1007,688 @@ body.auth-locked main{
         <div id="timelineRoot"></div>
       </div>
     </section>
-
-    <section id="factPanel" class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>사실관계 반박</h2>
-          <p>쟁점별로 원고 주장, 확인할 사실관계, 증거자료, 반박 방향, 확인된 내용, 추가 확인 필요사항을 접어서 볼 수 있게 구성했습니다.</p>
-        </div>
-        <div class="small">현재 표시 항목: <b id="factCount">-</b>건</div>
-      </div>
-      <div class="toolbar" style="padding:0 16px 4px;margin-bottom:0">
-        <div class="view-toggle">
-          <button class="tabmini active" data-view="cards">카드 보기</button>
-          <button class="tabmini" data-view="table">전체 표 보기</button>
-        </div>
-        <div class="btns">
-          <button class="btn" id="expandBtn">전체 펼침</button>
-          <button class="btn" id="collapseBtn">전체 접기</button>
-        </div>
-      </div>
-      <div id="factCards" class="fact-list"></div>
-      <div id="factTableWrap" class="table-wrap hidden">
-        <div id="factTable"></div>
-      </div>
-    </section>
   </main>
 
   <script>
-
-async function sha256Hex(message){
-  const data = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,"0")).join("");
-}
-function unlockDocument(){
-  document.body.classList.remove("auth-locked");
-  const gate = document.getElementById("pinGate");
-  if(gate) gate.remove();
-}
-function setupPinGate(){
-  const storageKey = "ivng_dispute_auth";
-  if(sessionStorage.getItem(storageKey) === "ok"){
-    unlockDocument();
-    return;
-  }
-  const gate = document.getElementById("pinGate");
-  const form = document.getElementById("pinForm");
-  const input = document.getElementById("pinInput");
-  const error = document.getElementById("pinError");
-  if(!gate || !form || !input) return;
-  setTimeout(() => input.focus(), 50);
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const value = input.value.trim();
-    const expectedHash = "8e950708da835865f17757b9e8bcae9f8b662198a55b49368936c16d0df9d99c";
-    try{
-      const actualHash = await sha256Hex(value);
-      if(actualHash === expectedHash){
-        sessionStorage.setItem(storageKey, "ok");
-        unlockDocument();
-      }else{
-        error.textContent = "비밀번호가 맞지 않습니다.";
-        input.value = "";
-        input.focus();
-      }
-    }catch(err){
-      error.textContent = "브라우저 보안 기능 문제로 확인할 수 없습니다. 최신 브라우저로 다시 열어주세요.";
-    }
-  });
-}
-
-    const TIMELINE_DATA = [
-  {
-    "section": "Ⅰ. 계약 체결 전후",
-    "rows": [
-      {
-        "date": "2025. 4. 22.",
-        "type": "사전 통화",
-        "subject": "조명래–박상준",
-        "content": "골프존 시설 투자·운영 구조 관련 통화.\n피고 측은 위탁운영형 구조 및 가맹계약 주체가 이지벤처스라는 전제의 정황으로 봄",
-        "issue": "계약 성격, 위탁운영, 가맹계약"
-      },
-      {
-        "date": "2025. 4. 26.",
-        "type": "임대차계약 체결",
-        "subject": "이지벤처스–늘푸른골프",
-        "content": "지축역현대프리미어캠퍼스 C-S-B1-01~09호 임대차계약 체결.\n보증금 3억, 월차임 2,500만 원, 기간 2025.5.1.~2030.4.30.",
-        "issue": "계약 성격"
-      },
-      {
-        "date": "2025. 5. 1.",
-        "type": "계약상 기일",
-        "subject": "늘푸른골프",
-        "content": "계약서상 잔금 2억 7천만 원 지급일 및 임대차 개시일",
-        "issue": "잔금 지체, 동시이행"
-      },
-      {
-        "date": "2025. 5.~8.",
-        "type": "공사 진행",
-        "subject": "이지벤처스/골프존/시공업체",
-        "content": "골프존 시설 및 인테리어 공사 진행.\n원고는 미완공·미인도 주장, 피고는 8월경 영업 가능 상태 주장",
-        "issue": "완공, 인도, 가오픈"
-      }
-    ]
-  },
-  {
-    "section": "Ⅱ. 2025년 8월 분쟁 발생",
-    "rows": [
-      {
-        "date": "2025. 8. 15.경",
-        "type": "현장 근무/가오픈 정황",
-        "subject": "양희정, 조규철 등",
-        "content": "양희정 진술서 기준 조규철이 면접·현장 관리·기계 점검 등에 관여했다는 취지",
-        "issue": "가오픈, 인도, 운영 관여"
-      },
-      {
-        "date": "2025. 8. 16.",
-        "type": "통화",
-        "subject": "김은주–박상준",
-        "content": "피고 측은 손님 유입·가오픈 정황 및 박상준 이탈 의사 정황으로 봄.\n원고는 박상준 개인의 운영 관여 축소일 뿐 계약 포기가 아니라고 주장",
-        "issue": "가오픈, 계약 포기 여부"
-      },
-      {
-        "date": "2025. 8. 18.",
-        "type": "단체대화",
-        "subject": "조명래–박상준–조규철",
-        "content": "운영·분쟁 관련 정황 자료로 피고 측에서 사용",
-        "issue": "운영 상태, 신뢰관계"
-      },
-      {
-        "date": "2025. 8. 19.",
-        "type": "송금",
-        "subject": "늘푸른골프→이지벤처스",
-        "content": "6,000만 원 송금. 피고 측은 문자상 “중도금” 표현을 문제 삼고,\n원고는 잔금 일부 이행이라고 주장",
-        "issue": "잔금 일부인지, 중도금인지"
-      },
-      {
-        "date": "2025. 8. 19.",
-        "type": "대화/통화",
-        "subject": "양측",
-        "content": "원고는 7/3 준비서면에서 8/19 대화·통화를 근거로\n가맹점 명의 이전 논의 및 피고의 반환 의사 등을 주장",
-        "issue": "가맹계약 양도, 잔금 지급 의사"
-      },
-      {
-        "date": "2025. 8. 22.",
-        "type": "계약해제 문자",
-        "subject": "이지벤처스→늘푸른골프",
-        "content": "잔금 미지급을 이유로 계약해제 의사 표시",
-        "issue": "계약해제"
-      },
-      {
-        "date": "2025. 8. 28.",
-        "type": "백송 1차 내용증명",
-        "subject": "이지벤처스 측",
-        "content": "2025.9.5.까지 잔금 2억 1천만 원, 지연이자, 재인수, 운영위탁계약 체결 요구.\n미이행 시 해제 통보",
-        "issue": "최고, 해제"
-      },
-      {
-        "date": "2025. 8. 29.",
-        "type": "이신 1차 내용증명",
-        "subject": "늘푸른골프 측",
-        "content": "잔금 지급과 점포 인도는 동시이행. 운영위탁계약 체결 의무 없음.\n점포 인도 및 가맹점 명의 이전 요구",
-        "issue": "동시이행, 인도"
-      }
-    ]
-  },
-  {
-    "section": "Ⅲ. 2025년 9월 내용증명 왕복",
-    "rows": [
-      {
-        "date": "2025. 9. 5.",
-        "type": "최고기한",
-        "subject": "늘푸른골프",
-        "content": "백송 8/28 내용증명상 이행기한",
-        "issue": "해제 요건"
-      },
-      {
-        "date": "2025. 9. 6.",
-        "type": "해제 주장일",
-        "subject": "이지벤처스 측",
-        "content": "피고는 9/5 미이행으로 계약이 9/6 해제되었다고 주장",
-        "issue": "계약해제 효력"
-      },
-      {
-        "date": "2025. 9. 8.",
-        "type": "백송 2차 내용증명",
-        "subject": "이지벤처스 측",
-        "content": "계약해제 확정 통보, 6천만 원 반환 및 집기 처리 협의 요청",
-        "issue": "해제, 정산"
-      },
-      {
-        "date": "2025. 9. 12./15.",
-        "type": "이신 3차 내용증명",
-        "subject": "늘푸른골프 측",
-        "content": "실제 송달된 이신 후속 내용증명. 점포 인도, 시설물 인도, 가맹점 명의 이전 요구",
-        "issue": "인도, 가맹계약"
-      },
-      {
-        "date": "2025. 9. 12.",
-        "type": "백송 3차 내용증명",
-        "subject": "이지벤처스 측",
-        "content": "원고가 목적물을 인도받았고, 조규철이 업장 운영을 개시했다고 주장.\n가맹점 명의 이전은 계약서상 의무가 아니라고 주장",
-        "issue": "인도, 가오픈, 가맹계약"
-      },
-      {
-        "date": "2025. 9. 15.",
-        "type": "이신 4차 내용증명",
-        "subject": "늘푸른골프 측",
-        "content": "인도받지 않았고, 조규철은 개점 준비만 했다고 반박. 위탁운영계약 체결 의사 없음",
-        "issue": "인도 부인, 위탁운영 거부"
-      },
-      {
-        "date": "2025. 9. 16./17.",
-        "type": "백송 4차 내용증명",
-        "subject": "이지벤처스 측",
-        "content": "계약해제 재확인, 가맹점 명의 이전 요구는 계약서에 없는 조건이라고 주장.\n6천만 원 반환계좌 요청",
-        "issue": "해제, 공탁"
-      },
-      {
-        "date": "2025. 9. 23.",
-        "type": "이신 5차 내용증명",
-        "subject": "늘푸른골프 측",
-        "content": "계약은 계속 유효하므로 6천만 원 반환받을 의사 없음.\n가맹점 명의 이전은 영업상 필수라고 주장",
-        "issue": "계약 존속, 가맹계약"
-      },
-      {
-        "date": "2025. 9. 25.",
-        "type": "변제공탁",
-        "subject": "이지벤처스",
-        "content": "반환계좌 미제공을 이유로 6천만 원 공탁",
-        "issue": "정산, 해제 후 원상회복"
-      }
-    ]
-  },
-  {
-    "section": "Ⅳ. 소송 제기 및 소장 접수 후",
-    "rows": [
-      {
-        "date": "2025. 10. 2.",
-        "type": "소장 접수",
-        "subject": "늘푸른골프",
-        "content": "서울중앙지방법원 2025가합14077 건물인도 사건 제기.\n청구는 건물인도 + 골프존 가맹계약 양도 및 통지",
-        "issue": "소송 개시"
-      },
-      {
-        "date": "2025. 10. 2.",
-        "type": "소장상 주장",
-        "subject": "늘푸른골프",
-        "content": "시설대 임대차, 동시이행, 피고의 부당해제, 위탁운영 강요, 가맹계약 양도 필수 주장",
-        "issue": "본안 쟁점"
-      },
-      {
-        "date": "2025. 10. 이후",
-        "type": "내부 반박안 작성",
-        "subject": "이지벤처스→백송",
-        "content": "백송 요청에 따라 원고 소장에 대한 당사자 입장 반박자료와 증거자료 목록 전달",
-        "issue": "내부자료"
-      },
-      {
-        "date": "2025. 12. 18./19.",
-        "type": "이신 6차 내용증명",
-        "subject": "늘푸른골프 측",
-        "content": "정수기렌탈, 공기청정기렌탈, LG U+ 인터넷전화 등 부대서비스 명의이전 요청",
-        "issue": "부대서비스"
-      },
-      {
-        "date": "2025. 12. 이후",
-        "type": "후속조치",
-        "subject": "이지벤처스",
-        "content": "요청받은 부대서비스 명의이전 진행. 단, 골프존 가맹계약 양도와는 별개",
-        "issue": "손해확대 방지"
-      }
-    ]
-  },
-  {
-    "section": "Ⅴ. 제1회 변론기일 전 준비",
-    "rows": [
-      {
-        "date": "2026. 3. 4.",
-        "type": "변론기일통지서",
-        "subject": "법원",
-        "content": "2026.4.21. 14:20 제1회 변론기일 지정",
-        "issue": "절차"
-      },
-      {
-        "date": "2026. 4. 1.",
-        "type": "증거 보완 요청",
-        "subject": "백송→이지벤처스",
-        "content": "문자/카톡은 날짜 보이게 원본 캡처 요청",
-        "issue": "증거 형식"
-      },
-      {
-        "date": "2026. 4. 1.",
-        "type": "사실확인",
-        "subject": "백송→이지벤처스",
-        "content": "조규철 8/19~8/21 업장 운영 개시 증거 문의",
-        "issue": "가오픈"
-      },
-      {
-        "date": "2026. 4. 1.",
-        "type": "사실확인",
-        "subject": "백송→이지벤처스",
-        "content": "월차임 2,500만 원이 주변 시세보다 높은지 확인",
-        "issue": "시설 포함 계약"
-      },
-      {
-        "date": "2026. 4. 3.",
-        "type": "Q&A 요청",
-        "subject": "백송→이지벤처스",
-        "content": "4.22 통화, 8.16 통화, 위탁운영 구조 등 질문",
-        "issue": "계약 성격"
-      },
-      {
-        "date": "2026. 4. 6.",
-        "type": "Q&A 답변 제출",
-        "subject": "이지벤처스→백송",
-        "content": "문서로 백송 질문에 답변",
-        "issue": "내부자료"
-      },
-      {
-        "date": "2026. 4. 14.",
-        "type": "진술서 작성",
-        "subject": "양희정",
-        "content": "조규철 현장 관여, 면접, 업무관리 등 진술",
-        "issue": "가오픈, 운영관여"
-      },
-      {
-        "date": "2026. 4. 16.",
-        "type": "진술서 전달",
-        "subject": "이지벤처스→백송",
-        "content": "양희정 진술서와 신분증 사본 전달",
-        "issue": "증거 보강"
-      },
-      {
-        "date": "2026. 4. 15.",
-        "type": "준비서면 초안",
-        "subject": "백송→이지벤처스",
-        "content": "피고 준비서면 초안 전달",
-        "issue": "소장 반박"
-      },
-      {
-        "date": "2026. 4. 16.",
-        "type": "준비서면 최종",
-        "subject": "백송/이지벤처스",
-        "content": "내부 검토 후 피고 제1준비서면 최종 확정",
-        "issue": "피고 주장"
-      },
-      {
-        "date": "2026. 4. 16.",
-        "type": "녹취록 작성",
-        "subject": "백송",
-        "content": "250422, 250816 전화통화 녹취록 작성",
-        "issue": "위탁운영, 가오픈"
-      }
-    ]
-  },
-  {
-    "section": "Ⅵ. 제1회 변론기일",
-    "rows": [
-      {
-        "date": "2026. 4. 21.",
-        "type": "제1회 변론기일",
-        "subject": "법원/양측",
-        "content": "재판 진행. 다음 기일 2026.7.7. 10:20 지정",
-        "issue": "절차"
-      },
-      {
-        "date": "2026. 4. 21.",
-        "type": "재판부 질의",
-        "subject": "재판부",
-        "content": "2025.5.1.이 아니라 2025.8. 기준으로 이행지체 발생을 보아야 하는 것 아닌지 질의",
-        "issue": "8월 영업가능상태"
-      },
-      {
-        "date": "2026. 4. 21.",
-        "type": "원고 입증계획",
-        "subject": "원고 측",
-        "content": "골프존 사실조회 예정, 영업 지연 손해배상청구 예정, 가오픈 부인",
-        "issue": "향후 쟁점"
-      },
-      {
-        "date": "2026. 4. 21.",
-        "type": "피고 대응방향",
-        "subject": "백송/이지벤처스",
-        "content": "상대방 서면 후 인테리어 계약서, 완공자료, 골프존 매출 발생자료 등 제출 검토",
-        "issue": "추가증거"
-      }
-    ]
-  },
-  {
-    "section": "Ⅶ. 제2회 변론기일 직전 원고 서면 및 신청서",
-    "rows": [
-      {
-        "date": "2026. 7. 3.",
-        "type": "원고 준비서면 제출",
-        "subject": "이신",
-        "content": "금요일 오후 늦게 원고 준비서면 제출",
-        "issue": "피고 준비서면 반박"
-      },
-      {
-        "date": "2026. 7. 6. 오전",
-        "type": "송달/공유",
-        "subject": "백송→이지벤처스",
-        "content": "박소진 변호사가 원고 준비서면 공유.\n제출이 늦어 7/7 기일에서 속행 요청 예정",
-        "issue": "절차"
-      },
-      {
-        "date": "2026. 7. 6.",
-        "type": "백송 미팅",
-        "subject": "백송/이지벤처스",
-        "content": "이지벤처스는 이미 반박서면에서 다 말한 것 아니냐고 질의.\n백송은 원고의 새로운 주장에 대한 사실관계 반박이 필요하다고 설명",
-        "issue": "반박자료 필요"
-      },
-      {
-        "date": "2026. 7. 6. 오후",
-        "type": "증인신청서",
-        "subject": "원고",
-        "content": "조규철 증인신청",
-        "issue": "증인 필요성"
-      },
-      {
-        "date": "2026. 7. 6. 오후",
-        "type": "문서제출명령신청",
-        "subject": "원고",
-        "content": "피고 매출, 게임수, 비용, 관리비, 인건비 등 영업자료 제출 요구",
-        "issue": "손해배상 자료"
-      },
-      {
-        "date": "2026. 7. 6. 오후",
-        "type": "사실조회촉탁신청",
-        "subject": "원고",
-        "content": "골프존에 가맹계약, 영업개시일, 매출, 게임수, 명의이전 절차 등 조회 신청",
-        "issue": "가맹계약, 손해액"
-      },
-      {
-        "date": "2026. 7. 6.",
-        "type": "단톡방 논의",
-        "subject": "백송/이지벤처스",
-        "content": "증인신청, 문서제출명령, 사실조회촉탁에 대한 대응 논의",
-        "issue": "신청서 의견"
-      },
-      {
-        "date": "2026. 7. 7.",
-        "type": "제2회 변론기일",
-        "subject": "법원/양측",
-        "content": "원고 신청서 3건 채택 여부 보류. 재판부는 검토 예정. 피고 측 의견 있으면 짧게 제출 가능",
-        "issue": "절차"
-      },
-      {
-        "date": "2026. 7. 7.",
-        "type": "재판부 언급",
-        "subject": "재판부",
-        "content": "조규철 증인신청에 대해 굳이 증인신문이 아니라\n사실확인서나 진술서로 제출하면 되지 않겠냐는 취지 언급",
-        "issue": "증인 불필요성"
-      },
-      {
-        "date": "2026. 7. 7.",
-        "type": "다음 기일",
-        "subject": "법원",
-        "content": "다음 재판 2026.9.15. 16:45 지정",
-        "issue": "절차"
-      },
-      {
-        "date": "2026. 7. 7.",
-        "type": "대응 방향",
-        "subject": "백송/이지벤처스",
-        "content": "각 신청에 대한 의견서 제출 후, 원고 준비서면 반박서면 준비",
-        "issue": "다음 준비"
-      }
-    ]
-  }
-];
-    const FACT_HEADERS = ["구분", "No.", "반박 필요 항목", "이신 조항", "이신/원고 주장 요지", "피고 측 확인할 사실관계", "필요한 증거/자료 (확보완료 / 확보필요)", "반박 방향", "우선순위", "확인된 내용", "추가 확인 필요", "비고"];
-    const FACT_DATA = [
-  {
-    "구분": "가맹명의",
-    "No.": "1",
-    "반박 필요 항목": "골프존 프로그램 사용 가능 여부",
-    "이신 조항": "1.다.2)④",
-    "이신/원고 주장 요지": "원고는 골프존 영업을 위해서는 가맹점주 명의가 필수이고, 가맹점주가 되지 않으면 골프존 프로그램을 사용할 수 없어 골프존 영업이 불가능하다고 주장",
-    "피고 측 확인할 사실관계": "가맹점주 명의가 피고인 상태에서도 조규철 또는 원고 측이 실제로 골프존 프로그램에 로그인하거나 게임 진행·운영을 할 수 있었는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "계정정보 제공 카톡·문자·녹취, 골프존 관리사이트 게임수·매출내역, 조규철의 기존 매장 운영 정황자료. 단, 증빙이 없으면 대표님 설명에 따른 정황 서술로 처리",
-    "반박 방향": "원고는 가맹점주 명의가 이전되지 않아 골프존 프로그램 사용 자체가 불가능했다고 주장하나, 실제로는 조규철이 기존 매장을 운영하면서 골프존 프로그램 계정정보를 제공받았고, 창릉프리미어에서도 프로그램 사용이 가능한 상태였다는 정황이 있음.\n\n다만 현재 객관증빙은 확보되지 않았으므로, 자료가 확인되면 증거로 제출하고, 자료가 없으면 단정적 표현을 피하고 정황적 사실로 서술하는 방향.",
-    "우선순위": "최상",
-    "확인된 내용": "기존 내용증명 또는 준비서면만으로는 조규철 또는 원고 측이 창릉프리미어 매장에서 골프존 프로그램에 실제 로그인하거나 프로그램을 사용할 수 있었는지 직접 확인되는 객관자료는 아직 확인되지 않음.\n\n현재는 대표님 설명상 조규철이 기존 골프존 매장을 운영한 경험이 있고, 창릉프리미어에서도 프로그램 사용이 가능했다는 취지의 정황이 있는 상태임.\n\n따라서 로그인 정보 제공 내역, 실제 로그인 또는 게임 진행 자료, 기존 매장 운영 관련 자료가 추가로 확인될 경우 보강 필요.",
-    "추가 확인 필요": "조규철의 골프존 프로그램 사용 가능 여부 확인\n - 로그인 정보 제공 카톡·문자·녹취 존재 여부\n - 창릉프리미어에서 조규철이 실제 로그인 또는 게임 진행한 정황\n - 기존 인수 매장에서 조규철이 운영한 최소 자료 존재 여부\n - 증빙이 없을 경우, “프로그램 사용 가능 정황”으로 서술 가능 여부",
-    "비고": "기존 인수 매장 이관 경위는 주된 쟁점이 아니라 보조정황.\n\n핵심은 “조규철 또는 원고 측의 프로그램 사용 가능 상태”임"
-  },
-  {
-    "구분": "가맹명의",
-    "No.": "2",
-    "반박 필요 항목": "8.19 대화상 가맹명의 이전 논의",
-    "이신 조항": "1.다.2)④\n3.",
-    "이신/원고 주장 요지": "원고는 2025. 8. 19. 대화에서 피고가 가맹점주 명의이전 논의를 하였고, 골프존 영업을 위해 가맹점주 명의 이전이 필수이므로 피고에게 이전 의무가 있다고 주장",
-    "피고 측 확인할 사실관계": "8.19 대화에서 피고가 가맹점 명의이전을 확정적으로 약속한 것인지, 아니면 계약서에 없는 사항으로서 사후 협의 가능성 또는 조건부 논의에 불과했는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "갑16호증 2025. 8. 19. 대화녹취록",
-    "반박 방향": "명의이전 논의가 일부 있었다고 하더라도, 조명래 대표의 발언상 가맹점 명의이전은 임대차계약 체결 당시 계약서에 포함된 내용이 아니었다는 취지로 정리 가능함.\n\n따라서 갑16호증은 원고 주장처럼 피고가 명의이전 의무를 인정한 자료라기보다, 임대차계약서에 명의이전 관련 조항이 포함되어 있지 않았다는 피고 측 인식을 보여주는 자료로 정리 가능",
-    "우선순위": "최상",
-    "확인된 내용": "갑16호증 2025. 8. 19. 대화녹취록상 조명래 대표는 가맹점 명의이전과 관련하여 “가계약을 할 때 명의 양도 내용은 없다”, “최초에는 그런 얘기가 없었다”, “그렇게 해도 된다고 얘기해주기는 했지만 원 계약할 때는 그런 내용이 없다”, “그 내용이 있으면 계약서에 적시했을 것”이라는 취지로 발언함.\n\n이는 가맹점 명의이전이 임대차계약서에 명시된 내용은 아니었고, 계약 후 별도로 논의되었거나 협의 가능성이 언급된 사항이라는 피고 측 입장을 뒷받침하는 내용으로 정리 가능함.\n\n다만 위 대화의 법적 의미, 즉 명의이전 논의가 계약상 의무 인정으로 평가되는지 여부는 백송의 법리 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "갑16호증은 원고가 명의이전 의무 인정 자료로 활용하는 핵심 증거이므로, 조명래 대표 발언의 전후 문맥을 함께 인용할 필요"
-  },
-  {
-    "구분": "가맹명의",
-    "No.": "3",
-    "반박 필요 항목": "가맹점 명의 이전이 계약 본질인지",
-    "이신 조항": "1.다.2)④\n3.",
-    "이신/원고 주장 요지": "원고는 피고가 특약 제5조를 “원고가 가맹점주가 아님”의 근거로 보지만, 오히려 특약 제5조는 시설비는 피고가 부담하고 영업활동에 드는 비용은 영업주인 원고가 부담한다는 의미라고 주장함.\n\n또한 골프존 가맹계약서 제32조상 가맹점운영권 양도가 가능하고, 한 점포에 2명의 가맹점주가 존재할 수 없으므로 원고가 이 사건 건물에서 골프존 매장을 운영하기 위해서는 가맹점주 명의 이전이 필수라고 주장함.\n\n특히 원고 주장의 취지는 특약 제5조의 “영업활동에 소모되는 소모품 등”을 영업활동 비용 전반으로 넓게 해석하여, 골프존 본사에 지급하는 유지보수료 등도 원고가 부담해야 하고, 이를 위해서는 원고가 가맹계약의 주체가 되어야 한다는 논리로 보임",
-    "피고 측 확인할 사실관계": "특약 제5조의 “영업활동에 소모되는 소모품 등”이 골프존 본사 유지보수료 등 가맹계약상 고정비용까지 포함하는지, 아니면 특약 제2조상 피고 소유 시설·장비 비용과 구분하여 원고가 영업 과정에서 소비하는 식음료·비품 등 소모성 비용을 부담하도록 정한 조항인지 정리",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "임대차계약서\n골프존 가맹계약서\n260416 피고 준비서면\n갑16호증 8.19 대화녹취록 인용부분",
-    "반박 방향": "특약 제5조는 특약 제2조와 함께 검토할 필요가 있음. 특약 제2조에서 해당 번지 내 시설, 인테리어, 골프존 장비 등의 소유권은 피고에게 있다고 정하고 있으므로, 특약 제5조의 “영업활동에 소모되는 소모품 등”은 피고 소유 시설·장비 관련 비용과 구분하여 원고가 영업 과정에서 실제로 소비하는 식음료·비품·기타 소모성 물품 비용을 부담한다는 취지로 해석될 여지가 있음.\n\n“영업활동에 소모되는 소모품 등”이라는 문구에서도 중심 단어는 “소모품”이고, “등”의 범위도 소모품과 유사한 성격의 소모성 물품 또는 비용으로 제한하여 볼 여지가 있음.\n\n골프존 본사 유지보수료 등은 영업 과정에서 소모되는 물품이라기보다 가맹계약에 따른 정기적·고정적 비용에 가까우므로, 이를 근거로 곧바로 원고가 가맹계약의 직접 주체가 되어야 한다는 결론으로 연결되는지는 다툴 필요가 있음. \n\n설령 골프존 본사 지급 비용을 원고가 최종 부담하는 구조라고 보더라도, 위탁운영 방식에서 피고가 가맹점주로서 먼저 지급하고 원고와 정산·공제·청구하는 방식으로도 처리 가능함.\n\n또한 제32조상 양도가 가능하다는 점과 피고가 원고에게 이를 양도하기로 약정했는지는 구분하여 검토할 필요가 있음.",
-    "우선순위": "최상",
-    "확인된 내용": "피고 260416 준비서면은\n① 임대차계약서에 골프존 가맹계약 양도 또는 가맹점주 명의이전 의무가 기재되어 있지 않고,\n② 특약 제5조에서 원고 부담으로 정한 것은 “영업활동에 소모되는 소모품 등”에 관한 것으로, 이는 원고가 가맹점주라는 의미가 아니라 위탁운영 과정에서 발생하는 식음료·비품 등 소모성 비용을 원고가 부담한다는 취지이며,\n③ 골프존 가맹계약서 제32조상 가맹점운영권 양도뿐 아니라 위탁운영·대리행사·동업·전전세 등도 골프존 승인 대상 방식으로 예정되어 있으므로, 가맹점주 명의이전이 이 사건 계약서상 명시된 내용은 아니라는 취지로 주장함.\n\n이에 대해 원고 260703 준비서면은\n① 특약 제5조가 오히려 원고가 영업주로서 영업활동 비용을 부담한다는 의미라고 주장하고,\n② 골프존 가맹계약서 제32조상 가맹점운영권 양도가 가능하며,\n③ 한 점포에 2명의 가맹점주가 존재할 수 없으므로 원고가 이 사건 점포에서 골프존 매장을 운영하기 위해서는 가맹점주 명의 이전이 필수라는 취지로 반박함.\n\n그러나 특약 제5조의 문언은 “영업활동에 소모되는 소모품 등”으로 되어 있어, 유지보수료 등 골프존 본사에 지급하는 고정적·계약상 비용까지 포함되는지는 다툴 여지가 있음.\n\n특히 특약 제2조에서 해당 번지 내 모든 시설, 인테리어, 골프존 장비 등의 소유권은 피고에게 있다고 정하고 있으므로, 특약 제5조는 피고 소유 시설·장비 관련 비용과 구분하여 원고가 영업 과정에서 실제로 소비하는 식음료·비품·기타 소모품류를 부담하도록 정한 조항으로 볼 여지가 있음.\n\n또한 설령 골프존 본사에 지급하는 유지보수료 등 일부 비용을 원고가 최종 부담하는 구조라고 보더라도, 이는 위탁운영 방식에서 피고가 가맹점주로서 먼저 지급한 뒤 원고와 정산·공제·청구하는 방식도 가능하다는 점에서, 곧바로 원고가 가맹계약의 직접 주체가 되어야 한다거나 가맹점주 명의이전이 계약의 본질이라는 원고 주장에 대해서는 다툴 여지가 있음.\n\n다만 특약 제5조의 해석, 골프존 가맹계약서 제32조의 의미, 가맹점주 명의이전이 계약상 본질적 내용인지 여부는 백송의 별도 법리 검토가 필요함.",
-    "추가 확인 필요": "",
-    "비고": ""
-  },
-  {
-    "구분": "인도·\n동시이행·\n해제\n적법성",
-    "No.": "4",
-    "반박 필요 항목": "건물 인도 또는 이행제공 여부",
-    "이신 조항": "1.다.2)①~③\n1.다.3) 소결",
-    "이신/원고 주장 요지": "원고는 피고가 이 사건 건물을 인도하거나 이행제공을 한 사실이 없고, 원고 측의 현장 출입·비품 반입은 건물 인도 즉시 영업을 개시하기 위한 사전 준비에 불과하다고 주장함.\n\n또한 피고가 보안카드·열쇠를 제공하지 않았고, 박상준·조규철에게 보안장치 지문등록도 해준 바 없으므로 원고에게 점유가 이전된 사실이 없다고 주장함.",
-    "피고 측 확인할 사실관계": "원고 측이 언제부터 현장에 출입했는지, 어떤 방식으로 출입했는지, 피고 측 동행 없이도 현장 사용·비품 반입·직원 면접·직원 출근·운영 준비가 가능했는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "No.8 가오픈 자료, No.9 인테리어 완공 자료, No.10 양희정 진술서 관련 자료와 연결하여 정리",
-    "반박 방향": "원고는 열쇠·보안카드·지문등록 부재를 근거로 인도 또는 이행제공이 없었다고 주장하나, 실제 현장 출입, 비품 반입, 직원 면접·출근, 영업 준비, 장비 점검, 고객 응대 등 사용·운영 준비 정황도 함께 검토될 필요가 있음.\n\n원고가 주장하는 비품 반입 역시 단순 사전 준비였는지, 실제 현장 사용과 영업개시를 전제로 한 행위였는지 사실관계를 구분하여 정리할 필요가 있음.\n\n원고가 주장하는 열쇠·보안카드·지문등록 부재는 인도 부인의 근거 중 하나일 뿐이고, 실제 현장 사용 가능 상태 및 원고 측의 영업준비·운영 관여 정황과 함께 종합적으로 검토될 필요가 있음.\n\n다만 “인도”는 법률평가이므로, 실제 사용 가능 상태·출입·점유 정황·영업 준비 행위 중심으로 반박.",
-    "우선순위": "최상",
-    "확인된 내용": "백송 2025. 8. 28.자 내용증명에서는 원고가 임차목적물을 인도받아 인테리어 공사뿐만 아니라 CCTV 및 보안장비 설치, 정수기·커피머신 등의 집기 반입까지 하였음에도 잔금을 지급하지 않았다는 취지로 기재되어 있음.\n\n백송 2025. 9. 12.자 내용증명에서도 피고는 원고가 임차목적물을 인도받아 인테리어 공사, CCTV 및 보안장비 설치, 정수기·커피머신 반입을 하였고, 조규철 대표가 2025. 8. 19.부터 2025. 8. 21.까지 업장 운영을 개시하였다는 취지로 주장함.\n\n반면 원고는 2025. 8. 29.자 이신 내용증명 및 2026. 7. 3.자 준비서면에서 피고가 공사 완료 통지나 점포 인수 통지를 한 사실이 없고, 보안카드·열쇠·지문등록이 제공되지 않았으므로 인도가 없었다고 주장함.\n\n따라서 실제 인도 또는 이행제공으로 평가될 수 있는지는 백송 법리 검토 필요. 다만 기존 문서상 피고는 원고 측의 현장 출입, 공사 진행, 집기 반입, 조규철의 현장 운영 관여를 인도 또는 사용 가능 상태의 근거로 주장해 온 것으로 정리 가능함.\n\n원고 260703 준비서면 제15호증에는 커피머신 구매 관련 내용이 기재되어 있으므로, 원고 측이 커피머신 등 영업 준비용 비품을 구매하였다는 정황으로 활용 가능함.\n\n또한 정수기의 경우 임대 방식으로 설치되었고, 이후 이신 측 내용증명을 통해 명의변경을 요청한 경위가 있으므로, 원고 측이 현장 영업 준비 과정에서 정수기 등 부대설비를 사용·관리 대상으로 인식하고 있었다는 정황으로 정리 가능함.",
-    "추가 확인 필요": "1. 원고 측이 피고 동행 없이 현장에 출입할 수 있었는지 확인\n\n2. 보안카드·열쇠·지문등록 외에 실제 출입이 가능했던 방식 확인",
-    "비고": "비품 구매·반입 자료는 인도 자체를 단정하는 자료라기보다, 원고 측의 현장 사용·영업 준비 정황으로 활용.\n\n향후 집기·비품 정산 문제와 연결될 수 있으므로 정산대상 여부는 별도 관리 필요. (금액이 맞는지 확인 필요하므로 견적서, 계산서 등 구체적 증빙 필요)"
-  },
-  {
-    "구분": "인도·\n동시이행·\n해제\n적법성",
-    "No.": "5",
-    "반박 필요 항목": "5.1 잔금 지급일, 5~6월 독촉 부재의 의미 및 특약 제8조 렌탈프리 해석",
-    "이신 조항": "1.나",
-    "이신/원고 주장 요지": "원고는 임대차계약서상 2025. 5. 1. 잔금 지급일은 시설 완공일을 알 수 없어 임의로 기재한 날짜에 불과하고, 피고가 5~6월에 잔금 지급을 독촉하지 않았으므로 잔금 지급의무가 2025. 5. 1.에 확정적으로 발생한 것이 아니며, 인도와 잔금 지급은 동시이행관계에 있다고 주장함.\n\n또한 원고는 피고가 특약 제8조의 “인테리어 기간 중 월세를 받지 않는다”는 렌탈프리 조항을 근거로 인도와 잔금 지급이 동시이행관계가 아니라고 주장하나, 위 조항은 인테리어 기간 중 임대목적물을 사용·수익할 수 없으므로 임대료를 청구하지 않는다는 의미일 뿐, 동시이행항변권 포기나 잔금 선지급 약정이 아니라고 반박함.",
-    "피고 측 확인할 사실관계": "계약서 작성 당시 2025. 5. 1.을 잔금 지급일로 정한 경위, 잔금 지급일을 인테리어 완료 시점까지 유예하기로 합의한 사실이 있는지, 특약 제8조가 인테리어 기간 중 차임만 면제한다는 취지였는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "임대차계약서, 특약 제8조, 계약 전후 카톡·문자·통화자료, 내용증명",
-    "반박 방향": "잔금 지급일은 계약서상 2025. 5. 1.로 특정되어 있고, 계약 체결일로부터 불과 5일 뒤라는 점에서 인테리어 완료 여부와 별개로 정해진 지급일로 볼 여지가 있음.\n\n특약 제8조는 “인테리어가 모두 완료되어야 임대차가 개시된다”는 조항이라기보다, 계약 체결 이후 일정 기간 인테리어 공사가 진행될 수 있음을 전제로 그 기간의 월세만 면제한 조항으로 볼 여지가 있음.\n\n따라서 특약 제8조가 곧바로 잔금 지급을 인테리어 완료 또는 인도 시점까지 유예한다는 의미인지 여부는 다툴 필요가 있음. 또한 5~6월 독촉이 없었다는 사정만으로 잔금 지급일 변경 합의나 동시이행 합의가 있었다고 볼 수 있는지도 검토가 필요함.\n\n설령 재판부가 2025. 5. 1.이 아니라 2025. 8월 사용 가능 시점을 기준으로 보더라도, 2025. 8. 15.경 또는 늦어도 2025. 8. 21.경에는 원고의 잔금 지급의무 발생 및 지체를 주장할 수 있도록 정리.",
-    "우선순위": "최상",
-    "확인된 내용": "임대차계약서에는 보증금 3억 원 중 계약금 3,000만 원은 계약 시 지급하고, 잔금 2억 7,000만 원은 2025. 5. 1.에 지급한다고 기재되어 있음.\n\n같은 계약서 제2조에는 임대인이 위 부동산을 임대차 목적대로 사용할 수 있는 상태로 2025. 5. 1.까지 임차인에게 인도하고, 임대차기간은 인도일로부터 2030. 4. 30.까지로 한다고 기재되어 있음.\n\n특약 제8조에는 “임대인은 인테리어 기간 중에는 월세를 받지 않는다”고 기재되어 있음.\n\n피고 2026. 4. 16.자 준비서면에서는 잔금 지급일이 계약 체결일로부터 5일 뒤로 정해져 있고, 5일 만에 인테리어가 물리적으로 완료되기 어려운 점 및 특약 제8조의 렌탈프리 조항을 근거로, 잔금 지급일은 인테리어 완료와 별개로 특정된 것이라는 취지로 주장함.\n\n원고 2026. 7. 3.자 준비서면은 특약 제8조가 인테리어 기간 중 임대료를 청구하지 않는다는 의미일 뿐, 동시이행항변권 포기나 잔금 선지급 약정은 아니라고 반박함.\n\n따라서 특약 제8조의 의미와 잔금 지급일·인도 의무의 관계는 백송 법리 검토 필요. 다만 계약서상 잔금 지급일, 제2조 인도 문구, 특약 제8조 렌탈프리 문구 자체는 기존 계약서로 확인 가능함.",
-    "추가 확인 필요": "",
-    "비고": "재판부가 2025. 5. 1.보다 2025. 8월 기준에 관심을 보였으므로, 5.1 주장과 8월 기준 주장을 병행하는 것이 안전"
-  },
-  {
-    "구분": "인도·\n동시이행·\n해제\n적법성",
-    "No.": "6",
-    "반박 필요 항목": "8.19 6천만 원 송금 및 잔금 이행제공 여부",
-    "이신 조항": "1.다.2)⑦\n1.라",
-    "이신/원고 주장 요지": "원고는 2025. 8. 19. 임대차보증금 잔금 중 일부로 6천만 원을 송금했고, 2025. 8. 29. 내용증명에 잔고증명서를 첨부하여 잔금 지급 준비가 되어 있음을 표시했음에도, 피고가 화를 내며 6천만 원을 반환하겠다고 했으므로 피고에게 잔금을 받을 의사가 없었다고 주장함.",
-    "피고 측 확인할 사실관계": "8.19 송금 당시 원고가 이를 무엇이라고 표현했는지, 계약상 중도금 약정이 있었는지, 잔금 전액에 대한 무조건적 지급 제안이 있었는지, 지급에 가맹명의 이전 등 조건이 붙어 있었는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "8.19 이체확인증, 문자 원본 캡처, 8.19 통화녹취록, 8.19 대화녹취록, 8.29 내용증명, 잔고증명서, 9월 이후 내용증명, 공탁서",
-    "반박 방향": "계약상 중도금 약정이 없었고, 6천만 원은 잔금 전액이 아니라 일부금 송금이었다는 점을 정리.\n\n피고가 잔금 수령 자체를 거절한 것이 아니라, 가맹명의 이전을 전제로 한 지급 태도 또는 계약상 예정되지 않은 일부금 송금 문제를 지적한 것으로 정리.\n\n자금 보유 또는 일부 송금만으로 잔금 전액에 대한 무조건적 이행제공이 있었다고 볼 수 있는지, 원고의 지급 의사에 가맹점 명의이전 등 조건이 붙어 있었는지를 구분하여 검토하는 방향.",
-    "우선순위": "최상",
-    "확인된 내용": "2025. 8. 19. 원고 측 문자에는 “계약서상 잔금 지급일은 5월 1일로 정해져 있으나, 임차 목적물의 완공이 지연되어 현재까지는 정상적인 영업 개시가 불가능한 상황”이라는 취지와 함께, “비즈니스 신뢰 차원에서 우선 중도금으로 60,000,000원을 지급한다”, “잔금은 공사가 완료되고 정상적인 영업이 가능해지는 시점에 지급하도록 하겠다”는 취지의 내용이 기재되어 있음.\n\n이신 2025. 8. 29.자 내용증명에서는 원고가 2025. 8. 19. 임대차보증금 잔금 중 6,000만 원을 송금하였고, 문자메시지에 중도금이라고 표시하였으나 계약서상 중도금 약정이 없으므로 잔금 일부 이행이라는 취지로 주장함.\n\n같은 내용증명에서 원고는 피고가 점포를 골프존 영업이 가능한 상태로 인도할 경우 나머지 잔금을 지급하고 점포를 인도받아 영업을 개시하고자 한다는 취지로 기재함.\n\n백송 2025. 8. 28.자 내용증명에서는 원고가 2025. 8. 19. 6,000만 원을 일방적으로 송금하였고, 피고가 즉시 반환 의사를 밝혔으나 원고가 계좌를 회신하지 않았다는 취지로 기재되어 있음.\n\n이후 피고는 6,000만 원에 관하여 변제공탁을 진행한 자료가 있음.\n\n따라서 6,000만 원 송금 사실, 원고가 이를 문자에서 “중도금”이라고 표현한 사실, 원고가 이후 내용증명에서 이를 잔금 일부라고 주장한 사실, 피고가 반환 의사를 표시하고 공탁을 진행한 사실은 기존 자료로 정리 가능함. 다만 이것이 잔금 전액의 무조건적 이행제공에 해당하는지 여부는 백송 법리 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "핵심은 “돈을 일부 보냈다”가 아니라 “잔금 전액을 조건 없이 이행제공했는지”임"
-  },
-  {
-    "구분": "인도·\n동시이행·\n해제\n적법성",
-    "No.": "7",
-    "반박 필요 항목": "8.28 최고 및 해제 적법성",
-    "이신 조항": "1.라",
-    "이신/원고 주장 요지": "원고는 2025. 8. 28. 내용증명이 잔금 및 이자 지급만을 최고한 것이 아니라 골프존 운영 위탁용역계약서 체결까지 조건으로 부과한 것이므로, 계약상 이행의 최고로 볼 수 없고 그에 기초한 해제도 부적법하다고 주장함.\n\n원고는 피고의 해제가 적법하려면\n① 원고의 책임 있는 이행지체\n② 상당한 기간을 정한 이행 최고\n③ 최고기간 내 미이행\n④ 해제 의사표시 도달이 모두 필요하다고 주장함.\n\n또한 피고의 8.28 내용증명은 잔금 지급뿐 아니라 위탁운영계약 체결까지 요구한 것이므로, 본래 이행하여야 할 채무를 초과하는 과다한 최고에 해당하여 적법한 최고가 아니라고 주장함.",
-    "피고 측 확인할 사실관계": "8.28 내용증명에서 잔금 지급 최고와 위탁운영계약 체결 요구가 어떻게 구성되어 있는지, 위탁운영계약 요구가 잔금 지급 최고의 조건인지 또는 분쟁 해결을 위한 별도 협의 요구인지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "백송 1차 내용증명, 9.8 내용증명, 9.16 또는 9.17 후속 내용증명, 임대차계약서, 8.19 대화·통화자료",
-    "반박 방향": "8.28 내용증명 중 잔금 지급 최고 부분과 운영구조 정리 요구 부분을 구분하여 검토해야 함.\n\n피고 입장에서는 8.28 내용증명이 기본적으로 잔금 지급 및 계약 이행을 요구한 것이고, 운영위탁계약은 골프존 가맹계약자 문제와 실제 운영구조를 정리하기 위한 협의 요구였다는 방향으로 정리.\n\n원고의 잔금 지급 의사에 가맹명의 이전 등 조건이 결부되어 있었다는 점이 확인된다면, 피고의 최고 및 해제가 잔금 미지급과 이행지체에 따른 조치였다는 방향으로 설명 가능함.\n\n즉, 8.28 내용증명은 잔금 지급 및 계약 이행을 요구한 것이 핵심이고, 위탁운영계약 관련 언급은 골프존 가맹계약자 문제와 실제 운영구조를 정리하기 위한 협의 요구로 구분하여 볼 여지가 있음. 다만 8.28 내용증명에 위탁운영계약 관련 언급이 포함되어 있는 것은 사실이므로, 이 부분이 적법한 최고 판단에 미치는 영향은 백송에서 별도 법리 검토가 필요함.",
-    "우선순위": "최상",
-    "확인된 내용": "백송 2025. 8. 28.자 내용증명에서는 원고에게 2025. 9. 5.까지 ① 잔금 2억 1,000만 원 및 잔금 지연에 따른 이자 지급, ② 임대차목적물 현황 확인 후 재인수, ③ 임대차계약서에 정하지 않은 내용을 정하는 골프존 운영위탁 용역계약서 체결을 요구한 것으로 기재되어 있음.\n\n같은 내용증명에서는 원고가 2025. 9. 5.까지 위 각 조건을 모두 이행하지 않을 경우, 해당 내용증명의 송달로써 임대차계약 해제의 의사표시에 갈음한다는 취지로 기재되어 있음.\n\n백송 2025. 9. 8.자 내용증명에서는 2025. 8. 28.자 내용증명을 통해 2025. 9. 5.까지 잔금 지급 및 계약 이행을 최고하였으나 원고가 기한 내 이행이나 회신을 하지 않았고, 이에 따라 임대차계약이 2025. 9. 6.자로 해제되었다는 취지로 통보함.\n\n백송 2025. 9. 17.자 내용증명에서는 피고가 2025. 8. 22. 문자메시지, 2025. 8. 28. 내용증명, 2025. 9. 8. 및 2025. 9. 12. 내용증명을 통해 계약 해제 또는 해제 확정을 통지하였다는 취지로 기재되어 있음.\n\n다만 2025. 8. 28.자 내용증명에 잔금 지급 요구 외에 운영위탁계약 체결 요구가 포함되어 있는 것은 사실이므로, 이 부분이 적법한 최고 및 해제 판단에 미치는 영향은 백송 법리 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "위탁운영계약 요구 부분은 원고가 과다한 최고 주장에 활용하고 있으므로, 최고 효력에 미치는 영향은 백송 법리 검토 필요"
-  },
-  {
-    "구분": "가오픈·\n현장 운영\n정황",
-    "No.": "8",
-    "반박 필요 항목": "2025. 8. 15.경 가오픈 및 실제 운영 정황",
-    "이신 조항": "1.다.2)⑤",
-    "이신/원고 주장 요지": "원고는 2025. 8. 15. 당시 인테리어가 마무리되지 않았고, 피고 측 지인들이 가끔 무료로 게임한 정도일 뿐 원고가 가오픈한 사실은 없다고 주장함.\n\n또한 8.16 박상준 발언은 건강 문제로 자신이 직접 운영에서 빠지고 조규철에게 매장운영을 일임하겠다는 뜻이었을 뿐, 원고 회사가 계약을 포기하거나 운영 의사를 철회한 것이 아니라고 주장함.",
-    "피고 측 확인할 사실관계": "8.15 전후 실제 고객 방문·게임 진행·직원 근무·운영 준비가 있었는지, 이용자가 피고 지인에 한정되었는지, 무료게임과 유료매출이 어떻게 구분되는지, 박상준 8.16 발언의 전체 맥락 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "골프존 게임수, GPM 매출자료, KS마이장부 카드매출자료, 라운드 현황, 결제내역, 예약내역, 8.16 통화녹취록, 직원 진술서, 고객 명단 가능 자료, 현장사진, CCTV",
-    "반박 방향": "정식 오픈이 아니더라도 가오픈 또는 영업 가능한 상태였고, 실제 게임 진행·고객 응대·운영 준비 정황이 있었다는 점을 정리.\n\n설령 일부 이용자가 피고 측 지인이거나 무료 이용이었다고 하더라도, 실제 라운드 진행·직원 근무·고객응대·매출 발생 정황은 영업 가능 상태를 뒷받침하는 자료로 활용 가능함.\n\n박상준 발언은 계약 포기라고 단정하기보다, 원고 측 운영 주체와 이행 의사가 불안정했고 조규철이 현장 운영에 관여하게 된 정황 정도로 활용하는 것이 안전함.",
-    "우선순위": "최상",
-    "확인된 내용": "골프존 관리사이트(GPM) 자료상 2025. 8. 21. 매출 내역이 존재하고, KS마이장부상 2025. 8. 21. 카드매출 내역이 확인됨.\n\n8. 15.부터 8. 21.까지의 라운드 현황 자료도 확보되어 있음.\n\n양희정 진술서에는 조규철이 2025. 8. 15.부터 2025. 8. 21.까지 현장에 출근하였고, 직원 교육, 데스크 POS 업무, 룸 기계 에러 체크, 인테리어 미흡 부분 점검, 청소, 손님 응대 등 매장 운영 관련 업무에 관여하였다는 취지의 내용이 기재되어 있음.\n\n2025. 8. 16. 김은주-박상준 통화녹취록에는 “손님들이 많이 오고 영업이 잘 되고 있다”는 취지의 발언이 확인됨.\n\n따라서 2025. 8. 15.경부터 원고 측 인원이 현장에 출근하여 운영 준비 및 고객 응대에 관여하였고, 늦어도 2025. 8. 21.에는 실제 매출 및 라운드 내역이 확인된다는 정도로 정리 가능함.\n\n다만 이를 법적으로 가오픈, 인도, 이행제공으로 평가할 수 있는지는 백송 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "개인정보가 포함될 수 있는 고객·예약자료는 마스킹 필요"
-  },
-  {
-    "구분": "가오픈·\n현장 운영\n정황",
-    "No.": "9",
-    "반박 필요 항목": "8.15 당시 인테리어 완공 및 사용 가능 상태",
-    "이신 조항": "1.다.2)③\n1.다.2)⑤",
-    "이신/원고 주장 요지": "원고는 이 사건 점포가 2025. 8월 초순경 골프존 시설설치는 완료되었으나, 인테리어 공사는 2025. 8. 중순까지 계속 중이었고 피고가 공사 완료를 통지한 사실도 없으므로 임대차 목적대로 사용할 수 있는 상태가 아니었다고 주장함.",
-    "피고 측 확인할 사실관계": "2025. 8. 15. 기준 핵심 영업시설이 사용 가능한 상태였는지, 남은 공사가 영업을 방해하는 본공사였는지 또는 잔손보기 수준이었는지, 골프존 장비와 룸 사용이 가능했는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "인테리어 계약서, 공사완료확인서, 비엘 확인서, 현장사진, 골프존 설치완료 자료, 장비 사용 가능일 자료",
-    "반박 방향": "“완전한 준공” 여부가 아니라 임대차 목적대로 사용 가능한 상태였는지가 핵심임.\n\n인테리어 계약서상 준공일, 골프존 시설설치 완료, 실제 라운드 진행·매출 발생 정황을 결합하여, 2025. 8. 15.경 핵심 영업시설 사용이 가능했거나 적어도 가오픈 가능한 상태였다는 방향으로 정리.",
-    "우선순위": "최상",
-    "확인된 내용": "인테리어공사 계약서상 준공일은 2025. 8. 11.로 기재되어 있음.\n\n원고도 2025. 8. 29.자 이신 내용증명 및 2026. 7. 3.자 준비서면에서, 2025. 8월 초순경 골프존 시설물 설치가 완료되었다는 점 자체는 인정하는 취지로 기재함.\n\n피고 2026. 4. 16.자 준비서면에서는 2025. 8.초경 인테리어와 골프존 가맹점 계약이 완료되어 골프존 시설을 사용할 수 있는 상태였고, 최소 2025. 8. 15.경에는 원고가 가오픈을 시작하였다는 취지로 주장함.\n\n또한 No.8 관련 자료상 2025. 8. 15.부터 8. 21.까지 라운드 현황, 2025. 8. 21. 매출 내역, 양희정 진술서상 조규철의 현장 출근 및 운영 관여 정황이 존재함.\n\n따라서 2025. 8. 15.경 핵심 영업시설 사용 가능 여부는 인테리어 계약서상 준공일, 골프존 시설설치 완료 인정 부분, 라운드·매출 자료, 양희정 진술서를 종합하여 정리 가능함.\n\n다만 남은 공사가 잔손보기 수준이었는지, 임대차 목적대로 사용 가능한 상태였는지에 대한 최종 평가는 백송 검토 필요.",
-    "추가 확인 필요": "1. 인테리어 업체 비엘의 납품완료확인서 필요\n\n2. 8. 11.경 비엘에 지급한 잔금(20%) 이체 내역 필요",
-    "비고": "No.8 라운드·매출자료와 연결하여 사용 가능 상태를 보강"
-  },
-  {
-    "구분": "가오픈·\n현장 운영\n정황",
-    "No.": "10",
-    "반박 필요 항목": "양희정 채용 및 조규철의 현장 운영 관여",
-    "이신 조항": "1.다.2)⑥",
-    "이신/원고 주장 요지": "원고는 조규철이 건물 인도 즉시 영업을 개시하기 위해 미리 채용절차만 진행했을 뿐이고, 양희정은 원고가 아니라 피고가 채용·고용하여 피고를 위해 일했다고 주장함. 양희정이 조규철과 면접을 본 사실은 인정하면서도, 법적 고용주와 실제 근무 주체는 피고였다고 주장함.",
-    "피고 측 확인할 사실관계": "양희정의 최종 고용관계 명의와 별개로, 최초 면접자, 출근 경위, 업무지시자, 현장 상주자, 실제 수행 업무, 조규철의 현장 운영 관여 정도 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "양희정 진술서",
-    "반박 방향": "법적 고용주가 누구인지에 깊게 들어가기보다, 조규철이 직접 면접을 보고 직원을 출근시켰으며, 현장에서 직원 교육, 데스크 POS 업무, 룸 기계 에러 체크, 인테리어 미흡 부분 점검, 청소, 고객응대 등 매장 운영 관련 업무에 관여했다는 점을 중심으로 정리. \n\n양희정의 최종 근로계약 주체보다 조규철이 현장 운영에 실질적으로 관여한 정황이 핵심",
-    "우선순위": "최상",
-    "확인된 내용": "양희정 진술서에는\n① 양희정이 조규철 대표와 면접을 통해 2025. 8. 15. 출근하였고,\n② 1층 커피숍에서 조규철 대표와 면접하였으며,\n③ 조규철 대표가 2025. 8. 15.부터 일주일 정도 현장에 출근·상주하였고,\n④ 조규철 대표가 직원 교육, 데스크 POS 업무, 룸 기계 에러 체크, 인테리어 미흡 부분 점검, 청소, 손님 응대 등 매장 운영 관련 업무에 관여하였으며,\n⑤ 양희정은 조규철 대표가 매장을 운영하는 것으로 알고 근무하였다는 취지의 내용이 기재되어 있음.\n\n원고 2026. 7. 3.자 준비서면에서도 조규철이 양희정과 면접을 본 사실 자체는 인정하는 취지로 기재되어 있음.\n\n따라서 법적 고용주가 누구인지와 별개로, 조규철이 양희정 면접 및 현장 운영 관련 업무에 관여한 정황은 기존 진술서 및 원고 준비서면 기재를 통해 정리 가능함.\n\n다만 양희정의 법적 고용관계, 채용 주체, 노동관계상 의미는 본 쟁점의 핵심으로 삼지 않고 백송 검토에 맡기는 것이 안전함.",
-    "추가 확인 필요": "1. 이지벤처스가 당시 3명 채용절차에 직접 관여했는지 확인\n\n2. 나머지 2명이 최종 근무하지 않게 된 경위 확인",
-    "비고": "노동관계 쟁점으로 확대하지 말고, 조규철의 면접·출근·현장 운영 관여 정황 중심으로 정리"
-  },
-  {
-    "구분": "위탁운영계약·\n계약 성격",
-    "No.": "11",
-    "반박 필요 항목": "위탁운영계약 강요 주장 및 4.22 통화의 의미",
-    "이신 조항": "1.가\n1.라\n4.가",
-    "이신/원고 주장 요지": "원고는 2025. 4.22 통화는 계약 전 일반적인 대화에 불과하고, 위탁운영계약 조건에 관한 의사합치나 위탁운영계약 체결 사실은 없었다고 주장함.\n\n또한 피고가 시설공사 완료 무렵 변심하여 임대차계약을 해제하고 원고에게 위탁운영계약 체결을 강요했다고 주장함.",
-    "피고 측 확인할 사실관계": "4.22 통화에서 가맹계약 주체, 시설비 부담, 운영구조, 위탁운영 또는 운영참여 방식이 어떻게 논의되었는지, 이후 위탁운영계약서 제안이 어떤 경위로 이루어졌는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "4.22 녹취록, 녹취파일, 위탁계약서 초안, 카톡, 내부 Q&A 답변, 8.28 백송 내용증명, 9월 후속 내용증명",
-    "반박 방향": "피고 입장에서는 임대차계약 자체를 부인하는 것이 아니라, 임대차계약 체결 전부터 피고 명의 가맹계약과 원고 측 운영참여 구조가 전제로 논의되었다는 점을 설명하는 방향.\n\n4.22 통화는 원고도 가맹계약 주체가 피고라는 전제와 운영참여 구조를 인식하고 있었다는 정황으로 활용 가능함.\n\n위탁운영계약서 제안은 피고의 변심이나 강요가 아니라, 골프존 승인·가맹계약자 문제와 실제 운영구조를 명확히 하기 위한 협의 또는 문서화 시도였다는 취지로 정리.",
-    "우선순위": "상",
-    "확인된 내용": "2025. 4. 22. 조명래-박상준 통화녹취록에는 박상준이 기존에 연습장을 운영했던 방식과 관련하여 “권리라든지 이런 건 전혀 없다”, “월세를 충분히 많이 드리고 이렇게 운영을 보통 인도 연습장들이 그렇게 하거든요”, “그게 보통 그렇게 위탁 운영이라고 될 수도 있고”라는 취지로 말한 내용이 확인됨.\n\n같은 통화에서 조명래는 비용은 피고가 부담하되 운영하는 사람도 남아야 한다는 취지로 말하고, 박상준은 골프존과의 계약은 조명래 측이 해야 한다는 취지의 대화에 응한 내용이 확인됨.\n\n피고 2026. 4. 16.자 준비서면은 위 통화 내용을 근거로, 원고 측이 임대차계약 체결 전부터 피고 명의 가맹계약 및 원고 측 운영참여 구조를 인식하고 있었다는 취지로 주장함.\n\n반면 원고 2026. 7. 3.자 준비서면은 2025. 4. 22. 통화가 계약 전 일반적인 대화에 불과하고, 위탁운영계약 조건에 관한 의사합치나 위탁운영계약 체결 사실은 없었다고 주장함.\n\n따라서 2025. 4. 22. 통화에 위탁운영 또는 운영참여 구조에 관한 대화가 있었던 점은 정리 가능하나, 이것이 위탁운영계약 체결 또는 원고의 명의이전 청구 배척 근거로 평가될 수 있는지는 백송 법리 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "No.7 최고 적법성 쟁점과 연결됨. 4.22 통화 및 후속 협의자료로 위탁운영계약서 제안 경위를 보강할 필요"
-  },
-  {
-    "구분": "손해배상·\n손해액",
-    "No.": "12",
-    "반박 필요 항목": "피고 운영에 따른 손해배상 책임 및 손해액 산정 방식",
-    "이신 조항": "4.가\n4.나",
-    "이신/원고 주장 요지": "원고는 피고가 이행을 거절한 후 현재까지 직접 골프존 매장을 운영하고 있으므로 원고에게 영업손실 상당의 손해배상책임을 부담한다고 주장함.\n\n또한 원고의 손해액은 2025.9.1.부터 변론종결일까지 피고의 골프존 영업매출액에서 피고의 영업비용을 공제한 금액이라고 주장함.",
-    "피고 측 확인할 사실관계": "원고가 실제로 영업을 개시할 준비를 완료했는지, 잔금 지급·가맹승인·인허가·운영인력·자금 준비가 갖추어졌는지, 피고 매출과 원고 예상이익을 동일하게 볼 수 있는지 확인",
-    "필요한 증거/자료 (확보완료 / 확보필요)": "원고 잔금 미지급 자료, 가맹계약서, 인허가 자료, 사업자 관련 자료, 피고 매출·비용 구조, 업계 비용자료, 원고 운영능력 관련 자료, 문서제출명령·사실조회 신청서",
-    "반박 방향": "피고가 현재 매장을 운영하고 있다는 사실만으로 원고의 손해 발생, 인과관계, 손해액이 당연히 인정되는 것은 아니라는 점을 정리할 필요가 있음.\n\n원고의 잔금 미지급, 가맹명의 이전 조건 주장, 실제 영업 준비상태, 운영능력, 인허가 상태 등을 종합하면 책임·인과관계·손해액 산정은 모두 별도 검토 대상임.\n\n또한 피고의 실제 매출과 원고가 운영했을 경우의 예상 영업이익은 동일하지 않으므로, 피고 매출에서 비용을 공제한 금액을 원고 손해액으로 볼 수 있는지는 백송에서 별도 검토할 필요가 있음.",
-    "우선순위": "상",
-    "확인된 내용": "원고 2026. 7. 3.자 준비서면에서는 피고가 이행을 거절한 후 현재까지 직접 골프존 매장을 운영하고 있으므로 원고에게 영업손실 상당의 손해배상책임을 부담한다고 주장함.\n\n또한 원고는 손해액을 2025. 9. 1.부터 변론종결일까지 피고의 골프존 영업매출액에서 피고의 영업비용을 공제한 금액으로 산정하겠다는 취지로 주장함.\n\n원고는 위 손해액 입증을 위해 문서제출명령신청 및 골프존에 대한 사실조회촉탁신청을 한 상태임.\n\n다만 피고의 실제 매출에서 비용을 공제한 금액이 곧바로 원고의 손해액으로 평가될 수 있는지, 원고의 영업개시 가능성, 잔금 지급 여부, 가맹명의 이전 조건 주장, 인과관계 및 손해액 산정 방식은 백송에서 별도 법리 검토 필요.",
-    "추가 확인 필요": "",
-    "비고": "현 단계에서는 책임·인과관계 중심으로 간단히 대응하고, 손해배상 청구취지 확장 또는 문서제출명령 채택 시 손해액 산정은 별도 대응"
-  }
-];
-    
-const timelineSections = TIMELINE_DATA;
-const factRows = FACT_DATA.map(row => ({
-  ...row,
-  "구분": (row["구분"] || "").replace(/\s+/g, " ").trim()
-}));
-const headers = FACT_HEADERS;
-const headerLabels = {
-  "이신 조항": "원고 2026-07-03 준비서면 조항",
-  "이신/원고 주장 요지": "원고 주장 요지"
-};
-const factColWidths = {
-  "구분": "110px",
-  "No.": "56px",
-  "반박 필요 항목": "180px",
-  "이신 조항": "180px",
-  "이신/원고 주장 요지": "260px",
-  "피고 측 확인할 사실관계": "240px",
-  "필요한 증거/자료 (확보완료 / 확보필요)": "240px",
-  "반박 방향": "300px",
-  "우선순위": "90px",
-  "확인된 내용": "320px",
-  "추가 확인 필요": "230px",
-  "비고": "220px"
-};
-const fieldMeta = {
-  "원고 2026-07-03 준비서면 조항": {icon:"📑", className:""},
-  "원고 주장 요지": {icon:"🗣️", className:"", full:true},
-  "피고 측 확인할 사실관계": {icon:"🔍", className:""},
-  "필요한 증거/자료 (완료 / 필요)": {icon:"📎", className:""},
-  "반박 방향": {icon:"🛡️", className:"emphasis-rebuttal", full:true},
-  "확인된 내용": {icon:"✅", className:"emphasis-confirmed", full:true},
-  "추가 확인 필요": {icon:"⚠️", className:"emphasis-needed", full:true},
-  "비고": {icon:"📝", className:"", full:true}
-};
-const createdAt = "2026. 7. 8.";
-
+const APP_DATA = JSON.parse(document.getElementById("appData").textContent);
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 
-function norm(s){ return (s || "").toString().toLowerCase().replace(/\s+/g, " ").trim(); }
 function escapeHtml(s){
   return (s ?? "").toString()
     .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
     .replaceAll('"',"&quot;").replaceAll("'","&#039;");
 }
-const EVIDENCE_SEGMENTS = {
-  "1": [
-    {text:"계정정보 제공 카톡·문자·녹취, 골프존 관리사이트 게임수·매출내역, 조규철의 기존 매장 운영 정황자료", cls:"ev-needed"},
-    {text:". 단, 증빙이 없으면 대표님 설명에 따른 정황 서술로 처리", cls:""}
-  ],
-  "2": [{text:"갑16호증 2025. 8. 19. 대화녹취록", cls:"ev-done"}],
-  "3": [{text:"임대차계약서\n골프존 가맹계약서\n260416 피고 준비서면\n갑16호증 8.19 대화녹취록 인용부분", cls:"ev-done"}],
-  "4": [{text:"No.8 가오픈 자료, No.9 인테리어 완공 자료,\nNo.10 양희정 진술서 관련 자료와 연결하여 정리", cls:"ev-done"}],
-  "5": [{text:"임대차계약서, 특약 제8조, 계약 전후 카톡·문자·통화자료, 내용증명", cls:"ev-done"}],
-  "6": [{text:"8.19 이체확인증, 문자 원본 캡처, 8.19 통화녹취록, 8.19 대화녹취록, 8.29 내용증명, 잔고증명서, 9월 이후 내용증명, 공탁서", cls:"ev-done"}],
-  "8": [
-    {text:"골프존 게임수, GPM 매출자료, KS마이장부 카드매출자료, 라운드 현황, 결제내역, 예약내역, 8.16 통화녹취록, 직원 진술서", cls:"ev-done"},
-    {text:", 고객 명단 가능 자료, 현장사진, CCTV", cls:""}
-  ],
-  "9": [
-    {text:"인테리어 계약서, 공사완료확인서", cls:"ev-done"},
-    {text:", 비엘 확인서", cls:"ev-needed"},
-    {text:", 현장사진, 골프존 설치완료 자료, 장비 사용 가능일 자료", cls:""}
-  ],
-  "10": [{text:"양희정 진술서", cls:"ev-done"}]
-};
-function formatEvidence(row){
-  const raw = row["필요한 증거/자료 (확보완료 / 확보필요)"] || "";
-  const segments = EVIDENCE_SEGMENTS[row["No."]];
-  if(!segments) return escapeHtml(raw);
-  return segments.map(seg => {
-    const text = escapeHtml(seg.text);
-    return seg.cls ? `<span class="${seg.cls}">${text}</span>` : text;
-  }).join("");
+function norm(s){
+  return (s ?? "").toString()
+    .replace(/\.(pdf|jpg|jpeg|png|html)$/i, "")
+    .replace(/^\s*\d+\./, "")
+    .replace(/\s+/g, "")
+    .toLowerCase()
+    .trim();
 }
-function formatHeaderLabel(h){
-  if(h === "필요한 증거/자료 (확보완료 / 확보필요)"){
-    return `필요한 증거/자료 (<span class="ev-done">완료</span> / <span class="ev-needed">필요</span>)`;
-  }
-  return escapeHtml(headerLabels[h] || h);
-}
-function formatFieldLabel(label){
-  if(label === "필요한 증거/자료 (완료 / 필요)"){
-    return `필요한 증거/자료 (<span class="ev-done">완료</span> / <span class="ev-needed">필요</span>)`;
-  }
-  return escapeHtml(label);
-}
+function hasValue(v){ return v !== null && v !== undefined && v.toString().trim() !== ""; }
 function matchesText(obj, q){
   if(!q) return true;
-  const bag = JSON.stringify(obj, null, 0).toLowerCase();
-  return bag.includes(q.toLowerCase());
+  return JSON.stringify(obj).toLowerCase().includes(q.toLowerCase());
+}
+function cleanDisplayText(value){
+  return (value ?? "").toString()
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+function textBlockFromHtml(html){
+  const raw = cleanDisplayText(html);
+  if(!raw) return "";
+  const paras = raw.split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, "<br>")}</p>`).join("");
+  return `<div class="text-block">${paras}</div>`;
+}
+function textBlock(value){
+  return textBlockFromHtml(escapeHtml(cleanDisplayText(value)));
+}
+
+function fileNorm(s){
+  return (s ?? "").toString()
+    .replace(/^\s*\d+\./, "")
+    .replace(/\.(pdf|jpg|jpeg|png|html)/ig, "")
+    .replace(/[\s_\-·ㆍ.()（）\[\]{}~:：,，]/g, "")
+    .toLowerCase()
+    .trim();
+}
+function fileForReference(line){
+  const raw = (line ?? "").toString().trim();
+  if(!raw) return null;
+  const exactKey = norm(raw);
+  if(APP_DATA.fileMap[exactKey]) return APP_DATA.fileMap[exactKey];
+  const rawKey = fileNorm(raw);
+  for(const [key, file] of Object.entries(APP_DATA.fileMap || {})){
+    const keys = [key, file.base, file.display, file.fileName]
+      .filter(Boolean)
+      .map(fileNorm)
+      .filter(k => k.length >= 5);
+    if(keys.some(k => rawKey === k || rawKey.includes(k) || k.includes(rawKey))){
+      return file;
+    }
+  }
+  return null;
+}
+function fileIdentity(file){
+  return (file && (file.id ?? file.fileName ?? file.display ?? file.base))?.toString() || "";
+}
+const FILES_BY_ID = Object.fromEntries(Object.values(APP_DATA.fileMap || {}).map(file => [fileIdentity(file), file]));
+function fileUrl(file){
+  if(!file) return "#";
+  if(file.href) return file.href;
+  const name = file.fileName || file.display || file.base || "";
+  return "/data/" + encodeURIComponent(name).replace(/%2F/g, "/");
+}
+function filesForText(value){
+  const text = (value ?? "").toString();
+  if(!text.trim()) return [];
+  const seen = new Set();
+  const files = [];
+  text.split(/\n/).forEach(line => {
+    const file = fileForReference(line);
+    const key = fileIdentity(file);
+    if(file && key && !seen.has(key)){
+      seen.add(key);
+      files.push(file);
+    }
+  });
+  return files;
+}
+function fileForLine(line){ return fileForReference(line); }
+function fileActionButton(file, label, className, defaultLabel="다운로드"){
+  if(!file) return "";
+  const id = fileIdentity(file);
+  const isHtml = (file.ext || "").toLowerCase() === "html";
+  const action = isHtml ? "open" : "download";
+  const icon = isHtml ? "↗" : "⬇";
+  const shown = label || (isHtml ? "새창 열기" : defaultLabel);
+  return `<button type="button" class="${className}" data-file-id="${escapeHtml(id)}" data-file-action="${action}" title="${escapeHtml(file.fileName || shown)}">${icon} ${escapeHtml(shown)}</button>`;
+}
+function fileLink(file, label){
+  const isHtml = (file.ext || "").toLowerCase() === "html";
+  return fileActionButton(file, label || file.display, "file-link", isHtml ? "새창 열기" : "다운로드");
+}
+function downloadButton(file, label="다운로드", extraClass=""){
+  const isHtml = (file.ext || "").toLowerCase() === "html";
+  const shown = isHtml && label === "다운로드" ? "새창 열기" : label;
+  return fileActionButton(file, shown, `download-btn ${extraClass}`.trim(), "다운로드");
+}
+function linkifyLines(value){
+  const text = cleanDisplayText(value);
+  if(!text.trim()) return "";
+  return text.split(/\n/).map(line => {
+    const trimmed = line.trim();
+    if(!trimmed) return "";
+    const file = fileForReference(trimmed);
+    // 본문 설명 영역에서는 대화기록 HTML은 전체 대화 페이지라 링크를 걸지 않음
+    if(file && (file.ext || "").toLowerCase() !== "html") return fileLink(file, trimmed);
+    return escapeHtml(line);
+  }).join("\n");
+}
+function valueHtml(value, allowLinks=true){
+  if(!hasValue(value)) return "";
+  return allowLinks ? textBlockFromHtml(linkifyLines(value)) : textBlock(value);
+}
+function displayLabel(label){
+  if(label.includes("확보된 증거/자료")) return "확보된 증거/자료";
+  return label;
+}
+function evidenceChipLabel(tone){
+  if(tone === "new") return "신규확보";
+  if(tone === "opponent") return "원고제출";
+  return "기존보유";
+}
+function renderEvidenceItems(row){
+  const items = row._evidenceItems || [];
+  if(items.length){
+    return `<div class="evidence-chip-list">${items.map(item => {
+      const text = (item.text ?? "").toString();
+      if(!text.trim()) return "";
+      const isSection = /^\[.*\]$/.test(text.trim());
+      if(isSection){
+        return `<div class="evidence-chip-line section-line"><span class="evidence-chip-text">${escapeHtml(text)}</span></div>`;
+      }
+      const tone = item.tone || "existing";
+      return `<div class="evidence-chip-line"><span class="evidence-status-chip evidence-status-${escapeHtml(tone)}">${evidenceChipLabel(tone)}</span><span class="evidence-chip-text">${escapeHtml(text)}</span></div>`;
+    }).join("")}</div>`;
+  }
+  const raw = (row["확보된 증거/자료\n(기존자료 / 신규 / 원고자료)"] || "").toString();
+  if(!raw.trim()) return "";
+  return `<div class="evidence-chip-list">${raw.split(/\n/).filter(line => line.trim()).map(line => `<div class="evidence-chip-line"><span class="evidence-status-chip evidence-status-existing">기존보유</span><span class="evidence-chip-text">${escapeHtml(line.trim())}</span></div>`).join("")}</div>`;
+}
+function fieldMeta(label){
+  if(label.includes("확보된 증거")) return {icon:"📎", cls:"emphasis-evidence evidence-field", full:false};
+  if(label.includes("추가 확보")) return {icon:"⚠️", cls:"emphasis-needed", full:false};
+  if(label === "반박 방향") return {icon:"🛡️", cls:"emphasis-rebuttal", full:true};
+  if(label === "확인된 내용") return {icon:"✅", cls:"emphasis-confirmed", full:true};
+  if(label === "검토 요청사항") return {icon:"🧾", cls:"emphasis-review", full:true};
+  if(label === "원고 주장 요지") return {icon:"🗣️", cls:"", full:false};
+  if(label === "피고 측 확인할 사실관계") return {icon:"🔍", cls:"", full:false};
+  if(label === "원고 서면 조항") return {icon:"📑", cls:"", full:false};
+  if(label === "비고") return {icon:"📝", cls:"", full:true};
+  return {icon:"•", cls:"", full:false};
+}
+function evidenceToneClass(row){ return ""; }
+function evidenceLegendHtml(){ return ""; }
+function renderField(label, value, row){
+  const evidenceCol = "확보된 증거/자료\n(기존자료 / 신규 / 원고자료)";
+  const hasEvidenceItems = !!(row && Array.isArray(row._evidenceItems) && row._evidenceItems.some(item => hasValue(item && item.text)));
+  const hasSecuredEvidence = !!(row && (hasValue(row[evidenceCol]) || hasEvidenceItems));
+  const isAdditionalEvidence = label.includes("추가 확보");
+  const keepEmpty = isAdditionalEvidence && hasSecuredEvidence;
+  if(!hasValue(value) && !keepEmpty) return "";
+  const meta = fieldMeta(label);
+  const cls = ["field", meta.full ? "full" : "", meta.cls || ""].filter(Boolean).join(" ");
+  const isEvidence = label.includes("확보된 증거");
+  const content = isEvidence ? renderEvidenceItems(row) : (hasValue(value) ? valueHtml(value, true) : "-");
+  return `
+    <div class="${cls}">
+      <label><span class="field-icon">${escapeHtml(meta.icon)}</span>${escapeHtml(displayLabel(label))}</label>
+      <div class="value ${isEvidence ? "evidence-value" : ""}">${content}</div>
+    </div>`;
+}
+function cleanNoteText(note){
+  return cleanDisplayText(note).replace(/\s*\n\s*/g, " ").trim();
+}
+function tableCellClass(header, kind){
+  const h = (header || "").toString();
+  if(kind === "chat"){
+    if(h === "No." || h.includes("날짜") || h.includes("시간")) return "fit-cell";
+    if(h.includes("파일명")) return "file-cell";
+    if(h.includes("발신")) return "sender-cell";
+    if(h.includes("대화") || h.includes("내용")) return "message-cell";
+  }
+  return "";
+}
+function smallTableHeaderLabel(header){
+  return header === "파일명2" ? "파일명" : header;
+}
+function uniqueFilesFromRows(rows, field){
+  const seen = new Set();
+  const files = [];
+  const fields = Array.isArray(field) ? field : [field];
+  (rows || []).forEach(row => {
+    fields.forEach(f => {
+      filesForText(row[f] || "").forEach(file => {
+        const key = fileIdentity(file);
+        if(key && !seen.has(key)){
+          seen.add(key);
+          files.push(file);
+        }
+      });
+    });
+  });
+  return files;
+}
+function isSplittableEvidenceRefLine(line){
+  const text = (line ?? "").toString().trim();
+  if(!text) return false;
+  if(/[“”]/.test(text)) return false;
+  if(fileForReference(text)) return true;
+  if(/확보\s*필요|사실조회|진술서|공사완료확인서|잔금\s*20%/.test(text)) return true;
+  return false;
+}
+function splitEvidenceRows(rows){
+  const out = [];
+  (rows || []).forEach(row => {
+    const ref = (row["근거"] ?? "").toString();
+    const lines = ref.split(/\n/).map(v => v.trim()).filter(Boolean);
+    const splittableCount = lines.filter(isSplittableEvidenceRefLine).length;
+    const shouldSplit = lines.length > 1 && splittableCount >= 2 && splittableCount === lines.length;
+    if(shouldSplit){
+      lines.forEach((line, idx) => out.push({...row, "근거": line, _splitFromMulti: true, _splitIndex: idx}));
+    }else{
+      out.push(row);
+    }
+  });
+  return out;
+}
+function renderSmallTable(headers, rows, kind="default"){
+  if(!rows || !rows.length) return `<div class="empty">표시할 항목이 없습니다.</div>`;
+  if(kind === "chat"){
+    const useHeaders = (headers || []);
+    return `
+      <table class="compact-table fit-table chat-table">
+        <thead><tr>${useHeaders.map(h => `<th class="${tableCellClass(h, "chat")}">${escapeHtml(smallTableHeaderLabel(h))}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${rows.map(row => `<tr>${useHeaders.map(h => {
+            const value = row[h] ?? "";
+            const body = h.includes("대화") || h.includes("내용") ? textBlock(value) : escapeHtml(cleanDisplayText(value));
+            return `<td class="${tableCellClass(h, "chat")}">${body}</td>`;
+          }).join("")}</tr>`).join("")}
+        </tbody>
+      </table>`;
+  }
+  if(kind === "evidence"){
+    const ordered = ["No.", "문구", "근거", "비고", "다운로드"];
+    const displayRows = splitEvidenceRows(rows);
+    const groupSpans = [];
+    for(let i = 0; i < displayRows.length; i++){
+      const row = displayRows[i];
+      const no = cleanDisplayText(row["No."] ?? "");
+      const statement = cleanDisplayText(row["문구"] ?? "");
+      const groupKey = `${no}||${statement}`;
+      if(i > 0){
+        const prev = displayRows[i - 1];
+        const prevKey = `${cleanDisplayText(prev["No."] ?? "")}||${cleanDisplayText(prev["문구"] ?? "")}`;
+        if(prevKey === groupKey){
+          groupSpans[i] = 0;
+          continue;
+        }
+      }
+      let span = 1;
+      for(let j = i + 1; j < displayRows.length; j++){
+        const next = displayRows[j];
+        const nextKey = `${cleanDisplayText(next["No."] ?? "")}||${cleanDisplayText(next["문구"] ?? "")}`;
+        if(nextKey !== groupKey) break;
+        span++;
+      }
+      groupSpans[i] = span;
+    }
+    return `
+      <table class="compact-table fit-table evidence-table">
+        <thead><tr>${ordered.map(h => `<th class="${h === "문구" ? "statement-cell" : "fit-cell"}">${escapeHtml(h)}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${displayRows.map((row, idx) => {
+            const no = cleanDisplayText(row["No."] ?? "");
+            const statement = row["문구"] ?? "";
+            const ref = row["근거"] ?? "";
+            const note = row["비고"] ?? "";
+            const hasChat = ref.toString().includes("대화기록.html");
+            const trClass = hasChat ? "evidence-row-chat" : (!no ? "evidence-row-needs" : "");
+            const files = filesForText(ref);
+            const noteIcon = hasValue(note) ? `<span class="note-tooltip" tabindex="0"><span class="note-icon">i</span><span class="note-bubble">${escapeHtml(cleanDisplayText(note))}</span></span>` : `<span class="note-empty"></span>`;
+            const refHtml = cleanDisplayText(ref).split(/\n/).filter(Boolean).map(line => `<div class="ref-line">${escapeHtml(line)}</div>`).join("");
+            const downloads = files
+              .filter(file => (file.ext || "").toLowerCase() !== "html")
+              .map(file => downloadButton(file, "다운로드", "small"))
+              .join(" ");
+            const span = groupSpans[idx] || 0;
+            const mergedCells = span > 0
+              ? `<td class="no-cell merged-cell" rowspan="${span}">${escapeHtml(no)}</td><td class="statement-cell merged-cell" rowspan="${span}">${textBlock(statement)}</td>`
+              : "";
+            return `<tr class="${trClass}">
+              ${mergedCells}
+              <td class="ref-cell">${refHtml}</td>
+              <td class="note-cell">${noteIcon}</td>
+              <td class="download-cell">${downloads}</td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table>`;
+  }
+  return `
+    <table class="compact-table">
+      <thead><tr>${headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${rows.map(row => `<tr>${headers.map(h => `<td>${textBlock(row[h] ?? "")}</td>`).join("")}</tr>`).join("")}
+      </tbody>
+    </table>`;
+}
+function renderEvidenceDetail(sheetName){
+  const sheet = APP_DATA.evidenceSheets[sheetName];
+  if(!sheet) return "";
+  const chatFiles = uniqueFilesFromRows(sheet.chatRows, ["파일명", "파일명2"]);
+  const noteText = (sheet.notes || []).map(cleanNoteText).filter(Boolean).join(" ");
+  return `
+    <div class="evidence-detail">
+      <h4>${escapeHtml(sheet.title || sheet.sheet)}</h4>
+      <div class="evidence-grid">
+        <div class="subblock">
+          <div class="subblock-title-row">
+            <div class="subblock-title">${escapeHtml(sheet.chatTitle || "1. 카톡 대화방 근거")}</div>
+            <div class="subblock-title-actions">${chatFiles.map(file => downloadButton(file, file.fileName, "small muted")).join("")}</div>
+          </div>
+          ${noteText ? `<div class="sheet-note inline-note">${escapeHtml(cleanDisplayText(noteText))}</div>` : ""}
+          <div class="subblock-body">${renderSmallTable(sheet.chatHeaders, sheet.chatRows, "chat")}</div>
+        </div>
+        <div class="subblock">
+          <div class="subblock-title-row"><div class="subblock-title">${escapeHtml(sheet.evidenceTitle || "2. 증빙")}</div></div>
+          <div class="subblock-body">${renderSmallTable(sheet.evidenceHeaders, sheet.evidenceRows, "evidence")}</div>
+        </div>
+      </div>
+    </div>`;
+}
+function factCardId(no){
+  return "fact-no-" + encodeURIComponent((no || "").toString().trim() || "x").replace(/%/g, "");
+}
+function renderFactSubnav(rows){
+  const root = $("#factSubnav");
+  if(!root) return;
+  if(!rows.length){
+    root.innerHTML = "";
+    return;
+  }
+  root.innerHTML = `<div class="fact-subnav-title">No. 바로가기</div><div class="fact-subnav-list">${rows.map(row => {
+    const no = row["No."] || "-";
+    const title = row["반박 필요 항목"] || "";
+    return `<a class="fact-jump" href="#${factCardId(no)}" title="${escapeHtml(title)}"><span class="fact-jump-no">${escapeHtml(no)}</span><span class="fact-jump-title">${escapeHtml(title)}</span></a>`;
+  }).join("")}</div>`;
+}
+function renderFactCards(){
+  const q = $("#globalSearch").value.trim();
+  const rows = APP_DATA.factRows.filter(row => matchesText(row, q));
+  $("#factCount").textContent = rows.length;
+  const root = $("#factCards");
+  if(!rows.length){
+    root.innerHTML = `<div class="empty">검색 결과가 없습니다.</div>`;
+    renderFactSubnav(rows);
+    return;
+  }
+  renderFactSubnav(rows);
+  const preferredOrder = [
+    "원고 주장 요지",
+    "피고 측 확인할 사실관계",
+    "반박 방향",
+    "확인된 내용",
+    "검토 요청사항",
+    "비고",
+    "확보된 증거/자료\n(기존자료 / 신규 / 원고자료)",
+    "추가 확보 필요 증거"
+  ];
+  const excluded = ["구분","No.","반박 필요 항목","링크","원고 서면 조항"];
+  const otherHeaders = APP_DATA.factHeaders.filter(h => !excluded.includes(h) && !preferredOrder.includes(h));
+  const headers = [...preferredOrder, ...otherHeaders].filter(h => APP_DATA.factHeaders.includes(h));
+  root.innerHTML = rows.map(row => {
+    const sheetName = (row["링크"] || "").trim();
+    const evidenceHtml = sheetName && sheetName !== "-" ? renderEvidenceDetail(sheetName) : "";
+    const clause = row["원고 서면 조항"] || "-";
+    return `
+      <details class="fact-card" id="${factCardId(row["No."])}">
+        <summary>
+          <div class="no">${escapeHtml(row["No."])}</div>
+          <div class="fact-title">
+            <b>${escapeHtml(row["반박 필요 항목"])}</b>
+            <span>${escapeHtml(cleanDisplayText(row["구분"]))}</span>
+          </div>
+          <div class="clause-chip" title="원고 서면 조항">
+            <span class="clause-label">원고 서면 조항</span>
+            <span class="clause-value">${escapeHtml(cleanDisplayText(clause).replace(/\s*\n+\s*/g, " / "))}</span>
+          </div>
+        </summary>
+        <div class="fact-detail">
+          ${headers.map(h => renderField(h, row[h], row)).join("")}
+          ${evidenceHtml}
+        </div>
+      </details>`;
+  }).join("");
+}
+function renderEvidenceMaster(){
+  const q = $("#globalSearch").value.trim();
+  const rows = APP_DATA.evidenceMaster.filter(row => matchesText(row, q));
+  $("#evidenceCount").textContent = rows.length;
+  const root = $("#evidenceRoot");
+  if(!rows.length){
+    root.innerHTML = `<div class="empty">검색 결과가 없습니다.</div>`;
+    return;
+  }
+  root.innerHTML = rows.map((row, idx) => {
+    const files = row.files || [];
+    const fileRows = files.length
+      ? files.map(file => {
+          const isHtml = (file.ext || "").toLowerCase() === "html";
+          const actionLabel = isHtml ? "새창 열기" : "다운로드";
+          return `<div class="evidence-file-row">
+            <div class="evidence-file-name">${escapeHtml(file.display || file.fileName || file.base || "-")}</div>
+            <div class="evidence-file-action">${downloadButton(file, actionLabel, "small")}</div>
+          </div>`;
+        }).join("")
+      : splitLinesForDisplay(row["근거"] || "").map(line => `<div class="evidence-file-row no-action"><div class="evidence-file-name">${escapeHtml(line)}</div></div>`).join("");
+    return `
+      <article class="evidence-card">
+        <div class="evidence-card-head evidence-card-head-vertical">
+          <h3>증빙 ${idx + 1}</h3>
+          <div class="evidence-file-list">${fileRows}</div>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-box">
+            <b>반박 필요 항목</b>
+            <div>${textBlock(row["반박 필요 항목"] || "")}</div>
+          </div>
+          <div class="meta-box">
+            <b>원고 서면 조항</b>
+            <div>${textBlock(row["원고 서면 조항"] || "")}</div>
+          </div>
+        </div>
+      </article>`;
+  }).join("");
+}
+function splitLinesForDisplay(value){
+  return cleanDisplayText(value).split(/\n+/).map(v => v.trim()).filter(Boolean);
+}
+function sheetForFactRow(row){
+  const sheetName = (row["링크"] || "").trim();
+  return sheetName ? APP_DATA.evidenceSheets[sheetName] : null;
+}
+function supportRefForChat(row){
+  const file = row["파일명"] || row["파일명2"] || "";
+  const time = row["날짜/시간"] || "";
+  const sender = row["발신자"] || row["대화자"] || "";
+  return [file, time, sender].filter(v => hasValue(v)).join("\n");
+}
+function neededSupportRows(sheet, item){
+  if(!sheet) return [];
+  const itemText = cleanDisplayText(item || "");
+  const itemKey = fileNorm(itemText);
+  const candidateRows = [];
+  (sheet.evidenceRows || []).forEach(row => {
+    const blob = `${row["문구"] || ""}\n${row["근거"] || ""}\n${row["비고"] || ""}`;
+    const blobKey = fileNorm(blob);
+    const isNeedRow = !hasValue(row["No."]) || /확보\s*필요|필요 시|사실조회|진술서|공사완료|CCTV|보안|잔금\s*20%/.test(blob);
+    const matched = itemKey && (blobKey.includes(itemKey) || itemKey.includes(blobKey));
+    if(isNeedRow || matched){
+      candidateRows.push({kind:"증빙", content: row["문구"] || "-", ref: [row["근거"] || "", row["비고"] || ""].filter(v => hasValue(v)).join("\n")});
+    }
+  });
+  if(candidateRows.length) return candidateRows.slice(0, 6);
+  const chatRows = (sheet.chatRows || []).slice(0, 3).map(row => ({
+    kind:"카톡 대화방 근거",
+    content: row["대화내용"] || row["대화자"] || "-",
+    ref: supportRefForChat(row) || "-"
+  }));
+  const basicEvRows = (sheet.evidenceRows || []).slice(0, 3).map(row => ({
+    kind:"증빙",
+    content: row["문구"] || "-",
+    ref: [row["근거"] || "", row["비고"] || ""].filter(v => hasValue(v)).join("\n") || "-"
+  }));
+  return [...chatRows, ...basicEvRows].slice(0, 6);
+}
+function renderNeededSupport(sheet, item){
+  const rows = neededSupportRows(sheet, item);
+  if(!rows.length) return `<div class="empty">연결된 증빙시트 참고 항목이 없습니다.</div>`;
+  return `<div class="needed-support-wrap">
+    <table class="needed-support-table">
+      <colgroup><col class="support-kind-col"><col class="support-half-col"><col class="support-half-col"></colgroup>
+      <thead><tr><th>구분</th><th class="support-content">증빙시트 내용</th><th class="support-ref-head">근거/출처</th></tr></thead>
+      <tbody>${rows.map(row => `<tr>
+        <td class="support-kind">${escapeHtml(row.kind)}</td>
+        <td class="support-content-cell">${textBlock(row.content || "-")}</td>
+        <td class="support-ref">${textBlock(row.ref || "-")}</td>
+      </tr>`).join("")}</tbody>
+    </table>
+  </div>`;
+}
+function neededGroups(){
+  const groups = new Map();
+  APP_DATA.factRows.forEach(row => {
+    splitLinesForDisplay(row["추가 확보 필요 증거"]).forEach(item => {
+      const key = cleanDisplayText(item);
+      if(!key) return;
+      if(!groups.has(key)) groups.set(key, {item:key, rows:[]});
+      groups.get(key).rows.push(row);
+    });
+  });
+  return [...groups.values()];
+}
+function renderRelatedFactList(rows){
+  return `<div class="needed-related-list">${rows.map(row => `<div class="needed-related-item">
+    <b>No. ${escapeHtml(row["No."] || "-")} · ${escapeHtml(row["반박 필요 항목"] || "")}</b>
+    <span>${escapeHtml(row["구분"] || "")}${hasValue(row["원고 서면 조항"]) ? " · 원고 서면 조항 " + escapeHtml(row["원고 서면 조항"]) : ""}</span>
+  </div>`).join("")}</div>`;
+}
+function renderNeededEvidence(){
+  const q = $("#globalSearch").value.trim();
+  const groups = neededGroups().filter(group => matchesText(group, q));
+  const countEl = $("#neededCount");
+  if(countEl) countEl.textContent = groups.length;
+  const root = $("#neededRoot");
+  if(!root) return;
+  if(!groups.length){
+    root.innerHTML = `<div class="empty">검색 결과가 없습니다.</div>`;
+    return;
+  }
+  root.innerHTML = groups.map((group, idx) => {
+    const primary = group.rows[0] || {};
+    const sheet = sheetForFactRow(primary);
+    const sheetName = (primary["링크"] || "-").trim() || "-";
+    const why = group.rows.map(row => row["피고 측 확인할 사실관계"] || "").filter(Boolean).join("\n\n");
+    const reviews = group.rows.map(row => row["검토 요청사항"] || "").filter(Boolean).join("\n\n");
+    return `<article class="needed-card">
+      <div class="needed-card-head">
+        <div class="needed-no">${idx + 1}</div>
+        <div class="needed-title">
+          <span class="needed-file-chip">필요 자료</span>
+          <span class="needed-file-name">${escapeHtml(group.item)}</span>
+          <span>관련 반박 항목 ${group.rows.length}건</span>
+        </div>
+      </div>
+      <div class="needed-body">
+        <div class="needed-two">
+          <div class="needed-box">
+            <b>⚠️ 추가 확보 필요 증거</b>
+            <div class="needed-extra-list"><div class="needed-extra-item">${escapeHtml(group.item)}</div></div>
+          </div>
+          <div class="needed-box">
+            <b>🔍 왜 필요한지</b>
+            <div class="value">${textBlock(why || "-")}</div>
+          </div>
+        </div>
+        <div class="needed-box">
+          <b>📌 관련 반박 필요 항목</b>
+          ${renderRelatedFactList(group.rows)}
+        </div>
+        <div class="needed-box">
+          <b>📌 증빙시트 참고: ${escapeHtml(sheetName)}</b>
+          <div class="value" style="margin-bottom:10px">${textBlock("관련 증빙시트의 카톡 대화방 근거와 증빙 항목 중, 추가 보강 필요성과 연결되는 내용을 함께 표시했습니다.")}</div>
+          ${renderNeededSupport(sheet, group.item)}
+        </div>
+        ${hasValue(reviews) ? `<div class="needed-box"><b>🧾 검토 요청사항</b><div class="value">${textBlock(reviews)}</div></div>` : ""}
+      </div>
+    </article>`;
+  }).join("");
 }
 function renderTimeline(){
-  const q = norm($("#globalSearch").value);
+  const q = $("#globalSearch").value.trim();
   const root = $("#timelineRoot");
   let html = "";
-  let visibleCount = 0;
-  timelineSections.forEach(section => {
+  let count = 0;
+  APP_DATA.timelineSections.forEach(section => {
     const filtered = section.rows.filter(row => matchesText({...row, section:section.section}, q));
     if(!filtered.length) return;
     html += `<h3 class="section-title">${escapeHtml(section.section)}</h3>`;
     html += `<div class="timeline">`;
     filtered.forEach(row => {
-      visibleCount++;
+      count++;
       html += `
         <article class="timeline-card">
-          <div class="date-pill">${escapeHtml(row.date)}</div>
+          <div class="date-pill">${escapeHtml(row["일자"])}</div>
           <div class="event-body">
             <div class="event-meta">
-              <span class="badge">${escapeHtml(row.type)}</span>
-              <span class="badge gray">${escapeHtml(row.subject)}</span>
+              <span class="badge">${escapeHtml(row["구분"])}</span>
+              <span class="badge gray">${escapeHtml(row["주체"])}</span>
             </div>
-            <h3>${escapeHtml(row.type)} · ${escapeHtml(row.subject)}</h3>
-            <div class="event-content">${escapeHtml(row.content)}</div>
-            <div class="issue"><b>쟁점</b> ${escapeHtml(row.issue)}</div>
+            <h3>${escapeHtml(row["구분"])} · ${escapeHtml(row["주체"])}</h3>
+            <div class="event-content">${textBlock(row["내용"])}</div>
+            <div class="issue"><b>쟁점</b> ${textBlock(row["쟁점"])}</div>
           </div>
         </article>`;
     });
     html += `</div>`;
   });
-  root.innerHTML = visibleCount ? html : `<div class="empty">검색 결과가 없습니다.</div>`;
-  $("#timelineCount").textContent = visibleCount;
-}
-function renderFactCards(){
-  const q = norm($("#globalSearch").value);
-  const root = $("#factCards");
-  const filtered = factRows.filter(row => matchesText(row, q));
-  $("#factCount").textContent = filtered.length;
-  if(!filtered.length){
-    root.innerHTML = `<div class="empty">검색 결과가 없습니다.</div>`;
-    return;
-  }
-  root.innerHTML = filtered.map(row => {
-    const pri = row["우선순위"] || "";
-    const priClass = pri.includes("최상") ? "" : "mid";
-    const fields = [
-      ["원고 2026-07-03 준비서면 조항", row["이신 조항"]],
-      ["원고 주장 요지", row["이신/원고 주장 요지"]],
-      ["피고 측 확인할 사실관계", row["피고 측 확인할 사실관계"]],
-      ["필요한 증거/자료 (완료 / 필요)", row["필요한 증거/자료 (확보완료 / 확보필요)"]],
-      ["반박 방향", row["반박 방향"]],
-      ["확인된 내용", row["확인된 내용"]],
-      ["추가 확인 필요", row["추가 확인 필요"]],
-      ["비고", row["비고"]],
-    ];
-    return `
-      <details class="fact-card">
-        <summary>
-          <div class="no">${escapeHtml(row["No."])}</div>
-          <div class="fact-title">
-            <b>${escapeHtml(row["반박 필요 항목"])}</b>
-            <span>${escapeHtml(row["구분"])}</span>
-          </div>
-          <span class="priority ${priClass}">${escapeHtml(pri || "확인")}</span>
-        </summary>
-        <div class="fact-detail">
-          ${fields.map(([label, value]) => {
-            const meta = fieldMeta[label] || {icon:"•", className:""};
-            const cls = ["field", meta.full ? "full" : "", meta.className || ""].filter(Boolean).join(" ");
-            const valueHtml = label === "필요한 증거/자료 (완료 / 필요)" ? formatEvidence(row) : escapeHtml(value || "-");
-            return `
-            <div class="${cls}">
-              <label><span class="field-icon">${escapeHtml(meta.icon)}</span>${formatFieldLabel(label)}</label>
-              <div class="${label === "필요한 증거/자료 (완료 / 필요)" ? "evidence-cell" : ""}">${valueHtml}</div>
-            </div>`;
-          }).join("")}
-        </div>
-      </details>`;
-  }).join("");
-}
-function renderFactTable(){
-  const q = norm($("#globalSearch").value);
-  const filtered = factRows.filter(row => matchesText(row, q));
-  const colgroup = headers.map(h => `<col style="width:${factColWidths[h] || "180px"}">`).join("");
-  const head = headers.map(h => `<th>${formatHeaderLabel(h)}</th>`).join("");
-  const body = filtered.map(row => `<tr>${headers.map(h => {
-    const html = h === "필요한 증거/자료 (확보완료 / 확보필요)" ? formatEvidence(row) : escapeHtml(row[h] || "");
-    const cls = h === "필요한 증거/자료 (확보완료 / 확보필요)" ? " class=\"evidence-cell\"" : "";
-    return `<td${cls}>${html}</td>`;
-  }).join("")}</tr>`).join("");
-  $("#factTable").innerHTML = `<table class="fact-table"><colgroup>${colgroup}</colgroup><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  root.innerHTML = count ? html : `<div class="empty">검색 결과가 없습니다.</div>`;
+  $("#timelineCount").textContent = count;
 }
 function showTab(name){
   $$(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
-  $("#timelinePanel").classList.toggle("hidden", name !== "timeline");
   $("#factPanel").classList.toggle("hidden", name !== "fact");
+  $("#neededPanel").classList.toggle("hidden", name !== "needed");
+  $("#evidencePanel").classList.toggle("hidden", name !== "evidence");
+  $("#timelinePanel").classList.toggle("hidden", name !== "timeline");
   window.scrollTo({top:0, behavior:"smooth"});
 }
-function setFactView(name){
-  $$(".tabmini").forEach(btn => btn.classList.toggle("active", btn.dataset.view === name));
-  $("#factCards").classList.toggle("hidden", name !== "cards");
-  $("#factTableWrap").classList.toggle("hidden", name !== "table");
-}
-function expandAll(){
-  $$("#factCards details").forEach(d => d.open = true);
-}
-function collapseAll(){
-  $$("#factCards details").forEach(d => d.open = false);
-}
-document.addEventListener("DOMContentLoaded", () => {
-  setupPinGate();
-  $("#createdAt").textContent = createdAt;
-  renderTimeline();
+function expandAll(){ $$("#factCards details").forEach(d => d.open = true); }
+function collapseAll(){ $$("#factCards details").forEach(d => d.open = false); }
+function renderAll(){
   renderFactCards();
-  renderFactTable();
+  renderEvidenceMaster();
+  renderNeededEvidence();
+  renderTimeline();
+}
+async function handleFileAction(button){
+  const file = FILES_BY_ID[button.dataset.fileId];
+  if(!file) return;
+  const url = fileUrl(file);
+  const action = button.dataset.fileAction || (((file.ext || "").toLowerCase() === "html") ? "open" : "download");
+  if(action === "open"){
+    window.open(url, "_blank", "noopener");
+    return;
+  }
+  try{
+    const res = await fetch(url, {cache:"no-store"});
+    if(!res.ok) throw new Error("download failed");
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = file.fileName || file.display || "download";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+  }catch(err){
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = file.fileName || file.display || "download";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+}
+function handleFactJump(link){
+  const target = document.querySelector(link.getAttribute("href"));
+  if(!target) return;
+  target.open = true;
+  target.scrollIntoView({behavior:"smooth", block:"start"});
+}
+document.addEventListener("click", (e) => {
+  const fileButton = e.target.closest("[data-file-id][data-file-action]");
+  if(fileButton){
+    e.preventDefault();
+    handleFileAction(fileButton);
+    return;
+  }
+  const factJump = e.target.closest(".fact-jump");
+  if(factJump){
+    e.preventDefault();
+    handleFactJump(factJump);
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  $("#createdAt").textContent = APP_DATA.createdAt;
+  renderAll();
   $$(".tab").forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
-  $$(".tabmini").forEach(btn => btn.addEventListener("click", () => setFactView(btn.dataset.view)));
-  $("#globalSearch").addEventListener("input", () => {
-    renderTimeline(); renderFactCards(); renderFactTable();
-  });
+  $("#globalSearch").addEventListener("input", renderAll);
   $("#expandBtn").addEventListener("click", expandAll);
   $("#collapseBtn").addEventListener("click", collapseAll);
   $("#printBtn").addEventListener("click", () => window.print());
 });
-
   </script>
 </body>
 </html>
