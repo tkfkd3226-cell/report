@@ -2153,6 +2153,9 @@ let FACT_FILTER = "__all__";
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 const AUTH_SESSION_KEY = "golfzone_dispute_session_pass_v2";
+if("scrollRestoration" in history){
+  history.scrollRestoration = "manual";
+}
 function safeSessionGet(key){
   try{return window.sessionStorage.getItem(key);}catch(e){return null;}
 }
@@ -2197,12 +2200,22 @@ async function decryptAppData(password){
   FILES_BY_ID = Object.fromEntries(Object.values(APP_DATA.fileMap || {}).map(file => [fileIdentity(file), file]));
 }
 function unlockPage(){
+  if(document.activeElement && typeof document.activeElement.blur === "function"){
+    document.activeElement.blur();
+  }
   document.body.classList.remove("auth-locked");
   const gate = document.getElementById("authGate");
   if(gate){
     gate.classList.add("hidden");
     gate.setAttribute("aria-hidden", "true");
   }
+}
+function resetScrollToTopAfterUnlock(){
+  const goTop = () => window.scrollTo({top:0, left:0, behavior:"auto"});
+  goTop();
+  requestAnimationFrame(goTop);
+  setTimeout(goTop, 80);
+  setTimeout(goTop, 250);
 }
 function initApp(){
   if(appInitialized || !APP_DATA) return;
@@ -2231,6 +2244,7 @@ async function tryUnlockWithPassword(password, rememberSession=true){
   if(rememberSession) safeSessionSet(AUTH_SESSION_KEY, password);
   unlockPage();
   initApp();
+  resetScrollToTopAfterUnlock();
 }
 function initAuthGate(){
   const gate = document.getElementById("authGate");
