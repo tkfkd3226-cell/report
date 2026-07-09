@@ -1331,7 +1331,13 @@ body.modal-open{overflow:hidden}
 
 
 /* password gate */
-body.auth-locked{overflow:hidden;}
+body.auth-locked{
+  overflow:hidden;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+}
 body.auth-locked > header,
 body.auth-locked > nav,
 body.auth-locked > main,
@@ -2156,6 +2162,11 @@ const AUTH_SESSION_KEY = "golfzone_dispute_session_pass_v2";
 if("scrollRestoration" in history){
   history.scrollRestoration = "manual";
 }
+try{
+  window.scrollTo(0, 0);
+  if(document.documentElement) document.documentElement.scrollTop = 0;
+  if(document.body) document.body.scrollTop = 0;
+}catch(e){}
 function safeSessionGet(key){
   try{return window.sessionStorage.getItem(key);}catch(e){return null;}
 }
@@ -2211,11 +2222,23 @@ function unlockPage(){
   }
 }
 function resetScrollToTopAfterUnlock(){
-  const goTop = () => window.scrollTo({top:0, left:0, behavior:"auto"});
+  const goTop = () => {
+    try{ window.scrollTo({top:0, left:0, behavior:"auto"}); }catch(e){ window.scrollTo(0, 0); }
+    if(document.documentElement) document.documentElement.scrollTop = 0;
+    if(document.body) document.body.scrollTop = 0;
+  };
   goTop();
   requestAnimationFrame(goTop);
+  requestAnimationFrame(() => requestAnimationFrame(goTop));
   setTimeout(goTop, 80);
   setTimeout(goTop, 250);
+  setTimeout(goTop, 500);
+  setTimeout(goTop, 900);
+  if(window.visualViewport){
+    const onResize = () => goTop();
+    window.visualViewport.addEventListener("resize", onResize, {once:true});
+    setTimeout(() => window.visualViewport.removeEventListener("resize", onResize), 1200);
+  }
 }
 function initApp(){
   if(appInitialized || !APP_DATA) return;
