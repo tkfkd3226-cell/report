@@ -1317,6 +1317,18 @@ body.modal-open{overflow:hidden}
   .compact-table.evidence-table td.no-cell,.compact-table.evidence-table td.statement-cell{display:none!important;}
 }
 
+
+/* final check: 추가 확보 필요 > 증빙시트 참고 표는 구분 컬럼 제거 후 2분할 */
+.needed-support-table-two{table-layout:fixed!important;width:100%!important;}
+.needed-support-table-two col.support-half-col{width:50%!important;}
+.needed-support-table-two th.support-content,
+.needed-support-table-two th.support-ref-head,
+.needed-support-table-two .support-content-cell,
+.needed-support-table-two .support-ref{width:50%!important;}
+@media (max-width:760px){
+  .needed-support-table-two td{grid-template-columns:88px minmax(0,1fr)!important;}
+}
+
 </style>
 </head>
 <body>
@@ -1507,9 +1519,10 @@ function fileIdentity(file){
 const FILES_BY_ID = Object.fromEntries(Object.values(APP_DATA.fileMap || {}).map(file => [fileIdentity(file), file]));
 function fileUrl(file){
   if(!file) return "#";
-  if(file.href) return file.href;
   const name = file.fileName || file.display || file.base || "";
-  return "data/" + encodeURIComponent(name).replace(/%2F/g, "/");
+  if(name) return "data/" + encodeURIComponent(name).replace(/%2F/g, "/");
+  if(file.href) return file.href.replace(/^\/data\//, "data/");
+  return "#";
 }
 function filesForText(value){
   const text = (value ?? "").toString();
@@ -1941,11 +1954,10 @@ function renderNeededSupport(sheet, item){
   const rows = neededSupportRows(sheet, item);
   if(!rows.length) return `<div class="empty">연결된 증빙시트 참고 항목이 없습니다.</div>`;
   return `<div class="needed-support-wrap">
-    <table class="needed-support-table">
-      <colgroup><col class="support-kind-col"><col class="support-half-col"><col class="support-half-col"></colgroup>
-      <thead><tr><th>구분</th><th class="support-content">증빙시트 내용</th><th class="support-ref-head">근거/출처</th></tr></thead>
+    <table class="needed-support-table needed-support-table-two">
+      <colgroup><col class="support-half-col"><col class="support-half-col"></colgroup>
+      <thead><tr><th class="support-content">증빙시트 내용</th><th class="support-ref-head">근거/출처</th></tr></thead>
       <tbody>${rows.map(row => `<tr>
-        <td class="support-kind" data-label="구분">${escapeHtml(row.kind)}</td>
         <td class="support-content-cell" data-label="증빙시트 내용">${textBlock(row.content || "-")}</td>
         <td class="support-ref" data-label="근거/출처">${textBlock(row.ref || "-")}</td>
       </tr>`).join("")}</tbody>
