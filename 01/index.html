@@ -1438,6 +1438,188 @@ body.auth-locked > .floating-toc{visibility:hidden;}
   .auth-input,.auth-submit{height:46px;}
 }
 
+
+/* mobile hamburger menu */
+.mobile-menu-bar,
+.mobile-menu-backdrop,
+.mobile-menu-drawer{display:none}
+.mobile-menu-icon-square{
+  flex:0 0 auto;
+  width:12px;
+  height:12px;
+  border:2px solid currentColor;
+  display:inline-block;
+}
+@media (max-width:760px){
+  .navbar .tabs{display:none!important}
+  .mobile-menu-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 10px;
+  }
+  .mobile-menu-button{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    height:38px;
+    border:1px solid #111827;
+    border-radius:0;
+    background:#fff;
+    color:#111827;
+    padding:0 11px;
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+  }
+  .hamburger-lines{
+    width:17px;
+    display:grid;
+    gap:4px;
+  }
+  .hamburger-lines span{
+    display:block;
+    height:2px;
+    background:currentColor;
+  }
+  .mobile-menu-current{
+    min-width:0;
+    flex:1;
+    text-align:right;
+    font-size:12px;
+    font-weight:900;
+    color:#475569;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .mobile-menu-backdrop{
+    position:fixed;
+    inset:0;
+    z-index:1500;
+    background:rgba(15,23,42,.46);
+    backdrop-filter:blur(3px);
+  }
+  .mobile-menu-backdrop.open{display:block}
+  .mobile-menu-drawer{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    z-index:1600;
+    width:min(340px,86vw);
+    background:#fff;
+    border-right:1px solid #111827;
+    box-shadow:18px 0 45px rgba(15,23,42,.24);
+    transform:translateX(-104%);
+    transition:transform .18s ease;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .mobile-menu-drawer.open{
+    display:block;
+    transform:translateX(0);
+  }
+  .mobile-menu-head{
+    position:sticky;
+    top:0;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    background:#fff;
+  }
+  .mobile-menu-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:15px;
+    font-weight:900;
+    color:#111827;
+  }
+  .mobile-menu-close{
+    width:34px;
+    height:34px;
+    border:1px solid #111827;
+    border-radius:0;
+    background:#fff;
+    color:#111827;
+    font-size:20px;
+    font-weight:900;
+    line-height:1;
+    cursor:pointer;
+  }
+  .mobile-menu-list{
+    padding:10px;
+    display:grid;
+    gap:7px;
+  }
+  .mobile-menu-item,
+  .mobile-menu-fact{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border:1px solid #cbd5e1;
+    border-radius:0;
+    background:#fff;
+    color:#111827;
+    padding:10px 10px;
+    text-align:left;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:900;
+    line-height:1.35;
+    cursor:pointer;
+  }
+  .mobile-menu-item.active{
+    border-color:#111827;
+    background:#111827;
+    color:#fff;
+  }
+  .mobile-menu-sub{
+    display:grid;
+    gap:5px;
+    margin:0 0 4px 20px;
+    padding-left:11px;
+    border-left:2px solid #e5e7eb;
+  }
+  .mobile-menu-fact{
+    padding:8px 9px;
+    font-size:12px;
+    font-weight:800;
+    color:#334155;
+    background:#f8fafc;
+  }
+  .mobile-menu-fact .mobile-menu-icon-square{
+    width:9px;
+    height:9px;
+    border-width:1.5px;
+  }
+  .mobile-menu-text{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  body.mobile-menu-open{overflow:hidden}
+  body.auth-locked .mobile-menu-bar,
+  body.auth-locked .mobile-menu-backdrop,
+  body.auth-locked .mobile-menu-drawer,
+  body.modal-open .mobile-menu-bar,
+  body.modal-open .mobile-menu-backdrop,
+  body.modal-open .mobile-menu-drawer{
+    display:none!important;
+  }
+}
+@media print{
+  .mobile-menu-bar,.mobile-menu-backdrop,.mobile-menu-drawer{display:none!important}
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -1475,7 +1657,23 @@ body.auth-locked > .floating-toc{visibility:hidden;}
       <button class="tab" data-tab="needed">추가 확보 필요</button>
       <button class="tab" data-tab="timeline">타임라인</button>
     </div>
+    <div class="wrap mobile-menu-bar">
+      <button id="mobileMenuBtn" class="mobile-menu-button" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false">
+        <span class="hamburger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>메뉴</span>
+      </button>
+      <div id="mobileMenuCurrent" class="mobile-menu-current">사실관계 반박</div>
+    </div>
   </nav>
+
+  <div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
+  <aside id="mobileMenuDrawer" class="mobile-menu-drawer" aria-hidden="true" aria-label="모바일 메뉴">
+    <div class="mobile-menu-head">
+      <div class="mobile-menu-title"><span class="mobile-menu-icon-square" aria-hidden="true"></span><span>메뉴</span></div>
+      <button id="mobileMenuClose" class="mobile-menu-close" type="button" aria-label="메뉴 닫기">×</button>
+    </div>
+    <div id="mobileMenuList" class="mobile-menu-list"></div>
+  </aside>
 
   <main class="wrap">
     <div class="toolbar">
@@ -1639,6 +1837,13 @@ function initApp(){
   $("#neededExpandBtn").addEventListener("click", expandNeeded);
   $("#neededCollapseBtn").addEventListener("click", collapseNeeded);
   $("#zipDownloadBtn").addEventListener("click", downloadZip);
+  renderMobileMenu();
+  const mobileBtn = $("#mobileMenuBtn");
+  const mobileClose = $("#mobileMenuClose");
+  const mobileBackdrop = $("#mobileMenuBackdrop");
+  if(mobileBtn) mobileBtn.addEventListener("click", openMobileMenu);
+  if(mobileClose) mobileClose.addEventListener("click", closeMobileMenu);
+  if(mobileBackdrop) mobileBackdrop.addEventListener("click", closeMobileMenu);
 }
 async function tryUnlockWithPassword(password, rememberSession=true){
   await decryptAppData(password);
@@ -2296,7 +2501,79 @@ function renderTimeline(){
   root.innerHTML = count ? html : `<div class="empty">검색 결과가 없습니다.</div>`;
   $("#timelineCount").textContent = count;
 }
-function showTab(name){
+const MOBILE_TAB_LABELS = {fact:"사실관계 반박", evidence:"증빙 모음", needed:"추가 확보 필요", timeline:"타임라인"};
+function activeTabName(){
+  const active = document.querySelector(".tab.active");
+  return active ? active.dataset.tab : "fact";
+}
+function openMobileMenu(){
+  if(document.body.classList.contains("modal-open")) return;
+  const drawer = $("#mobileMenuDrawer");
+  const backdrop = $("#mobileMenuBackdrop");
+  const btn = $("#mobileMenuBtn");
+  renderMobileMenu();
+  document.body.classList.add("mobile-menu-open");
+  if(drawer){drawer.classList.add("open");drawer.setAttribute("aria-hidden","false");}
+  if(backdrop){backdrop.classList.add("open");backdrop.setAttribute("aria-hidden","false");}
+  if(btn) btn.setAttribute("aria-expanded","true");
+}
+function closeMobileMenu(){
+  const drawer = $("#mobileMenuDrawer");
+  const backdrop = $("#mobileMenuBackdrop");
+  const btn = $("#mobileMenuBtn");
+  document.body.classList.remove("mobile-menu-open");
+  if(drawer){drawer.classList.remove("open");drawer.setAttribute("aria-hidden","true");}
+  if(backdrop){backdrop.classList.remove("open");backdrop.setAttribute("aria-hidden","true");}
+  if(btn) btn.setAttribute("aria-expanded","false");
+}
+function mobileMenuItem(label, tab, active){
+  return `<button type="button" class="mobile-menu-item ${active ? "active" : ""}" data-mobile-tab="${escapeHtml(tab)}">
+    <span class="mobile-menu-icon-square" aria-hidden="true"></span>
+    <span class="mobile-menu-text">${escapeHtml(label)}</span>
+  </button>`;
+}
+function renderMobileMenu(){
+  const root = $("#mobileMenuList");
+  if(!root || !APP_DATA) return;
+  const active = activeTabName();
+  const factRows = APP_DATA.factRows || [];
+  const factItems = factRows.map(row => {
+    const no = cleanDisplayText(row["No."] || "");
+    const title = cleanDisplayText(row["반박 필요 항목"] || "");
+    const target = `#${factCardId(no)}`;
+    return `<button type="button" class="mobile-menu-fact" data-mobile-fact="${escapeHtml(target)}">
+      <span class="mobile-menu-icon-square" aria-hidden="true"></span>
+      <span class="mobile-menu-text">${escapeHtml(no ? `${no}. ${title}` : title)}</span>
+    </button>`;
+  }).join("");
+  root.innerHTML = `
+    ${mobileMenuItem("사실관계 반박", "fact", active === "fact")}
+    <div class="mobile-menu-sub">${factItems}</div>
+    ${mobileMenuItem("증빙 모음", "evidence", active === "evidence")}
+    ${mobileMenuItem("추가 확보 필요", "needed", active === "needed")}
+    ${mobileMenuItem("타임라인", "timeline", active === "timeline")}
+  `;
+  syncMobileMenuActive(active);
+}
+function syncMobileMenuActive(name=activeTabName()){
+  const current = $("#mobileMenuCurrent");
+  if(current) current.textContent = MOBILE_TAB_LABELS[name] || "메뉴";
+  $$("[data-mobile-tab]").forEach(btn => btn.classList.toggle("active", btn.dataset.mobileTab === name));
+}
+function handleMobileFactJump(selector){
+  showTab("fact", {scroll:false});
+  closeMobileMenu();
+  setTimeout(() => {
+    const target = document.querySelector(selector);
+    if(target){
+      target.open = true;
+      target.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+  }, 40);
+}
+
+function showTab(name, options={}){
+  const shouldScroll = options.scroll !== false;
   $$(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
   $("#factPanel").classList.toggle("hidden", name !== "fact");
   $("#neededPanel").classList.toggle("hidden", name !== "needed");
@@ -2304,7 +2581,8 @@ function showTab(name){
   $("#timelinePanel").classList.toggle("hidden", name !== "timeline");
   const zipBtn = $("#zipDownloadBtn");
   if(zipBtn) zipBtn.classList.toggle("hidden", name !== "evidence");
-  window.scrollTo({top:0, behavior:"smooth"});
+  syncMobileMenuActive(name);
+  if(shouldScroll) window.scrollTo({top:0, behavior:"smooth"});
 }
 function expandAll(){ $$("#factCards details").forEach(d => d.open = true); }
 function collapseAll(){ $$("#factCards details").forEach(d => d.open = false); }
@@ -2352,6 +2630,7 @@ function renderAll(){
   renderTimeline();
 }
 function openHtmlModal(file, url){
+  closeMobileMenu();
   const modal = $("#htmlModal");
   const frame = $("#htmlModalFrame");
   const title = $("#htmlModalTitle");
@@ -2400,6 +2679,19 @@ document.addEventListener("click", (e) => {
     closeHtmlModal();
     return;
   }
+  const mobileTab = e.target.closest("[data-mobile-tab]");
+  if(mobileTab){
+    e.preventDefault();
+    showTab(mobileTab.dataset.mobileTab);
+    closeMobileMenu();
+    return;
+  }
+  const mobileFact = e.target.closest("[data-mobile-fact]");
+  if(mobileFact){
+    e.preventDefault();
+    handleMobileFactJump(mobileFact.dataset.mobileFact);
+    return;
+  }
   const fileButton = e.target.closest("[data-file-id][data-file-action]");
   if(fileButton){
     e.preventDefault();
@@ -2413,7 +2705,10 @@ document.addEventListener("click", (e) => {
   }
 });
 document.addEventListener("keydown", (e) => {
-  if(e.key === "Escape") closeHtmlModal();
+  if(e.key === "Escape"){
+    closeHtmlModal();
+    closeMobileMenu();
+  }
 });
 document.addEventListener("DOMContentLoaded", () => {
   initAuthGate();
