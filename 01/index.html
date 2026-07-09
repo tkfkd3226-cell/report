@@ -1102,6 +1102,91 @@ button.file-link,button.download-btn{appearance:none}
   border-top:1px solid #f1f5f9;
 }
 
+
+/* HTML evidence modal */
+.html-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:26px;
+  background:rgba(15,23,42,.64);
+  backdrop-filter:blur(8px);
+}
+.html-modal.open{display:flex}
+.html-modal-card{
+  width:min(1180px, calc(100vw - 52px));
+  height:min(820px, calc(100vh - 52px));
+  background:#fff;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:24px;
+  box-shadow:0 30px 90px rgba(0,0,0,.38);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.html-modal-head{
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 16px 14px 20px;
+  border-bottom:1px solid #e5e7eb;
+  background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);
+}
+.html-modal-titlewrap{min-width:0;display:grid;gap:3px}
+.html-modal-kicker{
+  font-size:11px;
+  font-weight:900;
+  color:#0f766e;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.html-modal-title{
+  font-size:15px;
+  font-weight:900;
+  color:#111827;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.html-modal-close{
+  flex:0 0 auto;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  color:#111827;
+  font-size:22px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+}
+.html-modal-close:hover{background:#111827;color:#fff;border-color:#111827}
+.html-modal-body{
+  position:relative;
+  flex:1;
+  background:#f8fafc;
+}
+.html-modal-frame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#fff;
+}
+body.modal-open{overflow:hidden}
+@media (max-width:760px){
+  .html-modal{padding:10px}
+  .html-modal-card{width:calc(100vw - 20px);height:calc(100vh - 20px);border-radius:18px}
+  .html-modal-head{padding:12px 12px 12px 14px}
+}
+@media print{.html-modal{display:none!important}}
+
 </style>
 </head>
 <body>
@@ -1204,6 +1289,22 @@ button.file-link,button.download-btn{appearance:none}
     </section>
   </main>
 
+
+  <div id="htmlModal" class="html-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="htmlModalTitle">
+    <div class="html-modal-card" role="document">
+      <div class="html-modal-head">
+        <div class="html-modal-titlewrap">
+          <div class="html-modal-kicker">대화기록 미리보기</div>
+          <div id="htmlModalTitle" class="html-modal-title">-</div>
+        </div>
+        <button type="button" id="htmlModalClose" class="html-modal-close" aria-label="닫기">×</button>
+      </div>
+      <div class="html-modal-body">
+        <iframe id="htmlModalFrame" class="html-modal-frame" title="대화기록 미리보기"></iframe>
+      </div>
+    </div>
+  </div>
+
   <script>
 const APP_DATA = JSON.parse(document.getElementById("appData").textContent);
 const $ = (sel) => document.querySelector(sel);
@@ -1301,18 +1402,18 @@ function fileActionButton(file, label, className, defaultLabel="다운로드"){
   if(!file) return "";
   const id = fileIdentity(file);
   const isHtml = (file.ext || "").toLowerCase() === "html";
-  const action = isHtml ? "open" : "download";
-  const icon = isHtml ? "↗" : "⬇";
-  const shown = label || (isHtml ? "새창 열기" : defaultLabel);
+  const action = isHtml ? "preview" : "download";
+  const icon = isHtml ? "👁" : "⬇";
+  const shown = label || (isHtml ? "보기" : defaultLabel);
   return `<button type="button" class="${className}" data-file-id="${escapeHtml(id)}" data-file-action="${action}" title="${escapeHtml(file.fileName || shown)}">${icon} ${escapeHtml(shown)}</button>`;
 }
 function fileLink(file, label){
   const isHtml = (file.ext || "").toLowerCase() === "html";
-  return fileActionButton(file, label || file.display, "file-link", isHtml ? "새창 열기" : "다운로드");
+  return fileActionButton(file, label || file.display, "file-link", isHtml ? "보기" : "다운로드");
 }
 function downloadButton(file, label="다운로드", extraClass=""){
   const isHtml = (file.ext || "").toLowerCase() === "html";
-  const shown = isHtml && label === "다운로드" ? "새창 열기" : label;
+  const shown = isHtml && label === "다운로드" ? "보기" : label;
   return fileActionButton(file, shown, `download-btn ${extraClass}`.trim(), "다운로드");
 }
 function linkifyLines(value){
@@ -1634,7 +1735,7 @@ function renderEvidenceMaster(){
     const fileRows = files.length
       ? files.map(file => {
           const isHtml = (file.ext || "").toLowerCase() === "html";
-          const actionLabel = isHtml ? "새창 열기" : "다운로드";
+          const actionLabel = isHtml ? "보기" : "다운로드";
           return `<div class="evidence-file-row">
             <div class="evidence-file-name">${escapeHtml(evidenceMasterDisplayName(file))}</div>
             <div class="evidence-file-action">${downloadButton(file, actionLabel, "small")}</div>
@@ -1859,13 +1960,38 @@ function renderAll(){
   renderNeededEvidence();
   renderTimeline();
 }
+function openHtmlModal(file, url){
+  const modal = $("#htmlModal");
+  const frame = $("#htmlModalFrame");
+  const title = $("#htmlModalTitle");
+  if(!modal || !frame || !title){
+    window.open(url, "_blank", "noopener");
+    return;
+  }
+  title.textContent = file.fileName || file.display || "대화기록";
+  frame.src = url;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  const closeBtn = $("#htmlModalClose");
+  if(closeBtn) setTimeout(() => closeBtn.focus(), 30);
+}
+function closeHtmlModal(){
+  const modal = $("#htmlModal");
+  const frame = $("#htmlModalFrame");
+  if(!modal) return;
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  if(frame) frame.src = "about:blank";
+}
 async function handleFileAction(button){
   const file = FILES_BY_ID[button.dataset.fileId];
   if(!file) return;
   const url = fileUrl(file);
-  const action = button.dataset.fileAction || (((file.ext || "").toLowerCase() === "html") ? "open" : "download");
-  if(action === "open"){
-    window.open(url, "_blank", "noopener");
+  const action = button.dataset.fileAction || (((file.ext || "").toLowerCase() === "html") ? "preview" : "download");
+  if(action === "preview"){
+    openHtmlModal(file, url);
     return;
   }
   try{
@@ -1896,6 +2022,12 @@ function handleFactJump(link){
   target.scrollIntoView({behavior:"smooth", block:"start"});
 }
 document.addEventListener("click", (e) => {
+  const modal = e.target.closest("#htmlModal");
+  if(e.target.closest("#htmlModalClose") || (modal && e.target.id === "htmlModal")){
+    e.preventDefault();
+    closeHtmlModal();
+    return;
+  }
   const fileButton = e.target.closest("[data-file-id][data-file-action]");
   if(fileButton){
     e.preventDefault();
@@ -1907,6 +2039,9 @@ document.addEventListener("click", (e) => {
     e.preventDefault();
     handleFactJump(factJump);
   }
+});
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") closeHtmlModal();
 });
 document.addEventListener("DOMContentLoaded", () => {
   $("#createdAt").textContent = APP_DATA.createdAt;
