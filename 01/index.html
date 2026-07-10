@@ -2003,6 +2003,141 @@ body.review-focus .fact-card[open] .field.emphasis-review{
   .mobile-menu-head{padding-right:12px!important;}
 }
 
+
+/* 2026-07-10 related fact summary modal for needed evidence */
+.related-fact-btn{
+  width:100%;
+  border:1px solid #e5e7eb;
+  background:#f8fafc;
+  border-radius:12px;
+  padding:10px 12px;
+  text-align:left;
+  font-family:inherit;
+  cursor:pointer;
+  display:block;
+}
+.related-fact-btn:hover{
+  background:#f0fdfa;
+  border-color:#99f6e4;
+}
+.related-fact-btn b{display:block;font-size:13px;margin-bottom:4px;color:#111827}
+.related-fact-btn span{display:block;font-size:12px;color:#6b7280;line-height:1.5}
+.related-fact-modal{
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:26px;
+  background:rgba(15,23,42,.62);
+  backdrop-filter:blur(8px);
+}
+.related-fact-modal.open{display:flex}
+.related-fact-card{
+  width:min(860px, calc(100vw - 52px));
+  max-height:min(820px, calc(100vh - 52px));
+  background:#fff;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:24px;
+  box-shadow:0 30px 90px rgba(0,0,0,.34);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.related-fact-head{
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 16px 14px 20px;
+  border-bottom:1px solid #e5e7eb;
+  background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);
+}
+.related-fact-titlewrap{min-width:0;display:grid;gap:3px}
+.related-fact-kicker{
+  font-size:11px;
+  font-weight:900;
+  color:#92400e;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.related-fact-title{
+  font-size:15px;
+  font-weight:900;
+  color:#111827;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.related-fact-close{
+  flex:0 0 auto;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  color:#111827;
+  font-size:22px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+}
+.related-fact-close:hover{background:#111827;color:#fff;border-color:#111827}
+.related-fact-body{
+  overflow:auto;
+  padding:16px;
+  background:#fbfdff;
+  display:grid;
+  gap:10px;
+}
+.related-fact-summary-field{
+  border:1px solid #e5e7eb;
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
+}
+.related-fact-summary-field b{
+  display:block;
+  font-size:13px;
+  margin-bottom:7px;
+  color:#111827;
+}
+.related-fact-summary-field div{
+  color:#374151;
+  font-size:13px;
+  line-height:1.6;
+}
+.related-fact-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  padding:12px 16px;
+  border-top:1px solid #e5e7eb;
+  background:#fff;
+}
+.related-fact-actions .btn.primary{
+  background:#111827;
+  color:#fff;
+  border-color:#111827;
+}
+.related-fact-actions .btn.primary:hover{background:#0f766e;border-color:#0f766e}
+body.auth-locked > .related-fact-modal{display:none!important}
+@media (max-width:760px){
+  .related-fact-modal{padding:10px;z-index:9998}
+  .related-fact-card{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);border-radius:18px}
+  .related-fact-head{min-height:54px;padding:10px 10px 10px 12px;gap:8px}
+  .related-fact-title{font-size:13px;line-height:1.35}
+  .related-fact-kicker{font-size:10px}
+  .related-fact-close{width:36px;height:36px}
+  .related-fact-body{padding:10px;gap:8px}
+  .related-fact-summary-field{border-radius:12px;padding:10px}
+  .related-fact-actions{display:grid;grid-template-columns:1fr 1fr;padding:10px;gap:7px}
+  .related-fact-actions .btn{justify-content:center;padding:9px 8px;font-size:12px}
+}
+@media print{.related-fact-modal{display:none!important}}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -2147,6 +2282,24 @@ body.review-focus .fact-card[open] .field.emphasis-review{
       </div>
       <div class="html-modal-body">
         <iframe id="htmlModalFrame" class="html-modal-frame" title="대화기록 미리보기"></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="relatedFactModal" class="related-fact-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="relatedFactModalTitle">
+    <div class="related-fact-card" role="document">
+      <div class="related-fact-head">
+        <div class="related-fact-titlewrap">
+          <div class="related-fact-kicker">관련 반박 항목 요약</div>
+          <div id="relatedFactModalTitle" class="related-fact-title">-</div>
+        </div>
+        <button type="button" id="relatedFactModalClose" class="related-fact-close" aria-label="닫기">×</button>
+      </div>
+      <div id="relatedFactModalBody" class="related-fact-body"></div>
+      <div class="related-fact-actions">
+        <button type="button" id="relatedFactModalDismiss" class="btn">닫기</button>
+        <button type="button" id="relatedFactModalGo" class="btn primary">해당 항목으로 이동</button>
       </div>
     </div>
   </div>
@@ -2914,10 +3067,74 @@ function neededGroups(){
   return [...groups.values()];
 }
 function renderRelatedFactList(rows){
-  return `<div class="needed-related-list">${rows.map(row => `<div class="needed-related-item">
-    <b>No. ${escapeHtml(row["No."] || "-")} · ${escapeHtml(row["반박 필요 항목"] || "")}</b>
-    <span>${escapeHtml(row["구분"] || "")}${hasValue(row["원고 서면 조항"]) ? " · 원고 서면 조항 " + escapeHtml(row["원고 서면 조항"]) : ""}</span>
-  </div>`).join("")}</div>`;
+  return `<div class="needed-related-list">${rows.map(row => {
+    const no = cleanDisplayText(row["No."] || "");
+    const title = cleanDisplayText(row["반박 필요 항목"] || "");
+    const meta = `${cleanDisplayText(row["구분"] || "")}${hasValue(row["원고 서면 조항"]) ? " · 원고 서면 조항 " + cleanDisplayText(row["원고 서면 조항"]) : ""}`;
+    return `<button type="button" class="needed-related-item related-fact-btn" data-related-fact-no="${escapeHtml(no)}">
+      <b>No. ${escapeHtml(no || "-")} · ${escapeHtml(title)}</b>
+      <span>${escapeHtml(meta)}</span>
+    </button>`;
+  }).join("")}</div>`;
+}
+function factRowByNo(no){
+  const key = cleanDisplayText(no || "");
+  return (APP_DATA.factRows || []).find(row => cleanDisplayText(row["No."] || "") === key);
+}
+function relatedFactSummaryField(label, value){
+  if(!hasValue(value)) return "";
+  return `<div class="related-fact-summary-field"><b>${escapeHtml(label)}</b><div>${valueHtml(value, true)}</div></div>`;
+}
+function openRelatedFactModal(no){
+  closeMobileMenu();
+  const row = factRowByNo(no);
+  if(!row) return;
+  const modal = $("#relatedFactModal");
+  const title = $("#relatedFactModalTitle");
+  const body = $("#relatedFactModalBody");
+  const go = $("#relatedFactModalGo");
+  if(!modal || !title || !body || !go) return;
+  const rowNo = cleanDisplayText(row["No."] || "");
+  const itemTitle = cleanDisplayText(row["반박 필요 항목"] || "");
+  title.textContent = `No. ${rowNo || "-"} · ${itemTitle}`;
+  body.innerHTML = [
+    relatedFactSummaryField("원고 주장 요지", row["원고 주장 요지"]),
+    relatedFactSummaryField("반박 방향", row["반박 방향"]),
+    relatedFactSummaryField("확인된 내용", row["확인된 내용"]),
+    relatedFactSummaryField("검토 요청사항", row["검토 요청사항"]),
+    hasValue(row["확보된 증거/자료\n(기존자료 / 신규 / 원고자료)"]) || (Array.isArray(row._evidenceItems) && row._evidenceItems.some(item => hasValue(item && item.text)))
+      ? `<div class="related-fact-summary-field"><b>확보된 증거/자료</b><div>${renderEvidenceItems(row)}</div></div>`
+      : ""
+  ].filter(Boolean).join("") || `<div class="empty">표시할 요약 내용이 없습니다.</div>`;
+  go.dataset.relatedFactNo = rowNo;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  const closeBtn = $("#relatedFactModalClose");
+  if(closeBtn) setTimeout(() => closeBtn.focus(), 30);
+}
+function closeRelatedFactModal(){
+  const modal = $("#relatedFactModal");
+  if(!modal) return;
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  if(!$("#htmlModal")?.classList.contains("open")){
+    document.body.classList.remove("modal-open");
+  }
+}
+function goToRelatedFact(no){
+  const row = factRowByNo(no);
+  if(!row) return;
+  const target = `#${factCardId(cleanDisplayText(row["No."] || ""))}`;
+  closeRelatedFactModal();
+  showTab("fact", {scroll:false});
+  setTimeout(() => {
+    const el = document.querySelector(target);
+    if(el){
+      el.open = true;
+      el.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+  }, 60);
 }
 function renderNeededEvidence(){
   const q = currentSearchQuery();
@@ -3184,6 +3401,24 @@ document.addEventListener("click", (e) => {
     closeHtmlModal();
     return;
   }
+  const relatedModal = e.target.closest("#relatedFactModal");
+  if(e.target.closest("#relatedFactModalClose") || e.target.closest("#relatedFactModalDismiss") || (relatedModal && e.target.id === "relatedFactModal")){
+    e.preventDefault();
+    closeRelatedFactModal();
+    return;
+  }
+  const relatedGo = e.target.closest("#relatedFactModalGo");
+  if(relatedGo){
+    e.preventDefault();
+    goToRelatedFact(relatedGo.dataset.relatedFactNo);
+    return;
+  }
+  const relatedFact = e.target.closest("[data-related-fact-no]");
+  if(relatedFact){
+    e.preventDefault();
+    openRelatedFactModal(relatedFact.dataset.relatedFactNo);
+    return;
+  }
   const filterChip = e.target.closest("[data-fact-filter]");
   if(filterChip){
     e.preventDefault();
@@ -3219,6 +3454,7 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if(e.key === "Escape"){
+    closeRelatedFactModal();
     closeHtmlModal();
     closeMobileMenu();
   }
