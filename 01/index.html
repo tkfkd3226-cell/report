@@ -5619,7 +5619,7 @@ async function downloadByUrl(url, fileName){
   }
 }
 async function downloadZip(){
-  const fileName = APP_DATA.zipName || "전체파일.zip";
+  const fileName = "20260710_all_data.zip";
   const url = "data/" + encodeURIComponent(fileName);
   await downloadByUrl(url, fileName);
 }
