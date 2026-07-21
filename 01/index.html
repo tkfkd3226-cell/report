@@ -5588,6 +5588,12 @@ body.modal-open .current-issue-bar{
   }
 }
 
+
+/* 전체 상세/요약 전환 시 현재 보고 있던 No. 위치는 JS로 보존 */
+#factCards{
+  overflow-anchor:none;
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -8723,12 +8729,138 @@ function showTab(name, options={}){
   requestAnimationFrame(syncControlState);
   if(shouldScroll) window.scrollTo({top:0, behavior:"smooth"});
 }
+let FACT_VIEWPORT_RESTORE_TOKEN = 0;
+
+function visibleFactViewportBounds(){
+  const top = window.innerWidth <= 760
+    ? 4
+    : currentIssueTopOffset() + 4;
+
+  const bottomDockVisible =
+    document.body.classList.contains("quick-actions-bottom-visible") ||
+    (
+      window.innerWidth <= 1120 &&
+      document.body.classList.contains("quick-actions-visible")
+    );
+
+  const bottomReserve = bottomDockVisible
+    ? (window.innerWidth <= 760 ? 92 : 78)
+    : 8;
+
+  return {
+    top,
+    bottom:Math.max(top + 40, window.innerHeight - bottomReserve)
+  };
+}
+
+function currentFactViewportAnchor(){
+  const cards = [...document.querySelectorAll("#factCards details.fact-card")]
+    .filter(card => card.getClientRects().length > 0);
+
+  if(!cards.length) return null;
+
+  const bounds = visibleFactViewportBounds();
+  let selected = null;
+  let selectedVisibleHeight = -1;
+
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const visibleHeight = Math.max(
+      0,
+      Math.min(rect.bottom, bounds.bottom) -
+      Math.max(rect.top, bounds.top)
+    );
+
+    if(visibleHeight > selectedVisibleHeight){
+      selected = card;
+      selectedVisibleHeight = visibleHeight;
+    }
+  });
+
+  if(!selected || selectedVisibleHeight <= 0){
+    selected = cards.reduce((closest, card) => {
+      const rect = card.getBoundingClientRect();
+      const distance = Math.abs(rect.top - bounds.top);
+      if(!closest || distance < closest.distance){
+        return {card, distance};
+      }
+      return closest;
+    }, null)?.card || null;
+  }
+
+  if(!selected) return null;
+
+  const rect = selected.getBoundingClientRect();
+
+  /* 카드 제목이 이미 고정 영역 위로 올라간 상태라면,
+     펼침/접기 후에는 해당 카드 제목이 보이도록 상단에 맞춘다. */
+  const desiredTop = rect.top < bounds.top
+    ? bounds.top + 4
+    : rect.top;
+
+  return {
+    id:selected.id,
+    desiredTop
+  };
+}
+
+function restoreFactViewportAnchor(anchor, token){
+  if(!anchor || token !== FACT_VIEWPORT_RESTORE_TOKEN) return;
+
+  const card = document.getElementById(anchor.id);
+  if(!card) return;
+
+  const delta = card.getBoundingClientRect().top - anchor.desiredTop;
+  if(Math.abs(delta) < .5) return;
+
+  const maxScroll = Math.max(
+    0,
+    document.documentElement.scrollHeight - window.innerHeight
+  );
+  const nextTop = Math.max(
+    0,
+    Math.min(maxScroll, window.scrollY + delta)
+  );
+
+  window.scrollTo({
+    top:nextTop,
+    behavior:"auto"
+  });
+}
+
+function preserveFactViewportWhile(action){
+  const anchor = currentFactViewportAnchor();
+  const token = ++FACT_VIEWPORT_RESTORE_TOKEN;
+
+  action();
+
+  /* details 높이 변경, sticky 재계산, 브라우저 스크롤 앵커링까지
+     끝난 뒤 같은 No. 카드 위치를 반복 보정한다. */
+  requestAnimationFrame(() => {
+    restoreFactViewportAnchor(anchor, token);
+    requestAnimationFrame(() => {
+      restoreFactViewportAnchor(anchor, token);
+    });
+  });
+
+  [80, 220, 420].forEach(delay => {
+    setTimeout(
+      () => restoreFactViewportAnchor(anchor, token),
+      delay
+    );
+  });
+}
+
 function expandAll(){
-  $$("#factCards details").forEach(detail => detail.open = true);
+  preserveFactViewportWhile(() => {
+    $$("#factCards details").forEach(detail => detail.open = true);
+  });
   requestAnimationFrame(syncControlState);
 }
 function collapseAll(){
-  $$("#factCards details").forEach(detail => detail.open = false);
+  preserveFactViewportWhile(() => {
+    $$("#factCards details").forEach(detail => detail.open = false);
+  });
   requestAnimationFrame(syncControlState);
 }
 function expandNeeded(){
