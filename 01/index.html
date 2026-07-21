@@ -4309,7 +4309,7 @@ body[data-active-tab="evidence"] .context-download-actions{
   right:auto;
   top:50%;
   z-index:410;
-  width:58px;
+  width:128px;
   opacity:0;
   visibility:hidden;
   pointer-events:none;
@@ -4340,13 +4340,13 @@ body[data-active-tab="evidence"] .context-download-actions{
 }
 .quick-action-btn{
   appearance:none;
-  width:44px;
-  min-height:44px;
-  display:grid;
-  place-items:center;
-  align-content:center;
-  gap:2px;
-  padding:5px 3px;
+  width:114px;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  padding:7px 10px;
   border:1px solid #d8dee7;
   border-radius:10px;
   background:#fff;
@@ -4369,15 +4369,13 @@ body[data-active-tab="evidence"] .context-download-actions{
   border-color:#92400e;
 }
 .quick-action-icon{
-  font-size:10.5px;
-  font-weight:950;
-  line-height:1.05;
+  display:none;
 }
 .quick-action-label{
-  font-size:9px;
-  font-weight:900;
-  line-height:1.05;
-  letter-spacing:-.035em;
+  font-size:11px;
+  font-weight:850;
+  line-height:1.15;
+  letter-spacing:-.025em;
   white-space:nowrap;
 }
 body.quick-actions-visible[data-active-tab="fact"] .floating-toc{
@@ -4410,12 +4408,12 @@ body.modal-open .quick-actions{
 }
 .quick-actions.use-bottom-dock .quick-action-btn{
   width:auto;
-  min-width:68px;
+  min-width:104px;
   min-height:38px;
   display:flex;
   justify-content:center;
-  gap:4px;
-  padding:6px 8px;
+  gap:0;
+  padding:6px 10px;
 }
 .quick-actions.use-bottom-dock .quick-action-icon{font-size:10.5px}
 .quick-actions.use-bottom-dock .quick-action-label{font-size:10px}
@@ -4438,19 +4436,19 @@ body.quick-actions-bottom-visible main{
   }
   .quick-action-set{
     grid-auto-flow:column;
-    grid-auto-columns:minmax(68px,auto);
+    grid-auto-columns:minmax(104px,auto);
     gap:5px;
     padding:5px;
     border-radius:13px;
   }
   .quick-action-btn{
     width:auto;
-    min-width:68px;
+    min-width:104px;
     min-height:38px;
     display:flex;
     justify-content:center;
-    gap:4px;
-    padding:6px 8px;
+    gap:0;
+    padding:6px 10px;
   }
   .quick-action-icon{font-size:10.5px}
   .quick-action-label{font-size:10px}
@@ -4551,17 +4549,17 @@ body.quick-actions-bottom-visible main{
     bottom:max(8px, env(safe-area-inset-bottom, 0px));
   }
   .quick-action-set{
-    grid-auto-columns:minmax(62px,auto);
+    grid-auto-columns:minmax(96px,auto);
     max-width:calc(100vw - 16px);
     overflow-x:auto;
   }
   .quick-action-btn{
-    min-width:62px;
+    min-width:96px;
     min-height:36px;
-    padding:5px 7px;
+    padding:5px 9px;
   }
-  .quick-action-icon{font-size:10px}
-  .quick-action-label{font-size:9.5px}
+  .quick-action-icon{display:none}
+  .quick-action-label{font-size:10px}
 
   body.quick-actions-visible main{
     padding-bottom:92px!important;
@@ -4587,6 +4585,423 @@ body.quick-actions-bottom-visible main{
 @media print{
   .context-toolbar{position:static!important}
   .quick-actions{display:none!important}
+}
+
+
+/* =========================================================
+   Primary navigation: 메뉴로 명확히 인식되는 segmented bar
+   ========================================================= */
+.navbar{
+  background:linear-gradient(180deg,#172033 0%,#111827 100%)!important;
+  border-top:1px solid rgba(255,255,255,.06)!important;
+  border-bottom:3px solid #0f766e!important;
+  box-shadow:0 5px 16px rgba(15,23,42,.18)!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+.tabs{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:5px!important;
+  padding:6px 18px!important;
+}
+
+.tab{
+  position:relative;
+  appearance:none;
+  min-width:0;
+  border:1px solid transparent!important;
+  border-radius:7px!important;
+  background:transparent!important;
+  color:#cbd5e1!important;
+  padding:9px 12px!important;
+  font-size:13px!important;
+  font-weight:850!important;
+  line-height:1.2!important;
+  letter-spacing:-.025em!important;
+  text-align:center;
+  white-space:nowrap;
+  cursor:pointer;
+  box-shadow:none!important;
+  transition:
+    background .14s ease,
+    color .14s ease,
+    border-color .14s ease,
+    transform .14s ease,
+    box-shadow .14s ease;
+}
+
+.tab + .tab:before{
+  content:"";
+  position:absolute;
+  left:-3px;
+  top:24%;
+  bottom:24%;
+  width:1px;
+  background:rgba(255,255,255,.16);
+  pointer-events:none;
+}
+
+.tab:hover{
+  background:rgba(255,255,255,.09)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+
+.tab:focus-visible{
+  outline:2px solid #5eead4!important;
+  outline-offset:1px!important;
+}
+
+.tab.active{
+  background:#fff!important;
+  color:#0f172a!important;
+  border-color:#fff!important;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.22),
+    inset 0 -3px 0 #0f766e!important;
+  transform:translateY(-1px);
+}
+
+.tab.active:after{
+  content:"";
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:3px;
+  height:2px;
+  border-radius:99px;
+  background:#0f766e;
+}
+
+.tab.active + .tab:before,
+.tab:has(+ .tab.active):before{
+  opacity:.25;
+}
+
+/* 모바일에서도 '칩'이 아니라 메뉴 바처럼 보이도록 유지 */
+@media (max-width:760px){
+  .navbar{
+    border-bottom-width:2px!important;
+  }
+
+  .tabs{
+    display:flex!important;
+    grid-template-columns:none!important;
+    gap:3px!important;
+    padding:5px 7px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    flex-wrap:nowrap!important;
+    scrollbar-width:none;
+  }
+
+  .tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tab{
+    flex:0 0 auto;
+    min-width:max-content;
+    padding:7px 10px!important;
+    border-radius:6px!important;
+    font-size:10.5px!important;
+  }
+
+  .tab + .tab:before{
+    left:-2px;
+    top:25%;
+    bottom:25%;
+  }
+
+  .tab.active{
+    transform:none;
+    box-shadow:
+      0 3px 8px rgba(0,0,0,.22),
+      inset 0 -2px 0 #0f766e!important;
+  }
+
+  .tab.active:after{
+    left:10px;
+    right:10px;
+    bottom:2px;
+    height:2px;
+  }
+}
+
+
+/* =========================================================
+   Header / primary navigation color separation
+   - 제목 카드는 짙은 네이비 그라데이션 유지
+   - 메뉴 바는 밝은 블루그레이로 명확히 분리
+   ========================================================= */
+.navbar{
+  background:linear-gradient(180deg,#eef3f7 0%,#e2e8f0 100%)!important;
+  border-top:1px solid #cbd5e1!important;
+  border-bottom:2px solid #94a3b8!important;
+  box-shadow:0 4px 12px rgba(15,23,42,.12)!important;
+}
+
+.tab{
+  color:#334155!important;
+  border-color:transparent!important;
+  background:transparent!important;
+}
+
+.tab + .tab:before{
+  background:#b6c1ce!important;
+  opacity:1!important;
+}
+
+.tab:hover{
+  background:rgba(255,255,255,.82)!important;
+  color:#0f172a!important;
+  border-color:#cbd5e1!important;
+}
+
+.tab.active{
+  background:linear-gradient(180deg,#1f4f63 0%,#163c4c 100%)!important;
+  color:#fff!important;
+  border-color:#163c4c!important;
+  box-shadow:
+    0 4px 11px rgba(15,23,42,.20),
+    inset 0 -3px 0 #5eead4!important;
+}
+
+.tab.active:after{
+  background:#5eead4!important;
+}
+
+@media (max-width:760px){
+  .navbar{
+    background:linear-gradient(180deg,#eef3f7 0%,#e2e8f0 100%)!important;
+    border-bottom-color:#94a3b8!important;
+  }
+
+  .tab.active{
+    box-shadow:
+      0 3px 8px rgba(15,23,42,.20),
+      inset 0 -2px 0 #5eead4!important;
+  }
+}
+
+
+/* =========================================================
+   Primary navigation v2
+   - 제목 카드와 분리된 흰색 메뉴 카드
+   - 데스크톱 4열 / 모바일 2열
+   ========================================================= */
+.navbar{
+  background:#f4f7fa!important;
+  border-top:0!important;
+  border-bottom:1px solid #d7e0e8!important;
+  box-shadow:0 4px 12px rgba(15,23,42,.08)!important;
+  padding:0!important;
+}
+
+.tabs{
+  width:min(100%, 1260px)!important;
+  margin:0 auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;
+  padding:9px 16px!important;
+  overflow:visible!important;
+}
+
+.tab{
+  position:relative;
+  min-width:0!important;
+  min-height:42px;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:9px 12px!important;
+  border:1px solid #d8e1ea!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#334155!important;
+  font-size:13px!important;
+  font-weight:850!important;
+  line-height:1.25!important;
+  letter-spacing:-.025em!important;
+  text-align:center;
+  white-space:normal!important;
+  box-shadow:0 2px 6px rgba(15,23,42,.05)!important;
+  transform:none!important;
+}
+
+.tab + .tab:before,
+.tab:after{
+  display:none!important;
+}
+
+.tab:hover{
+  background:#f8fafc!important;
+  color:#0f172a!important;
+  border-color:#8da2b5!important;
+  box-shadow:0 4px 10px rgba(15,23,42,.10)!important;
+  transform:translateY(-1px)!important;
+}
+
+.tab:focus-visible{
+  outline:3px solid rgba(13,148,136,.28)!important;
+  outline-offset:1px!important;
+}
+
+.tab.active{
+  background:linear-gradient(135deg,#0f766e 0%,#115e59 100%)!important;
+  color:#fff!important;
+  border-color:#0f766e!important;
+  box-shadow:
+    0 5px 13px rgba(15,118,110,.24),
+    inset 0 0 0 1px rgba(255,255,255,.12)!important;
+  transform:none!important;
+}
+
+/* 모바일 메뉴: 반드시 한 줄에 2개 */
+@media (max-width:760px){
+  .navbar{
+    padding:0!important;
+  }
+
+  .tabs{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:5px!important;
+    padding:6px 7px!important;
+    overflow:visible!important;
+  }
+
+  .tab{
+    width:100%!important;
+    min-width:0!important;
+    min-height:38px;
+    padding:7px 6px!important;
+    border-radius:8px!important;
+    font-size:10.5px!important;
+    line-height:1.2!important;
+    white-space:normal!important;
+  }
+
+  .tab:hover{
+    transform:none!important;
+  }
+}
+
+/* =========================================================
+   Mobile quick actions
+   - 하단 가로형 대신 정사각형 버튼
+   - 버튼 내부에서 원래 문구를 2줄로 표시
+   ========================================================= */
+@media (max-width:760px){
+  .quick-actions,
+  .quick-actions.use-bottom-dock{
+    position:fixed!important;
+    left:50%!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:max(8px, env(safe-area-inset-bottom, 0px))!important;
+    width:auto!important;
+    transform:translateX(-50%) translateY(14px)!important;
+  }
+
+  .quick-actions.is-visible,
+  .quick-actions.use-bottom-dock.is-visible{
+    transform:translateX(-50%) translateY(0)!important;
+  }
+
+  .quick-action-set,
+  .quick-actions.use-bottom-dock .quick-action-set{
+    grid-auto-flow:column!important;
+    grid-auto-columns:68px!important;
+    gap:5px!important;
+    width:max-content!important;
+    max-width:calc(100vw - 14px)!important;
+    padding:5px!important;
+    overflow:visible!important;
+    border-radius:14px!important;
+  }
+
+  .quick-action-btn,
+  .quick-actions.use-bottom-dock .quick-action-btn{
+    width:68px!important;
+    min-width:68px!important;
+    max-width:68px!important;
+    height:68px!important;
+    min-height:68px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:6px!important;
+    border-radius:10px!important;
+  }
+
+  .quick-action-label,
+  .quick-actions.use-bottom-dock .quick-action-label{
+    display:block!important;
+    width:100%;
+    font-size:10px!important;
+    font-weight:850!important;
+    line-height:1.25!important;
+    letter-spacing:-.03em!important;
+    text-align:center!important;
+    white-space:normal!important;
+    word-break:keep-all!important;
+    overflow-wrap:break-word!important;
+  }
+
+  body.quick-actions-visible main,
+  body.quick-actions-bottom-visible main{
+    padding-bottom:104px!important;
+  }
+}
+
+/* 아주 작은 모바일에서도 3개 버튼이 겹치지 않도록 추가 축소 */
+@media (max-width:340px){
+  .quick-action-set,
+  .quick-actions.use-bottom-dock .quick-action-set{
+    grid-auto-columns:62px!important;
+    gap:4px!important;
+    padding:4px!important;
+  }
+
+  .quick-action-btn,
+  .quick-actions.use-bottom-dock .quick-action-btn{
+    width:62px!important;
+    min-width:62px!important;
+    max-width:62px!important;
+    height:62px!important;
+    min-height:62px!important;
+    padding:5px!important;
+  }
+
+  .quick-action-label,
+  .quick-actions.use-bottom-dock .quick-action-label{
+    font-size:9.5px!important;
+  }
+}
+
+
+/* =========================================================
+   Primary navigation color revision
+   - 청록 제거
+   - 차분한 버건디 계열로 활성 메뉴 강조
+   ========================================================= */
+.tab:focus-visible{
+  outline:3px solid rgba(127,29,29,.22)!important;
+  outline-offset:1px!important;
+}
+
+.tab.active{
+  background:linear-gradient(135deg,#8b2f3f 0%,#6f1d2b 100%)!important;
+  color:#fff!important;
+  border-color:#6f1d2b!important;
+  box-shadow:
+    0 5px 13px rgba(111,29,43,.22),
+    inset 0 0 0 1px rgba(255,255,255,.12)!important;
 }
 
 </style>
@@ -4732,37 +5147,30 @@ body.quick-actions-bottom-visible main{
   <aside id="quickActions" class="quick-actions" aria-label="현재 메뉴 빠른 제어" aria-hidden="true">
     <div class="quick-action-set" data-quick-tab="fact">
       <button type="button" class="quick-action-btn quick-review-btn" data-action-target="reviewFocusBtn" aria-pressed="false" title="검토사항 강조">
-        <span class="quick-action-icon" aria-hidden="true">검토</span>
-        <span class="quick-action-label">검토 강조</span>
+        <span class="quick-action-label">검토사항 강조</span>
       </button>
       <button type="button" class="quick-action-btn" data-action-target="expandBtn" title="전체 상세보기">
-        <span class="quick-action-icon" aria-hidden="true">상세</span>
-        <span class="quick-action-label">전체 상세</span>
+        <span class="quick-action-label">전체 상세보기</span>
       </button>
       <button type="button" class="quick-action-btn" data-action-target="collapseBtn" title="전체 요약보기">
-        <span class="quick-action-icon" aria-hidden="true">요약</span>
-        <span class="quick-action-label">전체 요약</span>
+        <span class="quick-action-label">전체 요약보기</span>
       </button>
     </div>
 
     <div class="quick-action-set" data-quick-tab="evidence">
       <button type="button" class="quick-action-btn" data-action-target="evidenceExpandBtn" title="보유 증빙 전체 펼침">
-        <span class="quick-action-icon" aria-hidden="true">펼침</span>
         <span class="quick-action-label">전체 펼침</span>
       </button>
       <button type="button" class="quick-action-btn" data-action-target="evidenceCollapseBtn" title="보유 증빙 전체 접기">
-        <span class="quick-action-icon" aria-hidden="true">접기</span>
         <span class="quick-action-label">전체 접기</span>
       </button>
     </div>
 
     <div class="quick-action-set" data-quick-tab="needed">
       <button type="button" class="quick-action-btn" data-action-target="neededExpandBtn" title="추가 확보 필요 및 검토 전체 펼침">
-        <span class="quick-action-icon" aria-hidden="true">펼침</span>
         <span class="quick-action-label">전체 펼침</span>
       </button>
       <button type="button" class="quick-action-btn" data-action-target="neededCollapseBtn" title="추가 확보 필요 및 검토 전체 접기">
-        <span class="quick-action-icon" aria-hidden="true">접기</span>
         <span class="quick-action-label">전체 접기</span>
       </button>
     </div>
@@ -7160,7 +7568,7 @@ function syncQuickActionPosition(){
   if(!rail || !content) return;
 
   const contentRect = content.getBoundingClientRect();
-  const railWidth = Math.max(58, rail.offsetWidth || 58);
+  const railWidth = Math.max(128, rail.offsetWidth || 128);
   const gap = 10;
   const availableRight = window.innerWidth - contentRect.right;
   const forceBottom = window.innerWidth <= 1120 || availableRight < railWidth + gap + 8;
