@@ -4144,6 +4144,413 @@ body.auth-locked > .related-chat-modal{display:none!important}
   .evidence-chat-actions{display:none!important}
 }
 
+
+/* =========================================================
+   2026-07-21 compact header + sticky contextual tools
+   + desktop right quick rail / small-screen bottom dock
+   ========================================================= */
+
+:root{
+  --sticky-nav-height:44px;
+  --context-toolbar-height:46px;
+}
+
+/* 최상단 제목 바: 글자와 상하 여백을 최대한 압축 */
+header.hero{
+  padding:8px 16px 7px!important;
+}
+header.hero .hero-inner{
+  display:grid;
+  gap:2px;
+}
+header.hero .kicker{
+  margin:0!important;
+  font-size:9px!important;
+  line-height:1.15!important;
+  letter-spacing:.055em!important;
+  color:#cbd5e1!important;
+}
+header.hero h1{
+  margin:0!important;
+  font-size:clamp(16px,1.75vw,22px)!important;
+  line-height:1.08!important;
+  letter-spacing:-.035em!important;
+}
+header.hero .subtitle{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:3px 5px;
+  margin:2px 0 0!important;
+  font-size:10.5px!important;
+  line-height:1.28!important;
+  color:#dbe4ee!important;
+}
+header.hero .subtitle-divider{
+  opacity:.7;
+}
+
+/* 상단 메뉴도 한 단계 압축 */
+.navbar{
+  z-index:500!important;
+}
+.tabs{
+  gap:5px!important;
+  padding:6px 14px!important;
+}
+.tab{
+  padding:7px 11px!important;
+  border-radius:10px!important;
+  font-size:12px!important;
+  line-height:1.15!important;
+}
+
+/* 검색/필터/다운로드: 메뉴 바로 아래 한 줄 sticky */
+main.wrap{
+  padding-top:10px!important;
+}
+.context-toolbar{
+  position:sticky;
+  top:var(--sticky-nav-height);
+  z-index:430;
+  margin:0 0 10px;
+  padding:0;
+}
+.context-toolbar-inner{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-height:42px;
+  padding:5px 7px;
+  border:1px solid rgba(203,213,225,.9);
+  border-radius:12px;
+  background:rgba(248,250,252,.94);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 14px rgba(15,23,42,.06);
+}
+.context-toolbar.is-stuck .context-toolbar-inner{
+  border-radius:0 0 12px 12px;
+  border-top-color:transparent;
+  box-shadow:0 8px 22px rgba(15,23,42,.13);
+}
+.context-searchbox{
+  flex:0 1 360px;
+  min-width:220px;
+  max-width:440px;
+  gap:7px!important;
+  padding:6px 9px!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+.context-searchbox input{
+  font-size:12.5px!important;
+  line-height:1.25!important;
+}
+.context-search-icon{
+  font-size:12px;
+}
+.context-download-actions{
+  flex:0 0 auto;
+  margin-left:auto;
+  flex-wrap:nowrap!important;
+}
+#zipDownloadBtn{
+  min-height:30px;
+  padding:6px 9px!important;
+  border-radius:9px!important;
+  font-size:11.5px!important;
+  white-space:nowrap;
+}
+.context-toolbar .fact-filter-global{
+  flex:1 1 auto;
+  min-width:0;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  gap:5px!important;
+  flex-wrap:nowrap!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.context-toolbar .fact-filter-global .filter-chip{
+  flex:0 0 auto;
+  padding:6px 8px!important;
+  font-size:10.5px!important;
+  line-height:1.1!important;
+}
+body:not([data-active-tab="fact"]) .context-searchbox{
+  flex:1 1 520px;
+  max-width:620px;
+}
+body[data-active-tab="evidence"] .context-download-actions{
+  margin-left:0;
+}
+
+/* 원래 버튼은 첫 화면에서 그대로 쓰되 조금만 압축 */
+.fact-controls,
+.needed-controls{
+  padding-top:10px!important;
+}
+.fact-controls .btn,
+.needed-controls .btn{
+  padding:7px 9px!important;
+  font-size:12px!important;
+  border-radius:9px!important;
+}
+
+/* 우측 퀵버튼: 원래 버튼이 화면 밖으로 나간 뒤 표시 */
+.quick-actions{
+  position:fixed;
+  right:8px;
+  top:50%;
+  z-index:410;
+  width:58px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(-50%) translateX(14px);
+  transition:opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+.quick-actions.is-visible{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(-50%) translateX(0);
+}
+.quick-action-set{
+  display:none;
+  gap:6px;
+  padding:6px;
+  border:1px solid rgba(203,213,225,.94);
+  border-radius:14px;
+  background:rgba(255,255,255,.96);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 12px 30px rgba(15,23,42,.18);
+}
+.quick-actions[data-active-tab="fact"] [data-quick-tab="fact"],
+.quick-actions[data-active-tab="evidence"] [data-quick-tab="evidence"],
+.quick-actions[data-active-tab="needed"] [data-quick-tab="needed"]{
+  display:grid;
+}
+.quick-action-btn{
+  appearance:none;
+  width:44px;
+  min-height:44px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:2px;
+  padding:5px 3px;
+  border:1px solid #d8dee7;
+  border-radius:10px;
+  background:#fff;
+  color:#334155;
+  font-family:inherit;
+  cursor:pointer;
+  box-shadow:0 2px 7px rgba(15,23,42,.05);
+}
+.quick-action-btn:hover,
+.quick-action-btn:focus{
+  outline:none;
+  background:#111827;
+  color:#fff;
+  border-color:#111827;
+}
+.quick-action-btn.active,
+.quick-action-btn[aria-pressed="true"]{
+  background:#92400e;
+  color:#fff;
+  border-color:#92400e;
+}
+.quick-action-icon{
+  font-size:10.5px;
+  font-weight:950;
+  line-height:1.05;
+}
+.quick-action-label{
+  font-size:9px;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.035em;
+  white-space:nowrap;
+}
+body.quick-actions-visible[data-active-tab="fact"] .floating-toc{
+  top:76%!important;
+}
+body.auth-locked .quick-actions,
+body.modal-open .quick-actions{
+  display:none!important;
+}
+
+/* 창이 작아지면 본문을 가리지 않도록 하단 도크로 자동 전환 */
+@media (max-width:1120px){
+  .quick-actions{
+    top:auto;
+    right:50%;
+    bottom:max(10px, env(safe-area-inset-bottom, 0px));
+    width:auto;
+    transform:translateX(50%) translateY(14px);
+  }
+  .quick-actions.is-visible{
+    transform:translateX(50%) translateY(0);
+  }
+  .quick-action-set{
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(68px,auto);
+    gap:5px;
+    padding:5px;
+    border-radius:13px;
+  }
+  .quick-action-btn{
+    width:auto;
+    min-width:68px;
+    min-height:38px;
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    padding:6px 8px;
+  }
+  .quick-action-icon{font-size:10.5px}
+  .quick-action-label{font-size:10px}
+  body.quick-actions-visible main{
+    padding-bottom:105px!important;
+  }
+}
+
+/* 모바일: 메뉴·검색·필터 모두 한 줄 중심으로 축소 */
+@media (max-width:760px){
+  header.hero{
+    padding:6px 58px 6px 10px!important;
+  }
+  header.hero .kicker{
+    font-size:7.5px!important;
+    letter-spacing:.035em!important;
+  }
+  header.hero h1{
+    font-size:15px!important;
+    line-height:1.07!important;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  header.hero .subtitle{
+    margin-top:1px!important;
+    font-size:8.5px!important;
+    line-height:1.2!important;
+    gap:2px 4px;
+  }
+
+  .tabs{
+    display:flex!important;
+    grid-template-columns:none!important;
+    gap:4px!important;
+    padding:5px 7px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    flex-wrap:nowrap!important;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto;
+    width:auto!important;
+    padding:6px 8px!important;
+    border-radius:9px!important;
+    font-size:10.5px!important;
+  }
+
+  main.wrap{
+    padding:7px 7px 42px!important;
+  }
+  .context-toolbar{
+    margin:0 0 7px;
+  }
+  .context-toolbar-inner{
+    gap:4px;
+    min-height:38px;
+    padding:4px;
+    border-radius:9px;
+  }
+  .context-searchbox{
+    flex:0 1 43vw;
+    min-width:108px!important;
+    max-width:168px!important;
+    padding:5px 6px!important;
+    gap:4px!important;
+    border-radius:7px!important;
+  }
+  .context-searchbox input{
+    font-size:10.5px!important;
+    min-width:0;
+  }
+  .context-search-icon{
+    font-size:10px;
+  }
+  body:not([data-active-tab="fact"]) .context-searchbox{
+    flex:1 1 auto;
+    max-width:none!important;
+  }
+  .context-toolbar .fact-filter-global{
+    gap:4px!important;
+  }
+  .context-toolbar .fact-filter-global .filter-chip{
+    padding:5px 7px!important;
+    font-size:9.5px!important;
+  }
+  #zipDownloadBtn{
+    width:auto!important;
+    padding:5px 7px!important;
+    min-height:28px;
+    font-size:10px!important;
+  }
+
+  .quick-actions{
+    bottom:max(8px, env(safe-area-inset-bottom, 0px));
+  }
+  .quick-action-set{
+    grid-auto-columns:minmax(62px,auto);
+    max-width:calc(100vw - 16px);
+    overflow-x:auto;
+  }
+  .quick-action-btn{
+    min-width:62px;
+    min-height:36px;
+    padding:5px 7px;
+  }
+  .quick-action-icon{font-size:10px}
+  .quick-action-label{font-size:9.5px}
+
+  body.quick-actions-visible main{
+    padding-bottom:92px!important;
+  }
+
+  /* 기존 상단 우측 햄버거가 축소된 제목을 과도하게 덮지 않도록 축소 */
+  body > .mobile-menu-bar{
+    top:8px!important;
+    right:8px!important;
+    width:34px!important;
+    height:34px!important;
+  }
+  body > .mobile-menu-bar .mobile-menu-button{
+    width:34px!important;
+    height:34px!important;
+  }
+  body > .mobile-menu-drawer{
+    top:48px!important;
+    right:8px!important;
+  }
+}
+
+@media print{
+  .context-toolbar{position:static!important}
+  .quick-actions{display:none!important}
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -4162,12 +4569,13 @@ body.auth-locked > .related-chat-modal{display:none!important}
   </div>
 
   <header class="hero">
-    <div class="wrap">
+    <div class="wrap hero-inner">
       <div class="kicker">Dispute Timeline · Fact Rebuttal · Evidence</div>
       <h1 id="pageTitle">내부 검토 자료</h1>
       <p class="subtitle">
         <span id="pageSubtitle">비밀번호 확인 후 내용을 표시합니다.</span>
-        <br>작성 기준일: <strong id="createdAt"></strong>
+        <span class="subtitle-divider" aria-hidden="true">·</span>
+        <span class="subtitle-date">작성 기준일: <strong id="createdAt"></strong></span>
       </p>
     </div>
   </header>
@@ -4197,17 +4605,18 @@ body.auth-locked > .related-chat-modal{display:none!important}
   </aside>
 
   <main class="wrap">
-    <div class="toolbar">
-      <div class="searchbox">
-        <span>🔎</span>
-        <input id="globalSearch" type="search" placeholder="날짜, 쟁점, 인물, 문구, 증빙명으로 검색">
-      </div>
-      <div class="btns">
-        <button class="btn hidden" id="zipDownloadBtn">전체 다운로드</button>
+    <div id="contextToolbar" class="context-toolbar">
+      <div class="context-toolbar-inner">
+        <div class="searchbox context-searchbox">
+          <span class="context-search-icon" aria-hidden="true">🔎</span>
+          <input id="globalSearch" type="search" placeholder="날짜, 쟁점, 인물, 문구, 증빙명으로 검색">
+        </div>
+        <div id="factFilterBar" class="fact-filter-bar fact-filter-global" aria-label="사실관계 반박 구분 필터"></div>
+        <div class="btns context-download-actions">
+          <button class="btn hidden" id="zipDownloadBtn">전체 다운로드</button>
+        </div>
       </div>
     </div>
-
-    <div id="factFilterBar" class="fact-filter-bar fact-filter-global" aria-label="사실관계 반박 구분 필터"></div>
 
     <section id="factPanel" class="panel">
       <div class="panel-head">
@@ -4281,6 +4690,45 @@ body.auth-locked > .related-chat-modal{display:none!important}
       </div>
     </section>
   </main>
+
+  <aside id="quickActions" class="quick-actions" aria-label="현재 메뉴 빠른 제어" aria-hidden="true">
+    <div class="quick-action-set" data-quick-tab="fact">
+      <button type="button" class="quick-action-btn quick-review-btn" data-action-target="reviewFocusBtn" aria-pressed="false" title="검토사항 강조">
+        <span class="quick-action-icon" aria-hidden="true">검토</span>
+        <span class="quick-action-label">검토 강조</span>
+      </button>
+      <button type="button" class="quick-action-btn" data-action-target="expandBtn" title="전체 상세보기">
+        <span class="quick-action-icon" aria-hidden="true">상세</span>
+        <span class="quick-action-label">전체 상세</span>
+      </button>
+      <button type="button" class="quick-action-btn" data-action-target="collapseBtn" title="전체 요약보기">
+        <span class="quick-action-icon" aria-hidden="true">요약</span>
+        <span class="quick-action-label">전체 요약</span>
+      </button>
+    </div>
+
+    <div class="quick-action-set" data-quick-tab="evidence">
+      <button type="button" class="quick-action-btn" data-action-target="evidenceExpandBtn" title="보유 증빙 전체 펼침">
+        <span class="quick-action-icon" aria-hidden="true">펼침</span>
+        <span class="quick-action-label">전체 펼침</span>
+      </button>
+      <button type="button" class="quick-action-btn" data-action-target="evidenceCollapseBtn" title="보유 증빙 전체 접기">
+        <span class="quick-action-icon" aria-hidden="true">접기</span>
+        <span class="quick-action-label">전체 접기</span>
+      </button>
+    </div>
+
+    <div class="quick-action-set" data-quick-tab="needed">
+      <button type="button" class="quick-action-btn" data-action-target="neededExpandBtn" title="추가 확보 필요 및 검토 전체 펼침">
+        <span class="quick-action-icon" aria-hidden="true">펼침</span>
+        <span class="quick-action-label">전체 펼침</span>
+      </button>
+      <button type="button" class="quick-action-btn" data-action-target="neededCollapseBtn" title="추가 확보 필요 및 검토 전체 접기">
+        <span class="quick-action-icon" aria-hidden="true">접기</span>
+        <span class="quick-action-label">전체 접기</span>
+      </button>
+    </div>
+  </aside>
 
 
 
@@ -4468,6 +4916,8 @@ function initApp(){
   if(mobileBtn) mobileBtn.addEventListener("click", toggleMobileMenu);
   if(mobileClose) mobileClose.addEventListener("click", closeMobileMenu);
   if(mobileBackdrop) mobileBackdrop.addEventListener("click", closeMobileMenu);
+  document.body.dataset.activeTab = ACTIVE_MAIN_TAB;
+  initCompactStickyTools();
 }
 async function tryUnlockWithPassword(password){
   await decryptAppData(password);
@@ -6655,8 +7105,131 @@ function handleMobileFactJump(selector){
   }, 40);
 }
 
+
+let ACTIVE_MAIN_TAB = "fact";
+let QUICK_ACTIONS_INITIALIZED = false;
+
+function activeControlRow(){
+  if(ACTIVE_MAIN_TAB === "fact") return document.querySelector("#factPanel .fact-controls");
+  if(ACTIVE_MAIN_TAB === "evidence") return document.querySelector("#evidencePanel .evidence-controls");
+  if(ACTIVE_MAIN_TAB === "needed") return document.querySelector("#neededPanel .needed-controls");
+  return null;
+}
+
+function syncStickyOffsets(){
+  const navbar = document.querySelector(".navbar");
+  const navHeight = navbar ? Math.ceil(navbar.getBoundingClientRect().height) : 0;
+  document.documentElement.style.setProperty("--sticky-nav-height", `${navHeight}px`);
+
+  const toolbar = document.getElementById("contextToolbar");
+  if(toolbar){
+    const toolbarHeight = Math.ceil(toolbar.getBoundingClientRect().height);
+    document.documentElement.style.setProperty("--context-toolbar-height", `${toolbarHeight}px`);
+  }
+}
+
+function syncQuickActionState(){
+  const rail = document.getElementById("quickActions");
+  if(!rail) return;
+
+  rail.dataset.activeTab = ACTIVE_MAIN_TAB;
+  rail.querySelectorAll(".quick-review-btn").forEach(btn => {
+    const source = document.getElementById("reviewFocusBtn");
+    const active = Boolean(
+      source &&
+      (source.classList.contains("active") || source.getAttribute("aria-pressed") === "true")
+    );
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
+    btn.title = active ? "검토사항 강조 해제" : "검토사항 강조";
+  });
+}
+
+function updateStickyAndQuickActions(){
+  const toolbar = document.getElementById("contextToolbar");
+  const navbar = document.querySelector(".navbar");
+  const navHeight = navbar ? navbar.getBoundingClientRect().height : 0;
+
+  if(toolbar){
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const stuck = window.scrollY > 0 && toolbarRect.top <= navHeight + 1;
+    toolbar.classList.toggle("is-stuck", stuck);
+  }
+
+  const rail = document.getElementById("quickActions");
+  if(!rail) return;
+
+  const controls = activeControlRow();
+  const toolbarHeight = toolbar ? toolbar.getBoundingClientRect().height : 0;
+  const revealLine = navHeight + toolbarHeight + 8;
+  const modalOpen = document.body.classList.contains("modal-open");
+  const authLocked = document.body.classList.contains("auth-locked");
+  const supportedTab = ["fact", "evidence", "needed"].includes(ACTIVE_MAIN_TAB);
+  const passedOriginalControls = Boolean(
+    controls &&
+    !controls.closest(".hidden") &&
+    controls.getBoundingClientRect().bottom <= revealLine
+  );
+  const visible = supportedTab && passedOriginalControls && !modalOpen && !authLocked;
+
+  rail.classList.toggle("is-visible", visible);
+  rail.setAttribute("aria-hidden", visible ? "false" : "true");
+  document.body.classList.toggle("quick-actions-visible", visible);
+  syncQuickActionState();
+}
+
+function initCompactStickyTools(){
+  if(QUICK_ACTIONS_INITIALIZED) return;
+  QUICK_ACTIONS_INITIALIZED = true;
+
+  const rail = document.getElementById("quickActions");
+  if(rail){
+    rail.addEventListener("click", event => {
+      const button = event.target.closest("[data-action-target]");
+      if(!button) return;
+      const source = document.getElementById(button.dataset.actionTarget || "");
+      if(source){
+        source.click();
+        syncQuickActionState();
+      }
+    });
+  }
+
+  const reviewSource = document.getElementById("reviewFocusBtn");
+  if(reviewSource && typeof MutationObserver !== "undefined"){
+    new MutationObserver(syncQuickActionState).observe(reviewSource, {
+      attributes:true,
+      attributeFilter:["class", "aria-pressed"],
+      childList:true,
+      subtree:true
+    });
+  }
+
+  const resizeHandler = () => {
+    syncStickyOffsets();
+    updateStickyAndQuickActions();
+  };
+
+  window.addEventListener("scroll", updateStickyAndQuickActions, {passive:true});
+  window.addEventListener("resize", resizeHandler, {passive:true});
+
+  if(typeof ResizeObserver !== "undefined"){
+    const observer = new ResizeObserver(resizeHandler);
+    const navbar = document.querySelector(".navbar");
+    const toolbar = document.getElementById("contextToolbar");
+    if(navbar) observer.observe(navbar);
+    if(toolbar) observer.observe(toolbar);
+  }
+
+  syncStickyOffsets();
+  syncQuickActionState();
+  requestAnimationFrame(updateStickyAndQuickActions);
+}
+
 function showTab(name, options={}){
   const shouldScroll = options.scroll !== false;
+  ACTIVE_MAIN_TAB = name;
+  document.body.dataset.activeTab = name;
   if(name === "fact" && FACT_FILTER !== "__all__"){
     FACT_FILTER = "__all__";
     renderFactCards();
@@ -6672,6 +7245,8 @@ function showTab(name, options={}){
   const factFilterBar = $("#factFilterBar");
   if(factFilterBar) factFilterBar.classList.toggle("hidden", name !== "fact");
   syncMobileMenuActive(name);
+  syncStickyOffsets();
+  requestAnimationFrame(updateStickyAndQuickActions);
   if(shouldScroll) window.scrollTo({top:0, behavior:"smooth"});
 }
 function expandAll(){ $$("#factCards details").forEach(d => d.open = true); }
