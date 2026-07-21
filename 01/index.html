@@ -3730,7 +3730,10 @@ body.auth-locked > .related-fact-modal{display:none!important}
   text-decoration:none;
 }
 
-/* 2026-07-21: 확인한 카톡 근거 행 표시 */
+/* 2026-07-21: 카톡 근거 확인 상태
+   - 확인한 항목은 현재 접속 중 누적 표시
+   - 현재 열어본 항목은 더 진하게 표시
+   - 새로고침·재접속 시 초기화 */
 .chat-table tbody tr.chat-row-viewed > td{
   background:#e8eef6!important;
   border-top-color:#cbd5e1!important;
@@ -3745,6 +3748,25 @@ body.auth-locked > .related-fact-modal{display:none!important}
 .chat-table tbody tr.chat-row-viewed .chat-date-link::before{
   content:"✓ ";
   color:#0f766e;
+  font-weight:900;
+  text-decoration:none;
+}
+
+/* 현재 선택한 항목: 확인 누적색보다 진한 강조 */
+.chat-table tbody tr.chat-row-current > td{
+  background:#dbeafe!important;
+  border-top-color:#60a5fa!important;
+  border-bottom-color:#60a5fa!important;
+}
+.chat-table tbody tr.chat-row-current > td:first-child{
+  box-shadow:inset 5px 0 0 #2563eb;
+}
+.chat-table tbody tr.chat-row-current .chat-date-link{
+  color:#1d4ed8;
+}
+.chat-table tbody tr.chat-row-current .chat-date-link::before{
+  content:"▶ ";
+  color:#2563eb;
   font-weight:900;
   text-decoration:none;
 }
@@ -5059,8 +5081,11 @@ function singleChatHtmlFile(row){
   if(!file || (file.ext || "").toLowerCase() !== "html") return null;
   return file;
 }
-const CHAT_REVIEW_STORAGE_KEY = "golfzon-chat-evidence-reviewed-v1";
-let CHAT_REVIEW_CACHE = null;
+/* 카톡 근거 확인 상태는 현재 페이지가 열린 동안만 유지한다.
+   localStorage를 사용하지 않으므로 새로고침·재접속 시 자동 초기화된다. */
+const CHAT_REVIEW_CACHE = new Set();
+let CHAT_REVIEW_CURRENT_KEY = "";
+
 function stableChatReviewHash(value){
   let hash = 2166136261;
   const text = (value || "").toString();
@@ -5071,12 +5096,6 @@ function stableChatReviewHash(value){
   return (hash >>> 0).toString(36);
 }
 function chatReviewSet(){
-  if(CHAT_REVIEW_CACHE) return CHAT_REVIEW_CACHE;
-  CHAT_REVIEW_CACHE = new Set();
-  try{
-    const saved = JSON.parse(localStorage.getItem(CHAT_REVIEW_STORAGE_KEY) || "[]");
-    if(Array.isArray(saved)) saved.forEach(key => CHAT_REVIEW_CACHE.add(String(key)));
-  }catch(_){ /* file:// 또는 개인정보 보호 모드에서는 메모리 상태만 사용 */ }
   return CHAT_REVIEW_CACHE;
 }
 function chatReviewKeyForRow(row){
@@ -5094,14 +5113,32 @@ function chatReviewKeyForRow(row){
 function isChatReviewViewed(key){
   return Boolean(key && chatReviewSet().has(key));
 }
+function clearCurrentChatReviewRow(){
+  document.querySelectorAll(".chat-table tbody tr.chat-row-current")
+    .forEach(row => row.classList.remove("chat-row-current"));
+  CHAT_REVIEW_CURRENT_KEY = "";
+}
 function markChatReviewViewed(key, sourceElement=null){
   if(!key) return;
   const set = chatReviewSet();
   set.add(key);
-  try{ localStorage.setItem(CHAT_REVIEW_STORAGE_KEY, JSON.stringify([...set])); }
-  catch(_){ /* 로컬 파일 제한 시 현재 화면에서만 유지 */ }
-  const row = sourceElement?.closest?.("tr") || document.querySelector(`tr[data-chat-review-key="${CSS.escape(key)}"]`);
-  if(row) row.classList.add("chat-row-viewed");
+
+  document.querySelectorAll(".chat-table tbody tr.chat-row-current")
+    .forEach(row => row.classList.remove("chat-row-current"));
+
+  const sourceRow = sourceElement?.closest?.("tr");
+  const rows = [...document.querySelectorAll("tr[data-chat-review-key]")]
+    .filter(row => row.dataset.chatReviewKey === key);
+
+  if(sourceRow && !rows.includes(sourceRow)) rows.push(sourceRow);
+  rows.forEach(row => row.classList.add("chat-row-viewed"));
+
+  if(sourceRow){
+    sourceRow.classList.add("chat-row-current");
+  }else if(rows[0]){
+    rows[0].classList.add("chat-row-current");
+  }
+  CHAT_REVIEW_CURRENT_KEY = key;
 }
 function chatDateTimeCellHtml(row, value){
   const file = singleChatHtmlFile(row);
@@ -6232,6 +6269,11 @@ function closeHtmlModal(){
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
+
+  /* 모달을 닫으면 현재 선택 강조만 제거하고,
+     확인한 항목의 연한 배경과 ✓ 표시는 현재 접속 중 유지 */
+  clearCurrentChatReviewRow();
+
   if(frame){ frame.onload = null; frame.removeAttribute("srcdoc"); frame.src = "about:blank"; frame.hidden = false; }
   if(guide) guide.hidden = true;
   if(content){
