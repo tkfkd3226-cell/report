@@ -5802,6 +5802,89 @@ body.modal-open .current-issue-bar{
   }
 }
 
+
+/* =========================================================
+   Full-width context search + timeline major-section TOC
+   ========================================================= */
+body[data-active-tab="evidence"] .context-searchbox,
+body[data-active-tab="needed"] .context-searchbox,
+body[data-active-tab="timeline"] .context-searchbox{
+  flex:1 1 0!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+
+body[data-active-tab="evidence"] .context-download-actions{
+  flex:0 0 auto!important;
+  margin-left:0!important;
+}
+
+body[data-active-tab="needed"] .context-download-actions,
+body[data-active-tab="timeline"] .context-download-actions{
+  flex:0 0 0!important;
+  width:0!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+.timeline-layout{
+  display:block;
+  position:relative;
+}
+
+.timeline-section-title{
+  scroll-margin-top:calc(
+    var(--sticky-nav-height, 0px) +
+    var(--context-toolbar-height, 0px) +
+    10px
+  );
+}
+
+.timeline-floating-toc .floating-toc-panel{
+  width:330px;
+}
+
+.timeline-floating-toc .toc-link{
+  grid-template-columns:36px minmax(0,1fr);
+  min-height:42px;
+}
+
+.timeline-floating-toc .toc-no{
+  width:30px;
+  flex:0 0 30px;
+}
+
+.timeline-floating-toc .toc-text{
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+}
+
+@media (max-width:1180px){
+  .timeline-floating-toc .floating-toc-panel{
+    width:286px;
+  }
+}
+
+@media (max-width:760px){
+  body[data-active-tab="evidence"] .context-searchbox,
+  body[data-active-tab="needed"] .context-searchbox,
+  body[data-active-tab="timeline"] .context-searchbox{
+    flex:1 1 0!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+
+  body[data-active-tab="evidence"] .context-download-actions{
+    flex:0 0 auto!important;
+  }
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -5947,8 +6030,11 @@ body.modal-open .current-issue-bar{
         </div>
         <div class="small">현재 표시 항목: <b id="timelineCount">-</b>건</div>
       </div>
-      <div class="table-wrap" style="overflow:visible">
-        <div id="timelineRoot"></div>
+      <div class="timeline-layout">
+        <div class="table-wrap" style="overflow:visible">
+          <div id="timelineRoot"></div>
+        </div>
+        <nav id="timelineFloatingToc" class="floating-toc timeline-floating-toc" aria-label="타임라인 목차"></nav>
       </div>
     </section>
   </main>
@@ -8301,16 +8387,82 @@ function renderNeededEvidence(){
     </details>`;
   }).join("");
 }
+function timelineSectionId(index){
+  return `timeline-section-${index + 1}`;
+}
+
+function timelineSectionParts(title, index){
+  const text = cleanDisplayText(title || "");
+  const matched = text.match(/^([ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+)\.\s*(.+)$/);
+
+  return {
+    no:matched ? matched[1] : String(index + 1),
+    title:matched ? matched[2] : text
+  };
+}
+
+function renderTimelineToc(visibleSections){
+  const root = $("#timelineFloatingToc");
+  if(!root) return;
+
+  if(!visibleSections.length){
+    root.innerHTML = "";
+    return;
+  }
+
+  root.innerHTML = `
+    <div class="floating-toc-trigger">목차</div>
+    <div class="floating-toc-panel">
+      <div class="floating-toc-title">
+        <span>타임라인</span>
+        <small>${visibleSections.length}개 구간</small>
+      </div>
+      <div class="floating-toc-list">
+        ${visibleSections.map(item => {
+          const parts = timelineSectionParts(
+            item.section.section,
+            item.index
+          );
+
+          return `<a
+            class="toc-link timeline-toc-link"
+            href="#${timelineSectionId(item.index)}"
+            title="${escapeHtml(item.section.section)}"
+          >
+            <span class="toc-no">${escapeHtml(parts.no)}</span>
+            <span class="toc-text">${escapeHtml(parts.title)}</span>
+          </a>`;
+        }).join("")}
+      </div>
+    </div>`;
+}
+
 function renderTimeline(){
   const q = currentSearchQuery();
   const root = $("#timelineRoot");
+  const visibleSections = [];
   let html = "";
   let count = 0;
-  APP_DATA.timelineSections.forEach(section => {
-    const filtered = section.rows.filter(row => matchesText({...row, section:section.section}, q));
+
+  APP_DATA.timelineSections.forEach((section, sectionIndex) => {
+    const filtered = section.rows.filter(row =>
+      matchesText({...row, section:section.section}, q)
+    );
+
     if(!filtered.length) return;
-    html += `<h3 class="section-title">${escapeHtml(section.section)}</h3>`;
+
+    visibleSections.push({
+      section,
+      index:sectionIndex
+    });
+
+    html += `<h3
+      id="${timelineSectionId(sectionIndex)}"
+      class="section-title timeline-section-title"
+    >${escapeHtml(section.section)}</h3>`;
+
     html += `<div class="timeline">`;
+
     filtered.forEach(row => {
       count++;
       html += `
@@ -8327,9 +8479,15 @@ function renderTimeline(){
           </div>
         </article>`;
     });
+
     html += `</div>`;
   });
-  root.innerHTML = count ? html : `<div class="empty">검색 결과가 없습니다.</div>`;
+
+  root.innerHTML = count
+    ? html
+    : `<div class="empty">검색 결과가 없습니다.</div>`;
+
+  renderTimelineToc(visibleSections);
   $("#timelineCount").textContent = count;
 }
 const MOBILE_TAB_LABELS = {fact:"사실관계 반박", evidence:"보유 증빙 모음", needed:"추가 확보 필요 및 검토", timeline:"타임라인"};
@@ -8372,19 +8530,78 @@ function mobileMenuItem(label, tab, active){
 function renderMobileMenu(){
   const root = $("#mobileMenuList");
   if(!root || !APP_DATA) return;
+
   const active = activeTabName();
+  const titleRoot = document.querySelector(
+    ".mobile-menu-title span"
+  );
+
+  if(active === "timeline"){
+    const timelineItems = [
+      ...document.querySelectorAll(
+        "#timelineRoot .timeline-section-title[id]"
+      )
+    ].map((heading, index) => {
+      const parts = timelineSectionParts(
+        heading.textContent,
+        index
+      );
+      const target = `#${heading.id}`;
+
+      return `<button
+        type="button"
+        class="mobile-menu-fact mobile-menu-timeline"
+        data-mobile-timeline="${escapeHtml(target)}"
+      >
+        <span class="mobile-menu-text">${escapeHtml(
+          `${parts.no}. ${parts.title}`
+        )}</span>
+      </button>`;
+    }).join("");
+
+    if(titleRoot){
+      titleRoot.textContent = "타임라인 바로가기";
+    }
+
+    root.innerHTML = `
+      <div class="mobile-menu-sub mobile-menu-timeline-only">
+        ${timelineItems || `<div class="empty">표시할 목차가 없습니다.</div>`}
+      </div>
+    `;
+
+    syncMobileMenuActive(active);
+    return;
+  }
+
   const factRows = APP_DATA.factRows || [];
   const factItems = factRows.map(row => {
     const no = cleanDisplayText(row["No."] || "");
-    const title = cleanDisplayText(row["반박 필요 항목"] || "");
+    const title = cleanDisplayText(
+      row["반박 필요 항목"] || ""
+    );
     const target = `#${factCardId(no)}`;
-    return `<button type="button" class="mobile-menu-fact" data-mobile-fact="${escapeHtml(target)}">
-      <span class="mobile-menu-text">${escapeHtml(no ? `${no}. ${title}` : title)}</span>
+
+    return `<button
+      type="button"
+      class="mobile-menu-fact"
+      data-mobile-fact="${escapeHtml(target)}"
+    >
+      <span class="mobile-menu-text">${escapeHtml(
+        no ? `${no}. ${title}` : title
+      )}</span>
     </button>`;
   }).join("");
+
+  if(titleRoot){
+    titleRoot.textContent = "사실관계 반박 바로가기";
+  }
+
   root.innerHTML = `
-    <div class="mobile-menu-sub mobile-menu-fact-only">${factItems}</div>
+    <div class="mobile-menu-sub mobile-menu-fact-only">
+      ${factItems}
+    </div>
   `;
+
   syncMobileMenuActive(active);
 }
 function syncMobileMenuActive(name=activeTabName()){
@@ -8421,6 +8638,38 @@ function handleMobileFactJump(selector){
   setTimeout(() => moveToTarget("auto"), 360);
 }
 
+
+
+function handleMobileTimelineJump(selector){
+  showTab("timeline", {scroll:false});
+  closeMobileMenu();
+
+  const moveToTarget = (behavior="auto") => {
+    const target = document.querySelector(selector);
+    if(!target) return;
+
+    const mobileMenu = document.querySelector(
+      "body > .mobile-menu-bar"
+    );
+
+    const offset = mobileMenu
+      ? mobileMenu.getBoundingClientRect().bottom + 7
+      : 48;
+
+    const top =
+      window.scrollY +
+      target.getBoundingClientRect().top -
+      offset;
+
+    window.scrollTo({
+      top:Math.max(0, top),
+      behavior
+    });
+  };
+
+  setTimeout(() => moveToTarget("smooth"), 60);
+  setTimeout(() => moveToTarget("auto"), 360);
+}
 
 let ACTIVE_MAIN_TAB = "fact";
 let QUICK_ACTIONS_INITIALIZED = false;
@@ -9619,6 +9868,18 @@ document.addEventListener("click", (e) => {
     handleMobileFactJump(mobileFact.dataset.mobileFact);
     return;
   }
+
+  const mobileTimeline = e.target.closest(
+    "[data-mobile-timeline]"
+  );
+  if(mobileTimeline){
+    e.preventDefault();
+    handleMobileTimelineJump(
+      mobileTimeline.dataset.mobileTimeline
+    );
+    return;
+  }
+
   const fileButton = e.target.closest("[data-file-id][data-file-action]");
   if(fileButton){
     e.preventDefault();
