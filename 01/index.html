@@ -4025,6 +4025,19 @@ body.auth-locked > .related-fact-modal{display:none!important}
   border-color:#cbd5e1;
   background:#f1f5f9;
 }
+.related-chat-item.current{
+  border-color:#3b82f6;
+  background:#dbeafe;
+  box-shadow:inset 4px 0 0 #2563eb, 0 5px 16px rgba(37,99,235,.10);
+}
+.related-chat-item.current .related-chat-no{
+  background:#2563eb;
+  color:#fff;
+}
+.related-chat-item.current .related-chat-time,
+.related-chat-item.current .related-chat-open{
+  color:#1d4ed8;
+}
 .related-chat-no{
   display:flex;
   align-items:center;
@@ -5414,29 +5427,46 @@ function isChatReviewViewed(key){
 function clearCurrentChatReviewRow(){
   document.querySelectorAll(".chat-table tbody tr.chat-row-current")
     .forEach(row => row.classList.remove("chat-row-current"));
+  document.querySelectorAll(".related-chat-item.current")
+    .forEach(item => item.classList.remove("current"));
   CHAT_REVIEW_CURRENT_KEY = "";
 }
-function markChatReviewViewed(key, sourceElement=null){
+function syncChatReviewVisualState(key, sourceElement=null){
   if(!key) return;
-  const set = chatReviewSet();
-  set.add(key);
 
   document.querySelectorAll(".chat-table tbody tr.chat-row-current")
     .forEach(row => row.classList.remove("chat-row-current"));
+  document.querySelectorAll(".related-chat-item.current")
+    .forEach(item => item.classList.remove("current"));
 
-  const sourceRow = sourceElement?.closest?.("tr");
-  const rows = [...document.querySelectorAll("tr[data-chat-review-key]")]
+  const tableRows = [...document.querySelectorAll("tr[data-chat-review-key]")]
     .filter(row => row.dataset.chatReviewKey === key);
+  tableRows.forEach(row => {
+    row.classList.add("chat-row-viewed");
+    row.classList.add("chat-row-current");
+  });
 
-  if(sourceRow && !rows.includes(sourceRow)) rows.push(sourceRow);
-  rows.forEach(row => row.classList.add("chat-row-viewed"));
+  const relatedItems = [...document.querySelectorAll(".related-chat-item[data-chat-review-key]")]
+    .filter(item => item.dataset.chatReviewKey === key);
+  relatedItems.forEach(item => {
+    item.classList.add("viewed");
+    item.classList.add("current");
+    const no = item.querySelector(".related-chat-no");
+    if(no) no.textContent = "▶";
+  });
 
-  if(sourceRow){
-    sourceRow.classList.add("chat-row-current");
-  }else if(rows[0]){
-    rows[0].classList.add("chat-row-current");
+  const sourceItem = sourceElement?.closest?.(".related-chat-item");
+  if(sourceItem){
+    sourceItem.classList.add("viewed", "current");
+    const no = sourceItem.querySelector(".related-chat-no");
+    if(no) no.textContent = "▶";
   }
+}
+function markChatReviewViewed(key, sourceElement=null){
+  if(!key) return;
+  chatReviewSet().add(key);
   CHAT_REVIEW_CURRENT_KEY = key;
+  syncChatReviewVisualState(key, sourceElement);
 }
 function chatDateTimeCellHtml(row, value){
   const file = singleChatHtmlFile(row);
@@ -5806,13 +5836,33 @@ function scrollChatPreviewToTarget(frame, target){
     return false;
   }
 }
-function scheduleChatPreviewScroll(frame, target){
+function scheduleChatPreviewScroll(frame, target, token=CHAT_PREVIEW_RENDER_TOKEN){
   if(!target) return;
   [0, 120, 450, 900].forEach(delay => {
-    setTimeout(() => scrollChatPreviewToTarget(frame, target), delay);
+    setTimeout(() => {
+      if(token !== CHAT_PREVIEW_RENDER_TOKEN) return;
+      scrollChatPreviewToTarget(frame, target);
+    }, delay);
   });
 }
 let EMBEDDED_CHAT_HTML_CACHE = null;
+let CHAT_PREVIEW_RENDER_TOKEN = 0;
+
+function forceChatPreviewTop(frame, host, token){
+  if(token !== CHAT_PREVIEW_RENDER_TOKEN) return;
+  try{
+    if(host) host.scrollTop = 0;
+    if(frame && frame.contentWindow){
+      frame.contentWindow.scrollTo(0, 0);
+      const doc = frame.contentDocument;
+      if(doc){
+        if(doc.documentElement) doc.documentElement.scrollTop = 0;
+        if(doc.body) doc.body.scrollTop = 0;
+      }
+    }
+  }catch(_){ /* 로컬 파일 접근 제한 시 가능한 범위에서만 처리 */ }
+}
+
 function embeddedChatHtmlMap(){
   if(EMBEDDED_CHAT_HTML_CACHE) return EMBEDDED_CHAT_HTML_CACHE;
   try{
@@ -5867,7 +5917,7 @@ function prepareEmbeddedChatDocument(file){
   });
   return parsed;
 }
-function renderEmbeddedChatPreview(file, target){
+function renderEmbeddedChatPreview(file, target, token=CHAT_PREVIEW_RENDER_TOKEN){
   const host = $("#htmlModalContent");
   if(!host) return false;
   const parsed = prepareEmbeddedChatDocument(file);
@@ -5885,8 +5935,18 @@ function renderEmbeddedChatPreview(file, target){
     <div class="embedded-chat-document">${parsed.body.innerHTML}</div>`;
   host.hidden = false;
   host.scrollTop = 0;
+
   if(target){
-    [0,80,220].forEach(delay => setTimeout(() => scrollEmbeddedChatPreviewToTarget(shadow, target), delay));
+    [0,80,220].forEach(delay => setTimeout(() => {
+      if(token !== CHAT_PREVIEW_RENDER_TOKEN) return;
+      scrollEmbeddedChatPreviewToTarget(shadow, target);
+    }, delay));
+  }else{
+    /* 전체 대화 버튼은 항상 대화 맨 위에서 시작 */
+    [0,80,220,500].forEach(delay => setTimeout(() => {
+      if(token !== CHAT_PREVIEW_RENDER_TOKEN) return;
+      host.scrollTop = 0;
+    }, delay));
   }
   return true;
 }
@@ -6684,8 +6744,9 @@ function openRelatedChatModal(key){
         const data = relatedChatTargetData(row);
         if(!data) return "";
         const viewed = isChatReviewViewed(data.reviewKey);
-        return `<button type="button" class="related-chat-item${viewed ? " viewed" : ""}" ${relatedChatButtonDataHtml(row)}>
-          <span class="related-chat-no">${viewed ? "✓" : escapeHtml(cleanDisplayText(row["No."] || String(index + 1)))}</span>
+        const current = Boolean(data.reviewKey && data.reviewKey === CHAT_REVIEW_CURRENT_KEY);
+        return `<button type="button" class="related-chat-item${viewed ? " viewed" : ""}${current ? " current" : ""}" ${relatedChatButtonDataHtml(row)}>
+          <span class="related-chat-no">${current ? "▶" : (viewed ? "✓" : escapeHtml(cleanDisplayText(row["No."] || String(index + 1))))}</span>
           <span class="related-chat-main">
             <span class="related-chat-time">${escapeHtml(cleanDisplayText(row["날짜/시간"] || ""))}</span>
             <span class="related-chat-sender">${escapeHtml(data.sender || "발신자 미표시")}</span>
@@ -6723,6 +6784,8 @@ function openHtmlModal(file, url, chatTarget=null){
     window.open(url, "_blank", "noopener");
     return;
   }
+
+  const previewToken = ++CHAT_PREVIEW_RENDER_TOKEN;
   const targetLabel = chatTarget?.display || (chatTarget?.date ? `${chatTarget.date} ${chatTarget.time || ""}`.trim() : "");
   title.textContent = targetLabel
     ? `${file.fileName || file.display || "대화기록"} · ${targetLabel}`
@@ -6735,12 +6798,25 @@ function openHtmlModal(file, url, chatTarget=null){
   frame.src = "about:blank";
   frame.hidden = true;
   content.hidden = true;
+  content.scrollTop = 0;
 
-  const renderedInline = renderEmbeddedChatPreview(file, chatTarget);
+  const renderedInline = renderEmbeddedChatPreview(file, chatTarget, previewToken);
   if(!renderedInline){
     frame.hidden = false;
-    frame.onload = chatTarget ? () => scheduleChatPreviewScroll(frame, chatTarget) : null;
+    frame.onload = () => {
+      if(previewToken !== CHAT_PREVIEW_RENDER_TOKEN) return;
+      if(chatTarget){
+        scheduleChatPreviewScroll(frame, chatTarget, previewToken);
+      }else{
+        [0,120,450,900].forEach(delay => setTimeout(
+          () => forceChatPreviewTop(frame, null, previewToken),
+          delay
+        ));
+      }
+    };
     frame.src = url;
+  }else if(!chatTarget){
+    forceChatPreviewTop(null, content, previewToken);
   }
 
   modal.classList.add("open");
@@ -6756,13 +6832,19 @@ function closeHtmlModal(){
   const content = $("#htmlModalContent");
   const guide = $("#htmlModalGuide");
   if(!modal) return;
+
+  ++CHAT_PREVIEW_RENDER_TOKEN;
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
 
-  /* 모달을 닫으면 현재 선택 강조만 제거하고,
-     확인한 항목의 연한 배경과 ✓ 표시는 현재 접속 중 유지 */
-  clearCurrentChatReviewRow();
+  /* 마지막으로 본 항목의 진한 ▶ 표시는 유지한다.
+     관련 대화 목록에서 열었다면 목록 모달을 닫지 않았으므로
+     대화 모달을 닫는 즉시 기존 목록 화면이 다시 보인다. */
+  const relatedChatOpen = Boolean($("#relatedChatModal")?.classList.contains("open"));
+  const relatedFactOpen = Boolean($("#relatedFactModal")?.classList.contains("open"));
+  if(!relatedChatOpen && !relatedFactOpen){
+    document.body.classList.remove("modal-open");
+  }
 
   if(frame){ frame.onload = null; frame.removeAttribute("srcdoc"); frame.src = "about:blank"; frame.hidden = false; }
   if(guide) guide.hidden = true;
@@ -6770,6 +6852,12 @@ function closeHtmlModal(){
     content.hidden = true;
     content.scrollTop = 0;
     if(content.shadowRoot) content.shadowRoot.innerHTML = "";
+  }
+
+  if(relatedChatOpen){
+    const currentItem = document.querySelector("#relatedChatModal .related-chat-item.current");
+    const fallback = $("#relatedChatModalClose");
+    setTimeout(() => (currentItem || fallback)?.focus(), 30);
   }
 }
 async function handleFileAction(button){
@@ -6862,9 +6950,8 @@ document.addEventListener("click", (e) => {
     if(fileButton.dataset.chatReviewKey){
       markChatReviewViewed(fileButton.dataset.chatReviewKey, fileButton);
     }
-    if(fileButton.closest("#relatedChatModal")){
-      closeRelatedChatModal();
-    }
+    /* 관련 대화 목록은 뒤에 유지한다.
+       대화 모달을 닫으면 사용자가 보던 목록으로 그대로 복귀한다. */
     handleFileAction(fileButton);
     return;
   }
@@ -6875,12 +6962,21 @@ document.addEventListener("click", (e) => {
   }
 });
 document.addEventListener("keydown", (e) => {
-  if(e.key === "Escape"){
-    closeRelatedChatModal();
-    closeRelatedFactModal();
+  if(e.key !== "Escape") return;
+
+  if($("#htmlModal")?.classList.contains("open")){
     closeHtmlModal();
-    closeMobileMenu();
+    return;
   }
+  if($("#relatedChatModal")?.classList.contains("open")){
+    closeRelatedChatModal();
+    return;
+  }
+  if($("#relatedFactModal")?.classList.contains("open")){
+    closeRelatedFactModal();
+    return;
+  }
+  closeMobileMenu();
 });
 document.addEventListener("DOMContentLoaded", () => {
   initAuthGate();
