@@ -5594,6 +5594,75 @@ body.modal-open .current-issue-bar{
   overflow-anchor:none;
 }
 
+
+/* =========================================================
+   Quick TOP + mobile sticky search/filter
+   ========================================================= */
+
+/* TOP 버튼은 상태 버튼과 구분되는 중립형 */
+.quick-top-btn{
+  font-weight:900;
+}
+@media (hover:hover) and (pointer:fine){
+  .quick-top-btn:hover{
+    background:#111827!important;
+    color:#fff!important;
+    border-color:#111827!important;
+  }
+}
+
+@media (max-width:760px){
+  /* 모바일에서도 검색·필터 도구막대를 메뉴 아래 계속 고정 */
+  .context-toolbar{
+    position:sticky!important;
+    top:var(--sticky-nav-height)!important;
+    z-index:1350!important;
+    margin-bottom:8px!important;
+  }
+
+  .context-toolbar-inner{
+    width:100%!important;
+  }
+
+  /* 사실관계 반박: 검색 1행 + 필터 1행 */
+  body[data-active-tab="fact"] .context-toolbar-inner{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    gap:5px!important;
+    padding:5px!important;
+  }
+
+  body[data-active-tab="fact"] .context-searchbox{
+    flex:1 0 100%!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+
+  body[data-active-tab="fact"] .context-toolbar .fact-filter-global{
+    flex:1 0 100%!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:1px 0 0!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    white-space:nowrap!important;
+  }
+
+  /* 다른 탭은 기존처럼 검색·다운로드 한 줄 유지 */
+  body:not([data-active-tab="fact"]) .context-toolbar-inner{
+    flex-wrap:nowrap!important;
+  }
+
+  /* TOP 추가 후에도 모바일 정사각형 퀵버튼 4개가 겹치지 않게 유지 */
+  .quick-action-set,
+  .quick-actions.use-bottom-dock .quick-action-set{
+    max-width:calc(100vw - 14px)!important;
+  }
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -5747,6 +5816,9 @@ body.modal-open .current-issue-bar{
 
   <aside id="quickActions" class="quick-actions" aria-label="현재 메뉴 빠른 제어" aria-hidden="true">
     <div class="quick-action-set" data-quick-tab="fact">
+      <button type="button" class="quick-action-btn quick-top-btn" data-quick-action="top" title="페이지 맨 위로 이동">
+        <span class="quick-action-label">↑ TOP</span>
+      </button>
       <button type="button" class="quick-action-btn quick-review-btn" data-action-target="reviewFocusBtn" aria-pressed="false" title="검토사항 강조">
         <span class="quick-action-label">검토사항 강조</span>
       </button>
@@ -5759,6 +5831,9 @@ body.modal-open .current-issue-bar{
     </div>
 
     <div class="quick-action-set" data-quick-tab="evidence">
+      <button type="button" class="quick-action-btn quick-top-btn" data-quick-action="top" title="페이지 맨 위로 이동">
+        <span class="quick-action-label">↑ TOP</span>
+      </button>
       <button type="button" class="quick-action-btn" data-action-target="evidenceExpandBtn" title="보유 증빙 전체 펼침">
         <span class="quick-action-label">전체 펼침</span>
       </button>
@@ -5768,6 +5843,9 @@ body.modal-open .current-issue-bar{
     </div>
 
     <div class="quick-action-set" data-quick-tab="needed">
+      <button type="button" class="quick-action-btn quick-top-btn" data-quick-action="top" title="페이지 맨 위로 이동">
+        <span class="quick-action-label">↑ TOP</span>
+      </button>
       <button type="button" class="quick-action-btn" data-action-target="neededExpandBtn" title="추가 확보 필요 및 검토 전체 펼침">
         <span class="quick-action-label">전체 펼침</span>
       </button>
@@ -8368,6 +8446,16 @@ function initCompactStickyTools(){
   const rail = document.getElementById("quickActions");
   if(rail){
     rail.addEventListener("click", event => {
+      const topButton = event.target.closest('[data-quick-action="top"]');
+      if(topButton){
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+        requestAnimationFrame(() => topButton.blur());
+        return;
+      }
+
       const button = event.target.closest("[data-action-target]");
       if(!button) return;
       const source = document.getElementById(button.dataset.actionTarget || "");
