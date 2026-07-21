@@ -4157,33 +4157,33 @@ body.auth-locked > .related-chat-modal{display:none!important}
 
 /* 최상단 제목 바: 글자와 상하 여백을 최대한 압축 */
 header.hero{
-  padding:8px 16px 7px!important;
+  padding:15px 16px 12px!important;
 }
 header.hero .hero-inner{
   display:grid;
-  gap:2px;
+  gap:4px;
 }
 header.hero .kicker{
   margin:0!important;
-  font-size:9px!important;
-  line-height:1.15!important;
-  letter-spacing:.055em!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  letter-spacing:.065em!important;
   color:#cbd5e1!important;
 }
 header.hero h1{
   margin:0!important;
-  font-size:clamp(16px,1.75vw,22px)!important;
-  line-height:1.08!important;
+  font-size:clamp(20px,2.35vw,28px)!important;
+  line-height:1.12!important;
   letter-spacing:-.035em!important;
 }
 header.hero .subtitle{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:3px 5px;
-  margin:2px 0 0!important;
-  font-size:10.5px!important;
-  line-height:1.28!important;
+  gap:4px 6px;
+  margin:3px 0 0!important;
+  font-size:12.5px!important;
+  line-height:1.35!important;
   color:#dbe4ee!important;
 }
 header.hero .subtitle-divider{
@@ -4305,7 +4305,8 @@ body[data-active-tab="evidence"] .context-download-actions{
 /* 우측 퀵버튼: 원래 버튼이 화면 밖으로 나간 뒤 표시 */
 .quick-actions{
   position:fixed;
-  right:8px;
+  left:var(--quick-actions-left, calc(50% + 650px));
+  right:auto;
   top:50%;
   z-index:410;
   width:58px;
@@ -4387,17 +4388,53 @@ body.modal-open .quick-actions{
   display:none!important;
 }
 
+
+/* 본문 우측 공간이 부족한 중간 폭 화면에서는 자동으로 하단 도크 사용 */
+.quick-actions.use-bottom-dock{
+  top:auto;
+  left:50%;
+  right:auto;
+  bottom:max(10px, env(safe-area-inset-bottom, 0px));
+  width:auto;
+  transform:translateX(-50%) translateY(14px);
+}
+.quick-actions.use-bottom-dock.is-visible{
+  transform:translateX(-50%) translateY(0);
+}
+.quick-actions.use-bottom-dock .quick-action-set{
+  grid-auto-flow:column;
+  grid-auto-columns:minmax(68px,auto);
+  gap:5px;
+  padding:5px;
+  border-radius:13px;
+}
+.quick-actions.use-bottom-dock .quick-action-btn{
+  width:auto;
+  min-width:68px;
+  min-height:38px;
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  padding:6px 8px;
+}
+.quick-actions.use-bottom-dock .quick-action-icon{font-size:10.5px}
+.quick-actions.use-bottom-dock .quick-action-label{font-size:10px}
+body.quick-actions-bottom-visible main{
+  padding-bottom:105px!important;
+}
+
 /* 창이 작아지면 본문을 가리지 않도록 하단 도크로 자동 전환 */
 @media (max-width:1120px){
   .quick-actions{
     top:auto;
-    right:50%;
+    left:50%;
+    right:auto;
     bottom:max(10px, env(safe-area-inset-bottom, 0px));
     width:auto;
-    transform:translateX(50%) translateY(14px);
+    transform:translateX(-50%) translateY(14px);
   }
   .quick-actions.is-visible{
-    transform:translateX(50%) translateY(0);
+    transform:translateX(-50%) translateY(0);
   }
   .quick-action-set{
     grid-auto-flow:column;
@@ -4425,24 +4462,25 @@ body.modal-open .quick-actions{
 /* 모바일: 메뉴·검색·필터 모두 한 줄 중심으로 축소 */
 @media (max-width:760px){
   header.hero{
-    padding:6px 58px 6px 10px!important;
+    padding:10px 54px 9px 11px!important;
   }
   header.hero .kicker{
-    font-size:7.5px!important;
-    letter-spacing:.035em!important;
+    font-size:9px!important;
+    line-height:1.15!important;
+    letter-spacing:.045em!important;
   }
   header.hero h1{
-    font-size:15px!important;
-    line-height:1.07!important;
+    font-size:18px!important;
+    line-height:1.1!important;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
   header.hero .subtitle{
-    margin-top:1px!important;
-    font-size:8.5px!important;
-    line-height:1.2!important;
-    gap:2px 4px;
+    margin-top:2px!important;
+    font-size:10.5px!important;
+    line-height:1.25!important;
+    gap:3px 5px;
   }
 
   .tabs{
@@ -7116,6 +7154,31 @@ function activeControlRow(){
   return null;
 }
 
+function syncQuickActionPosition(){
+  const rail = document.getElementById("quickActions");
+  const content = document.querySelector("main.wrap");
+  if(!rail || !content) return;
+
+  const contentRect = content.getBoundingClientRect();
+  const railWidth = Math.max(58, rail.offsetWidth || 58);
+  const gap = 10;
+  const availableRight = window.innerWidth - contentRect.right;
+  const forceBottom = window.innerWidth <= 1120 || availableRight < railWidth + gap + 8;
+
+  rail.classList.toggle("use-bottom-dock", forceBottom);
+
+  if(forceBottom){
+    document.documentElement.style.removeProperty("--quick-actions-left");
+  }else{
+    /* 중앙 내용 표시 영역의 바로 오른쪽 여백에 위치 */
+    const left = Math.round(contentRect.right + gap);
+    document.documentElement.style.setProperty("--quick-actions-left", `${left}px`);
+  }
+
+  const bottomVisible = forceBottom && rail.classList.contains("is-visible");
+  document.body.classList.toggle("quick-actions-bottom-visible", bottomVisible);
+}
+
 function syncStickyOffsets(){
   const navbar = document.querySelector(".navbar");
   const navHeight = navbar ? Math.ceil(navbar.getBoundingClientRect().height) : 0;
@@ -7126,6 +7189,8 @@ function syncStickyOffsets(){
     const toolbarHeight = Math.ceil(toolbar.getBoundingClientRect().height);
     document.documentElement.style.setProperty("--context-toolbar-height", `${toolbarHeight}px`);
   }
+
+  syncQuickActionPosition();
 }
 
 function syncQuickActionState(){
@@ -7175,6 +7240,10 @@ function updateStickyAndQuickActions(){
   rail.classList.toggle("is-visible", visible);
   rail.setAttribute("aria-hidden", visible ? "false" : "true");
   document.body.classList.toggle("quick-actions-visible", visible);
+  document.body.classList.toggle(
+    "quick-actions-bottom-visible",
+    visible && rail.classList.contains("use-bottom-dock")
+  );
   syncQuickActionState();
 }
 
