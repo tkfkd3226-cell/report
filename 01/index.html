@@ -3764,6 +3764,73 @@ body.auth-locked > .related-fact-modal{display:none!important}
   .html-modal-guide{padding:8px 12px;font-size:11px;}
 }
 
+
+/* 2026-07-21 대화 모달 헤더·모바일 스크롤 복구 */
+.html-modal-card{
+  min-height:0!important;
+  max-height:calc(100dvh - 52px)!important;
+}
+.html-modal-head{
+  flex:0 0 auto!important;
+  position:relative;
+  z-index:3;
+}
+.html-modal-guide{
+  flex:0 0 auto!important;
+  position:relative;
+  z-index:2;
+}
+.html-modal-body{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.html-modal-content,
+.html-modal-frame{
+  min-height:0!important;
+  height:100%!important;
+}
+.html-modal-content{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+}
+@media (max-width:760px){
+  .html-modal{
+    padding:0!important;
+    align-items:stretch!important;
+  }
+  .html-modal-card{
+    width:100vw!important;
+    height:100dvh!important;
+    max-height:100dvh!important;
+    border-radius:0!important;
+    border:0!important;
+  }
+  .html-modal-head{
+    min-height:58px!important;
+    padding:10px 10px 10px 14px!important;
+  }
+  .html-modal-title{
+    white-space:normal!important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    line-height:1.35;
+  }
+  .html-modal-close{
+    width:42px!important;
+    height:42px!important;
+    font-size:26px!important;
+  }
+  .html-modal-guide{
+    max-height:62px;
+    overflow:auto;
+  }
+}
+
 </style>
 </head>
 <body class="auth-locked">
