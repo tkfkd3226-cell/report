@@ -6823,6 +6823,326 @@ body.auth-locked>.brief-issue-modal{display:none!important;}
   .related-chat-section-head{align-items:flex-start;}
   .related-chat-section-title{font-size:11px;}
 }
+
+/* =========================================================
+   FOUR_ISSUE_SUMMARY_20260722
+   4대 쟁점 요약: 준비서면 검토자료 A~D의 기존 DOM을 자동 재구성
+   ========================================================= */
+@media (min-width:761px){
+  .tabs{grid-template-columns:repeat(6,minmax(0,1fr))!important;}
+}
+body[data-active-tab="summary"] .context-searchbox{
+  flex:1 1 0!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+body[data-active-tab="summary"] .context-download-actions{
+  flex:0 0 0!important;
+  width:0!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+#summaryPanel{overflow:visible;}
+.brief-summary-page{
+  padding:18px;
+  display:grid;
+  gap:16px;
+  background:#f8fafc;
+}
+.brief-summary-local-nav{
+  position:sticky;
+  top:calc(var(--sticky-nav-height) + var(--context-toolbar-height) + 4px);
+  z-index:404;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  padding:8px;
+  border:1px solid #d8dee7;
+  border-radius:13px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 7px 20px rgba(15,23,42,.09);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+}
+.brief-summary-local-nav a{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:7px 8px;
+  border:1px solid #dbe2ea;
+  border-radius:10px;
+  background:#fff;
+  color:#475569;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:900;
+  line-height:1.3;
+  text-align:center;
+}
+.brief-summary-local-nav a:hover,
+.brief-summary-local-nav a:focus-visible{
+  outline:none;
+  border-color:#8b2f3f;
+  background:#fff7f7;
+  color:#6f1d2b;
+}
+.brief-summary-nav-letter{
+  flex:0 0 auto;
+  width:23px;
+  height:23px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background:#111827;
+  color:#fff;
+  font-size:10px;
+  font-weight:950;
+}
+.brief-summary-group{
+  scroll-margin-top:calc(var(--sticky-nav-height,0px) + var(--context-toolbar-height,0px) + 68px);
+  border:1px solid #d8dee7;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(15,23,42,.065);
+  overflow:hidden;
+}
+.brief-summary-group-head{
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:16px 18px;
+  background:linear-gradient(135deg,#1f2937 0%,#334155 100%);
+  color:#fff;
+}
+.brief-summary-group-letter{
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:14px;
+  background:rgba(255,255,255,.10);
+  font-size:19px;
+  font-weight:950;
+}
+.brief-summary-group-title h3{
+  margin:0;
+  font-size:20px;
+  line-height:1.35;
+  letter-spacing:-.03em;
+}
+.brief-summary-group-title p{
+  margin:4px 0 0;
+  color:#cbd5e1;
+  font-size:11px;
+  line-height:1.45;
+}
+.brief-summary-detail-link{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  padding:7px 10px;
+  font-family:inherit;
+  font-size:10.5px;
+  font-weight:900;
+  line-height:1.2;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.brief-summary-detail-link:hover,
+.brief-summary-detail-link:focus-visible{
+  outline:none;
+  background:#fff;
+  color:#111827;
+  border-color:#fff;
+}
+.brief-summary-body{
+  display:grid;
+  gap:12px;
+  padding:14px;
+  background:#f8fafc;
+}
+.brief-summary-block{
+  border:1px solid #dbe2ea;
+  border-radius:14px;
+  background:#fff;
+  padding:14px 15px;
+}
+.brief-summary-block-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin:0 0 10px;
+  color:#0f172a;
+  font-size:13px;
+  font-weight:950;
+}
+.brief-summary-block-title:before{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:999px;
+  background:#6f1d2b;
+  box-shadow:0 0 0 3px rgba(111,29,43,.10);
+}
+.brief-summary-core-list,
+.brief-summary-fact-list,
+.brief-summary-caution-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:8px;
+}
+.brief-summary-core-list li,
+.brief-summary-fact-list li,
+.brief-summary-caution-list li{
+  position:relative;
+  padding-left:14px;
+  color:#475569;
+  font-size:13px;
+  line-height:1.68;
+  word-break:keep-all;
+}
+.brief-summary-core-list li:before,
+.brief-summary-fact-list li:before,
+.brief-summary-caution-list li:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.72em;
+  width:5px;
+  height:5px;
+  border-radius:999px;
+  background:#64748b;
+}
+.brief-summary-fact-list{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:24px;
+}
+.brief-summary-procedure-list{
+  display:grid;
+  gap:8px;
+  margin-top:11px;
+  padding-top:11px;
+  border-top:1px dashed #cbd5e1;
+}
+.brief-summary-procedure-list .brief-procedure-card{
+  margin:0!important;
+  border:1px solid #dbe2ea;
+  border-radius:11px;
+  background:#f8fafc;
+  padding:10px 11px;
+}
+.brief-summary-procedure-list .brief-procedure-card>b{
+  display:block;
+  margin-bottom:6px;
+  color:#0f172a;
+  font-size:11px;
+}
+.brief-summary-procedure-list .brief-procedure-card p{
+  margin:0 0 5px;
+  color:#475569;
+  font-size:12px;
+  line-height:1.58;
+}
+.brief-summary-procedure-list .brief-procedure-card p:last-child{margin-bottom:0;}
+/* 증거 및 활용 검토는 데스크톱에서 한 줄에 두 카드 */
+.brief-summary-review-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+  align-items:stretch;
+}
+.brief-summary-review-list .brief-review-point{
+  min-width:0;
+  margin:0!important;
+  border:1px solid #dbe2ea;
+  border-radius:12px;
+  background:#f8fafc;
+  padding:11px 12px;
+}
+.brief-summary-review-list .brief-review-point+.brief-review-point{margin-top:0!important;}
+.brief-summary-review-list .brief-review-point.is-last{border-bottom:1px solid #dbe2ea!important;}
+.brief-summary-review-list .brief-review-point-head{margin-bottom:7px;}
+.brief-summary-review-list .brief-point-evidence-list{margin-top:7px;}
+.brief-summary-caution-block{border-color:#fde68a;background:#fffbeb;}
+.brief-summary-caution-block .brief-summary-block-title{color:#854d0e;}
+.brief-summary-caution-block .brief-summary-block-title:before{
+  background:#f59e0b;
+  box-shadow:0 0 0 3px rgba(245,158,11,.14);
+}
+.brief-summary-caution-list li{color:#78350f;}
+.brief-summary-caution-list li:before{background:#f59e0b;}
+@media (max-width:900px){
+  .brief-summary-fact-list{grid-template-columns:1fr;}
+}
+@media (max-width:760px){
+  body[data-active-tab="summary"] .context-searchbox{
+    flex:1 1 0!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+  .brief-summary-page{padding:9px;gap:11px;}
+  .brief-summary-local-nav{
+    position:static;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:5px;
+    padding:6px;
+    border-radius:11px;
+  }
+  .brief-summary-local-nav a{
+    justify-content:flex-start;
+    padding:7px;
+    font-size:10px;
+    text-align:left;
+  }
+  .brief-summary-group{scroll-margin-top:46px;border-radius:15px;}
+  .brief-summary-group-head{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:9px;
+    padding:13px 12px;
+  }
+  .brief-summary-group-letter{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    font-size:16px;
+  }
+  .brief-summary-group-title h3{font-size:16px;}
+  .brief-summary-detail-link{
+    grid-column:1/-1;
+    justify-self:start;
+    padding:6px 9px;
+  }
+  .brief-summary-body{padding:9px;gap:9px;}
+  .brief-summary-block{padding:11px;border-radius:12px;}
+  .brief-summary-block-title{font-size:12px;margin-bottom:8px;}
+  .brief-summary-core-list,
+  .brief-summary-fact-list,
+  .brief-summary-caution-list{gap:7px;}
+  .brief-summary-core-list li,
+  .brief-summary-fact-list li,
+  .brief-summary-caution-list li{
+    padding-left:12px;
+    font-size:12px;
+    line-height:1.58;
+  }
+  .brief-summary-review-list{grid-template-columns:1fr;gap:7px;}
+  .brief-summary-review-list .brief-review-point{padding:9px 10px;}
+}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -6851,7 +7171,8 @@ body.auth-locked>.brief-issue-modal{display:none!important;}
 </header>
 <nav class="navbar">
 <div class="wrap tabs">
-<button class="tab active" data-tab="brief">준비서면 검토자료</button>
+<button class="tab active" data-tab="summary">4대 쟁점 요약</button>
+<button class="tab" data-tab="brief">준비서면 검토자료</button>
 <button class="tab" data-tab="fact">사실관계 반박</button>
 <button class="tab" data-tab="evidence">보유 증빙 모음</button>
 <button class="tab" data-tab="needed">추가 확보 필요 및 검토</button>
@@ -6862,7 +7183,7 @@ body.auth-locked>.brief-issue-modal{display:none!important;}
 <button aria-controls="mobileMenuDrawer" aria-expanded="false" aria-label="빠른 이동" class="mobile-menu-button" id="mobileMenuBtn" type="button">
 <span aria-hidden="true" class="hamburger-lines"><span></span><span></span><span></span></span>
 </button>
-<div class="mobile-menu-current" id="mobileMenuCurrent">준비서면 검토자료</div>
+<div class="mobile-menu-current" id="mobileMenuCurrent">4대 쟁점 요약</div>
 </div>
 <div aria-hidden="true" class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 <aside aria-hidden="true" aria-label="모바일 메뉴" class="mobile-menu-drawer" id="mobileMenuDrawer">
@@ -6915,7 +7236,17 @@ body.auth-locked>.brief-issue-modal{display:none!important;}
 <nav aria-label="사실관계 반박 목차" class="floating-toc" id="floatingToc"></nav>
 </div>
 </section>
-<section class="panel" id="briefPanel">
+<section class="panel" id="summaryPanel">
+<div class="panel-head">
+<div>
+<h2>4대 쟁점 요약</h2>
+<p>준비서면 검토자료 A~D의 기존 문구와 증거 활용 내용을 4대 쟁점 단위로 자동 통합해 표시합니다.</p>
+</div>
+<div class="small">준비서면 검토자료 원문·증거 링크 기준</div>
+</div>
+<div id="briefSummaryRoot"></div>
+</section>
+<section class="panel hidden" id="briefPanel">
 <div class="panel-head">
 <div>
 <h2>준비서면 검토자료</h2>
@@ -7314,7 +7645,7 @@ function searchTerms(){
 function highlightSearchResults(){
   const terms = searchTerms();
   if(!terms.length) return;
-  const panels = ["#factPanel", "#briefPanel", "#neededPanel", "#evidencePanel", "#timelinePanel"].map(sel => $(sel)).filter(Boolean);
+  const panels = ["#summaryPanel", "#factPanel", "#briefPanel", "#neededPanel", "#evidencePanel", "#timelinePanel"].map(sel => $(sel)).filter(Boolean);
   const pattern = new RegExp(terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi");
   panels.forEach(root => {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -9446,10 +9777,10 @@ function renderTimeline(){
   renderTimelineToc(visibleSections);
   $("#timelineCount").textContent = count;
 }
-const MOBILE_TAB_LABELS = {fact:"사실관계 반박", brief:"준비서면 검토자료", evidence:"보유 증빙 모음", needed:"추가 확보 필요 및 검토", timeline:"타임라인"};
+const MOBILE_TAB_LABELS = {summary:"4대 쟁점 요약", fact:"사실관계 반박", brief:"준비서면 검토자료", evidence:"보유 증빙 모음", needed:"추가 확보 필요 및 검토", timeline:"타임라인"};
 function activeTabName(){
   const active = document.querySelector(".tab.active");
-  return active ? active.dataset.tab : "fact";
+  return active ? active.dataset.tab : "summary";
 }
 function toggleMobileMenu(){
   if(document.body.classList.contains("mobile-menu-open")){
@@ -9491,6 +9822,29 @@ function renderMobileMenu(){
   const titleRoot = document.querySelector(
     ".mobile-menu-title span"
   );
+
+  if(active === "summary"){
+    const summaryItems = [...document.querySelectorAll(
+      "#briefSummaryRoot [data-summary-anchor][id]"
+    )].map(section => {
+      const target = `#${section.id}`;
+      const label = section.dataset.summaryAnchor || section.id;
+      return `<button type="button" class="mobile-menu-fact mobile-menu-summary" data-mobile-summary="${escapeHtml(target)}"><span class="mobile-menu-text">${escapeHtml(label)}</span></button>`;
+    }).join("");
+
+    if(titleRoot){
+      titleRoot.textContent = "4대 쟁점 요약 바로가기";
+    }
+
+    root.innerHTML = `
+      <div class="mobile-menu-sub mobile-menu-summary-only">
+        ${summaryItems || `<div class="empty">표시할 목차가 없습니다.</div>`}
+      </div>
+    `;
+
+    syncMobileMenuActive(active);
+    return;
+  }
 
   if(active === "brief"){
     const briefItems = [...document.querySelectorAll(
@@ -9645,6 +9999,39 @@ function scrollToBriefSection(selector, behavior="smooth"){
   window.scrollTo({top:Math.max(0, top), behavior});
 }
 
+function scrollToBriefSummarySection(selector, behavior="smooth"){
+  const target = document.querySelector(selector);
+  if(!target) return;
+  const mobile = window.matchMedia("(max-width:760px)").matches;
+  const navbar = document.querySelector(".navbar");
+  const toolbar = document.getElementById("contextToolbar");
+  const localNav = document.querySelector("#briefSummaryRoot .brief-summary-local-nav");
+  const navbarHeight = navbar ? Math.ceil(navbar.getBoundingClientRect().height) : 0;
+  const toolbarHeight = !mobile && toolbar ? Math.ceil(toolbar.getBoundingClientRect().height) : 0;
+  const localNavHeight = !mobile && localNav ? Math.ceil(localNav.getBoundingClientRect().height) : 0;
+  const offset = mobile ? 2 : navbarHeight + toolbarHeight + localNavHeight + 14;
+  const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+  window.scrollTo({top, behavior});
+}
+
+function handleMobileSummaryJump(selector){
+  showTab("summary", {scroll:false});
+  closeMobileMenu();
+  const move = () => {
+    const target = document.querySelector(selector);
+    if(!target) return;
+    const root = document.documentElement;
+    const previous = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - 2);
+    window.scrollTo(0, top);
+    requestAnimationFrame(() => { root.style.scrollBehavior = previous; });
+  };
+  setTimeout(move, 80);
+  setTimeout(move, 360);
+  setTimeout(move, 700);
+}
+
 function handleMobileBriefJump(selector){
   showTab("brief", {scroll:false});
   closeMobileMenu();
@@ -9683,7 +10070,7 @@ function handleMobileTimelineJump(selector){
   setTimeout(() => moveToTarget("auto"), 360);
 }
 
-let ACTIVE_MAIN_TAB = "brief";
+let ACTIVE_MAIN_TAB = "summary";
 let QUICK_ACTIONS_INITIALIZED = false;
 
 function activeControlRow(){
@@ -10398,6 +10785,7 @@ function showTab(name, options={}){
     highlightSearchResults();
   }
   $$(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
+  $("#summaryPanel").classList.toggle("hidden", name !== "summary");
   $("#factPanel").classList.toggle("hidden", name !== "fact");
   $("#briefPanel").classList.toggle("hidden", name !== "brief");
   $("#neededPanel").classList.toggle("hidden", name !== "needed");
@@ -10600,10 +10988,184 @@ async function downloadZip(){
   const url = "data/" + encodeURIComponent(fileName);
   await downloadByUrl(url, fileName);
 }
+function summaryNormalizedText(node){
+  return (node?.textContent || "").replace(/\s+/g, " ").trim();
+}
+
+function summaryCellByLabel(card, label){
+  return [...card.querySelectorAll(":scope > .brief-issue-grid > div")].find(cell => {
+    const heading = cell.querySelector(":scope > b");
+    return summaryNormalizedText(heading) === label;
+  }) || null;
+}
+
+function summaryUniqueNodes(nodes, signatureBuilder){
+  const seen = new Set();
+  const result = [];
+  nodes.forEach(node => {
+    const signature = signatureBuilder(node);
+    if(!signature || seen.has(signature)) return;
+    seen.add(signature);
+    result.push(node);
+  });
+  return result;
+}
+
+function summaryReviewPointSignature(point){
+  const datasets = [...point.querySelectorAll("button")].map(button => [
+    button.dataset.fileId || "",
+    button.dataset.fileAction || "",
+    button.dataset.briefChatSheet || "",
+    button.dataset.briefChatNos || "",
+    button.dataset.briefChatFile || "",
+    button.dataset.briefDetailNos || "",
+    button.dataset.briefDetailPurpose || ""
+  ].join("|")).join("||");
+  return `${summaryNormalizedText(point)}|||${datasets}`;
+}
+
+function summaryReviewPointRank(point){
+  const badge = point.querySelector(".brief-badge");
+  if(!badge) return 99;
+  if(badge.classList.contains("core")) return 0;
+  if(badge.classList.contains("existing")) return 1;
+  if(badge.classList.contains("plaintiff")) return 2;
+  if(badge.classList.contains("cross")) return 3;
+  if(badge.classList.contains("support") || badge.classList.contains("supplement")) return 4;
+  if(badge.classList.contains("strategy")) return 5;
+  return 99;
+}
+
+function renderBriefingSummary(){
+  const root = $("#briefSummaryRoot");
+  if(!root || !APP_DATA) return;
+
+  const sourceHtml = APP_DATA.briefingReviewHtml || "";
+  if(!sourceHtml){
+    root.innerHTML = `<div class="empty">표시할 4대 쟁점 요약 내용이 없습니다.</div>`;
+    return;
+  }
+
+  const sourceDoc = new DOMParser().parseFromString(sourceHtml, "text/html");
+  const groups = [...sourceDoc.querySelectorAll(".brief-issue-group")].slice(0, 4);
+  if(!groups.length){
+    root.innerHTML = `<div class="empty">준비서면 검토자료의 A~D 내용을 찾지 못했습니다.</div>`;
+    return;
+  }
+
+  const groupMeta = groups.map((group, index) => {
+    const sourceId = group.id || `brief-group-${String.fromCharCode(97 + index)}`;
+    const head = group.querySelector(".brief-group-head");
+    const letter = summaryNormalizedText(head?.querySelector(":scope > span")) || String.fromCharCode(65 + index);
+    const title = summaryNormalizedText(head?.querySelector("h3")) || `쟁점 ${letter}`;
+    return {group, sourceId, letter, title, summaryId:`summary-group-${letter.toLowerCase()}`};
+  });
+
+  const navHtml = groupMeta.map(meta => `
+    <a href="#${escapeHtml(meta.summaryId)}">
+      <span class="brief-summary-nav-letter">${escapeHtml(meta.letter)}</span>
+      <span>${escapeHtml(meta.title)}</span>
+    </a>`).join("");
+
+  const groupsHtml = groupMeta.map(meta => {
+    const cards = [...meta.group.querySelectorAll(".brief-issue-card")];
+    const coreNodes = [];
+    const factNodes = [];
+    const pointNodes = [];
+    const cautionNodes = [];
+    const procedureNodes = [];
+
+    cards.forEach(card => {
+      const coreCell = summaryCellByLabel(card, "핵심 반박 취지");
+      const factCell = summaryCellByLabel(card, "중요 사실관계");
+      const reviewCell = summaryCellByLabel(card, "활용 검토 포인트")
+        || summaryCellByLabel(card, "활용·대응 검토 포인트");
+
+      if(coreCell){
+        coreCell.querySelectorAll(":scope > p").forEach(node => coreNodes.push(node));
+      }
+      if(factCell){
+        factCell.querySelectorAll("li").forEach(node => factNodes.push(node));
+        factCell.querySelectorAll(":scope > .brief-procedure-card").forEach(node => procedureNodes.push(node));
+      }
+      if(reviewCell){
+        reviewCell.querySelectorAll(".brief-review-point").forEach(node => pointNodes.push(node));
+        reviewCell.querySelectorAll(".brief-caution").forEach(node => cautionNodes.push(node));
+      }
+    });
+
+    const uniqueCore = summaryUniqueNodes(coreNodes, summaryNormalizedText);
+    const uniqueFacts = summaryUniqueNodes(factNodes, summaryNormalizedText);
+    const uniquePoints = summaryUniqueNodes(pointNodes, summaryReviewPointSignature)
+      .map((node, index) => ({node, index, rank:summaryReviewPointRank(node)}))
+      .sort((a, b) => a.rank - b.rank || a.index - b.index)
+      .map(item => item.node);
+    const uniqueCautions = summaryUniqueNodes(cautionNodes, summaryNormalizedText);
+    const uniqueProcedures = summaryUniqueNodes(procedureNodes, summaryNormalizedText);
+
+    const coreHtml = uniqueCore.length
+      ? `<section class="brief-summary-block">
+          <h4 class="brief-summary-block-title">핵심 내용</h4>
+          <ul class="brief-summary-core-list">${uniqueCore.map(node => `<li>${node.innerHTML}</li>`).join("")}</ul>
+        </section>`
+      : "";
+
+    const factsHtml = (uniqueFacts.length || uniqueProcedures.length)
+      ? `<section class="brief-summary-block">
+          <h4 class="brief-summary-block-title">중요 사실관계</h4>
+          ${uniqueFacts.length ? `<ul class="brief-summary-fact-list">${uniqueFacts.map(node => `<li>${node.innerHTML}</li>`).join("")}</ul>` : ""}
+          ${uniqueProcedures.length ? `<div class="brief-summary-procedure-list">${uniqueProcedures.map(node => node.outerHTML).join("")}</div>` : ""}
+        </section>`
+      : "";
+
+    const pointsHtml = uniquePoints.length
+      ? `<section class="brief-summary-block">
+          <h4 class="brief-summary-block-title">증거 및 활용 검토</h4>
+          <div class="brief-summary-review-list">${uniquePoints.map(node => {
+            const clone = node.cloneNode(true);
+            clone.classList.remove("is-last");
+            return clone.outerHTML;
+          }).join("")}</div>
+        </section>`
+      : "";
+
+    const cautionHtml = uniqueCautions.length
+      ? `<section class="brief-summary-block brief-summary-caution-block">
+          <h4 class="brief-summary-block-title">검토 유의사항</h4>
+          <ul class="brief-summary-caution-list">${uniqueCautions.map(node => `<li>${node.innerHTML}</li>`).join("")}</ul>
+        </section>`
+      : "";
+
+    return `<article class="brief-summary-group" id="${escapeHtml(meta.summaryId)}" data-summary-anchor="${escapeHtml(`${meta.letter}. ${meta.title}`)}">
+      <header class="brief-summary-group-head">
+        <div class="brief-summary-group-letter">${escapeHtml(meta.letter)}</div>
+        <div class="brief-summary-group-title">
+          <h3>${escapeHtml(meta.title)}</h3>
+          <p>준비서면 검토자료의 기존 문구와 증거 활용 내용을 통합 표시</p>
+        </div>
+        <button type="button" class="brief-summary-detail-link" data-summary-detail="#${escapeHtml(meta.sourceId)}">준비서면 검토자료에서 보기 →</button>
+      </header>
+      <div class="brief-summary-body">
+        ${coreHtml}
+        ${factsHtml}
+        ${pointsHtml}
+        ${cautionHtml}
+      </div>
+    </article>`;
+  }).join("");
+
+  /* 패널 헤더가 이미 4대 쟁점 요약을 표시하므로 중복 안내 카드는 만들지 않는다. */
+  root.innerHTML = `<div class="brief-summary-page">
+    <nav class="brief-summary-local-nav" aria-label="4대 쟁점 요약 목차">${navHtml}</nav>
+    ${groupsHtml}
+  </div>`;
+}
+
 function renderBriefingReview(){
   const root = $("#briefingReviewRoot");
   if(!root || !APP_DATA) return;
   root.innerHTML = APP_DATA.briefingReviewHtml || `<div class="empty">표시할 준비서면 검토 내용이 없습니다.</div>`;
+  renderBriefingSummary();
   requestAnimationFrame(syncBriefLocalNavHeight);
 }
 
@@ -10901,6 +11463,25 @@ document.addEventListener("click", (e) => {
     highlightSearchResults();
     return;
   }
+  const summaryAnchor = e.target.closest(".brief-summary-local-nav a[href^='#']");
+  if(summaryAnchor){
+    e.preventDefault();
+    const selector = summaryAnchor.getAttribute("href");
+    scrollToBriefSummarySection(selector, "smooth");
+    setTimeout(() => scrollToBriefSummarySection(selector, "auto"), 360);
+    return;
+  }
+
+  const summaryDetail = e.target.closest("[data-summary-detail]");
+  if(summaryDetail){
+    e.preventDefault();
+    const selector = summaryDetail.dataset.summaryDetail;
+    showTab("brief", {scroll:false});
+    setTimeout(() => scrollToBriefSection(selector, "smooth"), 70);
+    setTimeout(() => scrollToBriefSection(selector, "auto"), 420);
+    return;
+  }
+
   const briefAnchor = e.target.closest(".brief-local-nav a[href^='#']");
   if(briefAnchor){
     e.preventDefault();
@@ -10921,6 +11502,13 @@ document.addEventListener("click", (e) => {
   if(mobileFact){
     e.preventDefault();
     handleMobileFactJump(mobileFact.dataset.mobileFact);
+    return;
+  }
+
+  const mobileSummary = e.target.closest("[data-mobile-summary]");
+  if(mobileSummary){
+    e.preventDefault();
+    handleMobileSummaryJump(mobileSummary.dataset.mobileSummary);
     return;
   }
 
