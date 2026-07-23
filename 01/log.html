@@ -8,7 +8,7 @@
 <title>접속 로그 대시보드</title>
 <style>
 :root{
-  --bg:#f4f6f8;--panel:#fff;--ink:#111827;--muted:#64748b;--line:#dbe2ea;
+  --bg:#f4f6f8;--panel:#fff;--ink:#0f172a;--muted:#475569;--line:#cbd5e1;
   --navy:#182235;--burgundy:#7f2637;--burgundy2:#621b29;--green:#0f766e;
   --blue:#2563eb;--orange:#c2410c;--shadow:0 12px 34px rgba(15,23,42,.08);
 }
@@ -16,20 +16,20 @@
 button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0 18px 54px}
 .topbar{background:linear-gradient(135deg,#111827 0%,#26364e 68%,#6f1d2b 100%);color:#fff;border-bottom:4px solid #8b2f3f}
 .topbar-inner{max-width:1440px;margin:0 auto;padding:22px 18px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em;color:#cbd5e1}.topbar h1{margin:5px 0 0;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.045em}.subtitle{margin:7px 0 0;color:#dbe4ee;font-size:13px;line-height:1.55}
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em;color:#cbd5e1}.topbar h1{margin:5px 0 0;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.045em}.subtitle{margin:7px 0 0;color:#f1f5f9;font-size:13px;line-height:1.55;font-weight:650}
 .header-actions{display:flex;align-items:center;gap:8px}.back-link,.refresh-btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:8px 11px;border:1px solid rgba(255,255,255,.28);border-radius:9px;background:rgba(255,255,255,.10);color:#fff;text-decoration:none;font-size:12px;font-weight:900;cursor:pointer}.back-link:hover,.refresh-btn:hover{background:rgba(255,255,255,.20)}
 .demo-banner{margin:14px 0 12px;padding:10px 12px;border:1px solid #f59e0b;border-left:5px solid #f59e0b;border-radius:11px;background:#fffbeb;color:#78350f;font-size:12px;line-height:1.55}.demo-banner b{font-weight:950}.demo-banner.loading{border-color:#60a5fa;border-left-color:#2563eb;background:#eff6ff;color:#1e3a8a}.demo-banner.success{border-color:#86efac;border-left-color:#16a34a;background:#f0fdf4;color:#166534}.demo-banner.error{border-color:#fca5a5;border-left-color:#dc2626;background:#fef2f2;color:#991b1b}
 .filters{position:sticky;top:0;z-index:20;margin:0 0 14px;padding:9px;border:1px solid #cbd5e1;border-radius:13px;background:rgba(248,250,252,.96);backdrop-filter:blur(12px);box-shadow:0 8px 22px rgba(15,23,42,.10);display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(3,minmax(125px,.7fr)) auto;gap:8px}
 .filter-field{display:grid;gap:4px}.filter-field label{font-size:10px;font-weight:900;color:#64748b}.filter-field input,.filter-field select{width:100%;height:38px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;padding:0 10px;color:#111827;font-size:12px;outline:none}.filter-field input:focus,.filter-field select:focus{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.12)}
 .toggle-wrap{display:flex;align-items:flex-end}.toggle{height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 11px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}.toggle.active{background:#111827;color:#fff;border-color:#111827}.toggle-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}.toggle.active .toggle-dot{background:#5eead4}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.kpi{position:relative;overflow:hidden;padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--panel);box-shadow:0 5px 18px rgba(15,23,42,.055)}.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#94a3b8}.kpi.external:before{background:var(--burgundy)}.kpi.sessions:before{background:var(--blue)}.kpi.time:before{background:var(--green)}.kpi.latest:before{background:var(--orange)}.kpi-label{font-size:11px;font-weight:900;color:#64748b}.kpi-value{margin-top:8px;font-size:25px;font-weight:950;letter-spacing:-.04em}.kpi-sub{margin-top:5px;font-size:10px;color:#94a3b8;line-height:1.45}
-.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:14px;margin-bottom:14px}.card{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);overflow:hidden}.card-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:15px 16px 12px;border-bottom:1px solid #e5e7eb}.card-head h2{margin:0;font-size:16px;letter-spacing:-.025em}.card-head p{margin:4px 0 0;color:#64748b;font-size:10px;line-height:1.45}.card-meta{font-size:10px;font-weight:900;color:#64748b}.card-body{padding:15px 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:14px;margin-bottom:14px}.card{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);overflow:hidden}.card-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:15px 16px 12px;border-bottom:1px solid #e5e7eb}.card-head h2{margin:0;font-size:16px;letter-spacing:-.025em}.card-head p{margin:4px 0 0;color:#475569;font-size:11px;line-height:1.45;font-weight:650}.card-meta{font-size:11px;font-weight:900;color:#334155}.card-body{padding:15px 16px}
 .daily-chart{height:230px;display:flex;align-items:stretch;gap:8px;padding-top:16px;border-bottom:1px solid #cbd5e1}.day-column{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar-wrap{width:100%;height:178px;display:flex;align-items:flex-end;justify-content:center}.bar{width:min(38px,72%);min-height:3px;border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,#8b2f3f,#621b29);position:relative;transition:height .25s ease}.bar:hover:after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%);padding:5px 7px;border-radius:7px;background:#111827;color:#fff;font-size:9px;font-weight:900;white-space:nowrap}.bar-value{font-size:9px;font-weight:900;color:#475569}.day-label{font-size:9px;color:#64748b;white-space:nowrap}
-.event-chart{display:grid;grid-template-columns:148px minmax(0,1fr);gap:18px;align-items:center}.donut{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#7f2637 0 25%,#2563eb 25% 50%,#0f766e 50% 75%,#c2410c 75% 100%)}.donut-hole{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 1px #e5e7eb;text-align:center}.donut-hole b{display:block;font-size:20px}.donut-hole span{font-size:9px;color:#64748b}.legend{display:grid;gap:9px}.legend-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;gap:7px;font-size:11px}.legend-dot{width:9px;height:9px;border-radius:3px}.legend-name{font-weight:800;color:#334155}.legend-count{font-weight:950}
+.menu-chart{display:grid;gap:10px;min-height:142px}.menu-chart-row{display:grid;grid-template-columns:minmax(130px,210px) minmax(0,1fr) 44px;gap:10px;align-items:center}.menu-chart-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1e293b;font-size:11px;font-weight:900}.menu-chart-track{height:16px;border-radius:999px;background:#e2e8f0;overflow:hidden;box-shadow:inset 0 0 0 1px #cbd5e1}.menu-chart-bar{height:100%;min-width:2px;border-radius:999px;background:linear-gradient(90deg,#8b2f3f,#6f1d2b);transition:width .2s ease}.menu-chart-count{text-align:right;color:#0f172a;font-size:11px;font-weight:950}.menu-chart-empty{display:grid;place-items:center;min-height:142px;color:#475569;font-size:12px;font-weight:750}
 .visitor-card{margin-bottom:14px}.visitor-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.visitor-item{padding:12px;border:1px solid #dbe2ea;border-radius:13px;background:#f8fafc;cursor:pointer}.visitor-item:hover{border-color:#94a3b8;background:#fff}.visitor-item.selected{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.10);background:#fff}.visitor-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.visitor-name{font-size:12px;font-weight:950}.visitor-badge{padding:3px 6px;border-radius:999px;font-size:9px;font-weight:900;background:#e2e8f0;color:#475569}.visitor-badge.mine{background:#dbeafe;color:#1d4ed8}.visitor-badge.unknown{background:#fef3c7;color:#92400e}.visitor-id{margin-top:7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.visitor-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:10px}.visitor-stat{padding:7px 5px;border-radius:8px;background:#fff;text-align:center}.visitor-stat b{display:block;font-size:12px}.visitor-stat span{font-size:8px;color:#94a3b8}.visitor-last{margin-top:8px;font-size:9px;color:#64748b}
-.table-card{overflow:hidden}.table-head-actions{display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;flex-wrap:wrap}.page-size-control{display:flex;align-items:center;gap:5px;color:#64748b;font-size:10px;font-weight:900;white-space:nowrap}.page-size-control select{height:30px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:0 24px 0 8px;color:#111827;font-size:10px;font-weight:900;outline:none}.page-size-control select:focus{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.10)}.table-scroll{overflow:auto}.log-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:11px}.log-table th,.log-table td{padding:10px 11px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}.log-table th{position:sticky;top:0;background:#334155;color:#fff;font-size:10px;white-space:nowrap}.log-table tr:nth-child(even) td{background:#f8fafc}.log-table tbody tr:hover td{background:#fff7ed}.event-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:950;white-space:nowrap}.event-chip.login{background:#fef2f2;color:#991b1b}.event-chip.tab{background:#eff6ff;color:#1d4ed8}.event-chip.heart{background:#ecfdf5;color:#047857}.event-chip.end{background:#fff7ed;color:#c2410c}.event-chip.other{background:#f1f5f9;color:#475569}.visitor-cell{max-width:230px}.visitor-cell b{display:block;font-size:10px}.visitor-cell code{display:block;margin-top:3px;color:#64748b;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mine-row td{opacity:.62}.empty{padding:38px;text-align:center;color:#64748b}.pagination-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border-top:1px solid #e5e7eb;background:#f8fafc}.pagination-info{color:#64748b;font-size:10px;font-weight:800;white-space:nowrap}.pagination-controls{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex-wrap:wrap}.page-btn{appearance:none;min-width:31px;height:31px;padding:0 8px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#334155;font-size:10px;font-weight:900;cursor:pointer}.page-btn:hover:not(:disabled){border-color:#7f2637;background:#fff7f7;color:#6f1d2b}.page-btn.active{border-color:#7f2637;background:#7f2637;color:#fff}.page-btn:disabled{cursor:not-allowed;opacity:.38}.page-ellipsis{min-width:22px;text-align:center;color:#94a3b8;font-size:10px;font-weight:900}.footer-note{margin-top:12px;color:#64748b;font-size:10px;line-height:1.55;text-align:right}
+.table-card{overflow:hidden}.table-head-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:nowrap}.page-size-select{flex:0 0 auto;width:76px;height:32px;border:1px solid #94a3b8;border-radius:8px;background:#fff;padding:0 26px 0 10px;color:#0f172a;font-size:11px;font-weight:900;outline:none}.page-size-select:focus{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.10)}.table-scroll{overflow:auto}.log-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:12px;color:#1e293b}.log-table th,.log-table td{padding:10px 11px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}.log-table th{position:sticky;top:0;background:#334155;color:#fff;font-size:11px;white-space:nowrap}.log-table tr:nth-child(even) td{background:#f8fafc}.log-table tbody tr:hover td{background:#fff7ed}.event-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:950;white-space:nowrap}.event-chip.login{background:#fef2f2;color:#991b1b}.event-chip.tab{background:#eff6ff;color:#1d4ed8}.event-chip.heart{background:#ecfdf5;color:#047857}.event-chip.end{background:#fff7ed;color:#c2410c}.event-chip.other{background:#f1f5f9;color:#475569}.visitor-cell{max-width:230px}.visitor-cell b{display:block;font-size:11px;color:#0f172a}.visitor-cell code{display:block;margin-top:3px;color:#475569;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mine-row td{opacity:.82}.empty{padding:38px;text-align:center;color:#64748b}.pagination-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border-top:1px solid #e5e7eb;background:#f8fafc}.pagination-info{color:#64748b;font-size:10px;font-weight:800;white-space:nowrap}.pagination-controls{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex-wrap:wrap}.page-btn{appearance:none;min-width:31px;height:31px;padding:0 8px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#334155;font-size:10px;font-weight:900;cursor:pointer}.page-btn:hover:not(:disabled){border-color:#7f2637;background:#fff7f7;color:#6f1d2b}.page-btn.active{border-color:#7f2637;background:#7f2637;color:#fff}.page-btn:disabled{cursor:not-allowed;opacity:.38}.page-ellipsis{min-width:22px;text-align:center;color:#94a3b8;font-size:10px;font-weight:900}.footer-note{margin-top:12px;color:#64748b;font-size:10px;line-height:1.55;text-align:right}
 @media(max-width:1020px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.toggle-wrap{align-items:stretch}.toggle{width:100%;justify-content:center}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.visitor-list{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.shell{padding:0 8px 36px}.topbar-inner{padding:15px 10px 13px}.topbar h1{font-size:22px}.subtitle{font-size:11px}.header-actions{width:100%}.back-link,.refresh-btn{flex:1;justify-content:center}.filters{position:static;grid-template-columns:1fr;padding:8px}.kpis{grid-template-columns:1fr 1fr;gap:8px}.kpi{padding:12px}.kpi-value{font-size:20px}.card-head{padding:13px;align-items:flex-start;flex-direction:column}.table-head-actions{width:100%;align-items:center;justify-content:space-between}.card-body{padding:12px}.event-chart{grid-template-columns:1fr;justify-items:center}.visitor-list{grid-template-columns:1fr}.daily-chart{gap:4px}.day-label{font-size:8px}.pagination-bar{align-items:stretch;flex-direction:column;padding:10px}.pagination-info{text-align:center}.pagination-controls{justify-content:center}.page-btn{min-width:30px;padding:0 7px}.page-btn.page-edge{display:none}}
+@media(max-width:640px){.shell{padding:0 8px 36px}.topbar-inner{padding:15px 10px 13px}.topbar h1{font-size:22px}.subtitle{font-size:11px}.header-actions{width:100%}.back-link,.refresh-btn{flex:1;justify-content:center}.filters{position:static;grid-template-columns:1fr;padding:8px}.kpis{grid-template-columns:1fr 1fr;gap:8px}.kpi{padding:12px}.kpi-value{font-size:20px}.card-head{padding:13px;align-items:flex-start;flex-direction:column}.table-head-actions{width:100%;align-items:center;justify-content:space-between}.card-body{padding:12px}.menu-chart-row{grid-template-columns:minmax(90px,145px) minmax(0,1fr) 34px;gap:7px}.visitor-list{grid-template-columns:1fr}.daily-chart{gap:4px}.day-label{font-size:8px}.pagination-bar{align-items:stretch;flex-direction:column;padding:10px}.pagination-info{text-align:center}.pagination-controls{justify-content:center}.page-btn{min-width:30px;padding:0 7px}.page-btn.page-edge{display:none}}
 </style>
 </head>
 <body>
@@ -41,7 +41,6 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       <p class="subtitle">방문자별 접속 여부, 메뉴 이동, 실제 활동시간을 한 화면에서 확인합니다.</p>
     </div>
     <div class="header-actions">
-      <a class="back-link" href="index.html">← 내부 검토자료</a>
       <button class="refresh-btn" id="refreshButton" type="button">↻ 새로고침</button>
     </div>
   </div>
@@ -70,8 +69,8 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       <div class="card-body"><div class="daily-chart" id="dailyChart"></div></div>
     </article>
     <article class="card">
-      <div class="card-head"><div><h2>이벤트 분포</h2><p>현재 필터 기준</p></div><div class="card-meta" id="eventMeta">0건</div></div>
-      <div class="card-body event-chart"><div class="donut" id="donut"><div class="donut-hole"><div><b id="donutTotal">0</b><span>전체 이벤트</span></div></div></div><div class="legend" id="eventLegend"></div></div>
+      <div class="card-head"><div><h2>메뉴별 이동 현황</h2><p>메뉴 이동 이벤트가 어느 화면에 집중됐는지 보여줍니다.</p></div><div class="card-meta" id="eventMeta">0회</div></div>
+      <div class="card-body"><div class="menu-chart" id="menuChart"></div></div>
     </article>
   </section>
 
@@ -82,17 +81,15 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
   <section class="card table-card">
     <div class="card-head">
-      <div><h2>이벤트 상세 로그</h2><p>방문자 ID, 이벤트, 메뉴, 활동시간을 시간순으로 확인합니다.</p></div>
+      <div><h2>이벤트 상세 로그</h2><p>방문자 ID, 이벤트, 메뉴, 활동시간을 최신순으로 확인합니다.</p></div>
       <div class="table-head-actions">
-        <label class="page-size-control" for="pageSizeSelect">한 번에
-          <select id="pageSizeSelect" aria-label="페이지당 표시 개수">
-            <option value="10">10</option>
-            <option value="20" selected>20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>개
-        </label>
         <div class="card-meta" id="tableMeta">0건</div>
+        <select id="pageSizeSelect" class="page-size-select" aria-label="페이지당 표시 개수" title="페이지당 표시 개수">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
       </div>
     </div>
     <div class="table-scroll"><table class="log-table"><thead><tr><th>기록시각</th><th>방문자</th><th>이벤트</th><th>현재 메뉴</th><th>활동시간</th><th>기기</th><th>브라우저</th><th>메모</th></tr></thead><tbody id="logBody"></tbody></table></div>
@@ -170,6 +167,11 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     if(!value) return new Date(0);
 
     const raw = String(value).trim();
+
+    // 브라우저가 직접 해석할 수 있는 형식(예: Thu Jul 23 2026 14:46:43 GMT+0900)을 우선 처리합니다.
+    const nativeTime = Date.parse(raw);
+    if(!Number.isNaN(nativeTime)) return new Date(nativeTime);
+
     const korean = raw.match(/^(\d{4})[.\/-]\s*(\d{1,2})[.\/-]\s*(\d{1,2})\.?\s*(?:(오전|오후)\s*)?(\d{1,2})?[:시]?\s*(\d{1,2})?[:분]?\s*(\d{1,2})?/);
     if(korean){
       const year = korean[1];
@@ -183,8 +185,12 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       return new Date(`${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:${second}+09:00`);
     }
 
-    const text = raw.replace(" ", "T");
-    return new Date(/[zZ]|[+-]\d{2}:?\d{2}$/.test(text) ? text : text + "+09:00");
+    const isoLike = raw.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/);
+    if(isoLike){
+      return new Date(`${isoLike[1]}-${isoLike[2]}-${isoLike[3]}T${isoLike[4]}:${isoLike[5]}:${isoLike[6] || "00"}+09:00`);
+    }
+
+    return new Date(0);
   }
 
   function fmtSec(value){
@@ -306,7 +312,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     const sessions = new Set(rows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS").map(log => log.session));
     const latest = rows
       .filter(log => !MY_VISITORS.has(log.visitor))
-      .sort((a, b) => toDate(b.at) - toDate(a.at))[0];
+      .sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())[0];
 
     $("#kpiVisitors").textContent = externalVisitors.size + "명";
     $("#kpiSessions").textContent = sessions.size + "회";
@@ -378,38 +384,38 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   }
 
   function renderEvents(rows){
-    const extras = [...new Set(rows.map(log => log.event).filter(event => event && !EVENT_ORDER.includes(event)))];
-    const order = [...EVENT_ORDER, ...extras];
-    const counts = Object.fromEntries(order.map(event => [event, 0]));
-    rows.forEach(log => { counts[log.event] = (counts[log.event] || 0) + 1; });
+    const menuCounts = new Map();
 
-    const total = rows.length || 1;
-    let accumulated = 0;
-    const parts = [];
-    order.forEach((event, index) => {
-      const start = accumulated / total * 100;
-      accumulated += counts[event] || 0;
-      const end = accumulated / total * 100;
-      const color = colors[event] || ["#64748b", "#9333ea", "#0891b2"][index % 3];
-      parts.push(`${color} ${start}% ${end}%`);
-    });
+    rows
+      .filter(log => normalizeEventCode(log.event) === "TAB_CHANGE")
+      .forEach(log => {
+        const menu = String(log.tab || "메뉴 미확인").trim() || "메뉴 미확인";
+        menuCounts.set(menu, (menuCounts.get(menu) || 0) + 1);
+      });
 
-    $("#donut").style.background = rows.length ? `conic-gradient(${parts.join(",")})` : "#e5e7eb";
-    $("#donutTotal").textContent = rows.length;
-    $("#eventMeta").textContent = rows.length + "건";
-    $("#eventLegend").innerHTML = order.map((event, index) => `
-      <div class="legend-row">
-        <span class="legend-dot" style="background:${colors[event] || ["#64748b", "#9333ea", "#0891b2"][index % 3]}"></span>
-        <span class="legend-name">${esc(eventLabel(event))}</span>
-        <span class="legend-count">${counts[event] || 0}</span>
-      </div>`).join("");
+    const entries = [...menuCounts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"));
+    const total = entries.reduce((sum, entry) => sum + entry[1], 0);
+    const maximum = Math.max(1, ...entries.map(entry => entry[1]));
+
+    $("#eventMeta").textContent = `${total.toLocaleString("ko-KR")}회`;
+    $("#menuChart").innerHTML = entries.length
+      ? entries.map(([menu, count]) => `
+          <div class="menu-chart-row">
+            <div class="menu-chart-name" title="${esc(menu)}">${esc(menu)}</div>
+            <div class="menu-chart-track" aria-label="${esc(menu)} ${count}회">
+              <div class="menu-chart-bar" style="width:${Math.max(2, count / maximum * 100)}%"></div>
+            </div>
+            <div class="menu-chart-count">${count}</div>
+          </div>`).join("")
+      : '<div class="menu-chart-empty">현재 조건에 해당하는 메뉴 이동 기록이 없습니다.</div>';
   }
 
   function visitorSummary(rows, id){
     const visitorRows = rows.filter(log => log.visitor === id);
     const sessions = new Set(visitorRows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS").map(log => log.session));
     const tabs = new Set(visitorRows.filter(log => log.tab).map(log => log.tab));
-    const latest = [...visitorRows].sort((a, b) => toDate(b.at) - toDate(a.at))[0];
+    const latest = [...visitorRows].sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())[0];
     return {
       id,
       mine:MY_VISITORS.has(id),
@@ -513,8 +519,17 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       <button type="button" class="page-btn page-edge" data-page="${totalPages}" ${state.page === totalPages ? "disabled" : ""} aria-label="마지막 페이지">마지막</button>`;
   }
 
+  function formatDisplayDate(value){
+    const date = toDate(value);
+    if(Number.isNaN(date.getTime()) || date.getTime() === 0) return String(value || "-");
+    return new Intl.DateTimeFormat("ko-KR", {
+      timeZone:"Asia/Seoul", year:"numeric", month:"2-digit", day:"2-digit",
+      hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:false
+    }).format(date).replace(/\. /g, ".");
+  }
+
   function renderTable(rows){
-    const sorted = [...rows].sort((a, b) => toDate(b.at) - toDate(a.at));
+    const sorted = rows.map((row, index) => ({row, index, time:toDate(row.at).getTime()})).sort((a, b) => (b.time - a.time) || (b.index - a.index)).map(item => item.row);
     const totalPages = Math.max(1, Math.ceil(sorted.length / state.pageSize));
     state.page = Math.min(Math.max(1, state.page), totalPages);
 
@@ -528,7 +543,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
     $("#logBody").innerHTML = pageRows.length ? pageRows.map(log => `
       <tr class="${MY_VISITORS.has(log.visitor) ? "mine-row" : ""}">
-        <td>${esc(log.at)}</td>
+        <td>${esc(formatDisplayDate(log.at))}</td>
         <td class="visitor-cell">
           <b>${esc(nameOf(log.visitor))}${MY_VISITORS.has(log.visitor) ? "" : ` ${esc(shortId(log.visitor))}`}</b>
           <code title="${esc(log.visitor)}">${esc(log.visitor)}</code>
@@ -583,7 +598,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       logs = Array.isArray(payload.logs)
         ? payload.logs
             .map(normalizeLog)
-            .sort((a, b) => toDate(b.at) - toDate(a.at))
+            .sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())
         : [];
       state.page = 1;
       populateFilters();
