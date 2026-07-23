@@ -12120,5 +12120,256 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 </script>
+<script>
+/* Google Apps Script 접속 로그 — 기존 화면/기능과 독립적으로 동작 */
+(function(){
+  "use strict";
+
+  const LOG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyI2h6lfu8rsdgIpPvRvoOAobrz3Mq0adJvOq2hIeRkm79lf7zga2pwN75_gb6oQst2RQ/exec";
+  const HEARTBEAT_MS = 60000;
+  const ACTIVE_WINDOW_MS = 120000;
+  const TAB_LABELS = {
+    summary: "4대 쟁점 요약",
+    fact: "사실관계 반박",
+    brief: "준비서면 핵심 검토",
+    needed: "추가 확보 필요 및 검토",
+    evidence: "보유 증빙 모음",
+    timeline: "타임라인"
+  };
+
+  let started = false;
+  let ended = false;
+  let activeSeconds = 0;
+  let lastTickAt = Date.now();
+  let lastInteractionAt = Date.now();
+  let lastTab = "";
+  let heartbeatTimer = null;
+  let activeTimer = null;
+  let bodyObserver = null;
+  let tabObserver = null;
+
+  function randomId(prefix){
+    try{
+      if(window.crypto && typeof window.crypto.randomUUID === "function"){
+        return `${prefix}-${window.crypto.randomUUID()}`;
+      }
+    }catch(error){}
+    return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,12)}`;
+  }
+
+  function getVisitorId(){
+    const key = "golfzon_access_visitor_id";
+    try{
+      let value = localStorage.getItem(key);
+      if(!value){
+        value = randomId("visitor");
+        localStorage.setItem(key, value);
+      }
+      return value;
+    }catch(error){
+      return randomId("visitor");
+    }
+  }
+
+  function getSessionId(){
+    const key = "golfzon_access_session_id";
+    try{
+      let value = sessionStorage.getItem(key);
+      if(!value){
+        value = randomId("session");
+        sessionStorage.setItem(key, value);
+      }
+      return value;
+    }catch(error){
+      return randomId("session");
+    }
+  }
+
+  const visitorId = getVisitorId();
+  const sessionId = getSessionId();
+
+  function detectDevice(){
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "") ? "모바일" : "PC";
+  }
+
+  function detectOS(){
+    const ua = navigator.userAgent || "";
+    if(/Windows/i.test(ua)) return "Windows";
+    if(/Android/i.test(ua)) return "Android";
+    if(/iPhone|iPad|iPod/i.test(ua)) return "iOS/iPadOS";
+    if(/Macintosh|Mac OS X/i.test(ua)) return "macOS";
+    if(/Linux/i.test(ua)) return "Linux";
+    return "기타";
+  }
+
+  function detectBrowser(){
+    const ua = navigator.userAgent || "";
+    if(/Edg\//i.test(ua)) return "Edge";
+    if(/OPR\//i.test(ua)) return "Opera";
+    if(/SamsungBrowser\//i.test(ua)) return "Samsung Internet";
+    if(/CriOS\//i.test(ua)) return "Chrome iOS";
+    if(/Chrome\//i.test(ua)) return "Chrome";
+    if(/FxiOS\//i.test(ua)) return "Firefox iOS";
+    if(/Firefox\//i.test(ua)) return "Firefox";
+    if(/Safari\//i.test(ua)) return "Safari";
+    return "기타";
+  }
+
+  function currentTab(){
+    return document.body && document.body.dataset
+      ? (document.body.dataset.activeTab || "")
+      : "";
+  }
+
+  function currentTabLabel(){
+    const tab = currentTab();
+    return TAB_LABELS[tab] || tab || "초기 화면";
+  }
+
+  function markInteraction(){
+    lastInteractionAt = Date.now();
+  }
+
+  function accumulateActiveTime(){
+    const now = Date.now();
+    const elapsed = Math.max(0, now - lastTickAt);
+    if(
+      started &&
+      !ended &&
+      document.visibilityState === "visible" &&
+      now - lastInteractionAt <= ACTIVE_WINDOW_MS
+    ){
+      activeSeconds += elapsed / 1000;
+    }
+    lastTickAt = now;
+  }
+
+  function buildPayload(eventName, note){
+    accumulateActiveTime();
+    return {
+      event: eventName,
+      visitorId,
+      sessionId,
+      pageUrl: location.href,
+      activeTab: currentTabLabel(),
+      durationSeconds: String(Math.max(0, Math.round(activeSeconds))),
+      deviceType: detectDevice(),
+      os: detectOS(),
+      browser: detectBrowser(),
+      screenSize: `${window.screen ? window.screen.width : 0}x${window.screen ? window.screen.height : 0}`,
+      language: navigator.language || "",
+      referrer: document.referrer || "직접 접속",
+      userAgent: navigator.userAgent || "",
+      note: note || ""
+    };
+  }
+
+  function encodePayload(payload){
+    const params = new URLSearchParams();
+    Object.keys(payload).forEach(key => params.append(key, payload[key] == null ? "" : String(payload[key])));
+    return params.toString();
+  }
+
+  function sendLog(eventName, note, useBeacon){
+    if(!started || ended && eventName !== "SESSION_END") return;
+    const body = encodePayload(buildPayload(eventName, note));
+
+    if(useBeacon && navigator.sendBeacon){
+      try{
+        const blob = new Blob([body], {type:"application/x-www-form-urlencoded;charset=UTF-8"});
+        if(navigator.sendBeacon(LOG_ENDPOINT, blob)) return;
+      }catch(error){}
+    }
+
+    try{
+      fetch(LOG_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        cache: "no-store",
+        keepalive: Boolean(useBeacon),
+        headers: {"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+        body
+      }).catch(function(){});
+    }catch(error){}
+  }
+
+  function handleTabChange(){
+    if(!started || ended) return;
+    const tab = currentTab();
+    if(!tab || tab === lastTab) return;
+    lastTab = tab;
+    sendLog("TAB_CHANGE", `메뉴 이동: ${currentTabLabel()}`, false);
+  }
+
+  function startLogging(){
+    if(started) return;
+    started = true;
+    ended = false;
+    lastTickAt = Date.now();
+    lastInteractionAt = Date.now();
+    lastTab = currentTab();
+
+    sendLog("LOGIN_SUCCESS", "비밀번호 로그인 성공 후 기록 시작", false);
+
+    activeTimer = window.setInterval(accumulateActiveTime, 10000);
+    heartbeatTimer = window.setInterval(function(){
+      sendLog("HEARTBEAT", "접속 유지", false);
+    }, HEARTBEAT_MS);
+
+    ["pointerdown", "keydown", "scroll", "touchstart"].forEach(function(type){
+      window.addEventListener(type, markInteraction, {passive:true});
+    });
+
+    tabObserver = new MutationObserver(handleTabChange);
+    tabObserver.observe(document.body, {attributes:true, attributeFilter:["data-active-tab"]});
+  }
+
+  function finishLogging(){
+    if(!started || ended) return;
+    sendLog("SESSION_END", "페이지 종료 또는 이동", true);
+    ended = true;
+    if(activeTimer) window.clearInterval(activeTimer);
+    if(heartbeatTimer) window.clearInterval(heartbeatTimer);
+    if(tabObserver) tabObserver.disconnect();
+  }
+
+  function unlocked(){
+    const gate = document.getElementById("authGate");
+    return !document.body.classList.contains("auth-locked") && (!gate || gate.classList.contains("hidden"));
+  }
+
+  function watchLoginSuccess(){
+    if(unlocked()){
+      startLogging();
+      return;
+    }
+
+    bodyObserver = new MutationObserver(function(){
+      if(unlocked()){
+        bodyObserver.disconnect();
+        startLogging();
+      }
+    });
+
+    bodyObserver.observe(document.body, {attributes:true, attributeFilter:["class"]});
+    const gate = document.getElementById("authGate");
+    if(gate) bodyObserver.observe(gate, {attributes:true, attributeFilter:["class", "aria-hidden"]});
+  }
+
+  document.addEventListener("visibilitychange", function(){
+    accumulateActiveTime();
+    if(started && !ended && document.visibilityState === "hidden"){
+      sendLog("HEARTBEAT", "탭 숨김 또는 다른 앱으로 이동", true);
+    }
+  });
+  window.addEventListener("pagehide", finishLogging);
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", watchLoginSuccess, {once:true});
+  }else{
+    watchLoginSuccess();
+  }
+})();
+</script>
 </body>
 </html>
