@@ -11101,13 +11101,22 @@ document.addEventListener("DOMContentLoaded", () => {
     lastInteractionAt = Date.now();
   }
 
+  function isPageActivelyViewed(){
+    return document.visibilityState === "visible" &&
+      (typeof document.hasFocus !== "function" || document.hasFocus());
+  }
+
+  function hasRecentInteraction(){
+    return Date.now() - lastInteractionAt <= ACTIVE_WINDOW_MS;
+  }
+
   function accumulateActiveTime(){
     const now = Date.now();
     const elapsed = Math.max(0, now - lastTickAt);
     if(
       started &&
       !ended &&
-      document.visibilityState === "visible" &&
+      isPageActivelyViewed() &&
       now - lastInteractionAt <= ACTIVE_WINDOW_MS
     ){
       activeSeconds += elapsed / 1000;
@@ -11179,6 +11188,23 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLog("TAB_CHANGE", `메뉴 이동: ${currentTabLabel()}`, false);
   }
 
+  function startHeartbeat(){
+    if(heartbeatTimer || !isPageActivelyViewed()) return;
+    heartbeatTimer = window.setInterval(function(){
+      if(!isPageActivelyViewed() || !hasRecentInteraction()){
+        stopHeartbeat();
+        return;
+      }
+      sendLog("HEARTBEAT", "접속 유지", false);
+    }, HEARTBEAT_MS);
+  }
+
+  function stopHeartbeat(){
+    if(!heartbeatTimer) return;
+    window.clearInterval(heartbeatTimer);
+    heartbeatTimer = null;
+  }
+
   function startLogging(){
     if(started) return;
     started = true;
@@ -11190,9 +11216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLog("LOGIN_SUCCESS", document.body.dataset.accessRole === "admin" ? "관리자 비밀번호 로그인 성공 후 기록 시작" : "일반 비밀번호 로그인 성공 후 기록 시작", false);
 
     activeTimer = window.setInterval(accumulateActiveTime, 10000);
-    heartbeatTimer = window.setInterval(function(){
-      sendLog("HEARTBEAT", "접속 유지", false);
-    }, HEARTBEAT_MS);
+    startHeartbeat();
 
     ["pointerdown", "keydown", "scroll", "touchstart"].forEach(function(type){
       window.addEventListener(type, markInteraction, {passive:true});
@@ -11207,7 +11231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLog("SESSION_END", "페이지 종료 또는 이동", true);
     ended = true;
     if(activeTimer) window.clearInterval(activeTimer);
-    if(heartbeatTimer) window.clearInterval(heartbeatTimer);
+    stopHeartbeat();
     if(tabObserver) tabObserver.disconnect();
   }
 
@@ -11236,10 +11260,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("visibilitychange", function(){
     accumulateActiveTime();
-    if(started && !ended && document.visibilityState === "hidden"){
-      sendLog("HEARTBEAT", "탭 숨김 또는 다른 앱으로 이동", true);
+    if(!started || ended) return;
+
+    if(!isPageActivelyViewed()){
+      stopHeartbeat();
+      return;
     }
+
+    lastTickAt = Date.now();
+    lastInteractionAt = Date.now();
+    startHeartbeat();
   });
+
+  window.addEventListener("blur", function(){
+    accumulateActiveTime();
+    stopHeartbeat();
+  });
+
+  window.addEventListener("focus", function(){
+    if(!started || ended || document.visibilityState !== "visible") return;
+    lastTickAt = Date.now();
+    lastInteractionAt = Date.now();
+    startHeartbeat();
+  });
+
   window.addEventListener("pagehide", finishLogging);
 
   if(document.readyState === "loading"){
