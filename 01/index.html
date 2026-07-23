@@ -11099,6 +11099,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function markInteraction(){
     lastInteractionAt = Date.now();
+    if(started && !ended && isPageActivelyViewed()){
+      startHeartbeat();
+    }
+  }
+
+  function resumeHeartbeat(){
+    if(!started || ended || !isPageActivelyViewed()) return;
+    lastTickAt = Date.now();
+    lastInteractionAt = Date.now();
+    startHeartbeat();
+  }
+
+  function resumeHeartbeatSoon(){
+    window.setTimeout(resumeHeartbeat, 120);
   }
 
   function isPageActivelyViewed(){
@@ -11262,14 +11276,14 @@ document.addEventListener("DOMContentLoaded", () => {
     accumulateActiveTime();
     if(!started || ended) return;
 
-    if(!isPageActivelyViewed()){
+    if(document.visibilityState !== "visible"){
       stopHeartbeat();
       return;
     }
 
-    lastTickAt = Date.now();
-    lastInteractionAt = Date.now();
-    startHeartbeat();
+    // 탭 복귀 직후에는 Chrome의 focus 상태 반영이 한 박자 늦을 수 있어
+    // 짧게 기다린 뒤 HEARTBEAT 타이머를 다시 시작합니다.
+    resumeHeartbeatSoon();
   });
 
   window.addEventListener("blur", function(){
@@ -11277,12 +11291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     stopHeartbeat();
   });
 
-  window.addEventListener("focus", function(){
-    if(!started || ended || document.visibilityState !== "visible") return;
-    lastTickAt = Date.now();
-    lastInteractionAt = Date.now();
-    startHeartbeat();
-  });
+  window.addEventListener("focus", resumeHeartbeat);
 
   window.addEventListener("pagehide", finishLogging);
 
