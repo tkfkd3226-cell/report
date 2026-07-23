@@ -9503,9 +9503,17 @@ function syncPageTocMode(){
 
  active.classList.toggle("toc-expanded", expanded);
  if(expanded){
+  /*
+   목차의 세로 기준점은 최초 배치값을 유지한다.
+   목차 링크 클릭으로 대상 details가 닫히면 toggle/ResizeObserver가 다시 실행되는데,
+   그 시점의 검색창은 sticky 상태라 화면 상단에 붙어 있다. 기존 코드는 그 좌표로
+   --page-toc-top을 덮어써서 목차가 위로 이동한 뒤 TOP 복귀 시에도 그대로 남았다.
+  */
   const top = pageTocTopOffset();
   setPageTocCssValue(active, "--page-toc-left", `${Math.round(contentRect.right + gap)}px`);
-  setPageTocCssValue(active, "--page-toc-top", `${Math.round(top)}px`);
+  if(!active.style.getPropertyValue("--page-toc-top")){
+   setPageTocCssValue(active, "--page-toc-top", `${Math.round(top)}px`);
+  }
   setPageTocCssValue(active, "--page-toc-width", `${Math.round(panelWidth)}px`);
  }else{
   active.style.removeProperty("--page-toc-left");
