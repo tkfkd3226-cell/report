@@ -53,6 +53,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     <div class="filter-field"><label for="visitorFilter">방문자</label><select id="visitorFilter"><option value="all">전체 방문자</option></select></div>
     <div class="filter-field"><label for="eventFilter">이벤트</label><select id="eventFilter"><option value="all">전체 이벤트</option><option value="LOGIN_SUCCESS">로그인 성공</option><option value="TAB_CHANGE">메뉴 이동</option><option value="HEARTBEAT">접속 유지</option><option value="SESSION_END">접속 종료</option></select></div>
     <div class="filter-field"><label for="deviceFilter">기기</label><select id="deviceFilter"><option value="all">전체 기기</option></select></div>
+    <div class="toggle-wrap"><button class="toggle active" id="excludeMine" aria-pressed="true" type="button"><span class="toggle-dot"></span>내 접속 제외</button></div>
   </section>
 
   <section class="kpis">
@@ -127,6 +128,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   };
 
   const state = {
+    excludeMine:true,
     selectedVisitor:"all",
     loading:false,
     page:1,
@@ -301,7 +303,8 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
         log.page, log.tab, log.device, log.os, log.browser, log.note, roleLabel(log.role)
       ].join(" ").toLowerCase();
 
-      return (visitorFilter === "all" || log.visitor === visitorFilter) &&
+      return (!state.excludeMine || log.role !== "OWNER") &&
+        (visitorFilter === "all" || log.visitor === visitorFilter) &&
         (state.selectedVisitor === "all" || log.visitor === state.selectedVisitor) &&
         (eventFilter === "all" || normalizeEventCode(log.event) === eventFilter) &&
         (deviceFilter === "all" || log.device === deviceFilter) &&
@@ -651,6 +654,14 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       state.page = Number(button.dataset.page) || 1;
       renderTable(filtered());
       $(".table-card").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    $("#excludeMine").addEventListener("click", event => {
+      state.excludeMine = !state.excludeMine;
+      state.page = 1;
+      event.currentTarget.classList.toggle("active", state.excludeMine);
+      event.currentTarget.setAttribute("aria-pressed", String(state.excludeMine));
+      render();
     });
 
     $("#refreshButton").addEventListener("click", refreshData);
