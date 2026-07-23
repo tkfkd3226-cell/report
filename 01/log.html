@@ -19,14 +19,14 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 .eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em;color:#cbd5e1}.topbar h1{margin:5px 0 0;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.045em}.subtitle{margin:7px 0 0;color:#e2e8f0;font-size:13px;line-height:1.55;font-weight:750}
 .header-actions{display:flex;align-items:center;gap:8px}.back-link,.refresh-btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:8px 11px;border:1px solid rgba(255,255,255,.35);border-radius:9px;background:rgba(255,255,255,.14);color:#f8fafc;text-decoration:none;font-size:12px;font-weight:900;cursor:pointer}.back-link:hover,.refresh-btn:hover{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.58)}
 .demo-banner{margin:14px 0 12px;padding:10px 12px;border:1px solid #f59e0b;border-left:5px solid #f59e0b;border-radius:11px;background:#fffbeb;color:#78350f;font-size:12px;line-height:1.55}.demo-banner b{font-weight:950}.demo-banner.loading{border-color:#60a5fa;border-left-color:#2563eb;background:#eff6ff;color:#1e3a8a}.demo-banner.success{border-color:#86efac;border-left-color:#16a34a;background:#f0fdf4;color:#166534}.demo-banner.error{border-color:#fca5a5;border-left-color:#dc2626;background:#fef2f2;color:#991b1b}
-.filters{position:sticky;top:0;z-index:20;margin:0 0 14px;padding:9px;border:1px solid #cbd5e1;border-radius:13px;background:rgba(248,250,252,.96);backdrop-filter:blur(12px);box-shadow:0 8px 22px rgba(15,23,42,.10);display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(3,minmax(125px,.7fr)) auto;gap:8px}
+.filters{position:sticky;top:0;z-index:20;margin:0 0 14px;padding:9px;border:1px solid #cbd5e1;border-radius:13px;background:rgba(248,250,252,.96);backdrop-filter:blur(12px);box-shadow:0 8px 22px rgba(15,23,42,.10);display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(3,minmax(125px,.7fr));gap:8px}
 .filter-field{display:grid;gap:4px}.filter-field label{font-size:10px;font-weight:900;color:#64748b}.filter-field input,.filter-field select{width:100%;height:38px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;padding:0 10px;color:#111827;font-size:12px;outline:none}.filter-field input:focus,.filter-field select:focus{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.12)}
 .toggle-wrap{display:flex;align-items:flex-end}.toggle{height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 11px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}.toggle.active{background:#111827;color:#fff;border-color:#111827}.toggle-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}.toggle.active .toggle-dot{background:#5eead4}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.kpi{position:relative;overflow:hidden;padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--panel);box-shadow:0 5px 18px rgba(15,23,42,.055)}.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#94a3b8}.kpi.external:before{background:var(--burgundy)}.kpi.sessions:before{background:var(--blue)}.kpi.time:before{background:var(--green)}.kpi.latest:before{background:var(--orange)}.kpi-label{font-size:11px;font-weight:900;color:#64748b}.kpi-value{margin-top:8px;font-size:25px;font-weight:950;letter-spacing:-.04em}.kpi-sub{margin-top:5px;font-size:10px;color:#94a3b8;line-height:1.45}
 .grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:14px;margin-bottom:14px}.card{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);overflow:hidden}.card-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:15px 16px 12px;border-bottom:1px solid #e5e7eb}.card-head h2{margin:0;font-size:16px;letter-spacing:-.025em}.card-head p{margin:4px 0 0;color:#475569;font-size:11px;line-height:1.45;font-weight:650}.card-meta{font-size:11px;font-weight:900;color:#334155}.card-body{padding:15px 16px}
 .daily-chart{height:230px;display:flex;align-items:stretch;gap:8px;padding-top:16px;border-bottom:1px solid #cbd5e1}.day-column{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar-wrap{width:100%;height:178px;display:flex;align-items:flex-end;justify-content:center}.bar{width:min(38px,72%);min-height:3px;border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,#93c5fd,#a5b4fc);position:relative;transition:height .25s ease}.bar:hover:after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%);padding:5px 7px;border-radius:7px;background:#111827;color:#fff;font-size:9px;font-weight:900;white-space:nowrap}.bar-value{font-size:9px;font-weight:900;color:#475569}.day-label{font-size:9px;color:#64748b;white-space:nowrap}
 .menu-chart{display:grid;gap:10px;min-height:142px}.menu-chart-row{display:grid;grid-template-columns:minmax(130px,210px) minmax(0,1fr) 44px;gap:10px;align-items:center}.menu-chart-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1e293b;font-size:11px;font-weight:900}.menu-chart-track{height:16px;border-radius:999px;background:#e2e8f0;overflow:hidden;box-shadow:inset 0 0 0 1px #cbd5e1}.menu-chart-bar{height:100%;min-width:2px;border-radius:999px;background:linear-gradient(90deg,#86efac,#93c5fd);transition:width .2s ease}.menu-chart-count{text-align:right;color:#0f172a;font-size:11px;font-weight:950}.menu-chart-empty{display:grid;place-items:center;min-height:142px;color:#475569;font-size:12px;font-weight:750}
-.visitor-card{margin-bottom:14px}.visitor-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.visitor-item{padding:12px;border:1px solid #dbe2ea;border-radius:13px;background:#eef2f7;cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}.visitor-item:hover{border-color:#a8b6c7;background:#e8eef5}.visitor-item.selected{border-color:#a5b4fc;box-shadow:0 0 0 3px rgba(165,180,252,.22);background:#eef2ff}.visitor-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.visitor-name{font-size:12px;font-weight:950}.visitor-badge{padding:3px 6px;border-radius:999px;font-size:9px;font-weight:900;background:#e2e8f0;color:#475569}.visitor-badge.mine{background:#dbeafe;color:#1d4ed8}.visitor-badge.unknown{background:#fef3c7;color:#92400e}.visitor-id{margin-top:7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.visitor-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:10px}.visitor-stat{padding:9px 6px;border-radius:9px;background:#fff;text-align:center;border:1px solid #dbe2ea}.visitor-stat b{display:block;font-size:15px;line-height:1.2;color:#0f172a;font-weight:950}.visitor-stat span{display:block;margin-top:3px;font-size:10px;line-height:1.25;color:#475569;font-weight:850}.visitor-last{margin-top:8px;font-size:9px;color:#64748b}
+.visitor-card{margin-bottom:14px}.visitor-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.visitor-item{padding:12px;border:1px solid #dbe2ea;border-radius:13px;background:#eef2f7;cursor:pointer;transition:background .15s ease,border-color .15s ease,box-shadow .15s ease}.visitor-item:hover{border-color:#a8b6c7;background:#e8eef5}.visitor-item.selected{border-color:#a5b4fc;box-shadow:0 0 0 3px rgba(165,180,252,.22);background:#eef2ff}.visitor-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.visitor-name{font-size:12px;font-weight:950}.visitor-badge{padding:3px 6px;border-radius:999px;font-size:9px;font-weight:900;background:#e2e8f0;color:#475569}.visitor-badge.mine{background:#dbeafe;color:#1d4ed8}.visitor-badge.external{background:#fef3c7;color:#92400e}.visitor-badge.unknown{background:#e2e8f0;color:#475569}.visitor-id{margin-top:7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.visitor-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:10px}.visitor-stat{padding:9px 6px;border-radius:9px;background:#fff;text-align:center;border:1px solid #dbe2ea}.visitor-stat b{display:block;font-size:15px;line-height:1.2;color:#0f172a;font-weight:950}.visitor-stat span{display:block;margin-top:3px;font-size:10px;line-height:1.25;color:#475569;font-weight:850}.visitor-last{margin-top:8px;font-size:9px;color:#64748b}
 .table-card{overflow:hidden}.table-head-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:nowrap}.page-size-select{flex:0 0 auto;width:76px;height:32px;border:1px solid #94a3b8;border-radius:8px;background:#fff;padding:0 26px 0 10px;color:#0f172a;font-size:11px;font-weight:900;outline:none}.page-size-select:focus{border-color:#7f2637;box-shadow:0 0 0 3px rgba(127,38,55,.10)}.table-scroll{overflow:auto}.log-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:12px;color:#1e293b}.log-table th,.log-table td{padding:10px 11px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}.log-table th{position:sticky;top:0;background:#334155;color:#fff;font-size:11px;white-space:nowrap}.log-table tr:nth-child(even) td{background:#f8fafc}.log-table tbody tr:hover td{background:#fff7ed}.event-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:950;white-space:nowrap}.event-chip.login{background:#fef2f2;color:#991b1b}.event-chip.tab{background:#eff6ff;color:#1d4ed8}.event-chip.heart{background:#ecfdf5;color:#047857}.event-chip.end{background:#fff7ed;color:#c2410c}.event-chip.other{background:#f1f5f9;color:#475569}.visitor-cell{max-width:230px}.visitor-cell b{display:block;font-size:11px;color:#0f172a}.visitor-cell code{display:block;margin-top:3px;color:#475569;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mine-row td{opacity:.82}.empty{padding:38px;text-align:center;color:#64748b}.pagination-bar{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;padding:11px 14px;border-top:1px solid #e5e7eb;background:#f8fafc}.pagination-info{position:absolute;left:14px;color:#64748b;font-size:10px;font-weight:800;white-space:nowrap}.pagination-controls{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}.page-btn{appearance:none;min-width:31px;height:31px;padding:0 8px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#334155;font-size:10px;font-weight:900;cursor:pointer}.page-btn:hover:not(:disabled){border-color:#7f2637;background:#fff7f7;color:#6f1d2b}.page-btn.active{border-color:#7f2637;background:#7f2637;color:#fff}.page-btn:disabled{cursor:not-allowed;opacity:.38}.page-ellipsis{min-width:22px;text-align:center;color:#94a3b8;font-size:10px;font-weight:900}.footer-note{margin-top:12px;color:#64748b;font-size:10px;line-height:1.55;text-align:right}
 @media(max-width:1020px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.toggle-wrap{align-items:stretch}.toggle{width:100%;justify-content:center}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.visitor-list{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.shell{padding:0 8px 36px}.topbar-inner{padding:15px 10px 13px}.topbar h1{font-size:22px}.subtitle{font-size:11px}.header-actions{width:100%}.back-link,.refresh-btn{flex:1;justify-content:center}.filters{position:static;grid-template-columns:1fr;padding:8px}.kpis{grid-template-columns:1fr 1fr;gap:8px}.kpi{padding:12px}.kpi-value{font-size:20px}.card-head{padding:13px;align-items:flex-start;flex-direction:column}.table-head-actions{width:100%;align-items:center;justify-content:space-between}.card-body{padding:12px}.menu-chart-row{grid-template-columns:minmax(90px,145px) minmax(0,1fr) 34px;gap:7px}.visitor-list{grid-template-columns:1fr}.daily-chart{gap:4px}.day-label{font-size:8px}.pagination-bar{align-items:stretch;flex-direction:column;padding:10px}.pagination-info{position:static;text-align:center}.pagination-controls{justify-content:center}.page-btn{min-width:30px;padding:0 7px}.page-btn.page-edge{display:none}}
@@ -53,11 +53,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     <div class="filter-field"><label for="visitorFilter">방문자</label><select id="visitorFilter"><option value="all">전체 방문자</option></select></div>
     <div class="filter-field"><label for="eventFilter">이벤트</label><select id="eventFilter"><option value="all">전체 이벤트</option><option value="LOGIN_SUCCESS">로그인 성공</option><option value="TAB_CHANGE">메뉴 이동</option><option value="HEARTBEAT">접속 유지</option><option value="SESSION_END">접속 종료</option></select></div>
     <div class="filter-field"><label for="deviceFilter">기기</label><select id="deviceFilter"><option value="all">전체 기기</option></select></div>
-    <div class="toggle-wrap"><button class="toggle active" id="excludeMine" aria-pressed="true" type="button"><span class="toggle-dot"></span>내 접속 제외</button></div>
   </section>
 
   <section class="kpis">
-    <article class="kpi external"><div class="kpi-label">외부 방문자</div><div class="kpi-value" id="kpiVisitors">0명</div><div class="kpi-sub">내 PC·휴대폰 방문자 ID 제외</div></article>
+    <article class="kpi external"><div class="kpi-label">외부 방문자</div><div class="kpi-value" id="kpiVisitors">0명</div><div class="kpi-sub">일반 비밀번호 로그인 기준</div></article>
     <article class="kpi sessions"><div class="kpi-label">로그인 세션</div><div class="kpi-value" id="kpiSessions">0회</div><div class="kpi-sub">로그인 성공 이벤트 기준</div></article>
     <article class="kpi time"><div class="kpi-label">누적 활동시간</div><div class="kpi-value" id="kpiTime">0분</div><div class="kpi-sub">세션별 마지막 기록 기준 합계</div></article>
     <article class="kpi latest"><div class="kpi-label">최근 외부 접속</div><div class="kpi-value" id="kpiLatest">-</div><div class="kpi-sub" id="kpiLatestSub">접속 기록 없음</div></article>
@@ -75,7 +74,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   </section>
 
   <section class="card visitor-card">
-    <div class="card-head"><div><h2>방문자별 확인</h2><p>내 기기는 파란색, 그 외 방문자는 노란색으로 표시합니다.</p></div><div class="card-meta" id="visitorMeta">0명</div></div>
+    <div class="card-head"><div><h2>방문자별 확인</h2><p>관리자 비밀번호 로그인은 파란색, 일반 비밀번호 로그인은 노란색으로 표시합니다.</p></div><div class="card-meta" id="visitorMeta">0명</div></div>
     <div class="card-body"><div class="visitor-list" id="visitorList"></div></div>
   </section>
 
@@ -98,7 +97,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       <div class="pagination-controls" id="paginationControls" aria-label="이벤트 상세 로그 페이지 이동"></div>
     </div>
   </section>
-  <p class="footer-note">방문자 ID는 IP가 아니라 각 브라우저의 localStorage에 저장된 익명 식별값을 기준으로 합니다.</p>
+  <p class="footer-note">방문자 ID는 브라우저 식별값이며, 나·외부 구분은 로그인 시 사용한 비밀번호 역할값을 기준으로 합니다.</p>
 </main>
 <script>
 (function(){
@@ -106,16 +105,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyI2h6lfu8rsdgIpPvRvoOAobrz3Mq0adJvOq2hIeRkm79lf7zga2pwN75_gb6oQst2RQ/exec";
 
-  const MY_VISITORS = new Set([
-    "visitor-ac076280-9e41-4727-8d26-3f4922c65b5d",
-    "visitor-9ba20eac-56c9-4c21-a238-01a4acbf46a4",
-    "visitor-71492c56-5045-4667-ba72-3f6abf399339"
-  ]);
-
-  const VISITOR_NAMES = {
-    "visitor-ac076280-9e41-4727-8d26-3f4922c65b5d":"내 회사 PC",
-    "visitor-9ba20eac-56c9-4c21-a238-01a4acbf46a4":"내 휴대폰",
-    "visitor-71492c56-5045-4667-ba72-3f6abf399339":"내 회사 PC(로컬)"
+  const ROLE_LABELS = {
+    OWNER:"나",
+    VISITOR:"외부 방문자",
+    UNKNOWN:"미확인"
   };
 
   const EVENT_LABELS = {
@@ -134,7 +127,6 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   };
 
   const state = {
-    excludeMine:true,
     selectedVisitor:"all",
     loading:false,
     page:1,
@@ -161,7 +153,13 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   }
 
   const eventLabel = event => EVENT_LABELS[normalizeEventCode(event)] || String(event || "기타 이벤트").trim();
-  const nameOf = id => VISITOR_NAMES[id] || "외부 방문자";
+  const roleLabel = role => ROLE_LABELS[role] || ROLE_LABELS.UNKNOWN;
+  const roleFromNote = note => {
+    const text = String(note || "");
+    if(/\[ACCESS_ROLE:OWNER\]/i.test(text) || text.includes("관리자 비밀번호")) return "OWNER";
+    if(/\[ACCESS_ROLE:VISITOR\]/i.test(text) || text.includes("일반 비밀번호")) return "VISITOR";
+    return "UNKNOWN";
+  };
   const shortId = id => id ? id.replace(/^visitor-/, "").slice(0, 8) : "-";
 
   function toDate(value){
@@ -230,8 +228,20 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       language:String(row.language || ""),
       referrer:String(row.referrer || ""),
       userAgent:String(row.userAgent || ""),
-      note:String(row.note || "")
+      note:String(row.note || ""),
+      role:roleFromNote(row.note)
     };
+  }
+
+  function applySessionRoles(rows){
+    const sessionRoles = new Map();
+    rows.forEach(log => {
+      if(log.session && log.role !== "UNKNOWN") sessionRoles.set(log.session, log.role);
+    });
+    return rows.map(log => ({
+      ...log,
+      role:log.role !== "UNKNOWN" ? log.role : (log.session && sessionRoles.get(log.session)) || "UNKNOWN"
+    }));
   }
 
   function setStatus(type, message){
@@ -288,11 +298,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     return logs.filter(log => {
       const searchable = [
         log.at, log.event, eventLabel(log.event), log.visitor, log.session,
-        log.page, log.tab, log.device, log.os, log.browser, log.note
+        log.page, log.tab, log.device, log.os, log.browser, log.note, roleLabel(log.role)
       ].join(" ").toLowerCase();
 
-      return (!state.excludeMine || !MY_VISITORS.has(log.visitor)) &&
-        (visitorFilter === "all" || log.visitor === visitorFilter) &&
+      return (visitorFilter === "all" || log.visitor === visitorFilter) &&
         (state.selectedVisitor === "all" || log.visitor === state.selectedVisitor) &&
         (eventFilter === "all" || normalizeEventCode(log.event) === eventFilter) &&
         (deviceFilter === "all" || log.device === deviceFilter) &&
@@ -310,10 +319,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   }
 
   function renderKpis(rows){
-    const externalVisitors = new Set(rows.filter(log => !MY_VISITORS.has(log.visitor)).map(log => log.visitor));
+    const externalVisitors = new Set(rows.filter(log => log.role === "VISITOR").map(log => log.visitor));
     const sessions = new Set(rows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS").map(log => log.session));
     const latest = rows
-      .filter(log => !MY_VISITORS.has(log.visitor))
+      .filter(log => log.role === "VISITOR")
       .sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())[0];
 
     $("#kpiVisitors").textContent = externalVisitors.size + "명";
@@ -321,7 +330,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     $("#kpiTime").textContent = fmtSec(sessionMax(rows));
     $("#kpiLatest").textContent = latest ? latest.at.slice(5, 16) : "-";
     $("#kpiLatestSub").textContent = latest
-      ? `${nameOf(latest.visitor)} ${shortId(latest.visitor)} · ${latest.device || "기기 미확인"}`
+      ? `${roleLabel(latest.role)} ${shortId(latest.visitor)} · ${latest.device || "기기 미확인"}`
       : "접속 기록 없음";
   }
 
@@ -420,7 +429,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     const latest = [...visitorRows].sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())[0];
     return {
       id,
-      mine:MY_VISITORS.has(id),
+      role:latest ? latest.role : "UNKNOWN",
       sessions:sessions.size,
       tabs:tabs.size,
       sec:sessionMax(visitorRows),
@@ -443,8 +452,8 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       return `
         <article class="visitor-item ${state.selectedVisitor === id ? "selected" : ""}" data-visitor="${esc(id)}">
           <div class="visitor-top">
-            <span class="visitor-name">${esc(nameOf(id))}${visitor.mine ? "" : ` ${esc(shortId(id))}`}</span>
-            <span class="visitor-badge ${visitor.mine ? "mine" : "unknown"}">${visitor.mine ? "내 기기" : "외부/미확인"}</span>
+            <span class="visitor-name">${esc(roleLabel(visitor.role))} ${esc(shortId(id))}</span>
+            <span class="visitor-badge ${visitor.role === "OWNER" ? "mine" : visitor.role === "VISITOR" ? "external" : "unknown"}">${esc(roleLabel(visitor.role))}</span>
           </div>
           <div class="visitor-id" title="${esc(id)}">${esc(id)}</div>
           <div class="visitor-stats">
@@ -544,10 +553,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       : "0건";
 
     $("#logBody").innerHTML = pageRows.length ? pageRows.map(log => `
-      <tr class="${MY_VISITORS.has(log.visitor) ? "mine-row" : ""}">
+      <tr class="${log.role === "OWNER" ? "mine-row" : ""}">
         <td>${esc(formatDisplayDate(log.at))}</td>
         <td class="visitor-cell">
-          <b>${esc(nameOf(log.visitor))}${MY_VISITORS.has(log.visitor) ? "" : ` ${esc(shortId(log.visitor))}`}</b>
+          <b>${esc(roleLabel(log.role))} ${esc(shortId(log.visitor))}</b>
           <code title="${esc(log.visitor)}">${esc(log.visitor)}</code>
         </td>
         <td><span class="event-chip ${chipClass(log.event)}" title="${esc(log.event)}">${esc(eventLabel(log.event))}</span></td>
@@ -574,7 +583,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     const currentVisitor = state.selectedVisitor;
     const visitorIds = [...new Set(logs.map(log => log.visitor).filter(Boolean))];
     $("#visitorFilter").innerHTML = '<option value="all">전체 방문자</option>' + visitorIds.map(id =>
-      `<option value="${esc(id)}">${esc(nameOf(id))}${MY_VISITORS.has(id) ? "" : ` ${esc(shortId(id))}`}</option>`
+      `<option value="${esc(id)}">${esc(roleLabel(visitorSummary(logs, id).role))} ${esc(shortId(id))}</option>`
     ).join("");
     $("#visitorFilter").value = visitorIds.includes(currentVisitor) ? currentVisitor : "all";
     state.selectedVisitor = $("#visitorFilter").value;
@@ -598,8 +607,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     try{
       const payload = await loadLogsJsonp();
       logs = Array.isArray(payload.logs)
-        ? payload.logs
-            .map(normalizeLog)
+        ? applySessionRoles(payload.logs.map(normalizeLog))
             .sort((a, b) => toDate(b.at).getTime() - toDate(a.at).getTime())
         : [];
       state.page = 1;
@@ -643,14 +651,6 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       state.page = Number(button.dataset.page) || 1;
       renderTable(filtered());
       $(".table-card").scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    $("#excludeMine").addEventListener("click", event => {
-      state.excludeMine = !state.excludeMine;
-      state.page = 1;
-      event.currentTarget.classList.toggle("active", state.excludeMine);
-      event.currentTarget.setAttribute("aria-pressed", String(state.excludeMine));
-      render();
     });
 
     $("#refreshButton").addEventListener("click", refreshData);
