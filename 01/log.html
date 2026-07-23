@@ -515,7 +515,11 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
     try{
       const payload = await loadLogsJsonp();
-      logs = Array.isArray(payload.logs) ? payload.logs.map(normalizeLog) : [];
+      logs = Array.isArray(payload.logs)
+        ? payload.logs
+            .map(normalizeLog)
+            .sort((a, b) => toDate(b.at) - toDate(a.at))
+        : [];
       state.page = 1;
       populateFilters();
       render();
