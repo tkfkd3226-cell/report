@@ -10998,7 +10998,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const LOG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyI2h6lfu8rsdgIpPvRvoOAobrz3Mq0adJvOq2hIeRkm79lf7zga2pwN75_gb6oQst2RQ/exec";
   const HEARTBEAT_MS = 60000;
-  const ACTIVE_WINDOW_MS = 120000;
   const TAB_LABELS = {
     summary: "4대 쟁점 요약",
     fact: "사실관계 반박",
@@ -11122,18 +11121,13 @@ document.addEventListener("DOMContentLoaded", () => {
       (typeof document.hasFocus !== "function" || document.hasFocus());
   }
 
-  function hasRecentInteraction(){
-    return Date.now() - lastInteractionAt <= ACTIVE_WINDOW_MS;
-  }
-
   function accumulateActiveTime(){
     const now = Date.now();
     const elapsed = Math.max(0, now - lastTickAt);
     if(
       started &&
       !ended &&
-      isPageActivelyViewed() &&
-      now - lastInteractionAt <= ACTIVE_WINDOW_MS
+      isPageActivelyViewed()
     ){
       activeSeconds += elapsed / 1000;
     }
@@ -11220,7 +11214,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     heartbeatTimer = window.setTimeout(function heartbeatTick(){
       heartbeatTimer = null;
-      if(!isPageActivelyViewed() || !hasRecentInteraction()) return;
+      if(!isPageActivelyViewed()) return;
       sendHeartbeat("접속 유지");
       startHeartbeat(false);
     }, HEARTBEAT_MS);
