@@ -149,13 +149,41 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
     "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
   }[character]));
 
-  const eventLabel = event => EVENT_LABELS[event] || event || "기타 이벤트";
+  function normalizeEventCode(value){
+    const raw = String(value ?? "").trim();
+    const upper = raw.toUpperCase();
+    const aliases = {
+      "로그인 성공":"LOGIN_SUCCESS",
+      "메뉴 이동":"TAB_CHANGE",
+      "접속 유지":"HEARTBEAT",
+      "접속 종료":"SESSION_END"
+    };
+    return aliases[raw] || upper;
+  }
+
+  const eventLabel = event => EVENT_LABELS[normalizeEventCode(event)] || String(event || "기타 이벤트").trim();
   const nameOf = id => VISITOR_NAMES[id] || "외부 방문자";
   const shortId = id => id ? id.replace(/^visitor-/, "").slice(0, 8) : "-";
 
   function toDate(value){
+    if(value instanceof Date && !Number.isNaN(value.getTime())) return value;
     if(!value) return new Date(0);
-    const text = String(value).trim().replace(" ", "T");
+
+    const raw = String(value).trim();
+    const korean = raw.match(/^(\d{4})[.\/-]\s*(\d{1,2})[.\/-]\s*(\d{1,2})\.?\s*(?:(오전|오후)\s*)?(\d{1,2})?[:시]?\s*(\d{1,2})?[:분]?\s*(\d{1,2})?/);
+    if(korean){
+      const year = korean[1];
+      const month = String(korean[2]).padStart(2, "0");
+      const day = String(korean[3]).padStart(2, "0");
+      let hour = Number(korean[5] || 0);
+      const minute = String(korean[6] || 0).padStart(2, "0");
+      const second = String(korean[7] || 0).padStart(2, "0");
+      if(korean[4] === "오후" && hour < 12) hour += 12;
+      if(korean[4] === "오전" && hour === 12) hour = 0;
+      return new Date(`${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:${second}+09:00`);
+    }
+
+    const text = raw.replace(" ", "T");
     return new Date(/[zZ]|[+-]\d{2}:?\d{2}$/.test(text) ? text : text + "+09:00");
   }
 
@@ -180,8 +208,8 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
   function normalizeLog(row){
     return {
-      at:String(row.at || ""),
-      event:String(row.event || ""),
+      at:String(row.at || "").trim(),
+      event:normalizeEventCode(row.event),
       visitor:String(row.visitor || ""),
       session:String(row.session || ""),
       page:String(row.page || ""),
@@ -258,7 +286,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
       return (!state.excludeMine || !MY_VISITORS.has(log.visitor)) &&
         (visitorFilter === "all" || log.visitor === visitorFilter) &&
         (state.selectedVisitor === "all" || log.visitor === state.selectedVisitor) &&
-        (eventFilter === "all" || log.event === eventFilter) &&
+        (eventFilter === "all" || normalizeEventCode(log.event) === eventFilter) &&
         (deviceFilter === "all" || log.device === deviceFilter) &&
         (!query || searchable.includes(query));
     });
@@ -275,7 +303,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
   function renderKpis(rows){
     const externalVisitors = new Set(rows.filter(log => !MY_VISITORS.has(log.visitor)).map(log => log.visitor));
-    const sessions = new Set(rows.filter(log => log.event === "LOGIN_SUCCESS").map(log => log.session));
+    const sessions = new Set(rows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS").map(log => log.session));
     const latest = rows
       .filter(log => !MY_VISITORS.has(log.visitor))
       .sort((a, b) => toDate(b.at) - toDate(a.at))[0];
@@ -290,20 +318,57 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   }
 
   function renderDaily(rows){
-    const base = new Date();
-    const days = [];
-    for(let offset = 6; offset >= 0; offset -= 1){
-      const date = new Date(base.getTime() - offset * 24 * 60 * 60 * 1000);
-      days.push(kstDateKey(date));
+    const loginRows = rows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS");
+    const validLoginDates = loginRows
+      .map(log => toDate(log.at))
+      .filter(date => !Number.isNaN(date.getTime()));
+
+    let base = new Date();
+
+    function makeDays(endDate){
+      const result = [];
+      for(let offset = 6; offset >= 0; offset -= 1){
+        const date = new Date(endDate.getTime() - offset * 24 * 60 * 60 * 1000);
+        result.push(kstDateKey(date));
+      }
+      return result;
     }
 
-    const counts = Object.fromEntries(days.map(day => [day, 0]));
-    rows.filter(log => log.event === "LOGIN_SUCCESS").forEach(log => {
-      const day = log.at.slice(0, 10);
+    let days = makeDays(base);
+    let counts = Object.fromEntries(days.map(day => [day, 0]));
+
+    validLoginDates.forEach(date => {
+      const day = kstDateKey(date);
       if(day in counts) counts[day] += 1;
     });
 
+    let usedLatestLoginRange = false;
+    const currentRangeTotal = Object.values(counts).reduce((sum, count) => sum + count, 0);
+
+    if(currentRangeTotal === 0 && validLoginDates.length){
+      base = new Date(Math.max(...validLoginDates.map(date => date.getTime())));
+      days = makeDays(base);
+      counts = Object.fromEntries(days.map(day => [day, 0]));
+      validLoginDates.forEach(date => {
+        const day = kstDateKey(date);
+        if(day in counts) counts[day] += 1;
+      });
+      usedLatestLoginRange = true;
+    }
+
+    // 날짜 해석이 불가능한 값도 ISO 날짜 앞부분이 있으면 마지막으로 집계합니다.
+    loginRows.forEach(log => {
+      const parsed = toDate(log.at);
+      if(!Number.isNaN(parsed.getTime())) return;
+      const matched = String(log.at).match(/^(\d{4})[-./](\d{1,2})[-./](\d{1,2})/);
+      if(!matched) return;
+      const day = `${matched[1]}-${String(matched[2]).padStart(2, "0")}-${String(matched[3]).padStart(2, "0")}`;
+      if(day in counts) counts[day] += 1;
+    });
+
+    const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
     const maximum = Math.max(1, ...Object.values(counts));
+    $("#dailyMeta").textContent = `${days[0].slice(5).replace("-", "/")}–${days[6].slice(5).replace("-", "/")} · ${total}회${usedLatestLoginRange ? " · 최근 로그인 기준" : ""}`;
     $("#dailyChart").innerHTML = days.map(day => `
       <div class="day-column">
         <div class="bar-wrap"><div class="bar" style="height:${Math.max(3, counts[day] / maximum * 165)}px" data-tip="${counts[day]}회"></div></div>
@@ -342,7 +407,7 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
 
   function visitorSummary(rows, id){
     const visitorRows = rows.filter(log => log.visitor === id);
-    const sessions = new Set(visitorRows.filter(log => log.event === "LOGIN_SUCCESS").map(log => log.session));
+    const sessions = new Set(visitorRows.filter(log => normalizeEventCode(log.event) === "LOGIN_SUCCESS").map(log => log.session));
     const tabs = new Set(visitorRows.filter(log => log.tab).map(log => log.tab));
     const latest = [...visitorRows].sort((a, b) => toDate(b.at) - toDate(a.at))[0];
     return {
@@ -394,10 +459,10 @@ button,input,select{font:inherit}.shell{max-width:1440px;margin:0 auto;padding:0
   }
 
   function chipClass(event){
-    if(event === "LOGIN_SUCCESS") return "login";
-    if(event === "TAB_CHANGE") return "tab";
-    if(event === "HEARTBEAT") return "heart";
-    if(event === "SESSION_END") return "end";
+    if(normalizeEventCode(event) === "LOGIN_SUCCESS") return "login";
+    if(normalizeEventCode(event) === "TAB_CHANGE") return "tab";
+    if(normalizeEventCode(event) === "HEARTBEAT") return "heart";
+    if(normalizeEventCode(event) === "SESSION_END") return "end";
     return "other";
   }
 
