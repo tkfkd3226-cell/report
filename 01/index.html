@@ -11015,6 +11015,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let lastInteractionAt = Date.now();
   let lastTab = "";
   let heartbeatTimer = null;
+  let lastHeartbeatSentAt = 0;
   let activeTimer = null;
   let bodyObserver = null;
   let tabObserver = null;
@@ -11100,7 +11101,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function markInteraction(){
     lastInteractionAt = Date.now();
     if(started && !ended && isPageActivelyViewed()){
-      startHeartbeat();
+      startHeartbeat(!heartbeatTimer);
     }
   }
 
@@ -11108,11 +11109,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!started || ended || !isPageActivelyViewed()) return;
     lastTickAt = Date.now();
     lastInteractionAt = Date.now();
-    startHeartbeat();
+    startHeartbeat(true);
   }
 
   function resumeHeartbeatSoon(){
     window.setTimeout(resumeHeartbeat, 120);
+    window.setTimeout(resumeHeartbeat, 450);
   }
 
   function isPageActivelyViewed(){
@@ -11202,20 +11204,31 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLog("TAB_CHANGE", `메뉴 이동: ${currentTabLabel()}`, false);
   }
 
-  function startHeartbeat(){
-    if(heartbeatTimer || !isPageActivelyViewed()) return;
-    heartbeatTimer = window.setInterval(function(){
-      if(!isPageActivelyViewed() || !hasRecentInteraction()){
-        stopHeartbeat();
-        return;
-      }
-      sendLog("HEARTBEAT", "접속 유지", false);
+  function sendHeartbeat(note){
+    lastHeartbeatSentAt = Date.now();
+    sendLog("HEARTBEAT", note || "접속 유지", false);
+  }
+
+  function startHeartbeat(sendImmediately){
+    if(!isPageActivelyViewed()) return;
+
+    if(sendImmediately && Date.now() - lastHeartbeatSentAt > 5000){
+      sendHeartbeat("접속 재개");
+    }
+
+    if(heartbeatTimer) return;
+
+    heartbeatTimer = window.setTimeout(function heartbeatTick(){
+      heartbeatTimer = null;
+      if(!isPageActivelyViewed() || !hasRecentInteraction()) return;
+      sendHeartbeat("접속 유지");
+      startHeartbeat(false);
     }, HEARTBEAT_MS);
   }
 
   function stopHeartbeat(){
     if(!heartbeatTimer) return;
-    window.clearInterval(heartbeatTimer);
+    window.clearTimeout(heartbeatTimer);
     heartbeatTimer = null;
   }
 
@@ -11230,7 +11243,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sendLog("LOGIN_SUCCESS", document.body.dataset.accessRole === "admin" ? "관리자 비밀번호 로그인 성공 후 기록 시작" : "일반 비밀번호 로그인 성공 후 기록 시작", false);
 
     activeTimer = window.setInterval(accumulateActiveTime, 10000);
-    startHeartbeat();
+    startHeartbeat(false);
 
     ["pointerdown", "keydown", "scroll", "touchstart"].forEach(function(type){
       window.addEventListener(type, markInteraction, {passive:true});
