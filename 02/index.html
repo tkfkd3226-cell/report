@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,notranslate">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<title>구디즈·나우인투 민·형사 대응 타임라인</title>
+<style>
+:root{
+  --bg:#f5f7fa; --panel:#fff; --ink:#111827; --muted:#64748b; --line:#dbe2ea;
+  --soft:#f8fafc; --brand:#6f1d2b; --brand2:#8b2f3f; --dark:#111827;
+  --blue:#1d4ed8; --green:#0f766e; --warn:#92400e;
+  --shadow:0 12px 30px rgba(15,23,42,.08); --radius:18px;
+  --nav-h:61px; --toolbar-h:50px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
+body{
+  margin:0; color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#f8fafc 0%,#f3f4f6 100%);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1280px,calc(100% - 32px));margin:0 auto}
+.hidden{display:none!important}
+.hero{
+  padding:18px 16px 15px;
+  color:#fff;
+  background:linear-gradient(135deg,#111827 0%,#374151 62%,#6f1d2b 100%);
+}
+.hero .wrap{display:grid;gap:5px}
+.kicker{font-size:11px;font-weight:900;letter-spacing:.07em;color:#cbd5e1}
+h1{margin:0;font-size:clamp(22px,3vw,30px);line-height:1.15;letter-spacing:-.04em}
+.subtitle{font-size:12.5px;line-height:1.5;color:#e2e8f0}
+.navbar{
+  position:sticky;top:0;z-index:500;
+  background:#f4f7fa;border-bottom:1px solid #d7e0e8;
+  box-shadow:0 4px 12px rgba(15,23,42,.08);
+}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:9px 0}
+.tab{
+  min-height:42px;border:1px solid #d8e1ea;border-radius:10px;background:#fff;color:#334155;
+  font-size:13px;font-weight:900;box-shadow:0 2px 6px rgba(15,23,42,.05);
+}
+.tab:hover{background:#f8fafc;border-color:#8da2b5}
+.tab.active{
+  color:#fff;border-color:var(--brand);
+  background:linear-gradient(135deg,var(--brand2) 0%,var(--brand) 100%);
+  box-shadow:0 5px 13px rgba(111,29,43,.22);
+}
+main{padding:10px 0 70px}
+.context-toolbar{
+  position:sticky;top:var(--nav-h);z-index:430;margin-bottom:10px;
+}
+.context-toolbar-inner{
+  min-height:44px;display:flex;align-items:center;gap:8px;padding:5px 7px;
+  border:1px solid rgba(203,213,225,.95);border-radius:12px;
+  background:rgba(248,250,252,.95);backdrop-filter:blur(12px);
+  box-shadow:0 4px 14px rgba(15,23,42,.07);
+}
+.searchbox{
+  flex:1;min-width:0;display:flex;align-items:center;gap:7px;
+  padding:7px 10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;
+}
+.searchbox input{width:100%;min-width:0;border:0;outline:0;background:transparent;font-size:13px}
+.toolbar-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.btn{
+  min-height:32px;padding:6px 10px;border:1px solid #d1d5db;border-radius:9px;
+  background:#fff;color:#374151;font-size:12px;font-weight:900;
+}
+.btn:hover{background:#f9fafb}
+.btn.active{background:#111827;color:#fff;border-color:#111827}
+.count{white-space:nowrap;color:var(--muted);font-size:11px;font-weight:800}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:visible;
+}
+.panel-head{
+  padding:18px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.panel-head h2{margin:0;font-size:22px;letter-spacing:-.03em}
+.panel-head p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.55}
+.panel-body{padding:18px}
+.section-heading{
+  margin:26px 0 12px;display:flex;align-items:center;gap:10px;
+  font-size:18px;letter-spacing:-.025em;scroll-margin-top:calc(var(--nav-h) + var(--toolbar-h) + 12px);
+}
+.section-heading:first-child{margin-top:0}
+.section-heading:before{content:"";width:8px;height:23px;border-radius:99px;background:var(--dark)}
+.summary-note{
+  padding:13px 15px;border:1px solid #dbe2ea;border-left:5px solid var(--brand);
+  border-radius:13px;background:linear-gradient(135deg,#fff 0%,#f8fafc 100%);
+  color:#475569;font-size:13px;line-height:1.65;
+}
+.metric-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.metric-card{
+  min-width:0;padding:15px;border:1px solid #dbe2ea;border-radius:15px;
+  background:linear-gradient(180deg,#fff 0%,#f8fafc 100%);
+}
+.metric-label{color:#64748b;font-size:11px;font-weight:900}
+.metric-value{margin-top:7px;color:#111827;font-size:19px;font-weight:950;letter-spacing:-.035em;word-break:keep-all}
+.metric-sub{margin-top:5px;color:#94a3b8;font-size:10.5px;line-height:1.4}
+.party-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.party-card{padding:13px 14px;border:1px solid #dbe2ea;border-radius:13px;background:#f8fafc}
+.party-card b{display:block;margin-bottom:5px;color:#0f172a;font-size:13px}
+.party-card span{color:#475569;font-size:12px;line-height:1.55}
+.transaction-cards{display:grid;gap:10px}
+.transaction-card{
+  border:1px solid #dbe2ea;border-radius:15px;background:#fff;overflow:hidden;
+  box-shadow:0 3px 10px rgba(15,23,42,.035);
+}
+.transaction-head{
+  display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:10px;align-items:center;
+  padding:12px 14px;background:#f8fafc;border-bottom:1px solid #e5e7eb;
+}
+.round-badge{
+  width:48px;height:34px;display:flex;align-items:center;justify-content:center;
+  border-radius:10px;background:#111827;color:#fff;font-size:12px;font-weight:950;
+}
+.transaction-title b{display:block;font-size:15px}
+.transaction-title span{display:block;margin-top:3px;color:#64748b;font-size:11px}
+.end-user{
+  max-width:220px;padding:5px 8px;border:1px solid #c7d2fe;border-radius:999px;
+  background:#eef2ff;color:#3730a3;font-size:10.5px;font-weight:900;text-align:center;white-space:pre-line;
+}
+.transaction-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
+}
+.data-field{min-width:0;padding:11px 13px;border-right:1px solid #eef2f7;border-bottom:1px solid #eef2f7}
+.data-field:nth-child(4n){border-right:0}
+.data-field label{display:block;margin-bottom:5px;color:#64748b;font-size:10.5px;font-weight:900}
+.data-field div{color:#334155;font-size:12px;line-height:1.5;white-space:pre-line;word-break:keep-all;overflow-wrap:anywhere}
+.data-field strong{color:#111827;font-size:13px}
+.transaction-foot{padding:10px 13px;background:#fbfdff;color:#64748b;font-size:11px;line-height:1.5;white-space:pre-line}
+.timeline-layout{position:relative}
+.timeline-section{scroll-margin-top:calc(var(--nav-h) + var(--toolbar-h) + 12px)}
+.timeline-section-title{
+  margin:26px 0 12px;display:flex;align-items:flex-start;gap:10px;
+  font-size:18px;letter-spacing:-.025em;line-height:1.4;
+}
+.timeline-section-title:before{content:"";flex:0 0 8px;width:8px;height:24px;margin-top:1px;border-radius:99px;background:#111827}
+.timeline{display:grid;gap:10px}
+.timeline-card{
+  display:grid;grid-template-columns:190px minmax(0,1fr);gap:14px;
+  padding-bottom:10px;border-bottom:1px solid #edf0f4;
+}
+.timeline-card:last-child{border-bottom:0}
+.date-pill{
+  position:sticky;top:calc(var(--nav-h) + var(--toolbar-h) + 10px);align-self:start;
+  padding:10px 12px;border:1px solid #dbe2ea;border-radius:13px;background:#f8fafc;
+  color:#111827;font-size:12.5px;font-weight:950;line-height:1.45;text-align:center;white-space:pre-line;
+}
+.event-body{
+  min-width:0;padding:14px;border:1px solid #dbe2ea;border-radius:15px;background:#fff;
+  box-shadow:0 3px 10px rgba(15,23,42,.035);
+}
+.event-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.badge{
+  display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;
+  background:#eef2ff;color:#3730a3;font-size:10.5px;font-weight:900;line-height:1.2;
+}
+.badge.gray{background:#f1f5f9;color:#475569}
+.event-title{margin:0 0 8px;font-size:16px;letter-spacing:-.02em;line-height:1.4}
+.event-summary{
+  color:#475569;font-size:13px;line-height:1.68;white-space:pre-line;
+}
+.search-match-note{
+  display:none;margin-top:8px;padding:8px 10px;border:1px solid #fde68a;border-radius:10px;
+  background:#fffbeb;color:#854d0e;font-size:11px;line-height:1.55;
+}
+.event-actions{display:flex;justify-content:flex-end;margin-top:10px}
+.detail-toggle{
+  min-height:31px;padding:6px 10px;border:1px solid #111827;border-radius:999px;
+  background:#111827;color:#fff;font-size:11px;font-weight:900;
+}
+.event-detail{
+  display:none;margin-top:11px;padding:12px 13px;border-top:1px dashed #cbd5e1;
+  background:#f8fafc;border-radius:11px;color:#334155;font-size:13px;line-height:1.72;
+  white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;
+}
+.timeline-card.expanded .event-detail{display:block}
+.timeline-card.expanded .event-summary{opacity:.72}
+.empty{padding:35px;text-align:center;color:#64748b;font-size:13px}
+mark{background:#fef08a;color:#111827;border-radius:3px;padding:0 .1em}
+.floating-toc{
+  position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:420;
+}
+.floating-toc-trigger{
+  width:44px;min-height:72px;display:flex;align-items:center;justify-content:center;
+  padding:9px 6px;border:1px solid #d1d5db;border-radius:14px 0 0 14px;
+  background:rgba(255,255,255,.96);color:#334155;box-shadow:0 8px 22px rgba(15,23,42,.14);
+  writing-mode:vertical-rl;font-size:12px;font-weight:900;
+}
+.floating-toc-panel{
+  position:absolute;right:0;top:50%;width:330px;padding:12px;border:1px solid #d1d5db;border-radius:18px;
+  background:#fff;box-shadow:0 14px 34px rgba(15,23,42,.16);
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-50%) translateX(14px);
+  transition:.16s ease;
+}
+.floating-toc:hover .floating-toc-panel,.floating-toc:focus-within .floating-toc-panel{
+  opacity:1;visibility:visible;pointer-events:auto;transform:translateY(-50%) translateX(0);
+}
+.floating-toc:hover .floating-toc-trigger,.floating-toc:focus-within .floating-toc-trigger{opacity:0;visibility:hidden}
+.toc-title{
+  display:flex;justify-content:space-between;gap:8px;padding:0 2px 8px;margin-bottom:8px;
+  border-bottom:1px solid #e5e7eb;font-size:13px;font-weight:900;
+}
+.toc-title small{color:#64748b;font-size:10.5px}
+.toc-list{display:grid;gap:6px}
+.toc-link{
+  display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:center;
+  min-height:38px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:12px;
+  background:#fff;color:#334155;text-decoration:none;
+}
+.toc-link:hover{background:#fff7f7;border-color:#e7a8b2;color:#6f1d2b}
+.toc-no{
+  width:28px;height:26px;display:flex;align-items:center;justify-content:center;
+  border-radius:9px;background:#111827;color:#fff;font-size:11px;font-weight:900;
+}
+.toc-text{min-width:0;font-size:11.5px;font-weight:900;line-height:1.35}
+.top-btn{
+  position:fixed;right:18px;bottom:18px;z-index:700;width:56px;height:56px;
+  border:1px solid #111827;border-radius:14px;background:#111827;color:#fff;
+  box-shadow:0 12px 30px rgba(15,23,42,.22);font-size:11px;font-weight:950;
+  opacity:0;visibility:hidden;transform:translateY(10px);transition:.16s ease;
+}
+.top-btn.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.mobile-menu-bar,.mobile-menu-backdrop,.mobile-menu-drawer{display:none}
+.mobile-search-spacer{display:none}
+@media (max-width:1000px){
+  .metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .transaction-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .data-field:nth-child(4n){border-right:1px solid #eef2f7}
+  .data-field:nth-child(2n){border-right:0}
+}
+@media (max-width:760px){
+  :root{--nav-h:95px;--toolbar-h:47px}
+  html,body{max-width:100%;overflow-x:hidden}
+  .wrap{width:calc(100% - 14px)}
+  .hero{padding:11px 52px 10px 9px}
+  .kicker{font-size:9px}
+  h1{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .subtitle{font-size:10.5px;line-height:1.35}
+  .tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:6px 0}
+  .tab{min-height:38px;font-size:11px}
+  main{padding-top:7px;padding-bottom:48px}
+  .context-toolbar{position:relative;top:auto;margin-bottom:8px}
+  .context-toolbar.mobile-fixed{
+    position:fixed;left:7px;right:7px;bottom:max(8px,env(safe-area-inset-bottom,0px));z-index:1350;
+    margin:0;background:#cfd8e3;border:1px solid #aebbc9;border-radius:12px;
+    box-shadow:0 10px 26px rgba(15,23,42,.22);
+  }
+  .context-toolbar.mobile-fixed .context-toolbar-inner{border:0;border-radius:12px;background:linear-gradient(180deg,#e2e8f0 0%,#d7e0e9 100%);box-shadow:none}
+  .context-toolbar-inner{gap:5px;padding:5px}
+  .searchbox{padding:6px 8px}
+  .searchbox input{font-size:11px}
+  .toolbar-actions{gap:4px}
+  .btn{min-height:29px;padding:5px 7px;font-size:10px}
+  .count{display:none}
+  .mobile-search-spacer.active{display:block}
+  body.mobile-toolbar-visible main{padding-bottom:96px}
+  .panel{border-radius:15px}
+  .panel-head{padding:14px}
+  .panel-head h2{font-size:19px}
+  .panel-head p{font-size:12px}
+  .panel-body{padding:10px}
+  .summary-note{font-size:12px;padding:11px 12px}
+  .section-heading{font-size:16px;margin:20px 0 10px}
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .metric-card{padding:12px}
+  .metric-value{font-size:16px}
+  .party-grid{grid-template-columns:1fr}
+  .transaction-head{grid-template-columns:52px minmax(0,1fr);padding:11px}
+  .round-badge{width:42px;height:32px}
+  .end-user{grid-column:1/-1;justify-self:start;max-width:100%;white-space:pre-line}
+  .transaction-grid{grid-template-columns:1fr}
+  .data-field{border-right:0!important}
+  .timeline-section-title{font-size:16px;margin:20px 0 10px}
+  .timeline-card{grid-template-columns:1fr;gap:7px;padding-bottom:8px}
+  .date-pill{position:static;text-align:left;padding:8px 10px;font-size:12px}
+  .event-body{padding:11px;border-radius:13px}
+  .event-title{font-size:14.5px}
+  .event-summary,.event-detail{font-size:12px;line-height:1.62}
+  .floating-toc{display:none}
+  .top-btn{
+    right:10px;bottom:10px;width:52px;height:52px;border-radius:12px;
+  }
+  body.mobile-toolbar-visible .top-btn{bottom:78px}
+  .mobile-menu-bar{
+    display:block;position:fixed;top:8px;right:8px;z-index:1500;
+  }
+  .mobile-menu-button{
+    width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;
+    border:1px solid #111827;border-radius:6px;background:rgba(255,255,255,.78);backdrop-filter:blur(6px);
+  }
+  .hamburger{position:relative;width:17px;height:17px}
+  .hamburger span{position:absolute;left:0;width:17px;height:2px;background:#111827;transition:.14s ease}
+  .hamburger span:nth-child(1){top:3px}.hamburger span:nth-child(2){top:7.5px}.hamburger span:nth-child(3){top:12px}
+  body.mobile-menu-open .hamburger span{top:7.5px}
+  body.mobile-menu-open .hamburger span:nth-child(1){transform:rotate(45deg)}
+  body.mobile-menu-open .hamburger span:nth-child(2){opacity:0}
+  body.mobile-menu-open .hamburger span:nth-child(3){transform:rotate(-45deg)}
+  .mobile-menu-backdrop{
+    position:fixed;inset:0;z-index:1400;background:rgba(15,23,42,.24);
+  }
+  .mobile-menu-backdrop.open{display:block}
+  .mobile-menu-drawer{
+    position:fixed;top:48px;right:8px;z-index:1450;width:min(340px,calc(100vw - 16px));
+    max-height:calc(100dvh - 62px);overflow:auto;border:1px solid #111827;border-radius:8px;
+    background:#fff;box-shadow:0 14px 34px rgba(15,23,42,.22);
+  }
+  .mobile-menu-drawer.open{display:block}
+  .mobile-menu-head{position:sticky;top:0;padding:11px 12px;border-bottom:1px solid #e5e7eb;background:#fff;font-size:13px;font-weight:900}
+  .mobile-menu-list{display:grid;gap:6px;padding:9px}
+  .mobile-nav-item{
+    width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:6px;
+    background:#f8fafc;color:#334155;text-align:left;font-size:12px;font-weight:850;line-height:1.4;
+  }
+  body.mobile-menu-open{overflow:hidden}
+  body.mobile-menu-open .context-toolbar,body.mobile-menu-open .top-btn{visibility:hidden}
+}
+@media print{
+  .navbar,.context-toolbar,.floating-toc,.top-btn,.mobile-menu-bar,.mobile-menu-backdrop,.mobile-menu-drawer{display:none!important}
+  body{background:#fff}
+  .hero{background:#fff;color:#111827;padding:0 0 16px}
+  .kicker,.subtitle{color:#475569}
+  .panel{box-shadow:none}
+  .event-detail{display:block!important}
+  .event-summary,.event-actions{display:none!important}
+}
+</style>
+</head>
+<body data-active-tab="overview">
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">INTERNAL CASE TIMELINE</div>
+    <h1 id="pageTitle"></h1>
+    <div class="subtitle">자료 기준 <b id="asOf"></b> · 첨부파일 링크 없이 사실관계 흐름과 거래 현황만 정리</div>
+  </div>
+</header>
+
+<nav class="navbar">
+  <div class="wrap tabs">
+    <button class="tab active" data-tab="overview" type="button">메뉴1</button>
+    <button class="tab" data-tab="timeline" type="button">타임라인</button>
+  </div>
+</nav>
+
+<div class="mobile-menu-bar">
+  <button class="mobile-menu-button" id="mobileMenuButton" aria-label="현재 메뉴 목차 열기" aria-expanded="false" type="button">
+    <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+</div>
+<div class="mobile-menu-backdrop" id="mobileBackdrop"></div>
+<aside class="mobile-menu-drawer" id="mobileDrawer" aria-hidden="true">
+  <div class="mobile-menu-head" id="mobileMenuTitle">바로가기</div>
+  <div class="mobile-menu-list" id="mobileMenuList"></div>
+</aside>
+
+<main class="wrap">
+  <div class="context-toolbar" id="contextToolbar">
+    <div class="context-toolbar-inner">
+      <div class="searchbox">
+        <span aria-hidden="true">🔎</span>
+        <input id="globalSearch" type="search" autocomplete="off" placeholder="날짜, 인물, 구분, 문구, 거래정보 검색">
+      </div>
+      <div class="toolbar-actions" id="timelineControls">
+        <button class="btn active" id="collapseAllButton" type="button">전체 요약보기</button>
+        <button class="btn" id="expandAllButton" type="button">전체 상세보기</button>
+      </div>
+      <div class="count">표시 <b id="visibleCount">-</b>건</div>
+    </div>
+  </div>
+  <div class="mobile-search-spacer" id="mobileSearchSpacer"></div>
+
+  <section class="panel" id="overviewPanel">
+    <div class="panel-head">
+      <div>
+        <h2>사건 개요 및 거래 현황</h2>
+        <p>거래정보와 객관적 수치 중심으로 구성했습니다. 법률적 평가나 형사고소 쟁점 정리는 포함하지 않았습니다.</p>
+      </div>
+    </div>
+    <div class="panel-body" id="overviewRoot"></div>
+  </section>
+
+  <section class="panel hidden" id="timelinePanel">
+    <div class="panel-head">
+      <div>
+        <h2>타임라인</h2>
+        <p>2025년 거래 제안부터 2026년 7월 14일 사건 위임까지 총 64건입니다. 기본은 요약 표시이며 상세 내용은 엑셀 원문 그대로 표시됩니다.</p>
+      </div>
+    </div>
+    <div class="panel-body timeline-layout" id="timelineRoot"></div>
+    <nav class="floating-toc" id="timelineToc" aria-label="타임라인 구간 목차"></nav>
+  </section>
+</main>
+
+<button class="top-btn" id="topButton" type="button">↑ TOP</button>
+
+<script id="appData" type="application/json">{"meta":{"title":"구디즈·나우인투 민·형사 대응 타임라인","asOf":"2026. 7. 14.","eventCount":64},"metrics":[{"label":"거래 수량","value":"11대","sub":"5건의 물품공급계약"},{"label":"나우인투 지급총액","value":"648,010,000원","sub":"VAT 포함"},{"label":"구디즈 기납부액","value":"161,573,974원","sub":"2026년 5월까지, VAT 포함"},{"label":"2026년 6월 미납액","value":"62,099,824원","sub":"VAT 포함"},{"label":"최고금액","value":"63,793,456원","sub":"미납액 + 연체가산금"}],"participants":[{"group":"구디즈","people":"최상국 대표이사"},{"group":"나우인투","people":"김영준 대표이사"},{"group":"아이티이지","people":"조명래 대표이사 · 김형문 영업상무 · 노성민 경영지원실장 · 김차현 구매팀장"},{"group":"기타","people":"오용주 — 3차 거래 연대보증인·최상국 배우자"}],"transactions":[{"round":"1차","product":"ESC4000-E11","quantity":2,"serviceNumbers":"SVCSH0034505\nSVCSH0034507","purchaseUnit":49500000,"purchaseTotal":99000000,"monthlyPerUnit":4743750,"monthlyTotal":9487500,"billingPeriod":"2026-01-01 ~ 2026-12-31","paidCount":5,"paidThroughMay":47437500,"unpaidJune":9487500,"endUser":"미확인","notes":"최상국 개인 지급보증 각서 포함"},{"round":"2차","product":"ESC8000-E12","quantity":2,"serviceNumbers":"SVCSH0034577\nSVCSH0034579","purchaseUnit":51260000,"purchaseTotal":102520000,"monthlyPerUnit":4912400,"monthlyTotal":9824800,"billingPeriod":"2026-02-01 ~ 2027-01-31","paidCount":4,"paidThroughMay":39299200,"unpaidJune":9824800,"endUser":"(주)첨단공간정보","notes":"최상국 개인 지급보증 각서 포함"},{"round":"3차①","product":"ESC8000A-E13","quantity":2,"serviceNumbers":"SVCSH0034705\nSVCSH0034707","purchaseUnit":58850000,"purchaseTotal":117700000,"monthlyPerUnit":5639700,"monthlyTotal":11279400,"billingPeriod":"2026-03-01 ~ 2027-02-28","paidCount":3,"paidThroughMay":64132200,"unpaidJune":11279400,"endUser":"(주)인프라칩","notes":"최상국 개인 지급보증 각서 포함\n오용주 연대보증 포함"},{"round":"3차②","product":"ESC4000A-E12","quantity":2,"serviceNumbers":"SVCSH0034701\nSVCSH0034703","purchaseUnit":52690000,"purchaseTotal":105380000,"monthlyPerUnit":5049000,"monthlyTotal":10098000,"billingPeriod":"2026-03-01 ~ 2027-02-28","paidCount":3,"paidThroughMay":null,"unpaidJune":10098000,"endUser":"(주)스페이스","notes":""},{"round":"4차","product":"ESC8000A-E13","quantity":3,"serviceNumbers":"SVCSH0035371\nSVCSH0035373\nSVCSH0035375","purchaseUnit":74470000,"purchaseTotal":223410000,"monthlyPerUnit":7136708,"monthlyTotal":21410124,"billingPeriod":"2026-05-16 ~ 2027-05-15","paidCount":0.5,"paidThroughMay":10705074,"unpaidJune":21410124,"endUser":"(주)스페이스\n(주)캐디안","notes":"최상국 개인 지급보증 각서 포함\n26년 5월 0.5개월분, 27년 4월 1.5개월분 납부"}],"timelineSections":[{"section":"Ⅰ. 거래구조 제안 및 1·2차 거래 진행 및 대표이사 지급보증 추가","rows":[{"no":1,"date":"2025. 11. 14. 11:25","category":"거래구조 최초 제안","actor":"최상국-김형문","content":"최상국이 AI 관련 투자 건으로 아이티이지가 GPU 서버를 구매하여 구디즈에 12개월 분할납부 방식으로 공급하고, 서버 구매비용에 15% 마진을 반영하는 거래구조를 제안함.","summary":"최상국이 AI 관련 투자 건으로 아이티이지가 GPU 서버를 구매하여 구디즈에 12개월 분할납부 방식으로 공급하고, 서버 구매비용에 15% 마진을 반영하는 거래구조를 제안함."},{"no":2,"date":"2025. 11. 24. 11:18","category":"지급보증 요구에 이견 제기","actor":"김형문-최상국","content":"아이티이지 측은 고액의 선매입이 발생하고 구디즈의 재무상태가 좋지 않아 지급보증보험 등 거래 안전장치가 필요하다는 입장을 전달함. 최상국은 신뢰가 없어서 보험증권 등을 요구하는 것이라면 이지클라우드 제품을 계속 판매해야 하는지 의문이라는 취지로 반응함.","summary":"아이티이지 측은 고액의 선매입이 발생하고 구디즈의 재무상태가 좋지 않아 지급보증보험 등 거래 안전장치가 필요하다는 입장을 전달함."},{"no":3,"date":"2025. 11. 25. 14:36~11. 28. 14:32","category":"1차 나우인투 견적 전달\n발주 준비","actor":"김영준→김형문→김차현\n김차현→김영준","content":"김영준이 김형문에게 ESC4000-E11 GPU 서버 견적서를 보내며 빠른 발주를 요청하였고, 김형문이 이를 김차현에게 전달하였음. 김차현은 나우인투에 발주 가능 시기와 장비 입고 및 대금 지급 일정을 확인하였음.","summary":"김영준이 김형문에게 ESC4000-E11 GPU 서버 견적서를 보내며 빠른 발주를 요청하였고, 김형문이 이를 김차현에게 전달하였음."},{"no":4,"date":"2025. 11. 28. 16:27","category":"1차 계약초안 전달\n나우인투 발주 요청","actor":"최상국→김차현","content":"최상국이 1차 거래 계약서 초안을 전달하면서, 장비 가격이 계속 상승하고 있다며 계약서를 신속히 검토한 후 나우인투에 발주하고 대금을 지급해 달라고 요청하였음.","summary":"최상국이 1차 거래 계약서 초안을 전달하면서, 장비 가격이 계속 상승하고 있다며 계약서를 신속히 검토한 후 나우인투에 발주하고 대금을 지급해 달라고 요청하였음."},{"no":5,"date":"2025. 12. 2. 14:15","category":"개인 지급보증 합의","actor":"김형문-최상국","content":"최상국이 아이티이지 조명래 대표와 통화했고, 자신이 개인 지급보증 각서를 작성하는 조건으로 거래를 진행하기로 했다는 취지로 전달함.","summary":"최상국이 아이티이지 조명래 대표와 통화했고, 자신이 개인 지급보증 각서를 작성하는 조건으로 거래를 진행하기로 했다는 취지로 전달함."},{"no":6,"date":"2025. 12. 3. 09:15~14:48","category":"개인 지급보증 서류 확정·제출","actor":"김차현-최상국","content":"김차현은 물품공급계약서와 개인 지급보증 각서가 갖추어져야 내부 품의 및 발주가 가능하다고 안내하였음. 이후 개인 지급보증 조항과 각서 양식을 계약서에 추가하고, 최상국의 자필서명 및 주민등록등본 제출을 요청하였음. 최상국은 계약서와 보증 관련 서류 스캔본 및 주민등록등본을 전달하면서 나우인투에 신속히 발주하고 대금을 지급해 달라고 요청하였음.","summary":"김차현은 물품공급계약서와 개인 지급보증 각서가 갖추어져야 내부 품의 및 발주가 가능하다고 안내하였음."},{"no":7,"date":"2025. 12. 5. 15:42~16:03","category":"1차 발주·실물 납품방식 확인","actor":"김차현-김영준","content":"김차현이 나우인투에 ESC4000-E11 GPU 서버 2대의 발주서를 전달하면서, 구디즈 최상국과 나우인투가 함께 장비를 세팅하여 지정된 장소에 납품하는 것으로 전달받았다고 알리고 확인을 요청하였음. 김영준은 발주서를 수령하였고, 장비는 구디즈 최상국과 협업하여 납품한다고 회신하였음.","summary":"김차현이 나우인투에 ESC4000-E11 GPU 서버 2대의 발주서를 전달하면서, 구디즈 최상국과 나우인투가 함께 장비를 세팅하여 지정된 장소에 납품하는 것으로 전달받았다고 알리고 확인을 요청하였음."},{"no":8,"date":"2025. 12. 5.~12. 8.","category":"1차 매입대금 전액 지급·수령 확인","actor":"김차현-김영준","content":"아이티이지는 1차 거래 매입대금 VAT 포함 99,000,000원을 2025. 12. 5.과 12. 8.에 각 49,500,000원씩 나누어 나우인투에 전액 지급하였음. 김영준은 입금 사실을 확인하였음.","summary":"아이티이지는 1차 거래 매입대금 VAT 포함 99,000,000원을 2025. 12. 5.과 12. 8.에 각 49,500,000원씩 나누어 나우인투에 전액 지급하였음."},{"no":9,"date":"2025. 12. 11.\n(계약서 기재일: 2025. 12. 3.)","category":"1차 계약 완료","actor":"구디즈-아이티이지","content":"구디즈와 아이티이지가 ESC4000-E11 GPU 서버 2대에 관한 물품공급계약을 체결함. 계약금액은 VAT 포함 113,850,000원이며, 최상국의 개인 지급보증 각서가 첨부됨.","summary":"구디즈와 아이티이지가 ESC4000-E11 GPU 서버 2대에 관한 물품공급계약을 체결함."},{"no":10,"date":"2025. 12. 22. 09:00","category":"2차 거래 협의","actor":"김형문-최상국","content":"최상국과 김형문이 추가 GPU 서버 거래와 2차 계약 진행에 관해 협의함.","summary":"최상국과 김형문이 추가 GPU 서버 거래와 2차 계약 진행에 관해 협의함."},{"no":11,"date":"2025. 12. 24. 12:51~15:37","category":"2차 계약서 검토\n최종사용자 조항 삭제 요청","actor":"최상국-김차현","content":"최상국이 2차 거래 계약서 초안을 보내 검토를 요청하였음. 김차현은 물품의 인도·검수 및 최종사용자 확인 조항을 추가하고 최종사용자를 ㈜첨단공간정보로 기재하여 회신하였음. 최상국은 구디즈와 아이티이지 사이의 계약에서 사용자 항목을 삭제해 달라고 요청하고, 계약기간을 2026년 2월부터 2027년 1월까지로 조정해 달라고 요청하였음.","summary":"최상국이 2차 거래 계약서 초안을 보내 검토를 요청하였음."},{"no":12,"date":"2025. 12. 29. 11:20","category":"2차 발주·납품방식 및 엔드유저 통지","actor":"김차현→김영준","content":"김차현이 나우인투에 ESC8000-E12 GPU 서버 2대 발주서를 전달하였음. 1차 거래와 마찬가지로 구디즈 최상국과 나우인투가 함께 장비를 세팅하여 지정된 장소에 납품하는 것으로 전달받았다고 알리고, 최상국으로부터 안내받은 엔드유저가 ㈜첨단공간정보임을 나우인투에 통지하였음. 매입대금은 2026. 1. 5. 지급 예정이라고 안내하였음.","summary":"김차현이 나우인투에 ESC8000-E12 GPU 서버 2대 발주서를 전달하였음."},{"no":13,"date":"2025. 12. 30.\n(계약서 기재일: 2025. 12. 26.)","category":"2차 계약 완료","actor":"구디즈-아이티이지","content":"구디즈와 아이티이지가 ESC8000-E12 서버 2대에 관한 물품공급계약을 체결함. 계약금액은 VAT 포함 117,898,000원이며, 최상국의 개인 지급보증 각서가 첨부됨.","summary":"구디즈와 아이티이지가 ESC8000-E12 서버 2대에 관한 물품공급계약을 체결함."}]},{"section":"Ⅱ. 3차 거래 협의 및 연대보증 추가","rows":[{"no":14,"date":"2026. 1. 14. 12:09","category":"3차 견적 전달·엔드유저 특정","actor":"최상국→김형문→김차현\n김영준→김형문·김차현","content":"최상국이 나우인투 견적서 2건을 전달하며 내부 진행을 요청함. 최종 고객사로 1월 12일자 견적은 인프라칩, 1월 13일자 견적은 스페이스라고 안내하고, 하드디스크·메모리·GPU 가격 변동을 이유로 신속한 진행을 요청함.","summary":"최상국이 나우인투 견적서 2건을 전달하며 내부 진행을 요청함."},{"no":15,"date":"2026. 1. 15. 14:27","category":"3차 거래 세부협의","actor":"김형문-최상국","content":"3차 거래 대상 장비, 견적 및 진행조건에 관한 후속 협의를 진행함.","summary":"3차 거래 대상 장비, 견적 및 진행조건에 관한 후속 협의를 진행함."},{"no":16,"date":"2026. 1. 20. 12:15","category":"3차 거래 진행자료 전달","actor":"최상국→김차현·김형문","content":"최상국이 3차 거래 진행과 관련된 계약서 초안 자료를 김차현과 김형문에게 전달하였음.","summary":"최상국이 3차 거래 진행과 관련된 계약서 초안 자료를 김차현과 김형문에게 전달하였음."},{"no":17,"date":"2026. 1. 20. 12:37","category":"3차 신용거래 한도 초과 통지\n신용자료 요청","actor":"김차현→최상국","content":"김차현은 1·2차 거래가 개인 지급보증을 전제로 한 12개월 분할납부 방식의 신용거래로 진행되고 있으며, 3차 거래가 추가될 경우 아이티이지 내부의 보증 효력 관리 한도를 초과하여 현 조건으로는 진행이 어렵다고 통지하였음. 다만 보완 방안이 있을 경우 재검토하기 위하여 최상국의 개인 신용점수 확인자료를 요청하였음.","summary":"김차현은 1·2차 거래가 개인 지급보증을 전제로 한 12개월 분할납부 방식의 신용거래로 진행되고 있으며, 3차 거래가 추가될 경우 아이티이지 내부의 보증 효력 관리 한도를 초과하여 현 조건으로는 진행이 어렵다고 통지하였음."},{"no":18,"date":"2026. 1. 20. 14:55","category":"신용상태 확인자료 제출","actor":"최상국→김차현","content":"아이티이지 측이 기존 최상국의 개인 지급보증 한도와 신용상태 확인이 필요하다고 통지하자, 최상국은 개인 신용점수, 신용평가서 및 대출·마이너스통장 내역을 제출하였음.","summary":"아이티이지 측이 기존 최상국의 개인 지급보증 한도와 신용상태 확인이 필요하다고 통지하자, 최상국은 개인 신용점수, 신용평가서 및 대출·마이너스통장 내역을 제출하였음."},{"no":19,"date":"2026. 1. 20. 16:58~20:18","category":"배우자 연대보증 조건 제시·동의","actor":"김차현-최상국","content":"아이티이지는 추가적인 보증력 보완 없이는 3차 거래 승인이 어렵지만, 최상국의 배우자가 연대보증인으로 참여하고 인감증명서 및 계약서 인감날인 서류를 제출하는 조건이라면 추가 진행을 검토하겠다고 통지하였음. 최상국은 해당 조건에 따라 진행되기를 바라며, 결론이 나면 필요한 서류를 갖추어 보내겠다는 취지로 회신하고 빠른 확정을 요청하였음.","summary":"아이티이지는 추가적인 보증력 보완 없이는 3차 거래 승인이 어렵지만, 최상국의 배우자가 연대보증인으로 참여하고 인감증명서 및 계약서 인감날인 서류를 제출하는 조건이라면 추가 진행을 검토하겠다고 통지하였음."},{"no":20,"date":"2026. 1. 21. 10:30~1. 22. 12:52","category":"연대보증 서류 요청·제출","actor":"김차현-최상국","content":"김차현은 구디즈 계약자 날인, 최상국 개인 지급보증 날인, 배우자 연대보증 인감날인 및 배우자 인감증명서 제출을 요청하였음. 최상국은 계약 및 보증서류 스캔본과 오용주의 인감증명서를 전달하고 원본 서류를 퀵으로 발송하였음.","summary":"김차현은 구디즈 계약자 날인, 최상국 개인 지급보증 날인, 배우자 연대보증 인감날인 및 배우자 인감증명서 제출을 요청하였음."},{"no":21,"date":"2026. 1. 22. 14:42~1. 23. 11:24","category":"3차 최종 승인\n발주 및 지급일정 협의","actor":"김차현-김영준\n김차현→최상국","content":"연대보증 서류 제출 후 내부 보고 및 재무 승인 절차가 마무리되어 나우인투에 ESC8000A-E13 서버 2대와 ESC4000A-E12 서버 2대의 발주서를 전달하였음. 아이티이지는 고객사와의 계약기간이 2026년 3월부터 시작되는 점을 고려하여 2월 말 대금지급이 가능한지 문의하였음. 김영준은 고객과의 계약 내용과 별도로 1월 중 장비가 투입되어야 하고 당월 결제가 되지 않으면 진행이 어렵다며 2월 말 지급은 불가능하다고 회신하였음. 아이티이지는 재검토 후 1월 말 대금을 지급하기로 정리하고, 나우인투에 1월 중 장비 투입에 차질이 없도록 요청하였음.","summary":"연대보증 서류 제출 후 내부 보고 및 재무 승인 절차가 마무리되어 나우인투에 ESC8000A-E13 서버 2대와 ESC4000A-E12 서버 2대의 발주서를 전달하였음."},{"no":22,"date":"2026. 1. 29.\n(계약서 기재일: 2026. 1. 19.)","category":"3차 계약 완료①","actor":"구디즈-아이티이지","content":"구디즈와 아이티이지가 ESC8000A-E13 서버 2대에 관한 물품공급계약을 체결함. 계약금액은 VAT 포함 135,355,000원이며, 최상국의 개인 지급보증 각서가 첨부되고 오용주가 연대보증인으로 추가됨.","summary":"구디즈와 아이티이지가 ESC8000A-E13 서버 2대에 관한 물품공급계약을 체결함."},{"no":23,"date":"2026. 1. 29.\n(계약서 기재일: 2026. 1. 20.)","category":"3차 계약 완료②","actor":"구디즈-아이티이지","content":"구디즈와 아이티이지가 ESC4000A-E12 서버 2대에 관한 물품공급계약을 체결함. 계약금액은 VAT 포함 121,187,000원이며, 최상국의 개인 지급보증 각서가 첨부되고 오용주가 연대보증인으로 추가됨.","summary":"구디즈와 아이티이지가 ESC4000A-E12 서버 2대에 관한 물품공급계약을 체결함."}]},{"section":"Ⅲ. 다른 업체를 통한 동일 거래구조 추진 요청 외(25, 28은 다른 사안으로 분류)","rows":[{"no":24,"date":"2026. 2. 9. 08:50","category":"유사 거래 가능 업체 소개 요청","actor":"최상국-김형문","content":"최상국이 김형문에게 아이티이지와 같은 방식으로 서버 구매 및 분할납부 거래구조를 진행할 수 있는 다른 업체가 있는지 확인해 달라고 요청함.","summary":"최상국이 김형문에게 아이티이지와 같은 방식으로 서버 구매 및 분할납부 거래구조를 진행할 수 있는 다른 업체가 있는지 확인해 달라고 요청함."},{"no":25,"date":"2026. 2. 11. 13:24~2. 12. 10:57","category":"타 영업 건 견적 문의\n항의 및 경위 설명","actor":"김차현→김영준\n최상국→김형문·조명래\n김차현→최상국","content":"아이티이지 구매팀이 구디즈 거래와 별개의 고객 견적 문의와 관련하여 나우인투에 GPU 서버 원가견적을 요청하자, 최상국은 자신을 거치지 않고 나우인투에 직접 견적을 요청한 데 대해 항의하였음. 김차현은 해당 문의가 구디즈를 배제하기 위한 것이 아니라 별도 고객 건의 원가 확인을 위하여 등록된 매입처에 견적을 요청한 통상적인 구매업무라고 설명하였음.","summary":"아이티이지 구매팀이 구디즈 거래와 별개의 고객 견적 문의와 관련하여 나우인투에 GPU 서버 원가견적을 요청하자, 최상국은 자신을 거치지 않고 나우인투에 직접 견적을 요청한 데 대해 항의하였음."},{"no":26,"date":"2026. 3. 17. 14:49","category":"다른 거래처 소개 재요청","actor":"최상국-김형문","content":"최상국이 아이티이지와 유사한 거래구조를 진행할 수 있는 업체를 다시 소개해 달라는 취지로 요청함.","summary":"최상국이 아이티이지와 유사한 거래구조를 진행할 수 있는 업체를 다시 소개해 달라는 취지로 요청함."},{"no":27,"date":"2026. 4. 20. 19:57","category":"타 업체용 제안서 전달","actor":"최상국-김형문","content":"최상국이 다른 업체를 소개해 달라며 거래 제안서를 전달함. 다른 업체 거래가 성사되면 아이티이지에 대한 기존 분할대금을 우선 상환하겠다는 취지의 대화를 함. 아이티이지와 동일한 수준의 마진은 제공하기 어렵다는 내용도 포함된 것으로 보임.","summary":"최상국이 다른 업체를 소개해 달라며 거래 제안서를 전달함."},{"no":28,"date":"2026. 4. 27. 14:15","category":"카드결제 가능 여부 문의","actor":"최상국-김형문","content":"기존에는 분할대금을 현금으로 지급해 왔으나, 최상국이 카드로 결제할 수 있는지 문의함. 이후 일부 분할대금은 카드로 결제됨.","summary":"기존에는 분할대금을 현금으로 지급해 왔으나, 최상국이 카드로 결제할 수 있는지 문의함."}]},{"section":"Ⅳ. 4차 거래 요청 및 계약 체결","rows":[{"no":29,"date":"2026. 5. 6. 09:00","category":"4차 거래 최초 요청","actor":"최상국→조명래","content":"최상국이 조명래 대표에게 추가 GPU 서버 거래를 요청하는 메일을 보냄.","summary":"최상국이 조명래 대표에게 추가 GPU 서버 거래를 요청하는 메일을 보냄."},{"no":30,"date":"2026. 5. 6. 12:21","category":"엔드유저 공개·거래검토 요청","actor":"최상국-김형문","content":"최상국이 추가 거래의 엔드유저 정보를 공개하며 거래 진행을 검토해 달라고 요청함. 제안된 물량 중 서버 3대가 이후 실제 4차 계약으로 진행됨.","summary":"최상국이 추가 거래의 엔드유저 정보를 공개하며 거래 진행을 검토해 달라고 요청함."},{"no":31,"date":"2026. 5. 6. 15:27","category":"4차 요청에 대한 대표 회신","actor":"조명래→최상국","content":"조명래 대표가 최상국의 추가 거래 요청에 대해 아이티이지의 검토 입장과 진행조건을 회신함.","summary":"조명래 대표가 최상국의 추가 거래 요청에 대해 아이티이지의 검토 입장과 진행조건을 회신함."},{"no":32,"date":"2026. 5. 6. 19:29","category":"4차 거래 재요청","actor":"최상국→김형문","content":"최상국이 김형문에게 추가 GPU 서버 거래를 진행해 달라는 취지로 후속 요청함.","summary":"최상국이 김형문에게 추가 GPU 서버 거래를 진행해 달라는 취지로 후속 요청함."},{"no":33,"date":"2026. 5. 11. 11:31","category":"4차 거래 후속협의","actor":"김형문-최상국","content":"4차 거래 진행과 관련하여 최상국은 추가로 제공할 수 있는 담보를 묻고, “어떤 담보를 걸까요? 형제도 저뿐이고, 와이프는 걸었고, 자동차하고 월세보증금 1억밖에 없는데 그거라도 걸면 될까요”라는 취지로 답변함. 기존 배우자 연대보증 외에도 본인 명의 자동차와 월세보증금 등을 담보로 제공할 의사가 있음을 밝히며 거래 진행을 요청함.","summary":"4차 거래 진행과 관련하여 최상국은 추가로 제공할 수 있는 담보를 묻고, “어떤 담보를 걸까요? 형제도 저뿐이고, 와이프는 걸었고, 자동차하고 월세보증금 1억밖에 없는데 그거라도 걸면 될까요”라는 취지로 답변함."},{"no":34,"date":"2026. 5. 12. 13:57","category":"4차 거래 진행 촉구·추가 보증 의사","actor":"최상국→조명래","content":"최상국은 조명래 대표가 2026. 5. 6. 보낸 회신을 받고 이번 거래가 당연히 진행되는 것으로 알고 있었다며, 거래 진행이 어려워진 상황에 대해 매우 곤란하다는 입장을 전달함. 또한 거래 진행을 위해 필요하다면 “신체 포기 각서라도 쓰겠다”는 취지로 추가적인 보증 의사를 강하게 표시하며 4차 거래 진행을 요청함.","summary":"최상국은 조명래 대표가 2026. 5. 6. 보낸 회신을 받고 이번 거래가 당연히 진행되는 것으로 알고 있었다며, 거래 진행이 어려워진 상황에 대해 매우 곤란하다는 입장을 전달함."},{"no":35,"date":"2026. 5. 12.~5. 13. 11:14","category":"4차 거래 내부 재검토·승인","actor":"조명래-노성민\n김차현→최상국","content":"최상국의 문자 수신 후 조명래 대표가 경영지원실장과 4차 거래 진행 여부를 재검토하였음. 경영지원실장은 구디즈가 기존 1~3차 거래의 분할대금을 하루도 연체하지 않고 지급해 온 점과 제시된 엔드유저의 재무상태를 고려할 때, 엔드유저로부터 대금을 수령한 구디즈가 이를 아이티이지에 정상 지급한다면 거래 진행에 문제가 없을 것으로 판단된다는 의견을 제시하였음. 위 검토를 거쳐 4차 거래를 진행하기로 결정하였음.\n\n김차현은 2026. 5. 13. 최상국에게, 기존 거래의 분할대금을 한 차례도 지연하지 않고 지급한 점을 고려하여 4차 거래에 한해 기존 최상국의 개인 지급보증 외 별도의 추가 보증을 더 받지 않고 진행하기로 승인되었으며, 이번 거래가 별도의 보증 보강 없이 진행되는 마지막 거래임을 통지하였음.","summary":"최상국의 문자 수신 후 조명래 대표가 경영지원실장과 4차 거래 진행 여부를 재검토하였음."},{"no":36,"date":"2026. 5. 13. 12:24","category":"4차 계약서 작성\n5월 15일 매입대금 지급 요청","actor":"최상국→김차현","content":"최상국은 4차 거래 승인에 감사를 표시하며 계약서를 보내주면 날인하여 즉시 퀵으로 전달하겠다고 회신하였음. 또한 조명래 대표에게 말한 내용대로 아이티이지가 나우인투에 2026. 5. 15.까지 매입대금을 지급해 달라고 요청하고, 구디즈는 5월 말 15일 사용분을 지급한 후 6월 말부터 월 분할대금을 지급하겠다고 안내하였음.","summary":"최상국은 4차 거래 승인에 감사를 표시하며 계약서를 보내주면 날인하여 즉시 퀵으로 전달하겠다고 회신하였음."},{"no":37,"date":"2026. 5. 13. 14:06~15:26","category":"나우인투 4차 견적\n5월 15일 대금집행 요청","actor":"김영준→김차현·김형문","content":"김영준이 4차 거래의 ESC8000A-E13 서버 3대 견적서를 보내며 빠른 진행을 위하여 2026. 5. 15. 대금 집행을 요청하였음. 이후 가격 변동으로 견적금액이 상승하였다며 수정 견적서를 다시 보내고, 다음 주에도 가격이 추가 인상될 수 있으므로 신속히 진행해 달라고 요청하였음.","summary":"김영준이 4차 거래의 ESC8000A-E13 서버 3대 견적서를 보내며 빠른 진행을 위하여 2026. 5. 15. 대금 집행을 요청하였음."},{"no":38,"date":"2026. 5. 13. 18:45","category":"4차 지급조건\n계약금액 확인 및 계약서 전달","actor":"김차현→최상국","content":"김차현은 당일 최상국과 유선으로 확인한 내용을 메일로 정리하였음. 아이티이지가 나우인투에 2026. 5. 15.까지 매입대금을 지급하기로 한 점, 구디즈가 5월 말에 15일분을 지급하고 이후 월별 분납하기로 한 점 및 나우인투 견적금액이 VAT 별도 203,100,000원으로 확정된 점을 확인하였음. 위 내용에 따라 작성한 물품공급계약서를 최상국에게 전달하고 날인본 회신을 요청하였음.","summary":"김차현은 당일 최상국과 유선으로 확인한 내용을 메일로 정리하였음."},{"no":39,"date":"2026. 5. 18.\n(계약서 기재일: 2026. 5. 13.)","category":"4차 계약 완료","actor":"구디즈-아이티이지","content":"내부 재검토 및 승인에 따라 구디즈와 아이티이지가 ESC8000A-E13 서버 3대에 관한 물품공급계약을 체결함. 계약금액은 VAT 포함 256,921,500원이며, 최상국의 개인 지급보증 각서가 첨부됨.","summary":"내부 재검토 및 승인에 따라 구디즈와 아이티이지가 ESC8000A-E13 서버 3대에 관한 물품공급계약을 체결함."},{"no":40,"date":"2026. 5. 19. 13:20","category":"4차 발주서 전달\n매입대금 지급 사실 통지","actor":"김차현→김영준","content":"김차현이 나우인투에 ESC8000A-E13 GPU 서버 3대의 발주서를 전달하고, 해당 매입대금은 2026. 5. 15. 이미 입금하였다고 통지하였음.","summary":"김차현이 나우인투에 ESC8000A-E13 GPU 서버 3대의 발주서를 전달하고, 해당 매입대금은 2026. 5. 15. 이미 입금하였다고 통지하였음."}]},{"section":"Ⅴ. 분할대금 미납 및 납품사실 여부 확인","rows":[{"no":41,"date":"2026. 6. 30. 15:23","category":"6월분 대금 미납 확인","actor":"최상국→김형문","content":"6월 지급기일이 도래한 분할대금 56,454,389원(VAT 별도, VAT 포함 62,099,824원)이 지급되지 않은 사실을 확인함. 김형문이 최상국에게 연락하자 최상국은 7월 1일 결제하겠다는 취지로 회신함.","summary":"6월 지급기일이 도래한 분할대금 56,454,389원(VAT 별도, VAT 포함 62,099,824원)이 지급되지 않은 사실을 확인함."},{"no":42,"date":"2026. 7. 1. 16:16~17:12","category":"분할대금 지급 연기 및 지급계획 약속","actor":"최상국-김형문","content":"최상국은 여러 거래처 지급 일정이 겹쳐 당일 지급이 어렵다고 설명하며, 내부 지급일정과 정리방안을 확인 중이라고 반복 회신하였음. 김형문 상무는 지급 여부를 수차례 확인하고, 당일 지급 가능 여부와 지급계획을 지속적으로 요청하였음.","summary":"최상국은 여러 거래처 지급 일정이 겹쳐 당일 지급이 어렵다고 설명하며, 내부 지급일정과 정리방안을 확인 중이라고 반복 회신하였음."},{"no":43,"date":"2026. 7. 1. 17:40","category":"연체료 부과 사전통지","actor":"아이티이지→최상국","content":"아이티이지는 약정일 미지급에 대한 입장을 전달하고, 7월 2일 13시까지 지급되지 않으면 계약상 연체가산금 3%를 부과하겠다고 문자로 통지함. 전화 통화는 이루어지지 않았음.","summary":"아이티이지는 약정일 미지급에 대한 입장을 전달하고, 7월 2일 13시까지 지급되지 않으면 계약상 연체가산금 3%를 부과하겠다고 문자로 통지함."},{"no":44,"date":"2026. 7. 2. 06:26~20:29","category":"지급계획 재요청 및 연락 회피 지속","actor":"최상국-김형문","content":"김형문 상무는 더 이상 막연한 지연은 어렵다며 지급 가능 일정과 처리방안을 요구하고, 직접 방문까지 요청하였음. 최상국은 지급계획서를 보내겠다고 하였으나 실제 지급은 이루어지지 않았고, 이후에도 통화는 피한 채 문자로만 지급이 어렵다는 취지의 답변을 반복하였음.","summary":"김형문 상무는 더 이상 막연한 지연은 어렵다며 지급 가능 일정과 처리방안을 요구하고, 직접 방문까지 요청하였음."},{"no":45,"date":"2026. 7. 2. 16:00경","category":"연체료 청구·최고장 발송","actor":"아이티이지→구디즈","content":"미지급 분할대금 62,099,824원과 연체가산금 1,693,632원(미납 공급가액 56,454,389원의 3%), 합계 63,793,456원을 2026년 7월 10일까지 지급하도록 최고함. 미지급 시 구디즈 및 계약상 보증인을 상대로 법적 조치를 진행하겠다고 통지함.","summary":"미지급 분할대금 62,099,824원과 연체가산금 1,693,632원(미납 공급가액 56,454,389원의 3%), 합계 63,793,456원을 2026년 7월 10일까지 지급하도록 최고함."},{"no":46,"date":"2026. 7. 2. 16:41","category":"대표 주소·보증인 연락처 확인","actor":"김형문-노성민","content":"김형문의 요청에 따라 노성민이 최상국의 자택 주소와 배우자 오용주의 연락처를 확인하여 전달함. 오용주는 3차 계약 2건의 연대보증인으로 기재되어 있음.","summary":"김형문의 요청에 따라 노성민이 최상국의 자택 주소와 배우자 오용주의 연락처를 확인하여 전달함."},{"no":47,"date":"2026. 7. 2. 17:07","category":"최상국 연락두절·납품자료 요청","actor":"김차현→김영준","content":"최상국에게 여러 차례 통화를 시도했으나 전화기가 꺼져 있었음. 아이티이지는 나우인투 김영준 대표에게 기존 거래의 납품확인서 등 인도 증빙자료 제출을 요청함.","summary":"최상국에게 여러 차례 통화를 시도했으나 전화기가 꺼져 있었음. 아이티이지는 나우인투 김영준 대표에게 기존 거래의 납품확인서 등 인도 증빙자료 제출을 요청함."},{"no":48,"date":"2026. 7. 2. 17:31","category":"연대보증인 신원 확인","actor":"장상미-오용주","content":"오용주와 통화하여 오용주 본인임을 확인함. (배우자 특정은 최상국 제출한 등본, 오용주 인감증명 대조로 확인함)","summary":"오용주와 통화하여 오용주 본인임을 확인함."},{"no":49,"date":"2026. 7. 3. 06:51~17:45","category":"면담 약속 후 통화 거부 지속","actor":"최상국-김형문","content":"최상국은 “월요일 만나자”고 하였으나, 이후에도 김형문 상무의 통화 요청에 “통화로 할 이야기는 아닌 듯하다”며 응하지 않았음. 김형문 상무는 직접 통화를 통해 해결방안을 찾자고 요청하였으나, 최상국은 대면을 이유로 계속 통화를 회피하였음.","summary":"최상국은 “월요일 만나자”고 하였으나, 이후에도 김형문 상무의 통화 요청에 “통화로 할 이야기는 아닌 듯하다”며 응하지 않았음. 김형문 상무는 직접 통화를 통해 해결방안을 찾자고 요청하였으나, 최상국은 대면을 이유로 계속 통화를 회피하였음."},{"no":50,"date":"2026. 7. 3. 11:55","category":"연대보증인에게 연락 요청","actor":"노성민→오용주","content":"최상국과 통화가 되지 않아 오용주에게 구디즈의 대금 미납 사실과 연대보증 책임을 알리고, 최상국이 아이티이지 담당자에게 연락하도록 조치해 달라고 문자 발송함.","summary":"최상국과 통화가 되지 않아 오용주에게 구디즈의 대금 미납 사실과 연대보증 책임을 알리고, 최상국이 아이티이지 담당자에게 연락하도록 조치해 달라고 문자 발송함."},{"no":51,"date":"2026. 7. 3. 12:27","category":"나우인투에 납품증빙 재요청","actor":"노성민→김영준","content":"전날 요청에도 회신이 없어 나우인투에 납품확인서, 물품인도증, 검수확인서, 인수자 서명, 납품사진 등 객관적인 인도 증빙을 재차 요청함.","summary":"전날 요청에도 회신이 없어 나우인투에 납품확인서, 물품인도증, 검수확인서, 인수자 서명, 납품사진 등 객관적인 인도 증빙을 재차 요청함."},{"no":52,"date":"2026. 7. 3. 16:27~16:52","category":"엔드유저 미수금 주장\n나우인투 관여 축소 및\n납품확인서 제출 유보","actor":"최상국-김차현","content":"최상국은 엔드유저로부터 대금을 받지 못하고 연락도 되지 않는다고 설명하였음. 또한 나우인투는 장비 세팅만 도왔고 자신이 장비를 가져가 납품하였으므로, 나우인투는 본건에 크게 관여하지 않았고 아이티이지는 자신과 해결해야 한다는 취지로 주장하였음. 김차현이 엔드유저와 작성한 납품확인서 제출을 요청하자, 최상국은 납품확인서가 존재한다는 취지로 답변하면서도 변호사와 상의하여 제출 여부를 확인한 뒤 답변하겠다고 하였음.","summary":"최상국은 엔드유저로부터 대금을 받지 못하고 연락도 되지 않는다고 설명하였음."},{"no":53,"date":"2026. 7. 3. 18:52","category":"나우인투에 인도증빙 공식 재요청","actor":"노성민→김영준","content":"나우인투 측이 전화에 응하지 않고 납품자료도 제출하지 않아, 아이티이지가 구매당사자임을 명확히 밝히고 납품확인서·물품인도증·검수확인서·인수자 서명자료·납품사진·장비 시리얼번호 등 객관적인 인도 증빙을 즉시 제출하도록 다시 요구함. 회신이나 자료 제출이 계속 지연될 경우 해당 거래의 실제 이행 여부를 정식으로 검토하겠다고 통지함.","summary":"나우인투 측이 전화에 응하지 않고 납품자료도 제출하지 않아, 아이티이지가 구매당사자임을 명확히 밝히고 납품확인서·물품인도증·검수확인서·인수자 서명자료·납품사진·장비 시리얼번호 등 객관적인 인도 증빙을 즉시 제출하도록 다시 요구함."},{"no":54,"date":"2026. 7. 3. 19:25","category":"구디즈와 협의하라는 회신","actor":"김영준→노성민","content":"김영준이 위 자료 제출 요구에 대해 “안녕하세요, 구디즈와 이야기 하십시오.”라고 회신함.","summary":"김영준이 위 자료 제출 요구에 대해 “안녕하세요, 구디즈와 이야기 하십시오.”라고 회신함."},{"no":55,"date":"2026. 7. 3. 19:51","category":"구매당사자 지위 재통지","actor":"노성민→김영준","content":"아이티이지가 나우인투에 직접 발주하고 대금을 지급한 구매당사자이므로 구디즈와 이야기할 사안이 아니며, 나우인투가 실제 납품·인도 증빙을 아이티이지에 제출해야 한다고 회신함. 향후 정식 공문과 법적 절차에 따라 대응하겠다고 통지함.","summary":"아이티이지가 나우인투에 직접 발주하고 대금을 지급한 구매당사자이므로 구디즈와 이야기할 사안이 아니며, 나우인투가 실제 납품·인도 증빙을 아이티이지에 제출해야 한다고 회신함."},{"no":56,"date":"2026. 7. 6. 08:57","category":"예정 면담 불가 통보","actor":"최상국-김형문","content":"미지급 문제와 관련해 예정했던 7월 6일 오전 10시 면담이 어렵다고 최상국이 통보함. 회사의 전체 채무·계약·채권·자금흐름을 법률대리인이 검토 중이며, 지급일이나 지급계획은 확정할 수 없다고 설명함.","summary":"미지급 문제와 관련해 예정했던 7월 6일 오전 10시 면담이 어렵다고 최상국이 통보함."},{"no":57,"date":"2026. 7. 6.","category":"형사 가능성 자문","actor":"아이티이지-법무법인 백송","content":"구디즈와 나우인투 사이의 거래구조와 실제 납품 여부에 관해 백송에 자문을 요청함. 백송과 협의 후 양사를 상대로 내용증명을 발송하고 최종 고객사 실제 납품 여부를 확인하기로 함.","summary":"구디즈와 나우인투 사이의 거래구조와 실제 납품 여부에 관해 백송에 자문을 요청함."},{"no":58,"date":"2026. 7. 6. 16:53","category":"인프라칩 납품 사실 부인","actor":"아이티이지-인프라칩","content":"최상국이 최종 고객사로 안내했던 인프라칩에 확인한 결과, 인프라칩은 구디즈를 통해 견적만 받았고 구매·발주 또는 장비 납품은 전혀 진행하지 않았다고 답변함.","summary":"최상국이 최종 고객사로 안내했던 인프라칩에 확인한 결과, 인프라칩은 구디즈를 통해 견적만 받았고 구매·발주 또는 장비 납품은 전혀 진행하지 않았다고 답변함."}]},{"section":"Ⅵ. 내용증명 발송 및 법률대리인 회신","rows":[{"no":59,"date":"2026. 7. 8.","category":"내용증명 발송\n(구디즈에 납품·수금자료 요구)","actor":"백송→구디즈","content":"구디즈에 실제 최종 고객사 납품·설치 자료, 납품일자·장소·인수자·시리얼번호, 최종 고객사 계약서 및 수금자료, 미지급 대금 지급계획을 3영업일 이내 제출하도록 요구함. 내용증명은 7월 9일 송달됨.","summary":"구디즈에 실제 최종 고객사 납품·설치 자료, 납품일자·장소·인수자·시리얼번호, 최종 고객사 계약서 및 수금자료, 미지급 대금 지급계획을 3영업일 이내 제출하도록 요구함."},{"no":60,"date":"2026. 7. 8.","category":"내용증명 발송\n(나우인투에 납품자료 요구)","actor":"백송→나우인투","content":"나우인투에 납품확인서, 물품인도증, 검수·인수확인서, 납품장소·인수자·시리얼번호, 설치사진 등 실제 인도 증빙을 3영업일 이내 제출하도록 요구함. 내용증명은 7월 9일 송달됨.","summary":"나우인투에 납품확인서, 물품인도증, 검수·인수확인서, 납품장소·인수자·시리얼번호, 설치사진 등 실제 인도 증빙을 3영업일 이내 제출하도록 요구함."},{"no":61,"date":"2026. 7. 9. 16:42","category":"양사 공동 법률대리인 회신","actor":"태인합동법률사무소→노성민","content":"태인합동법률사무소 최정민 변호사가 구디즈와 나우인투 양사로부터 분쟁 해결 권한을 위임받았다고 밝힘. 당일 수임하여 구체적인 내용을 검토하지 못했으므로 다음 주 초까지 회신하겠다고 요청함.","summary":"태인합동법률사무소 최정민 변호사가 구디즈와 나우인투 양사로부터 분쟁 해결 권한을 위임받았다고 밝힘. 당일 수임하여 구체적인 내용을 검토하지 못했으므로 다음 주 초까지 회신하겠다고 요청함."},{"no":62,"date":"2026. 7. 13. 15:38","category":"자료제출 최종기한 통보","actor":"노성민→태인합동법률사무소","content":"실제 인도 여부 자료는 정상 거래에서 당연히 확인되어야 하는 기본자료라고 회신하고, 7월 14일까지 실질적인 자료 제출이 없으면 즉시 형사고소 등 법적 조치를 진행하겠다고 통보함.","summary":"실제 인도 여부 자료는 정상 거래에서 당연히 확인되어야 하는 기본자료라고 회신하고, 7월 14일까지 실질적인 자료 제출이 없으면 즉시 형사고소 등 법적 조치를 진행하겠다고 통보함."},{"no":63,"date":"2026. 7. 14. 15:40","category":"현물 대신 대금 지급 사실 회신","actor":"태인합동법률사무소→노성민","content":"태인 측은 양사에 확인한 결과 구디즈의 요청으로 나우인투가 현물이 아닌 대금으로 지급했다고 회신함. 구디즈는 당시 급박한 사정으로 현금이 필요했고, 나우인투는 구디즈의 요청을 거절할 명분이 없었다고 설명함. 해당 사실을 아이티이지에 미리 알리거나 양해를 구하지 못한 점에 대해서는 양사 모두 유감스럽게 생각한다고 밝힘.","summary":"태인 측은 양사에 확인한 결과 구디즈의 요청으로 나우인투가 현물이 아닌 대금으로 지급했다고 회신함."},{"no":64,"date":"2026. 7. 14.","category":"백송에 사건 위임","actor":"아이티이지-법무법인 백송","content":"아이티이지는 구디즈와 나우인투 모두를 상대로 형사고소를 진행하고, 대금 회수를 위한 지급명령 및 보전처분도 함께 진행하기로 백송에 사건을 위임함.","summary":"아이티이지는 구디즈와 나우인투 모두를 상대로 형사고소를 진행하고, 대금 회수를 위한 지급명령 및 보전처분도 함께 진행하기로 백송에 사건을 위임함."}]}]}</script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("appData").textContent);
+const $ = (s, root=document) => root.querySelector(s);
+const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+let activeTab = "overview";
+let query = "";
+let allExpanded = false;
+
+function escapeHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function formatWon(v){ return new Intl.NumberFormat("ko-KR").format(Number(v || 0)) + "원"; }
+function normalize(v){ return String(v ?? "").toLocaleLowerCase("ko-KR").replace(/\s+/g," ").trim(); }
+function highlight(text, term){
+  const raw = String(text ?? "");
+  if(!term) return escapeHtml(raw);
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return escapeHtml(raw).replace(new RegExp(escaped,"gi"), m => "<mark>"+m+"</mark>");
+}
+function sectionParts(title, index){
+  const m = String(title).match(/^([ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+)\.\s*(.*)$/);
+  return {no:m ? m[1] : String(index+1), title:m ? m[2] : title};
+}
+function searchSnippet(text, term){
+  if(!term) return "";
+  const raw = String(text ?? "");
+  const lower = raw.toLocaleLowerCase("ko-KR");
+  const idx = lower.indexOf(term.toLocaleLowerCase("ko-KR"));
+  if(idx < 0) return "";
+  const start = Math.max(0, idx - 45), end = Math.min(raw.length, idx + term.length + 70);
+  return (start ? "…" : "") + raw.slice(start,end).replace(/\n+/g," ") + (end < raw.length ? "…" : "");
+}
+
+function renderOverview(){
+  const root = $("#overviewRoot");
+  const q = normalize(query);
+  const rows = DATA.transactions.filter(r => !q || normalize(Object.values(r).join(" ")).includes(q));
+  const metrics = DATA.metrics.map(m => `
+    <article class="metric-card">
+      <div class="metric-label">${highlight(m.label,query)}</div>
+      <div class="metric-value">${highlight(m.value,query)}</div>
+      <div class="metric-sub">${highlight(m.sub,query)}</div>
+    </article>`).join("");
+  const parties = DATA.participants.map(p => `
+    <article class="party-card"><b>${highlight(p.group,query)}</b><span>${highlight(p.people,query)}</span></article>`).join("");
+  const cards = rows.map(r => `
+    <article class="transaction-card overview-search-item">
+      <div class="transaction-head">
+        <div class="round-badge">${escapeHtml(r.round)}</div>
+        <div class="transaction-title">
+          <b>${highlight(r.product,query)} · ${r.quantity}대</b>
+          <span>${highlight(r.serviceNumbers,query)}</span>
+        </div>
+        <div class="end-user">엔드유저 · ${highlight(r.endUser || "미확인",query)}</div>
+      </div>
+      <div class="transaction-grid">
+        <div class="data-field"><label>매입단가</label><div><strong>${formatWon(r.purchaseUnit)}</strong></div></div>
+        <div class="data-field"><label>매입합계</label><div><strong>${formatWon(r.purchaseTotal)}</strong></div></div>
+        <div class="data-field"><label>월 분납액 합계</label><div><strong>${formatWon(r.monthlyTotal)}</strong></div></div>
+        <div class="data-field"><label>2026년 6월 미납액</label><div><strong>${formatWon(r.unpaidJune)}</strong></div></div>
+        <div class="data-field"><label>과금기간</label><div>${highlight(r.billingPeriod,query)}</div></div>
+        <div class="data-field"><label>2026년 5월까지 납부횟수</label><div>${r.paidCount ?? "-"}회</div></div>
+        <div class="data-field"><label>2026년 5월까지 기납부액</label><div>${r.paidThroughMay == null ? "-" : formatWon(r.paidThroughMay)}</div></div>
+        <div class="data-field"><label>서비스번호</label><div>${highlight(r.serviceNumbers,query)}</div></div>
+      </div>
+      ${r.notes ? `<div class="transaction-foot">${highlight(r.notes,query)}</div>` : ""}
+    </article>`).join("");
+  root.innerHTML = `
+    <div id="overview-summary" class="section-heading">전체 요약</div>
+    <div class="summary-note">아이티이지가 나우인투에 GPU 서버 매입대금을 지급하고, 구디즈가 아이티이지에 12개월 분할납부하는 구조로 진행된 거래입니다. 현재 화면은 첨부 엑셀의 거래정보·수치·당사자 정보만 반영하며, 법률적 판단은 별도로 두었습니다.</div>
+    <div class="metric-grid" style="margin-top:10px">${metrics}</div>
+    <div id="overview-parties" class="section-heading">주요 당사자</div>
+    <div class="party-grid">${parties}</div>
+    <div id="overview-transactions" class="section-heading">회차별 거래 현황</div>
+    <div class="summary-note" style="margin-bottom:10px">3차 기납부액 64,132,200원은 엑셀 기재 방식상 3차① 행에 3차 2건 통합 금액으로 표시되어 있습니다.</div>
+    <div class="transaction-cards">${cards || `<div class="empty">검색 결과가 없습니다.</div>`}</div>`;
+  $("#visibleCount").textContent = rows.length;
+}
+
+function renderTimeline(){
+  const root = $("#timelineRoot");
+  const q = normalize(query);
+  let total = 0, html = "", visibleSections = [];
+  DATA.timelineSections.forEach((section, sectionIndex) => {
+    const rows = section.rows.filter(r => {
+      const hay = normalize([section.section,r.no,r.date,r.category,r.actor,r.summary,r.content].join(" "));
+      return !q || hay.includes(q);
+    });
+    if(!rows.length) return;
+    visibleSections.push({section,index:sectionIndex});
+    html += `<section class="timeline-section" id="timeline-section-${sectionIndex}">
+      <h3 class="timeline-section-title">${highlight(section.section,query)}</h3><div class="timeline">`;
+    rows.forEach(r => {
+      total++;
+      const visibleMeta = normalize([section.section,r.no,r.date,r.category,r.actor,r.summary].join(" "));
+      const detailOnly = q && !visibleMeta.includes(q) && normalize(r.content).includes(q);
+      const snippet = detailOnly ? searchSnippet(r.content,query) : "";
+      html += `<article class="timeline-card${allExpanded ? " expanded" : ""}" data-no="${r.no}">
+        <div class="date-pill">${highlight(r.date,query)}</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="badge">No. ${r.no}</span>
+            <span class="badge">${highlight(r.category,query)}</span>
+            <span class="badge gray">${highlight(r.actor,query)}</span>
+          </div>
+          <h4 class="event-title">${highlight(r.category,query)}</h4>
+          <div class="event-summary">${highlight(r.summary,query)}</div>
+          <div class="search-match-note" style="${detailOnly ? "display:block" : ""}">${detailOnly ? "상세 내용 일치 · " + highlight(snippet,query) : ""}</div>
+          <div class="event-actions"><button class="detail-toggle" type="button">${allExpanded ? "상세닫기" : "상세보기"}</button></div>
+          <div class="event-detail"></div>
+        </div>
+      </article>`;
+    });
+    html += `</div></section>`;
+  });
+  root.innerHTML = total ? html : `<div class="empty">검색 결과가 없습니다.</div>`;
+  // Exact content is inserted only through textContent to preserve the spreadsheet wording.
+  $$(".timeline-card",root).forEach(card => {
+    const no = Number(card.dataset.no);
+    const event = DATA.timelineSections.flatMap(s=>s.rows).find(r=>r.no===no);
+    $(".event-detail",card).textContent = event.content;
+    $(".detail-toggle",card).addEventListener("click", () => toggleCard(card));
+  });
+  renderTimelineToc(visibleSections);
+  $("#visibleCount").textContent = total;
+  syncControlButtons();
+}
+function toggleCard(card){
+  card.classList.toggle("expanded");
+  $(".detail-toggle",card).textContent = card.classList.contains("expanded") ? "상세닫기" : "상세보기";
+  const cards = $$(".timeline-card");
+  allExpanded = cards.length > 0 && cards.every(item => item.classList.contains("expanded"));
+  syncControlButtons();
+}
+function setAllDetails(expanded){
+  const anchor = currentVisibleTimelineCard();
+  allExpanded = expanded;
+  $$(".timeline-card").forEach(card => {
+    card.classList.toggle("expanded",expanded);
+    $(".detail-toggle",card).textContent = expanded ? "상세닫기" : "상세보기";
+  });
+  syncControlButtons();
+  if(anchor){
+    requestAnimationFrame(() => {
+      const target = document.querySelector(`[data-no="${anchor.no}"]`);
+      if(target) window.scrollBy({top:target.getBoundingClientRect().top-anchor.top,behavior:"auto"});
+    });
+  }
+}
+function currentVisibleTimelineCard(){
+  const cards = $$(".timeline-card");
+  const topOffset = 125;
+  let best=null;
+  cards.forEach(card=>{
+    const rect=card.getBoundingClientRect();
+    const score=Math.abs(rect.top-topOffset);
+    if(rect.bottom>topOffset && (!best || score<best.score)) best={no:Number(card.dataset.no),top:rect.top,score};
+  });
+  return best;
+}
+function syncControlButtons(){
+  const cards = $$(".timeline-card");
+  const expanded = cards.filter(c=>c.classList.contains("expanded")).length;
+  $("#expandAllButton").classList.toggle("active",cards.length>0 && expanded===cards.length);
+  $("#collapseAllButton").classList.toggle("active",expanded===0);
+}
+function renderTimelineToc(items){
+  const root=$("#timelineToc");
+  if(activeTab!=="timeline" || !items.length){root.innerHTML="";return}
+  root.innerHTML=`<div class="floating-toc-trigger">목차</div>
+    <div class="floating-toc-panel"><div class="toc-title"><span>타임라인</span><small>${items.length}개 구간</small></div>
+    <div class="toc-list">${items.map(item=>{
+      const p=sectionParts(item.section.section,item.index);
+      return `<a class="toc-link" href="#timeline-section-${item.index}"><span class="toc-no">${escapeHtml(p.no)}</span><span class="toc-text">${escapeHtml(p.title)}</span></a>`;
+    }).join("")}</div></div>`;
+}
+
+function showTab(name, doScroll=true){
+  const changed = activeTab !== name;
+  if(changed){
+    query = "";
+    const input = $("#globalSearch");
+    if(input) input.value = "";
+  }
+  activeTab=name; document.body.dataset.activeTab=name;
+  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
+  $("#overviewPanel").classList.toggle("hidden",name!=="overview");
+  $("#timelinePanel").classList.toggle("hidden",name!=="timeline");
+  $("#timelineControls").classList.toggle("hidden",name!=="timeline");
+  if(name==="overview") renderOverview(); else renderTimeline();
+  renderMobileMenu();
+  if(doScroll) window.scrollTo({top:0,behavior:"smooth"});
+}
+function applySearch(){
+  query=$("#globalSearch").value;
+  if(activeTab==="overview") renderOverview(); else renderTimeline();
+  renderMobileMenu();
+}
+function renderMobileMenu(){
+  const list=$("#mobileMenuList"), title=$("#mobileMenuTitle");
+  if(activeTab==="overview"){
+    title.textContent="메뉴1 바로가기";
+    list.innerHTML=[
+      ["#overview-summary","전체 요약"],["#overview-parties","주요 당사자"],["#overview-transactions","회차별 거래 현황"]
+    ].map(([id,label])=>`<button class="mobile-nav-item" data-target="${id}" type="button">${label}</button>`).join("");
+  }else{
+    title.textContent="타임라인 바로가기";
+    list.innerHTML=DATA.timelineSections.map((s,i)=>{
+      const p=sectionParts(s.section,i);
+      return `<button class="mobile-nav-item" data-target="#timeline-section-${i}" type="button">${escapeHtml(p.no+". "+p.title)}</button>`;
+    }).join("");
+  }
+  $$(".mobile-nav-item",list).forEach(btn=>btn.addEventListener("click",()=>{
+    closeMobileMenu();
+    const target=$(btn.dataset.target);
+    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+  }));
+}
+function openMobileMenu(){
+  renderMobileMenu();
+  document.body.classList.add("mobile-menu-open");
+  $("#mobileBackdrop").classList.add("open");
+  $("#mobileDrawer").classList.add("open");
+  $("#mobileDrawer").setAttribute("aria-hidden","false");
+  $("#mobileMenuButton").setAttribute("aria-expanded","true");
+}
+function closeMobileMenu(){
+  document.body.classList.remove("mobile-menu-open");
+  $("#mobileBackdrop").classList.remove("open");
+  $("#mobileDrawer").classList.remove("open");
+  $("#mobileDrawer").setAttribute("aria-hidden","true");
+  $("#mobileMenuButton").setAttribute("aria-expanded","false");
+}
+function updateScrollUi(){
+  const y=window.scrollY;
+  $("#topButton").classList.toggle("visible",y>500);
+  const mobile=window.innerWidth<=760;
+  const toolbar=$("#contextToolbar"), spacer=$("#mobileSearchSpacer");
+  if(mobile && y>170){
+    const h=toolbar.offsetHeight;
+    toolbar.classList.add("mobile-fixed");
+    spacer.classList.add("active");
+    spacer.style.height=h+"px";
+    document.body.classList.add("mobile-toolbar-visible");
+  }else{
+    toolbar.classList.remove("mobile-fixed");
+    spacer.classList.remove("active");
+    spacer.style.height="0";
+    document.body.classList.remove("mobile-toolbar-visible");
+  }
+}
+function init(){
+  $("#pageTitle").textContent=DATA.meta.title;
+  $("#asOf").textContent=DATA.meta.asOf;
+  $$(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+  $("#globalSearch").addEventListener("input",applySearch);
+  $("#expandAllButton").addEventListener("click",()=>setAllDetails(true));
+  $("#collapseAllButton").addEventListener("click",()=>setAllDetails(false));
+  $("#topButton").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+  $("#mobileMenuButton").addEventListener("click",()=>document.body.classList.contains("mobile-menu-open")?closeMobileMenu():openMobileMenu());
+  $("#mobileBackdrop").addEventListener("click",closeMobileMenu);
+  window.addEventListener("scroll",updateScrollUi,{passive:true});
+  window.addEventListener("resize",()=>{updateScrollUi();renderMobileMenu()});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileMenu()});
+  showTab("overview",false);
+  updateScrollUi();
+}
+init();
+</script>
+</body>
+</html>
