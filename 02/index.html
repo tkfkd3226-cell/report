@@ -595,6 +595,46 @@ body[data-active-tab="overview"] .count{display:none!important}
   .event-file-list{flex-basis:210px}
 }
 </style>
+
+<style id="mobileHeaderOnlyPatch">
+/* 모바일 상단 탭 한 줄 정렬 및 지시사항 버튼 위치 보정 */
+@media(max-width:760px){
+  .tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .tab{
+    min-width:0;white-space:nowrap!important;overflow:hidden;text-overflow:clip;
+    font-size:10.5px!important;letter-spacing:-.035em;padding-left:2px!important;padding-right:2px!important;
+  }
+  .tab[data-tab="complaint"]{font-size:9.5px!important;letter-spacing:-.06em}
+  .hero .wrap{padding-right:52px}
+  .directive-open-button{right:4px}
+}
+</style>
+
+<style id="mobileCardAndMenuTargetPatch">
+/* 모바일 카드 줄바꿈 및 햄버거 목차 이동 위치만 보정 */
+@media(max-width:760px){
+  .metric-label{
+    line-height:1.35;
+    word-break:keep-all;
+    overflow-wrap:normal;
+  }
+  .resource-group-head{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:start;
+  }
+  .resource-group-head b{
+    min-width:0;
+    line-height:1.45;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .resource-group-head span{
+    white-space:nowrap;
+    align-self:start;
+  }
+}
+</style>
 </head>
 <body data-active-tab="overview">
 
@@ -763,7 +803,7 @@ function renderOverview(){
     </article>`).join("");
   root.innerHTML = `
     <div id="overview-summary" class="section-heading">전체 요약</div>
-    <div class="summary-note"><p>아이티이지가 나우인투에 GPU 서버 매입대금을 지급하고, 구디즈가 아이티이지에 12개월간 분할납부하는 구조로 총 5건의 거래가 진행되었습니다.</p><p>이후 구디즈가 2026년 6월부터 분할대금을 지급하지 않으면서 아이티이지는 실제 장비의 납품·인도 여부를 확인하기 위해 구디즈와 나우인투에 납품확인서, 인수증, 설치내역 등 관련 자료의 제출을 요청하였습니다. 그러나 실질적인 납품증빙이 제출되지 않았고, 최종사용자로 특정된 인프라칩은 구디즈로부터 견적만 받았을 뿐 장비를 납품받은 사실이 없다고 답변하였습니다.</p><p>이후 나우인투 측 법률대리인은 나우인투가 현물 대신 대금으로 지급하겠다는 취지로 회신하였습니다. 아이티이지는 실제 납품 여부와 최종사용자·납품정보의 사실 여부를 확인할 필요가 있다고 판단하여 형사고소와 피해금 회수를 위한 지급명령·가압류 등 민사절차를 법무법인 백송에 위임하였습니다.</p></div>
+    <div class="summary-note"><p>아이티이지가 나우인투에 GPU 서버 매입대금을 지급하고, 구디즈가 아이티이지에 12개월간 분할납부하는 구조로 총 5건의 거래 진행.</p><p>구디즈가 2026년 6월부터 분할대금을 지급하지 않아 실제 장비의 납품·인도 여부 확인을 위해 구디즈와 나우인투에 납품확인서, 인수증, 설치내역 등 관련 자료 제출 요청. 실질적인 납품증빙은 제출되지 않았고, 최종사용자로 특정된 인프라칩은 구디즈로부터 견적만 받았을 뿐 장비를 납품받은 사실이 없다고 답변.</p><p>나우인투 측 법률대리인은 현물 대신 대금으로 지급하겠다는 취지로 회신. 실제 납품 여부와 최종사용자·납품정보의 사실 여부 확인이 필요하다고 판단하여 형사고소와 피해금 회수를 위한 지급명령·가압류 등 민사절차를 법무법인 백송에 위임.</p></div>
     <div class="metric-grid" style="margin-top:10px">${metrics}</div>
     <div id="overview-parties" class="section-heading">주요 당사자</div>
     <div class="party-grid">${parties}</div>
@@ -951,9 +991,15 @@ function renderMobileMenu(){
     }).join("");
   }
   $$(".mobile-nav-item",list).forEach(btn=>btn.addEventListener("click",()=>{
-    closeMobileMenu();
     const target=$(btn.dataset.target);
-    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+    closeMobileMenu();
+    if(target){
+      requestAnimationFrame(()=>{
+        const navHeight=$(".navbar")?.getBoundingClientRect().height||0;
+        const top=target.getBoundingClientRect().top+window.scrollY-navHeight-6;
+        window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+      });
+    }
   }));
 }
 function openMobileMenu(){
