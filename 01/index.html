@@ -7001,9 +7001,6 @@ body.auth-locked .admin-log-button{display:none!important;}
 .witness-cross-card{border:1px solid #dbe2ea;border-radius:18px;background:#fff;overflow:hidden;scroll-margin-top:150px}
 .witness-cross-card.priority-core{border-color:#99f6e4;box-shadow:0 7px 20px rgba(15,118,110,.06)}
 .witness-cross-card.priority-top{border-color:#5eead4;box-shadow:0 9px 24px rgba(15,118,110,.10)}
-.witness-cross-card summary{list-style:none;display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:11px;align-items:center;padding:13px 14px;cursor:pointer;background:#fff}
-.witness-cross-card summary::-webkit-details-marker{display:none}
-.witness-cross-card[open] summary{background:linear-gradient(90deg,#f0fdfa 0%,#fff 72%);border-bottom:1px solid #e5e7eb}
 .witness-cross-no{width:40px;height:40px;border-radius:13px;background:#0f766e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}
 .witness-cross-title h4{margin:0;font-size:15px;line-height:1.4;letter-spacing:-.02em}
 .witness-cross-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
@@ -7039,7 +7036,6 @@ body.auth-locked .admin-log-button{display:none!important;}
  .witness-source-no{width:34px;height:28px}
  .witness-source-text{font-size:12px;line-height:1.55}
  .witness-cross-card{border-radius:14px}
- .witness-cross-card summary{grid-template-columns:44px minmax(0,1fr);padding:11px 10px}
  .witness-cross-no{width:36px;height:36px;border-radius:11px}
  .witness-cross-related{grid-column:2;justify-content:flex-start}
  .witness-cross-body{padding:10px;gap:9px}
@@ -7049,6 +7045,59 @@ body.auth-locked .admin-log-button{display:none!important;}
  .witness-section{scroll-margin-top:90px}
  .witness-cross-card{scroll-margin-top:90px}
 }
+</style>
+
+<style id="auxNavAndWitnessCollapsePatch20260821">
+/* 진행 중 부속: 메인 메뉴와 분리된 좌측 보조 메뉴 */
+body.auth-locked>.page-layout{visibility:hidden}
+.page-layout{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:174px minmax(0,1fr);gap:12px;align-items:start}
+.page-layout>.page-main{width:100%;max-width:none;margin:0;min-width:0}
+.aux-nav-panel{position:sticky;top:calc(var(--sticky-nav-height,64px) + 14px);z-index:22;margin-top:22px;padding-left:10px}
+.aux-nav-card{border:1px solid #dbe2ea;border-radius:14px;background:#fff;padding:10px;box-shadow:0 5px 16px rgba(15,23,42,.06)}
+.aux-nav-title{font-size:11.5px;line-height:1.3;font-weight:950;color:#0f172a;margin-bottom:8px;padding:1px 1px 5px;border-bottom:1px solid #e5e7eb}
+.aux-tab{appearance:none;width:100%;display:grid;gap:5px;text-align:left;border:1px solid #d8e1ea;border-radius:10px;background:#f8fafc;color:#334155;padding:9px 9px;cursor:pointer;font:inherit;box-shadow:none}
+.aux-tab:hover{background:#f0fdfa;border-color:#5eead4;color:#0f766e}
+.aux-tab.active{background:linear-gradient(135deg,#0f766e 0%,#115e59 100%);border-color:#0f766e;color:#fff;box-shadow:0 5px 13px rgba(15,118,110,.18)}
+.aux-tab-main{font-size:11.5px;line-height:1.35;font-weight:950;word-break:keep-all}
+.aux-tab-state{justify-self:start;display:inline-flex;align-items:center;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#64748b;padding:2px 6px;font-size:9px;font-weight:900}
+.aux-tab.active .aux-tab-state{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.13);color:#fff}
+
+/* 반대신문 카드는 질문만 기본 노출, 검토 상세는 내부 접힘 */
+.witness-cross-card{overflow:visible}
+.witness-cross-head{display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:11px;align-items:center;padding:13px 14px;background:linear-gradient(90deg,#f0fdfa 0%,#fff 72%);border-bottom:1px solid #e5e7eb}
+.witness-card-more{border:1px solid #e2e8f0;border-radius:12px;background:#fff;overflow:hidden}
+.witness-cross-card .witness-card-more>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;cursor:pointer;background:#f8fafc;color:#475569;font-size:11.5px;font-weight:900;line-height:1.4}
+.witness-cross-card .witness-card-more>summary::-webkit-details-marker{display:none}
+.witness-cross-card .witness-card-more[open]>summary{background:#f0fdfa;color:#0f766e;border-bottom:1px solid #dbe2ea}
+.witness-more-action{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;font-size:10.5px}
+.witness-card-more .when-open{display:none}
+.witness-card-more[open] .when-closed{display:none}
+.witness-card-more[open] .when-open{display:inline}
+.witness-more-arrow{font-size:15px;line-height:1;transition:transform .16s ease}
+.witness-card-more[open] .witness-more-arrow{transform:rotate(180deg)}
+.witness-card-more-body{display:grid;gap:10px;padding:10px;background:#fff}
+
+@media(max-width:1100px){
+ .page-layout{display:block;max-width:1280px}
+ .aux-nav-panel{position:static;margin:10px 18px 0;padding:0}
+ .aux-nav-card{display:flex;align-items:center;gap:8px;padding:7px 8px}
+ .aux-nav-title{flex:0 0 auto;margin:0;padding:0 8px 0 1px;border-bottom:0;border-right:1px solid #e5e7eb;font-size:10.5px;color:#64748b}
+ .aux-tab{width:auto;min-width:0;display:flex;align-items:center;gap:7px;padding:7px 9px}
+ .aux-tab-main{font-size:10.5px}
+ .aux-tab-state{font-size:8.5px}
+}
+@media(max-width:760px){
+ .aux-nav-panel{margin:7px 7px 0}
+ .aux-nav-card{border-radius:10px;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+ .aux-nav-title{font-size:10px}
+ .aux-tab{flex:1 1 auto;justify-content:space-between}
+ .witness-cross-head{grid-template-columns:44px minmax(0,1fr);gap:8px;padding:11px 10px}
+ .witness-cross-related{grid-column:2;justify-content:flex-start}
+ .witness-cross-body{padding:10px;gap:9px}
+ .witness-cross-card .witness-card-more>summary{padding:8px 9px;font-size:10.5px}
+ .witness-card-more-body{padding:9px;gap:9px}
+}
+@media print{.aux-nav-panel{display:none!important}.page-layout{display:block!important;max-width:none!important}}
 </style>
 </head>
 <body class="auth-locked">
@@ -7085,7 +7134,6 @@ body.auth-locked .admin-log-button{display:none!important;}
 <button class="tab active" data-tab="summary">4대 쟁점 요약</button>
 <button class="tab" data-tab="brief">준비서면 검토자료</button>
 <button class="tab" data-tab="fact">사실관계 반박</button>
-<button class="tab" data-tab="witness">조규철 서면증언</button>
 <button class="tab" data-tab="evidence">보유 증빙 모음</button>
 <button class="tab" data-tab="needed">추가 확보 필요 및 검토</button>
 <button class="tab" data-tab="timeline">타임라인</button>
@@ -7104,7 +7152,17 @@ body.auth-locked .admin-log-button{display:none!important;}
 </div>
 <div class="mobile-menu-list" id="mobileMenuList"></div>
 </aside>
-<main class="wrap">
+<div class="page-layout">
+<aside class="aux-nav-panel" aria-label="진행 중 부속 메뉴">
+  <div class="aux-nav-card">
+    <div class="aux-nav-title">진행 중 부속</div>
+    <button class="aux-tab" data-tab="witness" type="button">
+      <span class="aux-tab-main">조규철 서면증언</span>
+      <span class="aux-tab-state">진행 중</span>
+    </button>
+  </div>
+</aside>
+<main class="wrap page-main">
 <div class="context-toolbar" id="contextToolbar">
 <div class="context-toolbar-inner">
 <div class="searchbox context-searchbox">
@@ -7154,7 +7212,7 @@ body.auth-locked .admin-log-button{display:none!important;}
 <h2>조규철 서면증언</h2>
 <p>피고 반대신문 검토안과 원고 주신문 53개를 한 화면에서 대조하고, 각 반대신문의 사실관계·예상답변·관련 증거를 함께 확인합니다.</p>
 </div>
-<div class="small" id="witnessCount">반대신문 7개 / 11문항 · 원고 주신문 53개</div>
+<div class="small" id="witnessCount">반대신문 7개 / 10문항 · 원고 주신문 53개</div>
 </div>
 <div id="witnessReviewRoot"></div>
 </section>
@@ -7230,6 +7288,7 @@ body.auth-locked .admin-log-button{display:none!important;}
 </div>
 </section>
 </main>
+</div>
 <aside aria-hidden="true" aria-label="현재 메뉴 빠른 제어" class="quick-actions" id="quickActions">
 <div class="quick-action-set quick-action-top-only" data-quick-tab="summary">
 <button class="quick-action-btn quick-top-btn" data-quick-action="top" title="페이지 맨 위로 이동" type="button"><span class="quick-action-label">↑ TOP</span></button>
@@ -7521,7 +7580,7 @@ function initApp(){
  if(pageSubtitle && page.subtitle) pageSubtitle.textContent = page.subtitle;
  $("#createdAt").textContent = APP_DATA.createdAt;
  renderAll();
- $$(".tab").forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
+ $$(`[data-tab]`).forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
  $("#globalSearch").addEventListener("input", renderAll);
  $("#expandBtn").addEventListener("click", expandAll);
  $("#collapseBtn").addEventListener("click", collapseAll);
@@ -10203,8 +10262,7 @@ function renderTimeline(){
 }
 const MOBILE_TAB_LABELS = {summary:"4대 쟁점 요약", fact:"사실관계 반박", witness:"조규철 서면증언", brief:"준비서면 검토자료", evidence:"보유 증빙 모음", needed:"추가 확보 필요 및 검토", timeline:"타임라인"};
 function activeTabName(){
- const active = document.querySelector(".tab.active");
- return active ? active.dataset.tab : "summary";
+ return ACTIVE_MAIN_TAB || document.body.dataset.activeTab || "summary";
 }
 function toggleMobileMenu(){
  if(document.body.classList.contains("mobile-menu-open")){
@@ -11269,6 +11327,7 @@ function showTab(name, options={}){
  ACTIVE_MAIN_TAB = name;
  document.body.dataset.activeTab = name;
  $$(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
+ $$(".aux-tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
  $("#summaryPanel").classList.toggle("hidden", name !== "summary");
  $("#factPanel").classList.toggle("hidden", name !== "fact");
  $("#witnessPanel").classList.toggle("hidden", name !== "witness");
@@ -11749,6 +11808,7 @@ function renderWitnessReview(){
  const sourceFile = fileForReference(review.sourceFileRef || "");
  const sourceFileLink = sourceFile ? `<a class="witness-source-file" href="${escapeHtml(fileUrl(sourceFile))}" target="_blank" rel="noopener noreferrer">📄 원고 주신문 원문 PDF</a>` : "";
  const summary = review.summary || {};
+ const subQuestionCount = cards.reduce((sum, card) => sum + ((card.questions || []).length), 0);
 
  const sourceHtml = sourceSections.map((section, sectionIndex) => {
   const items = (section.questions || []).filter(item => {
@@ -11777,25 +11837,30 @@ function renderWitnessReview(){
   const factHtml = (card.facts || []).map(text => `<li>${escapeHtml(text)}</li>`).join("");
   const relatedHtml = (card.related || []).map(no => `<a class="witness-map-link witness-jump" href="#witness-source-q${no}">원고 Q${no}</a>`).join("");
   const evidenceHtml = (card.evidence || []).map(witnessEvidenceLink).filter(Boolean).join("");
-  return `<details class="witness-cross-card priority-${pclass}" id="witness-cross-${card.id}" open>
-    <summary>
+  return `<article class="witness-cross-card priority-${pclass}" id="witness-cross-${card.id}">
+    <div class="witness-cross-head">
       <div class="witness-cross-no">Q${card.id}</div>
       <div class="witness-cross-title"><h4>${escapeHtml(card.title)}</h4><div class="witness-cross-meta"><span class="witness-priority ${pclass}">${escapeHtml(card.priority)}</span></div></div>
       <div class="witness-cross-related">${relatedHtml}</div>
-    </summary>
+    </div>
     <div class="witness-cross-body">
       <div class="witness-block question"><div class="witness-block-title">반대신문안</div><div class="witness-question-list">${questionHtml}</div></div>
-      <div class="witness-block"><div class="witness-block-title">확인된 사실관계</div><ul class="witness-fact-list">${factHtml}</ul></div>
-      <div class="witness-block"><div class="witness-block-title">질문 목적</div><div class="witness-source-text">${escapeHtml(card.purpose || "")}</div></div>
-      <div class="witness-analysis-grid">
-        <div class="witness-analysis-card"><strong>예상 답변</strong><div>${escapeHtml(card.expected || "")}</div></div>
-        <div class="witness-analysis-card"><strong>회피 답변</strong><div>${escapeHtml(card.evasive || "")}</div></div>
-        <div class="witness-analysis-card"><strong>최악 답변</strong><div>${escapeHtml(card.worst || "")}</div></div>
-        <div class="witness-analysis-card impact"><strong>답변이 우리에게 미치는 영향</strong><div>${escapeHtml(card.impact || "")}</div></div>
-      </div>
-      ${evidenceHtml ? `<div class="witness-block"><div class="witness-block-title">관련 증거</div><div class="witness-evidence-row">${evidenceHtml}</div></div>` : ""}
+      <details class="witness-card-more">
+        <summary><span>확인된 사실관계 · 답변 시뮬레이션 · 관련 증거</span><span class="witness-more-action"><span class="when-closed">펼치기</span><span class="when-open">접기</span><span aria-hidden="true" class="witness-more-arrow">⌄</span></span></summary>
+        <div class="witness-card-more-body">
+          <div class="witness-block"><div class="witness-block-title">확인된 사실관계</div><ul class="witness-fact-list">${factHtml}</ul></div>
+          <div class="witness-block"><div class="witness-block-title">질문 목적</div><div class="witness-source-text">${escapeHtml(card.purpose || "")}</div></div>
+          <div class="witness-analysis-grid">
+            <div class="witness-analysis-card"><strong>예상 답변</strong><div>${escapeHtml(card.expected || "")}</div></div>
+            <div class="witness-analysis-card"><strong>회피 답변</strong><div>${escapeHtml(card.evasive || "")}</div></div>
+            <div class="witness-analysis-card"><strong>최악 답변</strong><div>${escapeHtml(card.worst || "")}</div></div>
+            <div class="witness-analysis-card impact"><strong>답변이 우리에게 미치는 영향</strong><div>${escapeHtml(card.impact || "")}</div></div>
+          </div>
+          ${evidenceHtml ? `<div class="witness-block"><div class="witness-block-title">관련 증거</div><div class="witness-evidence-row">${evidenceHtml}</div></div>` : ""}
+        </div>
+      </details>
     </div>
-  </details>`;
+  </article>`;
  }).join("");
 
  const sourceVisibleCount = sourceSections.reduce((sum,section) => sum + (section.questions || []).filter(item => {
@@ -11804,12 +11869,12 @@ function renderWitnessReview(){
   return normalizeSearchText(`${item.no} ${item.text} ${section.title} ${mapped}`).includes(qnorm);
  }).length,0);
  const count = $("#witnessCount");
- if(count) count.textContent = query ? `검색 결과: 반대신문 ${visibleCards.length}개 · 원고 주신문 ${sourceVisibleCount}개` : `반대신문 ${summary.issues || 7}개 / ${summary.subQuestions || 11}문항 · 원고 주신문 53개`;
+ if(count) count.textContent = query ? `검색 결과: 반대신문 ${visibleCards.length}개 · 원고 주신문 ${sourceVisibleCount}개` : `반대신문 ${summary.issues || cards.length || 7}개 / ${subQuestionCount}문항 · 원고 주신문 53개`;
 
  root.innerHTML = `<div class="witness-wrap">
    <div class="witness-decision" id="witnessDecisionSection">
     <div class="witness-decision-top"><div><div class="witness-decision-kicker">대응 결론</div><h3>${escapeHtml(review.decisionTitle || "")}</h3></div>
-    <div class="witness-summary-chips"><span class="witness-summary-chip">${summary.issues || 7}개 쟁점</span><span class="witness-summary-chip">${summary.subQuestions || 11}개 세부신문</span><span class="witness-summary-chip">핵심 ${summary.core || 5}</span><span class="witness-summary-chip">보강 ${summary.support || 2}</span></div></div>
+    <div class="witness-summary-chips"><span class="witness-summary-chip">${summary.issues || 7}개 쟁점</span><span class="witness-summary-chip">${subQuestionCount}개 세부신문</span><span class="witness-summary-chip">핵심 ${summary.core || 5}</span><span class="witness-summary-chip">보강 ${summary.support || 2}</span></div></div>
     <p>${escapeHtml(review.decisionText || "")}</p>
    </div>
    <nav class="witness-local-nav" aria-label="조규철 서면증언 바로가기"><a class="witness-jump" href="#witnessCrossSection">피고 반대신문안</a><a class="witness-jump" href="#witnessSourceSection">원고 주신문 53개</a></nav>
