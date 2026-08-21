@@ -7152,9 +7152,9 @@ body.auth-locked .admin-log-button{display:none!important;}
 <div class="panel-head">
 <div>
 <h2>조규철 서면증언</h2>
-<p>원고 주신문 53개와 피고 반대신문 검토안을 한 화면에서 대조하고, 각 반대신문의 사실관계·예상답변·관련 증거를 함께 확인합니다.</p>
+<p>피고 반대신문 검토안과 원고 주신문 53개를 한 화면에서 대조하고, 각 반대신문의 사실관계·예상답변·관련 증거를 함께 확인합니다.</p>
 </div>
-<div class="small" id="witnessCount">원고 주신문 53개 · 반대신문 7개 / 11문항</div>
+<div class="small" id="witnessCount">반대신문 7개 / 11문항 · 원고 주신문 53개</div>
 </div>
 <div id="witnessReviewRoot"></div>
 </section>
@@ -10290,8 +10290,8 @@ function renderMobileMenu(){
 
  if(active === "witness"){
  const witnessItems = [
-  {target:"#witnessSourceSection", label:"원고 주신문 53개"},
   {target:"#witnessCrossSection", label:"피고 반대신문안"},
+  {target:"#witnessSourceSection", label:"원고 주신문 53개"},
   ...[...document.querySelectorAll("#witnessReviewRoot .witness-cross-card[id]")].map(card => ({target:`#${card.id}`, label:cleanDisplayText(card.querySelector(".witness-cross-title h4")?.textContent || card.id)}))
  ];
  if(titleRoot) titleRoot.textContent = "조규철 서면증언 바로가기";
@@ -11804,7 +11804,7 @@ function renderWitnessReview(){
   return normalizeSearchText(`${item.no} ${item.text} ${section.title} ${mapped}`).includes(qnorm);
  }).length,0);
  const count = $("#witnessCount");
- if(count) count.textContent = query ? `검색 결과: 원고 주신문 ${sourceVisibleCount}개 · 반대신문 ${visibleCards.length}개` : `원고 주신문 53개 · 반대신문 ${summary.issues || 7}개 / ${summary.subQuestions || 11}문항`;
+ if(count) count.textContent = query ? `검색 결과: 반대신문 ${visibleCards.length}개 · 원고 주신문 ${sourceVisibleCount}개` : `반대신문 ${summary.issues || 7}개 / ${summary.subQuestions || 11}문항 · 원고 주신문 53개`;
 
  root.innerHTML = `<div class="witness-wrap">
    <div class="witness-decision" id="witnessDecisionSection">
@@ -11812,9 +11812,9 @@ function renderWitnessReview(){
     <div class="witness-summary-chips"><span class="witness-summary-chip">${summary.issues || 7}개 쟁점</span><span class="witness-summary-chip">${summary.subQuestions || 11}개 세부신문</span><span class="witness-summary-chip">핵심 ${summary.core || 5}</span><span class="witness-summary-chip">보강 ${summary.support || 2}</span></div></div>
     <p>${escapeHtml(review.decisionText || "")}</p>
    </div>
-   <nav class="witness-local-nav" aria-label="조규철 서면증언 바로가기"><a class="witness-jump" href="#witnessSourceSection">원고 주신문 53개</a><a class="witness-jump" href="#witnessCrossSection">피고 반대신문안</a></nav>
-   <section class="witness-section" id="witnessSourceSection"><div class="witness-section-head"><div><h3>원고 주신문 53개</h3><p>법원 보정명령 별지 원문을 주제별로 정리하고, 대응되는 피고 반대신문 카드를 연결했습니다.</p></div>${sourceFileLink}</div>${sourceHtml || '<div class="witness-search-empty">원고 주신문 검색 결과가 없습니다.</div>'}</section>
+   <nav class="witness-local-nav" aria-label="조규철 서면증언 바로가기"><a class="witness-jump" href="#witnessCrossSection">피고 반대신문안</a><a class="witness-jump" href="#witnessSourceSection">원고 주신문 53개</a></nav>
    <section class="witness-section" id="witnessCrossSection"><div class="witness-section-head"><div><h3>피고 반대신문안</h3><p>가맹명의·잔금 쟁점은 확대하지 않고, 조규철 본인의 당시 행동과 발언을 고정하는 질문만 선별했습니다.</p></div></div><div class="witness-cross-list">${cardHtml || '<div class="witness-search-empty">반대신문 검색 결과가 없습니다.</div>'}</div></section>
+   <section class="witness-section" id="witnessSourceSection"><div class="witness-section-head"><div><h3>원고 주신문 53개</h3><p>법원 보정명령 별지 원문을 주제별로 정리하고, 대응되는 피고 반대신문 카드를 연결했습니다.</p></div>${sourceFileLink}</div>${sourceHtml || '<div class="witness-search-empty">원고 주신문 검색 결과가 없습니다.</div>'}</section>
  </div>`;
 }
 function scrollToWitnessTarget(selector, behavior="smooth"){
