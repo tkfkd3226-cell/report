@@ -7077,7 +7077,7 @@ body.auth-locked>.page-layout{visibility:hidden}
 .witness-card-more[open] .witness-more-arrow{transform:rotate(180deg)}
 .witness-card-more-body{display:grid;gap:10px;padding:10px;background:#fff}
 
-@media(max-width:1100px){
+@media(max-width:1407px){
  .page-layout{display:block;max-width:1280px}
  .aux-nav-panel{position:static;margin:10px 18px 0;padding:0}
  .aux-nav-card{display:flex;align-items:center;gap:8px;padding:7px 8px}
@@ -7102,7 +7102,7 @@ body.auth-locked>.page-layout{visibility:hidden}
 
 <style id="auxNavOutsideContentFix20260821">
 /* 진행 중 부속 메뉴는 기존 1280px 본문 폭을 침범하지 않고 좌측 여백에 배치 */
-@media(min-width:1101px){
+@media(min-width:1408px){
   .page-layout{
     --aux-gutter-width:clamp(48px, calc((100vw - 1280px)/2 - 16px), 170px);
     display:block!important;
@@ -7116,11 +7116,12 @@ body.auth-locked>.page-layout{visibility:hidden}
     margin-left:auto!important;
     margin-right:auto!important;
     min-width:0!important;
+    position:relative!important;
   }
-  .page-layout>.aux-nav-panel{
+  .page-layout>.page-main>.aux-nav-panel{
     position:fixed!important;
     top:calc(var(--sticky-nav-height,64px) + 14px)!important;
-    left:max(8px, calc(50vw - 640px - var(--aux-gutter-width) - 12px))!important;
+    left:calc((var(--aux-gutter-width) + 8px) * -1)!important;
     width:var(--aux-gutter-width)!important;
     margin:0!important;
     padding:0!important;
@@ -7128,7 +7129,7 @@ body.auth-locked>.page-layout{visibility:hidden}
   }
 }
 /* 1280px 본문을 유지하기 위해 좌측 여백이 좁은 데스크톱에서는 보조 메뉴만 컴팩트 표시 */
-@media(min-width:1101px) and (max-width:1579px){
+@media(min-width:1408px) and (max-width:1579px){
   .aux-nav-card{padding:5px!important;border-radius:10px!important}
   .aux-nav-title{margin:0 0 5px!important;padding:2px 0 5px!important;text-align:center;font-size:0!important}
   .aux-nav-title::after{content:"부속";font-size:9px;font-weight:950;color:#64748b}
@@ -7150,19 +7151,19 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
 </style>
 
 <style id="auxNavSearchAlignAndWitnessJumpFix20260821">
-/* 진행 중 부속: 최초 위치는 검색박스 상단과 맞추고, 스크롤 시 메인 메뉴 아래에 고정 */
-@media(min-width:1101px){
-  .page-layout>.aux-nav-panel{
+/* 진행 중 부속: 좌측 여백이 충분한 화면에서는 검색박스 상단과 맞추고, 좁아지면 검색 카드 아래로 배치 */
+@media(min-width:1408px){
+  .page-layout>.page-main>.aux-nav-panel{
     position:absolute!important;
     top:10px!important;
     bottom:0!important;
-    left:max(8px, calc(50vw - 640px - var(--aux-gutter-width) - 12px))!important;
+    left:calc((var(--aux-gutter-width) + 8px) * -1)!important;
     width:var(--aux-gutter-width)!important;
     margin:0!important;
     padding:0!important;
     z-index:22!important;
   }
-  .page-layout>.aux-nav-panel>.aux-nav-card{
+  .page-layout>.page-main>.aux-nav-panel>.aux-nav-card{
     position:sticky!important;
     top:var(--sticky-nav-height,44px)!important;
   }
@@ -7233,15 +7234,6 @@ body[data-access-role="standard"] [data-quick-tab="witness"]{
 <div class="mobile-menu-list" id="mobileMenuList"></div>
 </aside>
 <div class="page-layout">
-<aside class="aux-nav-panel" aria-label="진행 중 부속 메뉴">
-  <div class="aux-nav-card">
-    <div class="aux-nav-title">진행 중 부속</div>
-    <button class="aux-tab" data-tab="witness" type="button" title="조규철 서면증언">
-      <span class="aux-tab-main">조규철 서면증언</span>
-      <span class="aux-tab-state">검토 완료</span>
-    </button>
-  </div>
-</aside>
 <main class="wrap page-main">
 <div class="context-toolbar" id="contextToolbar">
 <div class="context-toolbar-inner">
@@ -7255,6 +7247,15 @@ body[data-access-role="standard"] [data-quick-tab="witness"]{
 </div>
 </div>
 </div>
+<aside class="aux-nav-panel" aria-label="진행 중 부속 메뉴">
+  <div class="aux-nav-card">
+    <div class="aux-nav-title">진행 중 부속</div>
+    <button class="aux-tab" data-tab="witness" type="button" title="조규철 서면증언">
+      <span class="aux-tab-main">조규철 서면증언</span>
+      <span class="aux-tab-state">검토 완료</span>
+    </button>
+  </div>
+</aside>
 <div aria-hidden="true" class="current-issue-bar" id="currentIssueBar">
 <button class="current-issue-button" id="currentIssueButton" title="현재 쟁점의 맨 위로 이동" type="button">
 <span class="current-issue-main">
