@@ -13368,88 +13368,69 @@ function renderWitnessReview(){
  const bs = review.baeksongReview || {categories:{},counts:{},cards:[]};
  const bsCards = bs.cards || [];
  const finalCards = review.finalCards || [];
- const finalQuestionDisplayNo = {
-  "B1":"1",
-  "B2":"2",
-  "B3":"3",
-  "B4":"4",
-  "B4-1":"4-1",
-  "B4-2":"4-2",
-  "B5":"5",
-  "B6":"6",
-  "B7":"7",
-  "B8":"8",
-  "B8-1":"8-1",
-  "B9":"9",
-  "B9-1":"9-1",
-  "B10":"10",
-  "B11":"11",
-  "B12":"12",
-  "B13":"13",
-  "B14":"14",
-  "B15":"15",
-  "B16":"16",
-  "B17":"17",
-  "B18":"18",
-  "B19":"19",
-  "I1":"20",
-  "I2":"21",
-  "B20":"22",
-  "B20-1":"22-1",
-  "B21":"23",
-  "I3":"23-1",
-  "B22":"24",
-  "I4":"24-1",
-  "B23":"25",
-  "B24":"26",
-  "I6":"27",
-  "I7":"28",
-  "I8":"29",
-  "I9":"30",
-  "I10":"31",
-  "I11":"32",
-  "B25":"33",
-  "B26":"34",
-  "B26-1":"34-1",
-  "B27":"35"
- };
- const finalQuestionByRawNo = {};
+ const witnessMasterSubgroups = [{"id":"F1-1","groupId":1,"title":"공동대표이사 지위"},{"id":"F2-1","groupId":2,"title":"임대차 접근·시설자금 배경"},{"id":"F2-2","groupId":2,"title":"2025. 4. 22. 위탁운영 방식 논의"},{"id":"F3-1","groupId":3,"title":"가맹점주 지위 이전 약정 여부"},{"id":"F3-2","groupId":3,"title":"잔금 지급일과 인테리어"},{"id":"F4-1","groupId":4,"title":"삼송점 실제 관리·운영"},{"id":"F4-2","groupId":4,"title":"Bizmall·GPM 계정정보 제공"},{"id":"F5-1","groupId":5,"title":"시설반입·가맹계약·프로그램 사용"},{"id":"F5-2","groupId":5,"title":"양희정 면접·출근·현장업무 관여·가오픈"},{"id":"F5-3","groupId":5,"title":"회원유치·예약관리·매출 발생"},{"id":"F6-1","groupId":6,"title":"8/16 단독 운영 가능성·고객유치 계획"},{"id":"F6-2","groupId":6,"title":"8/17 본인의 직접 운영 의사"},{"id":"F6-3","groupId":6,"title":"8/19 KT텔레캅 방범설비 관여"},{"id":"F6-4","groupId":6,"title":"위탁운영계약 인식·사후 논의"},{"id":"F6-5","groupId":6,"title":"가맹점주 지위 이전 주장 정합성"}];
+ /*
+  * 조규철 반대신문 Master.
+  * 질문번호·최종번호·출처·소속 그룹·원고 Q 참조를 이 Seed 한 곳에서 관리하고,
+  * 질문 문언은 복호화된 통합 최종안(finalCards)에서 1회 hydrate한다.
+  * 이후 통합안·백송안·내부안·원고 주신문 화면은 모두 witnessQuestionMaster만 사용한다.
+  * 신규 질문을 GPT로 추가할 때도 이 Master 항목을 기준으로 추가/검증한다.
+  * - 내부 질문: rawNo(I계열), displayNo, text, origin:"internal", groupId, subgroupId, sourceRefs를 Master에 추가
+  * - 새 하위그룹이면 witnessMasterSubgroups에 그룹 정의 1건 추가
+  * - 통합안/내부안/원고 주신문 역참조는 별도 수정하지 않는다.
+  */
+ const witnessQuestionMasterSeed = [{"rawNo":"B1","displayNo":"1","origin":"baeksong","groupId":1,"subgroupId":"F1-1","sourceRefs":["1"]},{"rawNo":"B2","displayNo":"2","origin":"baeksong","groupId":2,"subgroupId":"F2-1","sourceRefs":["5"]},{"rawNo":"B3","displayNo":"3","origin":"baeksong","groupId":2,"subgroupId":"F2-1","sourceRefs":["5","8"]},{"rawNo":"B4","displayNo":"4","origin":"baeksong","groupId":2,"subgroupId":"F2-2","sourceRefs":["9","10"]},{"rawNo":"B4-1","displayNo":"4-1","origin":"baeksong","groupId":2,"subgroupId":"F2-2","sourceRefs":["1","9","10"]},{"rawNo":"B4-2","displayNo":"4-2","origin":"baeksong","groupId":2,"subgroupId":"F2-2","sourceRefs":["1","9","10"]},{"rawNo":"B5","displayNo":"5","origin":"baeksong","groupId":2,"subgroupId":"F2-2","sourceRefs":[]},{"rawNo":"B6","displayNo":"6","origin":"baeksong","groupId":2,"subgroupId":"F2-2","sourceRefs":[]},{"rawNo":"B7","displayNo":"7","origin":"baeksong","groupId":3,"subgroupId":"F3-1","sourceRefs":["26","28"]},{"rawNo":"B8","displayNo":"8","origin":"baeksong","groupId":3,"subgroupId":"F3-1","sourceRefs":["26","28"]},{"rawNo":"B8-1","displayNo":"8-1","origin":"baeksong","groupId":3,"subgroupId":"F3-1","sourceRefs":["26","28"]},{"rawNo":"B9","displayNo":"9","origin":"baeksong","groupId":3,"subgroupId":"F3-2","sourceRefs":["12","13"]},{"rawNo":"B9-1","displayNo":"9-1","origin":"baeksong","groupId":3,"subgroupId":"F3-2","sourceRefs":["12"]},{"rawNo":"B10","displayNo":"10","origin":"baeksong","groupId":4,"subgroupId":"F4-1","sourceRefs":["30"]},{"rawNo":"B11","displayNo":"11","origin":"baeksong","groupId":4,"subgroupId":"F4-1","sourceRefs":["27","30","51"]},{"rawNo":"B12","displayNo":"12","origin":"baeksong","groupId":4,"subgroupId":"F4-1","sourceRefs":["30"]},{"rawNo":"B13","displayNo":"13","origin":"baeksong","groupId":4,"subgroupId":"F4-1","sourceRefs":["31"]},{"rawNo":"B14","displayNo":"14","origin":"baeksong","groupId":4,"subgroupId":"F4-1","sourceRefs":["30","31"]},{"rawNo":"B15","displayNo":"15","origin":"baeksong","groupId":4,"subgroupId":"F4-2","sourceRefs":["27","30","51"]},{"rawNo":"B16","displayNo":"16","origin":"baeksong","groupId":5,"subgroupId":"F5-1","sourceRefs":["18","48"]},{"rawNo":"B17","displayNo":"17","origin":"baeksong","groupId":5,"subgroupId":"F5-1","sourceRefs":["24","25"]},{"rawNo":"B18","displayNo":"18","origin":"baeksong","groupId":5,"subgroupId":"F5-2","sourceRefs":["19"]},{"rawNo":"B19","displayNo":"19","origin":"baeksong","groupId":5,"subgroupId":"F5-2","sourceRefs":["19","20"]},{"rawNo":"I1","displayNo":"20","origin":"internal","groupId":5,"subgroupId":"F5-2","sourceRefs":["19","20"]},{"rawNo":"I2","displayNo":"21","origin":"internal","groupId":5,"subgroupId":"F5-2","sourceRefs":["23"]},{"rawNo":"B20","displayNo":"22","origin":"baeksong","groupId":5,"subgroupId":"F5-2","sourceRefs":["23","32"]},{"rawNo":"B20-1","displayNo":"22-1","origin":"baeksong","groupId":5,"subgroupId":"F5-2","sourceRefs":["19","20","23"]},{"rawNo":"B21","displayNo":"23","origin":"baeksong","groupId":5,"subgroupId":"F5-3","sourceRefs":["6"]},{"rawNo":"I3","displayNo":"23-1","origin":"internal","groupId":5,"subgroupId":"F5-3","sourceRefs":["6"]},{"rawNo":"B22","displayNo":"24","origin":"baeksong","groupId":5,"subgroupId":"F5-3","sourceRefs":["23"]},{"rawNo":"I4","displayNo":"24-1","origin":"internal","groupId":5,"subgroupId":"F5-3","sourceRefs":["23"]},{"rawNo":"B23","displayNo":"25","origin":"baeksong","groupId":5,"subgroupId":"F5-3","sourceRefs":["22","23"]},{"rawNo":"B24","displayNo":"26","origin":"baeksong","groupId":5,"subgroupId":"F5-3","sourceRefs":["23","27","51"]},{"rawNo":"I6","displayNo":"27","origin":"internal","groupId":6,"subgroupId":"F6-1","sourceRefs":[]},{"rawNo":"I7","displayNo":"28","origin":"internal","groupId":6,"subgroupId":"F6-1","sourceRefs":["6"]},{"rawNo":"I8","displayNo":"29","origin":"internal","groupId":6,"subgroupId":"F6-2","sourceRefs":["23"]},{"rawNo":"I9","displayNo":"30","origin":"internal","groupId":6,"subgroupId":"F6-2","sourceRefs":[]},{"rawNo":"I10","displayNo":"31","origin":"internal","groupId":6,"subgroupId":"F6-3","sourceRefs":["48"]},{"rawNo":"I11","displayNo":"32","origin":"internal","groupId":6,"subgroupId":"F6-3","sourceRefs":["48"]},{"rawNo":"B25","displayNo":"33","origin":"baeksong","groupId":6,"subgroupId":"F6-4","sourceRefs":["35","36","38"]},{"rawNo":"B26","displayNo":"34","origin":"baeksong","groupId":6,"subgroupId":"F6-4","sourceRefs":["35","36","38"]},{"rawNo":"B26-1","displayNo":"34-1","origin":"baeksong","groupId":6,"subgroupId":"F6-4","sourceRefs":["35","36","38"]},{"rawNo":"B27","displayNo":"35","origin":"baeksong","groupId":6,"subgroupId":"F6-5","sourceRefs":["24","26","28"]}];
+ const hydratedFinalQuestionByRawNo = {};
  finalCards.forEach(card => (card.questions || []).forEach(item => {
   const rawNo = String(item && item.no != null ? item.no : "");
-  if(rawNo) finalQuestionByRawNo[rawNo] = item;
+  if(rawNo) hydratedFinalQuestionByRawNo[rawNo] = item;
  }));
- const finalRawNoByDisplayNo = Object.fromEntries(
-  Object.entries(finalQuestionDisplayNo).map(([rawNo, displayNo]) => [String(displayNo), rawNo])
- );
- /*
-  * 원고 주신문 참조의 단일 Master 맵.
-  * rawNo(B/I 내부번호) -> 원고 주신문 Q번호[] 관계를 여기서만 관리한다.
-  * 통합 최종안·백송안·내부안·원고 주신문 역참조가 모두 이 값을 사용한다.
-  * 암호화 APP_DATA는 건드리지 않아 접근 역할별 데이터와의 호환성을 유지한다.
-  */
- const finalQuestionSourceRefs = {"B1":["1"],"B2":["5"],"B3":["5","8"],"B4":["9","10"],"B4-1":["1","9","10"],"B4-2":["1","9","10"],"B5":[],"B6":[],"B7":["26","28"],"B8":["26","28"],"B8-1":["26","28"],"B9":["12","13"],"B9-1":["12"],"B10":["30"],"B11":["27","30","51"],"B12":["30"],"B13":["31"],"B14":["30","31"],"B15":["27","30","51"],"B16":["18","48"],"B17":["24","25"],"B18":["19"],"B19":["19","20"],"I1":["19","20"],"I2":["23"],"B20":["23","32"],"B20-1":["19","20","23"],"B21":["6"],"I3":["6"],"B22":["23"],"I4":["23"],"B23":["22","23"],"B24":["23","27","51"],"I6":[],"I7":["6"],"I8":["23"],"I9":[],"I10":["48"],"I11":["48"],"B25":["35","36","38"],"B26":["35","36","38"],"B26-1":["35","36","38"],"B27":["24","26","28"]};
- Object.keys(finalQuestionByRawNo).forEach(rawNo => {
-  if(!Object.prototype.hasOwnProperty.call(finalQuestionSourceRefs, rawNo)) finalQuestionSourceRefs[rawNo] = [];
- });
- Object.values(finalQuestionSourceRefs).forEach(refs => refs.sort((a,b) => Number(a) - Number(b)));
-
- /* 원고 Q -> 통합 최종번호 역참조도 위 단일 기준 맵에서만 생성한다. */
- const integratedSourceMap = {};
- const addIntegratedSourceRef = (sourceNo, rawNo) => {
-  const key = String(sourceNo == null ? "" : sourceNo);
-  const finalItem = finalQuestionByRawNo[String(rawNo || "")];
-  if(!key || !finalItem) return;
-  const normalizedRawNo = String(rawNo);
-  if(!integratedSourceMap[key]) integratedSourceMap[key] = [];
-  if(integratedSourceMap[key].some(entry => entry.rawNo === normalizedRawNo)) return;
-  integratedSourceMap[key].push({
-   rawNo:normalizedRawNo,
-   displayNo:String(finalQuestionDisplayNo[normalizedRawNo] || normalizedRawNo),
-   text:finalItem.text || ""
+ const witnessQuestionMaster = witnessQuestionMasterSeed.map(seed => {
+  const hydrated = hydratedFinalQuestionByRawNo[seed.rawNo] || {};
+  return Object.freeze({
+   ...seed,
+   text:String(seed.text || hydrated.text || ""),
+   reviewTags:Array.isArray(hydrated.reviewTags) ? hydrated.reviewTags : []
   });
- };
- Object.entries(finalQuestionSourceRefs).forEach(([rawNo, sourceRefs]) => {
-  sourceRefs.forEach(sourceNo => addIntegratedSourceRef(sourceNo, rawNo));
+ });
+ const witnessQuestionMasterByRawNo = Object.fromEntries(
+  witnessQuestionMaster.map(entry => [entry.rawNo, entry])
+ );
+ const witnessQuestionMasterByDisplayNo = Object.fromEntries(
+  witnessQuestionMaster.map(entry => [entry.displayNo, entry])
+ );
+
+ /* Master 무결성 검사는 화면을 중단시키지 않고 콘솔 경고만 남긴다. */
+ const witnessMasterValidationErrors = [];
+ const masterRawNos = new Set();
+ const masterDisplayNos = new Set();
+ witnessQuestionMaster.forEach(entry => {
+  if(masterRawNos.has(entry.rawNo)) witnessMasterValidationErrors.push(`중복 rawNo: ${entry.rawNo}`);
+  if(masterDisplayNos.has(entry.displayNo)) witnessMasterValidationErrors.push(`중복 최종번호: ${entry.displayNo}`);
+  masterRawNos.add(entry.rawNo);
+  masterDisplayNos.add(entry.displayNo);
+  if(!entry.text) witnessMasterValidationErrors.push(`질문 문언 없음: ${entry.rawNo}`);
+  if(!witnessMasterSubgroups.some(group => group.id === entry.subgroupId && Number(group.groupId) === Number(entry.groupId))){
+   witnessMasterValidationErrors.push(`그룹 불일치: ${entry.rawNo}`);
+  }
+  entry.sourceRefs.forEach(qno => {
+   if(!sourceByNo[String(qno)]) witnessMasterValidationErrors.push(`존재하지 않는 원고 Q${qno} 참조: ${entry.rawNo}`);
+  });
+ });
+ if(witnessMasterValidationErrors.length) console.warn("[witness master]", witnessMasterValidationErrors);
+
+ /* 원고 Q -> 통합 최종번호 역참조도 Master에서만 생성한다. */
+ const integratedSourceMap = {};
+ witnessQuestionMaster.forEach(entry => {
+  entry.sourceRefs.forEach(sourceNo => {
+   const key = String(sourceNo);
+   if(!integratedSourceMap[key]) integratedSourceMap[key] = [];
+   integratedSourceMap[key].push({
+    rawNo:entry.rawNo,
+    displayNo:entry.displayNo,
+    text:entry.text
+   });
+  });
  });
  const finalDisplaySortKey = value => {
   const parts = String(value || "").split("-").map(v => Number(v));
@@ -13567,7 +13548,7 @@ function renderWitnessReview(){
   </div>`;
  }).join("");
 
- const internalReviewDocNos = {
+ const internalLegacyDocNos = {
   1:["23-1"],
   2:["24-1"],
   3:["20","21"],
@@ -13575,35 +13556,31 @@ function renderWitnessReview(){
   5:["29","30"],
   7:["31","32"]
  };
- const internalReviewGroupByCardId = {
-  1:5,
-  2:5,
-  3:5,
-  4:6,
-  5:6,
-  7:6
- };
- const internalReviewGroupOrder = [5,6];
- const finalGroupById = Object.fromEntries((finalCards || []).map(group => [Number(group.id), group]));
- const internalReviewItems = cards.flatMap(card => {
-  const docNos = internalReviewDocNos[card.id] || [];
-  const groupId = internalReviewGroupByCardId[card.id];
-  return (card.questions || []).map((text,index) => ({
-   card,
-   text,
-   index,
-   docNo: docNos[index] || "예비",
-   groupId
-  }));
+ const internalCardByDisplayNo = {};
+ cards.forEach(card => {
+  const docNos = internalLegacyDocNos[card.id] || [];
+  docNos.forEach(docNo => { internalCardByDisplayNo[String(docNo)] = card; });
  });
+ const finalGroupById = Object.fromEntries((finalCards || []).map(group => [Number(group.id), group]));
+ const internalReviewItems = witnessQuestionMaster
+  .filter(entry => entry.origin === "internal")
+  .map((entry,index) => ({
+   card:internalCardByDisplayNo[entry.displayNo] || {},
+   text:entry.text,
+   index,
+   docNo:entry.displayNo,
+   rawNo:entry.rawNo,
+   sourceRefs:entry.sourceRefs,
+   groupId:entry.groupId,
+   subgroupId:entry.subgroupId
+  }));
  const visibleInternalItems = internalReviewItems.filter(item => {
   if(!qnorm) return true;
   const card = item.card || {};
-  const rawNo = finalRawNoByDisplayNo[String(item.docNo)] || "";
   const searchable = {
    no:item.docNo,
    question:item.text,
-   related:(finalQuestionSourceRefs[rawNo] || []).map(no => `Q${no}`),
+   related:item.sourceRefs.map(no => `Q${no}`),
    facts:card.facts,
    purpose:card.purpose,
    expected:card.expected,
@@ -13612,13 +13589,12 @@ function renderWitnessReview(){
   };
   return normalizeSearchText(JSON.stringify(searchable)).includes(qnorm);
  });
- const internalSubgroups = [
-  {id:"F5-2", groupId:5, title:"양희정 면접·출근·현장업무 관여·가오픈", qnos:["20","21"]},
-  {id:"F5-3", groupId:5, title:"회원유치·예약관리·매출 발생", qnos:["23-1","24-1"]},
-  {id:"F6-1", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["27","28"]},
-  {id:"F6-2", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["29","30"]},
-  {id:"F6-3", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["31","32"]}
- ];
+ const internalSubgroups = witnessMasterSubgroups.filter(subgroup =>
+  witnessQuestionMaster.some(entry => entry.origin === "internal" && entry.subgroupId === subgroup.id)
+ );
+ const internalReviewGroupOrder = Array.from(new Set(
+  internalSubgroups.map(subgroup => Number(subgroup.groupId))
+ )).sort((a,b) => a-b);
  const internalSubgroupReview = subgroupId => {
   if(subgroupId === "F5-2"){
    return {
@@ -13698,18 +13674,18 @@ function renderWitnessReview(){
   return {};
  };
  const renderInternalReviewQuestion = item => {
-  const card = item.card;
-  const rawNo = finalRawNoByDisplayNo[String(item.docNo)] || "";
-  const relatedNos = finalQuestionSourceRefs[rawNo] || [];
+  const card = item.card || {};
+  const masterEntry = witnessQuestionMasterByRawNo[item.rawNo] || item;
+  const relatedNos = masterEntry.sourceRefs || [];
   const relatedHtml = relatedNos.map(no => {
    const src = sourceByNo[no];
    if(!src) return "";
    return `<span class="witness-map-link witness-source-qtip" tabindex="0" role="button" aria-label="원고 주신문 Q${src.no} 내용 보기" data-qtip-title="${encodeURIComponent(`원고 주신문 Q${src.no}`)}" data-qtip-text="${encodeURIComponent(src.text || "")}">원고 Q${src.no}</span>`;
   }).join("");
-  const anchorId = item.index === 0 ? `witness-cross-${card.id}` : `witness-cross-${card.id}-${item.index+1}`;
-  const keywordTags = (card.reviewTagsByQuestion && card.reviewTagsByQuestion[String(item.docNo)]) || [];
+  const anchorId = `witness-cross-${masterEntry.rawNo}`;
+  const keywordTags = (card.reviewTagsByQuestion && card.reviewTagsByQuestion[String(masterEntry.displayNo)]) || masterEntry.reviewTags || [];
   const keywordHtml = keywordTags.length ? `<div class="witness-question-chips witness-internal-keyword-chips">${keywordTags.map(tag => `<span class="witness-final-chip ${escapeHtml(tag.tone || "")}" title="키워드">${escapeHtml(tag.label || "")}</span>`).join("")}</div>` : "";
-  const questionHtml = `<div class="witness-question"><span class="witness-question-no">${escapeHtml(item.docNo)}</span><div class="witness-internal-question-copy"><span>${escapeHtml(item.text)}</span>${keywordHtml}</div></div>`;
+  const questionHtml = `<div class="witness-question"><span class="witness-question-no">${escapeHtml(masterEntry.displayNo)}</span><div class="witness-internal-question-copy"><span>${escapeHtml(masterEntry.text)}</span>${keywordHtml}</div></div>`;
   return `<article class="witness-internal-question-item" id="${escapeHtml(anchorId)}">
     <div class="witness-internal-question-main">
       <div class="witness-question-list">${questionHtml}</div>
@@ -13720,7 +13696,7 @@ function renderWitnessReview(){
  const renderInternalSubgroup = subgroup => {
   const items = visibleInternalItems.filter(item =>
    Number(item.groupId) === Number(subgroup.groupId) &&
-   subgroup.qnos.includes(String(item.docNo))
+   item.subgroupId === subgroup.id
   );
   if(!items.length) return "";
   const review = internalSubgroupReview(subgroup.id);
@@ -13756,17 +13732,42 @@ function renderWitnessReview(){
   </section>`;
  }).join("");
 
- const visibleBs = bsCards.filter(card => !qnorm || normalizeSearchText(JSON.stringify(card)).includes(qnorm));
+ const baeksongLegacyContextByRawNo = {};
+ bsCards.forEach(card => (card.questions || []).forEach(item => {
+  const rawNo = String(item && item.no != null ? item.no : "");
+  if(rawNo) baeksongLegacyContextByRawNo[rawNo] = {card,item};
+ }));
+ const visibleBaeksongEntries = witnessQuestionMaster.filter(entry => {
+  if(entry.origin !== "baeksong") return false;
+  if(!qnorm) return true;
+  const legacy = baeksongLegacyContextByRawNo[entry.rawNo] || {};
+  return normalizeSearchText(JSON.stringify({
+   rawNo:entry.rawNo,
+   displayNo:entry.displayNo,
+   text:entry.text,
+   sourceRefs:entry.sourceRefs.map(no => `Q${no}`),
+   card:legacy.card || {}
+  })).includes(qnorm);
+ });
+ const visibleBs = Array.from(new Map(
+  visibleBaeksongEntries
+   .map(entry => baeksongLegacyContextByRawNo[entry.rawNo] && baeksongLegacyContextByRawNo[entry.rawNo].card)
+   .filter(Boolean)
+   .map(card => [String(card.id), card])
+ ).values());
  const baeksongDocGroups = [
-  {id:1, title:"증인의 지위", qnos:["B1"]},
-  {id:2, title:"이 사건 임대차계약의 체결 경위", qnos:["B2","B3","B4","B4-1","B4-2","B5","B6"]},
-  {id:3, title:"이 사건 임대차계약의 체결", qnos:["B7","B8","B8-1","B9","B9-1"]},
-  {id:4, title:"삼송 테크노스크린점 운영 관련", qnos:["B10","B11","B12","B13","B14","B15"]},
-  {id:5, title:"이 사건 건물의 인도", qnos:["B16","B17","B18","B19","B20","B20-1","B21","B22","B23","B24"]},
-  {id:6, title:"기타 질문사항(위탁운영계약 인식·사후 논의 및 가맹점주 지위 이전 주장 정합성 확인)", qnos:["B25","B26","B26-1","B27"]}
+  {id:1, title:"증인의 지위"},
+  {id:2, title:"이 사건 임대차계약의 체결 경위"},
+  {id:3, title:"이 사건 임대차계약의 체결"},
+  {id:4, title:"삼송 테크노스크린점 운영 관련"},
+  {id:5, title:"이 사건 건물의 인도"},
+  {id:6, title:"기타 질문사항(위탁운영계약 인식·사후 논의 및 가맹점주 지위 이전 주장 정합성 확인)"}
  ];
- const baeksongGroupByNo = {};
- baeksongDocGroups.forEach(group => group.qnos.forEach(no => { baeksongGroupByNo[no] = group.id; }));
+ const baeksongGroupByNo = Object.fromEntries(
+  witnessQuestionMaster
+   .filter(entry => entry.origin === "baeksong")
+   .map(entry => [entry.rawNo, entry.groupId])
+ );
 
  const baeksongSegmentReview = (card, questions, groupId) => {
   const qnos = questions.map(item => String(item.no));
@@ -13821,18 +13822,20 @@ function renderWitnessReview(){
   const segmentReview = baeksongSegmentReview(card, questions, groupId);
   const segmentMeta = baeksongSegmentMeta(card, groupId);
   const qhtml = questions.map(item => {
-   const sourceRefs = finalQuestionSourceRefs[String(item.no)] || [];
-   const sourceItems = sourceRefs.map(no => sourceByNo[no]).filter(Boolean);
+   const masterEntry = witnessQuestionMasterByRawNo[String(item.no)];
+   if(!masterEntry || masterEntry.origin !== "baeksong") return "";
+   const sourceItems = masterEntry.sourceRefs.map(no => sourceByNo[no]).filter(Boolean);
    const sourceCompare = sourceItems.length ? `<div class="witness-bs-source-links">
       ${sourceItems.map(src => `<span class="witness-map-link witness-source-qtip" tabindex="0" role="button" aria-label="원고 주신문 Q${src.no} 내용 보기" data-qtip-title="${encodeURIComponent(`원고 주신문 Q${src.no}`)}" data-qtip-text="${encodeURIComponent(src.text || "")}">원고 Q${src.no}</span>`).join("")}
      </div>` : "";
+   const reviewTags = (item.reviewTags || []).length ? item.reviewTags : (masterEntry.reviewTags || []);
    return `<div class="witness-baeksong-question">
     <div class="witness-bs-q-main">
-     <strong class="witness-baeksong-question-no">${escapeHtml(item.no)}</strong>
-     <div class="witness-baeksong-question-text">${escapeHtml(item.text)}</div>
+     <strong class="witness-baeksong-question-no">${escapeHtml(masterEntry.rawNo)}</strong>
+     <div class="witness-baeksong-question-text">${escapeHtml(masterEntry.text)}</div>
      ${sourceCompare}
      <div class="witness-question-chips">
-      ${(item.reviewTags || []).map(tag => `<span class="witness-final-chip ${escapeHtml(tag.tone || "")}" title="키워드">${escapeHtml(tag.label || "")}</span>`).join("")}
+      ${reviewTags.map(tag => `<span class="witness-final-chip ${escapeHtml(tag.tone || "")}" title="키워드">${escapeHtml(tag.label || "")}</span>`).join("")}
      </div>
     </div>
    </div>`;
@@ -13875,58 +13878,47 @@ function renderWitnessReview(){
   </section>`;
  }).join("");
 
- const visibleFinal = finalCards.filter(card => {
+ const finalGroupSearchMatches = new Set(
+  finalCards
+   .filter(card => qnorm && normalizeSearchText(`${card.id} ${card.title || ""} ${card.priority || ""}`).includes(qnorm))
+   .map(card => Number(card.id))
+ );
+ const visibleMasterEntries = witnessQuestionMaster.filter(entry => {
   if(!qnorm) return true;
-  const refSearch = (card.questions || []).map(item => {
-   const rawNo = String(item && item.no != null ? item.no : "");
-   const displayNo = finalQuestionDisplayNo[rawNo] || rawNo;
-   const refs = (finalQuestionSourceRefs[rawNo] || []).map(no => `Q${no}`).join(" ");
-   return `${displayNo} ${refs}`;
-  }).join(" ");
-  return normalizeSearchText(`${JSON.stringify(card)} ${refSearch}`).includes(qnorm);
+  if(finalGroupSearchMatches.has(Number(entry.groupId))) return true;
+  const relatedSourceText = entry.sourceRefs
+   .map(no => {
+    const src = sourceByNo[String(no)];
+    return src ? `Q${src.no} ${src.text || ""}` : `Q${no}`;
+   })
+   .join(" ");
+  return normalizeSearchText(`${entry.rawNo} ${entry.displayNo} ${entry.text} ${entry.origin} ${relatedSourceText}`).includes(qnorm);
  });
- const finalQuestionOrigin = rawNo => {
-  if(/^I/i.test(rawNo)) return {label:"내부 검토안", cls:"internal"};
-  return {label:"백송 안", cls:"baeksong"};
- };
- const finalSubgroups = [
-  {id:"F1-1", groupId:1, title:"공동대표이사 지위", qnos:["B1"]},
-  {id:"F2-1", groupId:2, title:"임대차 접근·시설자금 배경", qnos:["B2","B3"]},
-  {id:"F2-2", groupId:2, title:"2025. 4. 22. 위탁운영 방식 논의", qnos:["B4","B4-1","B4-2","B5","B6"]},
-  {id:"F3-1", groupId:3, title:"가맹점주 지위 이전 약정 여부", qnos:["B7","B8","B8-1"]},
-  {id:"F3-2", groupId:3, title:"잔금 지급일과 인테리어", qnos:["B9","B9-1"]},
-  {id:"F4-1", groupId:4, title:"삼송점 실제 관리·운영", qnos:["B10","B11","B12","B13","B14"]},
-  {id:"F4-2", groupId:4, title:"Bizmall·GPM 계정정보 제공", qnos:["B15"]},
-  {id:"F5-1", groupId:5, title:"시설반입·가맹계약·프로그램 사용", qnos:["B16","B17"]},
-  {id:"F5-2", groupId:5, title:"양희정 면접·출근·현장업무 관여·가오픈", qnos:["B18","B19","I1","I2","B20","B20-1"]},
-  {id:"F5-3", groupId:5, title:"회원유치·예약관리·매출 발생", qnos:["B21","I3","B22","I4","B23","B24"]},
-  {id:"F6-1", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["I6","I7"]},
-  {id:"F6-2", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["I8","I9"]},
-  {id:"F6-3", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["I10","I11"]},
-  {id:"F6-4", groupId:6, title:"위탁운영계약 인식·사후 논의", qnos:["B25","B26","B26-1"]},
-  {id:"F6-5", groupId:6, title:"가맹점주 지위 이전 주장 정합성", qnos:["B27"]}
- ];
- const renderFinalSubgroup = (subgroup, card) => {
-  const qmap = Object.fromEntries((card.questions || []).map(item => [String(item.no), item]));
-  const questions = subgroup.qnos.map(no => qmap[no]).filter(Boolean);
+ const visibleMasterRawNos = new Set(visibleMasterEntries.map(entry => entry.rawNo));
+ const visibleFinal = finalCards.filter(card =>
+  visibleMasterEntries.some(entry => Number(entry.groupId) === Number(card.id))
+ );
+ const finalQuestionOrigin = entry => entry.origin === "internal"
+  ? {label:"내부 검토안", cls:"internal"}
+  : {label:"백송 안", cls:"baeksong"};
+ const finalSubgroups = witnessMasterSubgroups;
+ const renderFinalSubgroup = subgroup => {
+  const questions = visibleMasterEntries.filter(entry => entry.subgroupId === subgroup.id);
   if(!questions.length) return "";
   const transcriptMedia = witnessTranscriptMediaForSubgroup(subgroup.id);
   const transcriptHtml = transcriptMedia.length
    ? undisclosedTranscriptChips({evidence:transcriptMedia})
    : "";
-  const qhtml = questions.map(item => {
-   const rawNo = String(item.no == null ? "" : item.no);
-   const displayNo = finalQuestionDisplayNo[rawNo] || rawNo;
-   const origin = finalQuestionOrigin(rawNo);
-   const sourceRefs = finalQuestionSourceRefs[rawNo] || [];
-   const sourceRefHtml = sourceRefs.map(no => {
+  const qhtml = questions.map(entry => {
+   const origin = finalQuestionOrigin(entry);
+   const sourceRefHtml = entry.sourceRefs.map(no => {
     const src = sourceByNo[no];
     if(!src) return "";
     return `<span class="witness-map-link witness-source-qtip" tabindex="0" role="button" aria-label="원고 주신문 Q${src.no} 내용 보기" data-qtip-title="${encodeURIComponent(`원고 주신문 Q${src.no}`)}" data-qtip-text="${encodeURIComponent(src.text || "")}">원고 Q${src.no}</span>`;
    }).join("");
-   return `<div class="witness-final-question" id="witness-final-q-${escapeHtml(rawNo)}">
-    <span class="witness-final-question-no">${escapeHtml(displayNo)}</span>
-    <div class="witness-final-question-text">${escapeHtml(item.text)}</div>
+   return `<div class="witness-final-question" id="witness-final-q-${escapeHtml(entry.rawNo)}">
+    <span class="witness-final-question-no">${escapeHtml(entry.displayNo)}</span>
+    <div class="witness-final-question-text">${escapeHtml(entry.text)}</div>
     <div class="witness-final-question-origin"><span class="witness-origin-chip ${origin.cls}">${escapeHtml(origin.label)}</span>${sourceRefHtml}</div>
    </div>`;
   }).join("");
@@ -13943,8 +13935,11 @@ function renderWitnessReview(){
  };
  const finalHtml = visibleFinal.map(card => {
   const pclass = witnessPriorityClass(card.priority);
-  const subgroups = finalSubgroups.filter(subgroup => Number(subgroup.groupId) === Number(card.id));
-  const subgroupHtml = subgroups.map(subgroup => renderFinalSubgroup(subgroup, card)).join("");
+  const subgroups = finalSubgroups.filter(subgroup =>
+   Number(subgroup.groupId) === Number(card.id) &&
+   visibleMasterEntries.some(entry => entry.subgroupId === subgroup.id)
+  );
+  const subgroupHtml = subgroups.map(renderFinalSubgroup).join("");
   return `<article class="witness-final-card priority-${pclass}" id="witness-final-${card.id}">
    <div class="witness-final-head"><div class="witness-final-no">F${card.id}</div><div><h4>${escapeHtml(card.title)}</h4></div></div>
    <div class="witness-final-body witness-final-grouped-body">
