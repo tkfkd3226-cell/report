@@ -7170,14 +7170,6 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
 }
 </style>
 
-<style id="internalAccessRolePatch20260824">
-/* 7925(standard): 왼쪽 부속/조규철 내부검토만 비노출. 타임라인은 그대로 표시 */
-body[data-access-role="standard"] .aux-nav-panel,
-body[data-access-role="standard"] #witnessPanel,
-body[data-access-role="standard"] [data-quick-tab="witness"]{
-  display:none!important;
-}
-</style>
 
 <style id="witnessMergePatch20260831">
 .witness-report-note{border:1px solid #dbeafe;background:#eff6ff;border-radius:14px;padding:12px 13px;color:#334155;font-size:12px;line-height:1.65}
@@ -11981,7 +11973,7 @@ function initMobileContextToolbar(){
 }
 
 function showTab(name, options={}){
- if(name === "witness" && !hasInternalAccess()){
+ if(name === "witness" && !(APP_DATA && APP_DATA.witnessReview)){
   name = "summary";
  }
  const shouldScroll = options.scroll !== false;
