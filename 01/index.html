@@ -6710,6 +6710,7 @@ body.auth-locked .admin-log-button{display:none!important;}
   }
   .quick-actions[data-active-tab="summary"] [data-quick-tab="summary"],
   .quick-actions[data-active-tab="brief"] [data-quick-tab="brief"],
+  .quick-actions[data-active-tab="witness"] [data-quick-tab="witness"],
   .quick-actions[data-active-tab="fact"] [data-quick-tab="fact"],
   .quick-actions[data-active-tab="evidence"] [data-quick-tab="evidence"],
   .quick-actions[data-active-tab="needed"] [data-quick-tab="needed"],
@@ -6852,6 +6853,7 @@ body.auth-locked .admin-log-button{display:none!important;}
   }
   .quick-actions[data-active-tab="summary"] [data-quick-tab="summary"],
   .quick-actions[data-active-tab="brief"] [data-quick-tab="brief"],
+  .quick-actions[data-active-tab="witness"] [data-quick-tab="witness"],
   .quick-actions[data-active-tab="fact"] [data-quick-tab="fact"],
   .quick-actions[data-active-tab="evidence"] [data-quick-tab="evidence"],
   .quick-actions[data-active-tab="needed"] [data-quick-tab="needed"],
@@ -8986,7 +8988,13 @@ function initApp(){
  if(pageSubtitle && page.subtitle) pageSubtitle.textContent = page.subtitle;
  $("#createdAt").textContent = APP_DATA.createdAt;
  renderAll();
- $$(`[data-tab]`).forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
+ $$(`[data-tab]`).forEach(btn => btn.addEventListener("click", () => {
+  if(btn.classList.contains("aux-tab") && btn.dataset.tab === "witness"){
+   jumpToWitnessPanelTop();
+   return;
+  }
+  showTab(btn.dataset.tab);
+ }));
  $("#globalSearch").addEventListener("input", renderAll);
  $("#expandBtn").addEventListener("click", expandAll);
  $("#collapseBtn").addEventListener("click", collapseAll);
@@ -11799,8 +11807,7 @@ function renderMobileMenu(){
   {target:"#witnessFinalSection", label:"통합 최종 반대신문안"},
   {target:"#witnessBaeksongSection", label:"백송안 검토·분석"},
   {target:"#witnessCrossSection", label:"내부 검토안"},
-  {target:"#witnessSourceSection", label:"원고 주신문 53개"},
-  ...[...document.querySelectorAll("#witnessReviewRoot .witness-final-card[id]")].map(card => ({target:`#${card.id}`, label:cleanDisplayText(card.querySelector(".witness-final-head h4")?.textContent || card.id)}))
+  {target:"#witnessSourceSection", label:"원고 주신문 53개"}
  ];
  if(titleRoot) titleRoot.textContent = "조규철 서면증언 바로가기";
  root.innerHTML = `<div class="mobile-menu-sub mobile-menu-collection-only">${witnessItems.map(item => `<button type="button" class="mobile-menu-fact mobile-menu-witness" data-mobile-witness="${escapeHtml(item.target)}"><span class="mobile-menu-text">${escapeHtml(item.label)}</span></button>`).join("")}</div>`;
@@ -11889,11 +11896,67 @@ function syncMobileMenuActive(name=activeTabName()){
  const current = $("#mobileMenuCurrent");
  if(current) current.textContent = MOBILE_TAB_LABELS[name] || "메뉴";
 }
-function handleMobileWitnessJump(selector){
+function scrollToWitnessPanelTop(behavior="smooth"){
+ const panel = document.getElementById("witnessPanel");
+ if(!panel) return;
+ const anchor = panel.querySelector(".panel-head") || panel;
+ const offset = witnessScrollAnchorTop();
+ const top = Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - offset);
+ window.scrollTo({top, behavior});
+}
+
+function jumpToWitnessPanelTop(){
+ const mobile = window.matchMedia("(max-width:760px)").matches;
  showTab("witness", {scroll:false});
- closeMobileMenu();
- setTimeout(() => scrollToWitnessTarget(selector, "smooth"), 70);
- setTimeout(() => scrollToWitnessTarget(selector, "auto"), 360);
+
+ const settle = (behavior="auto") => {
+  if(typeof scheduleMobileContextToolbarUpdate === "function"){
+   scheduleMobileContextToolbarUpdate();
+  }
+  requestAnimationFrame(() => {
+   scrollToWitnessPanelTop(behavior);
+   if(typeof scheduleMobileContextToolbarUpdate === "function"){
+    scheduleMobileContextToolbarUpdate();
+   }
+  });
+ };
+
+ setTimeout(() => settle("smooth"), mobile ? 80 : 70);
+ setTimeout(() => settle("auto"), mobile ? 380 : 360);
+ if(mobile) setTimeout(() => settle("auto"), 720);
+}
+
+function jumpToWitnessSection(selector, options={}){
+ const closeDrawer = options.closeDrawer === true;
+ const mobile = window.matchMedia("(max-width:760px)").matches;
+
+ showTab("witness", {scroll:false});
+ if(closeDrawer) closeMobileMenu();
+ lockWitnessSubnavForProgrammaticScroll(selector, mobile ? 980 : 620);
+
+ const settle = (behavior="auto") => {
+  if(typeof scheduleMobileContextToolbarUpdate === "function"){
+   scheduleMobileContextToolbarUpdate();
+  }
+  requestAnimationFrame(() => {
+   scrollToWitnessTarget(selector, behavior);
+   if(typeof scheduleMobileContextToolbarUpdate === "function"){
+    scheduleMobileContextToolbarUpdate();
+   }
+  });
+ };
+
+ setTimeout(() => settle("smooth"), mobile ? 80 : 70);
+ setTimeout(() => settle("auto"), mobile ? 380 : 360);
+ setTimeout(() => {
+  settle("auto");
+  WITNESS_SUBNAV_SCROLL_LOCK_UNTIL = performance.now() + 120;
+  setTimeout(scheduleWitnessSubnavScrollSpy, 140);
+ }, mobile ? 720 : 380);
+}
+
+function handleMobileWitnessJump(selector){
+ jumpToWitnessSection(selector, {closeDrawer:true});
 }
 
 function handleMobileFactJump(selector){
@@ -13873,7 +13936,8 @@ function witnessScrollAnchorTop(){
  const candidates = [
   document.querySelector(".navbar"),
   document.getElementById("contextToolbar"),
-  document.querySelector("body > .mobile-menu-bar")
+  document.querySelector("body > .mobile-menu-bar"),
+  document.getElementById("currentIssueBar")
  ];
 
  let bottom = 0;
@@ -14309,15 +14373,7 @@ document.addEventListener("click", (e) => {
  const witnessSub = e.target.closest("[data-witness-subtarget]");
  if(witnessSub){
   e.preventDefault();
-  const selector = witnessSub.dataset.witnessSubtarget;
-  showTab("witness", {scroll:false});
-  lockWitnessSubnavForProgrammaticScroll(selector);
-  setTimeout(() => scrollToWitnessTarget(selector, "smooth"), 70);
-  setTimeout(() => {
-   scrollToWitnessTarget(selector, "auto");
-   WITNESS_SUBNAV_SCROLL_LOCK_UNTIL = performance.now() + 120;
-   setTimeout(scheduleWitnessSubnavScrollSpy, 140);
-  }, 360);
+  jumpToWitnessSection(witnessSub.dataset.witnessSubtarget);
   return;
  }
  const witnessJump = e.target.closest(".witness-jump[href^='#']");
