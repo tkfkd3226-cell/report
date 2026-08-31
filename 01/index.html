@@ -7631,9 +7631,9 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
   color:#0f766e;
 }
 .witness-origin-chip.internal{
-  border:1px solid #bfdbfe;
-  background:#eff6ff;
-  color:#1d4ed8;
+  border:1px solid #fecdd3;
+  background:#fff1f2;
+  color:#be123c;
 }
 .aux-subtab{
   font-size:11.5px;
@@ -7657,7 +7657,7 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
 <style id="witnessFinalOriginRightPatch20260831">
 .witness-final-question{
   display:grid;
-  grid-template-columns:48px minmax(0,1fr) auto;
+  grid-template-columns:40px minmax(0,1fr) auto;
   column-gap:8px;
   align-items:start;
 }
@@ -7678,7 +7678,7 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
 }
 @media(max-width:760px){
   .witness-final-question{
-    grid-template-columns:42px minmax(0,1fr);
+    grid-template-columns:38px minmax(0,1fr);
     row-gap:6px;
   }
   .witness-final-question-no{
@@ -7937,11 +7937,307 @@ body[data-active-tab="witness"] .context-download-actions{display:none!important
 #witnessFinalSection .witness-final-file-download{
   flex:0 0 auto;
   white-space:nowrap;
+  background:#111827;
+  border-color:#111827;
+  color:#fff;
+}
+#witnessFinalSection .witness-final-file-download:hover{
+  background:#000;
+  border-color:#000;
+  color:#fff;
 }
 @media(max-width:760px){
   #witnessFinalSection .witness-final-file-download{
     font-size:10.5px;
     padding:6px 8px;
+  }
+}
+</style>
+
+<style id="witnessFinalQuestionNoCompactPatch20260831">
+#witnessFinalSection .witness-final-question-no{
+  justify-self:start;
+  width:auto;
+  min-width:30px;
+  height:24px;
+  padding:0 4px;
+  border-radius:7px;
+  font-size:9.5px;
+}
+@media(max-width:760px){
+  #witnessFinalSection .witness-final-question-no{
+    min-width:28px;
+    height:23px;
+    padding:0 4px;
+    border-radius:7px;
+    font-size:9px;
+  }
+}
+</style>
+
+<style id="witnessCompactSquareUiPatch20260831">
+/* =========================================================
+   조규철 증인 검토 화면
+   - 전반 여백 축소
+   - 사각 UI 라운드 최소화
+   - 3개 메뉴 공통 밀도
+   ========================================================= */
+
+/* 섹션/그룹 외곽 */
+#witnessPanel .witness-section,
+#witnessPanel .witness-final-card,
+#witnessPanel .witness-baeksong-doc-group,
+#witnessPanel .witness-internal-question-group,
+#witnessPanel .witness-baeksong-card,
+#witnessPanel .witness-internal-subgroup,
+#witnessPanel .witness-final-subgroup{
+  border-radius:6px;
+}
+
+/* 최상위 F 그룹 헤더 */
+#witnessPanel .witness-final-head{
+  gap:8px;
+  padding:8px 10px;
+}
+#witnessPanel .witness-final-no{
+  width:34px;
+  height:34px;
+  border-radius:5px;
+  font-size:10.5px;
+}
+#witnessPanel .witness-final-head h4{
+  font-size:14px;
+  line-height:1.35;
+}
+
+/* 최상위 그룹 내부 */
+#witnessBaeksongSection .witness-baeksong-doc-group-body,
+#witnessCrossSection .witness-internal-question-group-body,
+#witnessFinalSection .witness-final-grouped-body{
+  gap:6px;
+  padding:7px;
+}
+
+/* 중간그룹 헤더 */
+#witnessPanel .witness-midgroup-head{
+  gap:10px;
+  padding:7px 9px;
+}
+#witnessPanel .witness-midgroup-no{
+  min-width:42px;
+  height:26px;
+  padding:0 5px;
+  border-radius:4px;
+  font-size:9.5px;
+}
+#witnessPanel .witness-midgroup-head h4{
+  font-size:13.5px;
+  line-height:1.35;
+}
+
+/* 중간그룹 내부 */
+#witnessBaeksongSection .witness-baeksong-doc-group-body > .witness-baeksong-card > .witness-baeksong-body,
+#witnessCrossSection .witness-internal-subgroup-body,
+#witnessFinalSection .witness-final-subgroup-body{
+  gap:6px;
+  padding:7px;
+}
+
+/* 질문 목록 */
+#witnessBaeksongSection .witness-baeksong-question-list,
+#witnessCrossSection .witness-internal-subgroup-questions,
+#witnessFinalSection .witness-final-question-list{
+  gap:5px;
+}
+
+/* 백송 질문 / 내부 질문 / 통합 최종 질문 */
+#witnessPanel .witness-bs-q-main,
+#witnessPanel .witness-internal-question-item,
+#witnessPanel .witness-final-question{
+  border-radius:5px;
+}
+#witnessPanel .witness-bs-q-main{
+  gap:6px;
+  padding:7px 8px;
+}
+#witnessCrossSection .witness-internal-question-item{
+  padding:7px 8px;
+}
+#witnessCrossSection .witness-internal-question-main{
+  gap:6px;
+}
+#witnessPanel .witness-final-question{
+  column-gap:6px;
+  padding:7px 8px;
+}
+
+/* 실제 반대신문 문언 앞 번호 카드 */
+#witnessFinalSection .witness-final-question-no{
+  min-width:28px;
+  height:22px;
+  padding:0 3px;
+  border-radius:4px;
+  font-size:9px;
+}
+
+/* 백송 질문 번호 및 내부 질문 번호 */
+#witnessPanel .witness-baeksong-question-no,
+#witnessPanel .witness-question-no{
+  border-radius:4px;
+}
+
+/* 펼침 */
+#witnessPanel .witness-card-more{
+  border-radius:5px;
+}
+#witnessPanel .witness-card-more > summary{
+  padding:7px 9px;
+}
+#witnessPanel .witness-card-more-body{
+  gap:7px;
+  padding:7px 9px 9px;
+}
+
+/* 정보 블록 */
+#witnessPanel .witness-facts,
+#witnessPanel .witness-purpose,
+#witnessPanel .witness-analysis-grid > *,
+#witnessPanel .witness-evidence{
+  border-radius:5px;
+}
+
+/* 모든 칩/태그/링크 버튼: pill 느낌 제거 */
+#witnessPanel .witness-source-file,
+#witnessPanel .witness-final-file-download,
+#witnessPanel .witness-map-link,
+#witnessPanel .witness-class-chip,
+#witnessPanel .witness-final-chip,
+#witnessPanel .witness-origin-chip,
+#witnessPanel .witness-rec-chip,
+#witnessPanel .witness-priority,
+#witnessPanel .witness-pre-evidence-chip,
+#witnessPanel .witness-evidence-link,
+#witnessPanel .witness-more-action,
+#witnessPanel .witness-count-chip{
+  border-radius:4px;
+}
+
+/* 칩류 내부 여백도 소폭 축소 */
+#witnessPanel .witness-map-link,
+#witnessPanel .witness-class-chip,
+#witnessPanel .witness-final-chip,
+#witnessPanel .witness-origin-chip,
+#witnessPanel .witness-rec-chip,
+#witnessPanel .witness-priority,
+#witnessPanel .witness-pre-evidence-chip,
+#witnessPanel .witness-count-chip{
+  padding-top:3px;
+  padding-bottom:3px;
+}
+
+/* 상단 메뉴/검색 */
+#witnessPanel .aux-subtab,
+#witnessPanel .witness-subtab,
+#witnessPanel input[type="search"],
+#witnessPanel .witness-search,
+#witnessPanel .witness-search-wrap{
+  border-radius:5px;
+}
+#witnessPanel .aux-subtab,
+#witnessPanel .witness-subtab{
+  padding-top:6px;
+  padding-bottom:6px;
+}
+
+/* 섹션 사이 여백 */
+#witnessPanel .witness-section + .witness-section{
+  margin-top:10px;
+}
+#witnessPanel .witness-final-card,
+#witnessPanel .witness-baeksong-doc-group,
+#witnessPanel .witness-internal-question-group{
+  margin-bottom:7px;
+}
+
+/* HWP/PDF 버튼도 컴팩트 */
+#witnessPanel .witness-source-file{
+  padding:6px 8px;
+}
+
+/* 모바일 */
+@media(max-width:760px){
+  #witnessPanel .witness-final-head{
+    gap:7px;
+    padding:7px 8px;
+  }
+  #witnessPanel .witness-final-no{
+    width:31px;
+    height:31px;
+    border-radius:4px;
+    font-size:10px;
+  }
+  #witnessPanel .witness-final-head h4{
+    font-size:13px;
+  }
+
+  #witnessBaeksongSection .witness-baeksong-doc-group-body,
+  #witnessCrossSection .witness-internal-question-group-body,
+  #witnessFinalSection .witness-final-grouped-body{
+    gap:5px;
+    padding:6px;
+  }
+
+  #witnessPanel .witness-midgroup-head{
+    gap:8px;
+    padding:6px 7px;
+  }
+  #witnessPanel .witness-midgroup-no{
+    min-width:40px;
+    height:25px;
+    padding:0 4px;
+    border-radius:4px;
+    font-size:9px;
+  }
+  #witnessPanel .witness-midgroup-head h4{
+    font-size:12.5px;
+  }
+
+  #witnessBaeksongSection .witness-baeksong-doc-group-body > .witness-baeksong-card > .witness-baeksong-body,
+  #witnessCrossSection .witness-internal-subgroup-body,
+  #witnessFinalSection .witness-final-subgroup-body{
+    gap:5px;
+    padding:6px;
+  }
+
+  #witnessPanel .witness-bs-q-main,
+  #witnessCrossSection .witness-internal-question-item,
+  #witnessPanel .witness-final-question{
+    padding:6px 7px;
+  }
+
+  #witnessFinalSection .witness-final-question-no{
+    min-width:27px;
+    height:21px;
+    padding:0 3px;
+    border-radius:3px;
+    font-size:8.5px;
+  }
+
+  #witnessPanel .witness-card-more > summary{
+    padding:6px 7px;
+  }
+  #witnessPanel .witness-card-more-body{
+    gap:6px;
+    padding:6px 7px 7px;
+  }
+
+  #witnessPanel .witness-section + .witness-section{
+    margin-top:8px;
+  }
+  #witnessPanel .witness-final-card,
+  #witnessPanel .witness-baeksong-doc-group,
+  #witnessPanel .witness-internal-question-group{
+    margin-bottom:6px;
   }
 }
 </style>
@@ -12849,14 +13145,14 @@ function renderWitnessReview(){
   return normalizeSearchText(JSON.stringify(searchable)).includes(qnorm);
  });
  const internalSubgroups = [
-  {id:"F5-4", groupId:5, title:"양희정 출근 후 현장업무 관여", qnos:["20","21"]},
-  {id:"F5-5", groupId:5, title:"회원유치·예약관리 구체적 관여", qnos:["23-1","24-1"]},
-  {id:"F6-3", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["27","28"]},
-  {id:"F6-4", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["29","30"]},
-  {id:"F6-5", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["31","32"]}
+  {id:"F5-2", groupId:5, title:"양희정 면접·출근·현장업무 관여·가오픈", qnos:["20","21"]},
+  {id:"F5-3", groupId:5, title:"회원유치·예약관리·매출 발생", qnos:["23-1","24-1"]},
+  {id:"F6-1", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["27","28"]},
+  {id:"F6-2", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["29","30"]},
+  {id:"F6-3", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["31","32"]}
  ];
  const internalSubgroupReview = subgroupId => {
-  if(subgroupId === "F5-4"){
+  if(subgroupId === "F5-2"){
    return {
     facts:[
      "양희정 진술서에는 양희정이 2025. 8. 15.부터 출근한 것으로 기재되어 있음.",
@@ -12870,7 +13166,7 @@ function renderWitnessReview(){
     ]
    };
   }
-  if(subgroupId === "F5-5"){
+  if(subgroupId === "F5-3"){
    return {
     facts:[
      "2025. 7. 9. 조규철이 QR코드를 비치하여 기존 회원의 가입을 유도하고 회원수·매출·홍보방안을 박상준과 함께 고민해 실행하겠다는 취지로 답한 대화가 확인됨.",
@@ -12884,7 +13180,7 @@ function renderWitnessReview(){
     ]
    };
   }
-  if(subgroupId === "F6-3"){
+  if(subgroupId === "F6-1"){
    return {
     facts:[
      "2025. 8. 16. 김은주가 박상준이 하지 않으면 혼자 할 수 있는지를 묻자 조규철은 “어떻게든 하긴 해야죠”, “혼자 하라고 해도 하기는 하죠”라고 답함.",
@@ -12899,7 +13195,7 @@ function renderWitnessReview(){
     ]
    };
   }
-  if(subgroupId === "F6-4"){
+  if(subgroupId === "F6-2"){
    return {
     facts:[
      "2025. 8. 17. 조규철은 박상준에게 “형 좀 덜 있어도 되고 내가 더 오래 있겠다”, “몸 아프면 들어가 있고 내가 할 테니까”라고 말했다고 김은주에게 설명함.",
@@ -12913,7 +13209,7 @@ function renderWitnessReview(){
     ]
    };
   }
-  if(subgroupId === "F6-5"){
+  if(subgroupId === "F6-3"){
    return {
     facts:[
      "2025. 8. 19. KT텔레캅 관계자가 자동문 제어방식과 자동문을 꺼둘 경우 손으로 열릴 수 있다는 보안상 문제를 설명함.",
@@ -13038,10 +13334,10 @@ function renderWitnessReview(){
    "4:5":{no:"F4-1", title:"삼송점 실제 관리·운영"},
    "4:6":{no:"F4-2", title:"Bizmall·GPM 계정정보 제공"},
    "5:7":{no:"F5-1", title:"시설반입·가맹계약·프로그램 사용"},
-   "5:8":{no:"F5-2", title:"양희정 면접·출근 및 가오픈"},
+   "5:8":{no:"F5-2", title:"양희정 면접·출근·현장업무 관여·가오픈"},
    "5:9":{no:"F5-3", title:"밴드·예약관리·매출 발생"},
-   "6:10":{no:"F6-1", title:"위탁운영계약 인식·사후 논의"},
-   "6:11":{no:"F6-2", title:"가맹점주 지위 이전 주장 정합성"}
+   "6:10":{no:"F6-4", title:"위탁운영계약 인식·사후 논의"},
+   "6:11":{no:"F6-5", title:"가맹점주 지위 이전 주장 정합성"}
   };
   return map[key] || {no:`F${groupId}-1`, title:String(card.title || "")};
  };
@@ -13172,15 +13468,13 @@ function renderWitnessReview(){
   {id:"F4-1", groupId:4, title:"삼송점 실제 관리·운영", qnos:["B10","B11","B12","B13","B14"]},
   {id:"F4-2", groupId:4, title:"Bizmall·GPM 계정정보 제공", qnos:["B15"]},
   {id:"F5-1", groupId:5, title:"시설반입·가맹계약·프로그램 사용", qnos:["B16","B17"]},
-  {id:"F5-2", groupId:5, title:"양희정 면접·출근 및 가오픈", qnos:["B18","B19","B20","B20-1"]},
-  {id:"F5-3", groupId:5, title:"밴드·예약관리·매출 발생", qnos:["B21","B22","B23","B24"]},
-  {id:"F5-4", groupId:5, title:"양희정 출근 후 현장업무 관여", qnos:["I1","I2"]},
-  {id:"F5-5", groupId:5, title:"회원유치·예약관리 구체적 관여", qnos:["I3","I4"]},
-  {id:"F6-1", groupId:6, title:"위탁운영계약 인식·사후 논의", qnos:["B25","B26","B26-1"]},
-  {id:"F6-2", groupId:6, title:"가맹점주 지위 이전 주장 정합성", qnos:["B27"]},
-  {id:"F6-3", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["I6","I7"]},
-  {id:"F6-4", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["I8","I9"]},
-  {id:"F6-5", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["I10","I11"]}
+  {id:"F5-2", groupId:5, title:"양희정 면접·출근·현장업무 관여·가오픈", qnos:["B18","B19","I1","I2","B20","B20-1"]},
+  {id:"F5-3", groupId:5, title:"회원유치·예약관리·매출 발생", qnos:["B21","I3","B22","I4","B23","B24"]},
+  {id:"F6-1", groupId:6, title:"8/16 단독 운영 가능성·고객유치 계획", qnos:["I6","I7"]},
+  {id:"F6-2", groupId:6, title:"8/17 본인의 직접 운영 의사", qnos:["I8","I9"]},
+  {id:"F6-3", groupId:6, title:"8/19 KT텔레캅 방범설비 관여", qnos:["I10","I11"]},
+  {id:"F6-4", groupId:6, title:"위탁운영계약 인식·사후 논의", qnos:["B25","B26","B26-1"]},
+  {id:"F6-5", groupId:6, title:"가맹점주 지위 이전 주장 정합성", qnos:["B27"]}
  ];
  const renderFinalSubgroup = (subgroup, card) => {
   const qmap = Object.fromEntries((card.questions || []).map(item => [String(item.no), item]));
@@ -13211,7 +13505,7 @@ function renderWitnessReview(){
   const subgroups = finalSubgroups.filter(subgroup => Number(subgroup.groupId) === Number(card.id));
   const subgroupHtml = subgroups.map(subgroup => renderFinalSubgroup(subgroup, card)).join("");
   return `<article class="witness-final-card priority-${pclass}" id="witness-final-${card.id}">
-   <div class="witness-final-head"><div class="witness-final-no">F${card.id}</div><div><h4>${escapeHtml(card.title)}</h4></div><span class="witness-priority ${pclass}">${escapeHtml(card.priority || "")}</span></div>
+   <div class="witness-final-head"><div class="witness-final-no">F${card.id}</div><div><h4>${escapeHtml(card.title)}</h4></div></div>
    <div class="witness-final-body witness-final-grouped-body">
     ${subgroupHtml}
     ${card.newEvidence ? undisclosedTranscriptChips(card) : ""}
