@@ -13933,10 +13933,15 @@ function renderWitnessReview(){
 }
 
 function witnessScrollAnchorTop(){
+ /* 모바일 조규철 바로가기는 다른 모바일 목차와 동일하게
+    선택한 섹션 제목 시작점을 화면 최상단에 맞춘다.
+    특히 contextToolbar는 스크롤 후 화면 하단에 fixed 되므로
+    이를 상단 오프셋으로 계산하면 목표가 화면 맨 아래로 밀린다. */
+ if(window.innerWidth <= 760) return 4;
+
  const candidates = [
   document.querySelector(".navbar"),
   document.getElementById("contextToolbar"),
-  document.querySelector("body > .mobile-menu-bar"),
   document.getElementById("currentIssueBar")
  ];
 
@@ -13956,14 +13961,13 @@ function witnessScrollAnchorTop(){
 
   if(!visible) return;
 
-  const anchored =
-   style.position === "fixed" ||
-   (
-    style.position === "sticky" &&
-    rect.top <= (Number.parseFloat(style.top) || 0) + 2
-   );
+  const cssTop = Number.parseFloat(style.top);
+  const topInset = Number.isFinite(cssTop) ? cssTop : 0;
+  const anchoredAtTop =
+   (style.position === "fixed" || style.position === "sticky") &&
+   rect.top <= topInset + 2;
 
-  if(anchored){
+  if(anchoredAtTop){
    bottom = Math.max(bottom, Math.ceil(rect.bottom));
   }
  });
