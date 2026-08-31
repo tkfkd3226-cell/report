@@ -12588,6 +12588,14 @@ function renderWitnessReview(){
   </article>`;
  }).join("");
 
+ const finalQuestionNumberByNo = {};
+ let finalQuestionSeq = 0;
+ finalCards.forEach(card => (card.questions || []).forEach(item => {
+  const rawNo = String(item.no == null ? "" : item.no);
+  if(rawNo && finalQuestionNumberByNo[rawNo] == null){
+   finalQuestionNumberByNo[rawNo] = ++finalQuestionSeq;
+  }
+ }));
  const visibleFinal = finalCards.filter(card => !qnorm || normalizeSearchText(JSON.stringify(card)).includes(qnorm));
  const finalQuestionOrigin = rawNo => {
   if(/^I/i.test(rawNo)) return {label:"내부 안", cls:"internal"};
@@ -12599,10 +12607,10 @@ function renderWitnessReview(){
   const pclass = witnessPriorityClass(card.priority);
   const qhtml = (card.questions || []).map(item => {
    const rawNo = String(item.no == null ? "" : item.no);
-   const displayNo = /^\d+$/.test(rawNo) ? `Q${rawNo}` : rawNo;
+   const displayNo = finalQuestionNumberByNo[rawNo] || "";
    const origin = finalQuestionOrigin(rawNo);
    return `<div class="witness-final-question" id="witness-final-q-${escapeHtml(rawNo)}">
-    <span class="witness-final-question-no">${escapeHtml(displayNo)}</span>
+    <span class="witness-final-question-no">${escapeHtml(displayNo)}.</span>
     <div class="witness-final-question-text">${escapeHtml(item.text)}</div>
     <div class="witness-final-question-origin"><span class="witness-origin-chip ${origin.cls}">${escapeHtml(origin.label)}</span></div>
    </div>`;
