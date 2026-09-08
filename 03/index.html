@@ -1622,6 +1622,56 @@ body.app-menu-open{
   margin-left:auto!important;
   margin-right:auto!important;
 }
+
+/* =========================================================
+   전체 메뉴 공통 좌측 정렬
+   - 좌측 메뉴 다음 28px 간격
+   - 모든 메뉴 본문 max-width 1740px
+   - 가운데 정렬 제거
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+  --app-content-gap:28px;
+}
+
+/* 재계약 검토 */
+.app-view-contract{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* 사업성 분석 */
+.ba-page{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* 용역비 정산서 */
+.st-page{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
