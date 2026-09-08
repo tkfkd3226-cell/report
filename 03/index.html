@@ -1589,6 +1589,39 @@ body.app-menu-open{
 .ba-unified-matrix[data-rs-density="wide"]{
   --ba-matrix-max:1740px;
 }
+
+/* =========================================================
+   전체 메뉴 공통 가로 레이아웃
+   - 재계약 검토 / 사업성 분석 / 용역비 정산서 동일 1740px
+   - 2560 Desktop 화면에서 메뉴 전환 시 좌우 폭 변화 방지
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+}
+
+/* 1. 재계약 검토 */
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 2. 사업성 분석 */
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 3. 용역비 정산서 */
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
