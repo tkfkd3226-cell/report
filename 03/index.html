@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=2560, initial-scale=1" name="viewport"/>
 <meta content="light" name="color-scheme"/>
 <title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
@@ -1199,6 +1199,140 @@ body.app-dashboard{
 .ba-settings{margin-top:8px}
 .st-summary{margin-top:8px}
 .st-document{margin-top:8px}
+
+/* =========================================================
+   Desktop-only mode
+   - 모든 기기에서 2560px 데스크탑 레이아웃만 사용
+   - 모바일/태블릿 반응형 규칙 무효화
+   ========================================================= */
+html,body{
+  min-width:2560px!important;
+}
+body.app-dashboard{
+  overflow-x:auto!important;
+}
+.app-shell{
+  min-width:2560px!important;
+}
+.app-sidebar{
+  display:flex!important;
+  position:fixed!important;
+  inset:0 auto 0 0!important;
+  width:var(--app-sidebar-w)!important;
+  transform:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+  border-right:1px solid var(--app-sidebar-border)!important;
+  border-left:0!important;
+  box-shadow:none!important;
+}
+.app-sidebar-close,
+.app-mobile-bar,
+.app-drawer-overlay,
+.app-menu-button{
+  display:none!important;
+}
+body.app-menu-open{
+  overflow:auto!important;
+}
+.app-content{
+  margin-left:var(--app-sidebar-w)!important;
+  padding-top:0!important;
+  min-width:calc(2560px - var(--app-sidebar-w))!important;
+}
+.app-view{
+  margin-top:0!important;
+}
+
+/* 사업성 분석: 항상 desktop 2열 */
+.ba-page{
+  min-height:100vh!important;
+  padding:18px 18px 28px!important;
+}
+.ba-page-inner{
+  width:min(100%,2300px)!important;
+  margin:0 auto!important;
+}
+.ba-header{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  padding:0 2px 12px!important;
+}
+.ba-header-actions{
+  width:auto!important;
+  justify-content:flex-start!important;
+}
+.ba-rs-label{
+  display:inline!important;
+}
+.ba-settings{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.72fr) minmax(230px,.62fr) minmax(0,1.06fr)!important;
+  gap:8px!important;
+}
+.ba-settings-basic{
+  grid-column:auto!important;
+}
+.ba-settings-grid-basic{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.ba-settings-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.ba-analysis-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.ba-matrix{
+  --ba-rs-col:82px!important;
+}
+.ba-reference-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+
+/* 용역비 정산서: 항상 desktop */
+.st-page{
+  min-height:100vh!important;
+  padding:18px 18px 30px!important;
+}
+.st-header{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+}
+.st-summary{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.st-row-head,
+.st-row{
+  grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr)!important;
+  min-width:0!important;
+}
+.st-section{
+  overflow:visible!important;
+}
+.st-totals{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.st-totals>div+div{
+  border-left:1px solid #e4e9ef!important;
+  border-top:0!important;
+}
+.st-stamp{
+  text-align:right!important;
+}
+
+/* 계약 검토 모바일 전용 압축/카드 규칙을 사용하지 않고 desktop 폭 유지 */
+.app-view-contract{
+  min-width:calc(2560px - var(--app-sidebar-w))!important;
+}
+.app-view-contract .page{
+  min-width:0!important;
+  max-width:none!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -2259,7 +2393,7 @@ body.app-dashboard{
     settlement:'용역비 정산서'
   };
 
-  const isMobile=()=>window.matchMedia('(max-width:760px)').matches;
+  const isMobile=()=>false;
 
   const openMenu=()=>{
     body.classList.add('app-menu-open');
