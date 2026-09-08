@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=2560, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="light" name="color-scheme"/>
 <title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
@@ -1671,6 +1671,119 @@ body.app-menu-open{
   max-width:var(--app-layout-max)!important;
   margin-left:0!important;
   margin-right:auto!important;
+}
+
+/* =========================================================
+   전체 대시보드 Shell 중앙 정렬
+   - 메뉴 218px + 간격 28px + 콘텐츠 1740px
+   - 전체 Shell 1986px을 2560 viewport 중앙에 배치
+   - Sidebar는 Shell 내부 sticky
+   - 모든 메뉴 콘텐츠 좌우 기준선 통일
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+  --app-sidebar-w:218px;
+  --app-shell-gap:28px;
+  --app-shell-w:calc(var(--app-sidebar-w) + var(--app-shell-gap) + var(--app-layout-max));
+}
+
+.app-shell{
+  display:grid!important;
+  grid-template-columns:var(--app-sidebar-w) var(--app-layout-max)!important;
+  column-gap:var(--app-shell-gap)!important;
+  align-items:start!important;
+  width:var(--app-shell-w)!important;
+  min-width:var(--app-shell-w)!important;
+  min-height:100vh!important;
+  margin:0 auto!important;
+}
+
+/* 브라우저 최좌측 fixed 메뉴를 해제하고 Shell 안에서 고정 */
+.app-sidebar{
+  position:sticky!important;
+  top:0!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  inset:auto!important;
+  grid-column:1!important;
+  width:var(--app-sidebar-w)!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  align-self:start!important;
+}
+
+/* 가운데 Shell의 두 번째 열을 모든 메뉴 공통 콘텐츠 영역으로 사용 */
+.app-content{
+  grid-column:2!important;
+  width:var(--app-layout-max)!important;
+  min-width:var(--app-layout-max)!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  padding-top:0!important;
+}
+
+/* 이전 28px 개별 좌측 padding 제거: grid gap 28px가 메뉴↔콘텐츠 간격을 담당 */
+.app-view-contract{
+  padding-left:0!important;
+  padding-right:0!important;
+  box-sizing:border-box!important;
+}
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 사업성 분석: 실제 콘텐츠 좌우선도 1740px에 맞춤 */
+.ba-page{
+  padding:18px 0 28px!important;
+  box-sizing:border-box!important;
+}
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 용역비 정산서: 동일 기준선 */
+.st-page{
+  padding:18px 0 30px!important;
+  box-sizing:border-box!important;
+}
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* =========================================================
+   Viewport 강제 해제
+   - meta viewport: device-width
+   - 2560px 강제 min-width 제거
+   - 실제 Desktop Shell 폭 1986px을 최소 레이아웃 기준으로 사용
+   ========================================================= */
+html,
+body{
+  min-width:var(--app-shell-w)!important;
+}
+
+.app-shell{
+  min-width:var(--app-shell-w)!important;
+  width:var(--app-shell-w)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 2560 강제 viewport 없이도 Desktop-only 구조 유지 */
+.app-content{
+  width:var(--app-layout-max)!important;
+  min-width:var(--app-layout-max)!important;
+  max-width:var(--app-layout-max)!important;
 }
 </style>
 </head>
