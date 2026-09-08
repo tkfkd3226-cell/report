@@ -1541,6 +1541,54 @@ body.app-menu-open{
 .ba-reference-grid{
   grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
 }
+
+/* =========================================================
+   사업성 분석 밀도 조정
+   - 2560 모니터는 유지
+   - 콘텐츠는 약 1920급 밀도(본문 max-width 1740px)
+   - RS 1.0은 더 compact, RS 0.5는 넓게 사용
+   ========================================================= */
+.ba-page-inner{
+  width:100%!important;
+  max-width:1740px!important;
+  margin:0 auto!important;
+}
+
+/* 상단 설정/하단 참고자료도 동일 콘텐츠 폭 사용 */
+.ba-settings,
+.ba-reference-grid,
+.ba-analysis-grid{
+  width:100%!important;
+}
+
+/* 통합 Matrix 자체는 RS 개수에 따라 적정 폭만 사용 */
+.ba-unified-scroll{
+  overflow-x:auto!important;
+}
+.ba-unified-matrix{
+  width:min(100%, var(--ba-matrix-max,1240px))!important;
+  max-width:var(--ba-matrix-max,1240px)!important;
+  min-width:0!important;
+  margin:0 auto!important;
+}
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:220px repeat(var(--ba-rs-count), minmax(0,1fr))!important;
+}
+.ba-unified-matrix .ba-metric-cell{
+  padding-left:7px!important;
+  padding-right:7px!important;
+}
+
+/* RS 1.0: 6열은 약 1240px 안에서 비교 밀도 확보 */
+.ba-unified-matrix[data-rs-density="compact"]{
+  --ba-matrix-max:1240px;
+}
+
+/* RS 0.5: 11열은 본문폭을 최대한 활용 */
+.ba-unified-matrix[data-rs-density="wide"]{
+  --ba-matrix-max:1740px;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -2975,6 +3023,7 @@ body.app-menu-open{
     const fixed=engine.calculateSeries('fixed',{step:state.rsStep,overrides:state.settings});
     const share=engine.calculateSeries('share',{step:state.rsStep,overrides:state.settings});
     matrix.style.setProperty('--ba-rs-count',String(fixed.length));
+    matrix.dataset.rsDensity=state.rsStep===0.5?'wide':'compact';
 
     let html='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
     for(const item of fixed){
