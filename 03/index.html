@@ -1333,6 +1333,214 @@ body.app-menu-open{
   min-width:0!important;
   max-width:none!important;
 }
+
+/* =========================================================
+   사업성 분석 통합형 리팩토링
+   - 1안/2안 중복 표 제거
+   - 공통값 1회 표시
+   - 차이 발생 항목만 1안/2안 비교
+   - 2560px 기준 가로스크롤 없는 fluid matrix
+   ========================================================= */
+
+/* 콘텐츠 폭을 2560 Desktop 가용영역까지 적극 사용 */
+.ba-page-inner{
+  width:100%!important;
+  max-width:none!important;
+}
+
+/* 상단 설정: 수정 가능한 값은 기본 상태부터 입력필드 외곽선 표시 */
+.ba-settings .ba-value-shell{
+  border:1px solid #d5dde6!important;
+  background:#fff!important;
+  box-shadow:0 1px 1px rgba(23,57,95,.025);
+}
+.ba-settings .ba-setting-field:hover .ba-value-shell{
+  border-color:#b8c6d5!important;
+  background:#fff!important;
+}
+.ba-settings .ba-value-shell:focus-within{
+  border-color:#78a7d2!important;
+  background:#fff!important;
+  box-shadow:0 0 0 2px rgba(49,130,246,.13)!important;
+}
+
+/* 단일 분석 패널 */
+.ba-analysis-grid.ba-analysis-grid-unified{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.ba-analysis-unified{
+  width:100%;
+}
+.ba-unified-head{
+  min-height:54px;
+}
+.ba-plan-legend{
+  display:flex;
+  align-items:stretch;
+  gap:6px;
+  flex:0 0 auto;
+}
+.ba-plan-legend-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:255px;
+  padding:6px 8px;
+  border:1px solid #dce3ea;
+  border-radius:8px;
+  background:#fff;
+}
+.ba-plan-legend-item>span{
+  display:grid;
+  place-items:center;
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-plan-legend-item div{
+  min-width:0;
+}
+.ba-plan-legend-item strong{
+  display:block;
+  color:#34465a;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-plan-legend-item small{
+  display:block;
+  margin-top:1px;
+  overflow:hidden;
+  color:#7a8796;
+  font-size:7.7px;
+  font-weight:700;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ba-plan-legend-item.is-fixed>span{
+  color:#235f95;
+  background:#eaf3fb;
+}
+.ba-plan-legend-item.is-share>span{
+  color:#7a5a16;
+  background:#fff4d8;
+}
+
+/* 2560px에서는 RS 0.5(11열)까지 전체 폭 안에 표시 */
+.ba-unified-scroll{
+  overflow-x:auto;
+}
+.ba-unified-matrix{
+  --ba-rs-count:6;
+  width:100%!important;
+  min-width:0!important;
+}
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:230px repeat(var(--ba-rs-count),minmax(0,1fr))!important;
+}
+.ba-unified-matrix .ba-matrix-head{
+  min-height:34px;
+}
+.ba-unified-matrix .ba-rs-head{
+  min-width:0;
+  padding:4px 5px;
+}
+.ba-unified-matrix .ba-metric-row{
+  min-height:30px;
+}
+.ba-unified-matrix .ba-metric-label{
+  padding-left:11px;
+}
+.ba-unified-matrix .ba-metric-cell{
+  min-width:0;
+  padding:5px 8px;
+}
+
+/* 안별 비교 묶음 */
+.ba-compare-block{
+  border-top:1px solid #dde4eb;
+}
+.ba-compare-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-height:27px;
+  padding:5px 10px;
+  border-bottom:1px solid #e7ebf0;
+  background:#f3f7fb;
+}
+.ba-compare-title strong{
+  color:#17395f;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-compare-title small{
+  color:#7d8997;
+  font-size:7.8px;
+  font-weight:700;
+}
+.ba-metric-row.is-plan-fixed .ba-metric-label strong::before,
+.ba-metric-row.is-plan-share .ba-metric-label strong::before,
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
+  display:inline-grid;
+  place-items:center;
+  width:27px;
+  height:17px;
+  margin-right:6px;
+  border-radius:5px;
+  font-size:7.5px;
+  font-weight:900;
+  vertical-align:middle;
+}
+.ba-metric-row.is-plan-fixed .ba-metric-label strong::before{
+  content:"1안";
+  color:#235f95;
+  background:#eaf3fb;
+}
+.ba-metric-row.is-plan-share .ba-metric-label strong::before{
+  content:"2안";
+  color:#7a5a16;
+  background:#fff4d8;
+}
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
+  content:"차이";
+  color:#5f6976;
+  background:#eef1f4;
+}
+.ba-metric-row.is-plan-fixed{
+  background:#fbfdff;
+}
+.ba-metric-row.is-plan-share{
+  background:#fffdf8;
+}
+.ba-metric-row.is-plan-diff{
+  background:#f8fafc;
+}
+.ba-metric-row.is-plan-diff .ba-metric-label strong{
+  color:#596779;
+}
+.ba-metric-row.is-plan-diff .ba-metric-cell{
+  font-weight:900;
+}
+.ba-metric-cell.is-diff-positive{
+  color:#137454!important;
+  background:linear-gradient(90deg,transparent,#eef8f3);
+}
+.ba-metric-cell.is-diff-negative{
+  color:#b0443b!important;
+  background:linear-gradient(90deg,transparent,#fff2f0);
+}
+.ba-metric-cell.is-diff-zero{
+  color:#8792a0!important;
+}
+
+/* 참고자료는 기존 2열 유지 */
+.ba-reference-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -1563,7 +1771,7 @@ body.app-menu-open{
 <div class="ba-title-wrap">
 <p class="ba-kicker">BUSINESS ANALYSIS</p>
 <h1>사업성 분석</h1>
-<p class="ba-subtitle">고정비용 기준과 매출배분 기준을 동일한 RS 구간에서 비교합니다.</p>
+<p class="ba-subtitle">공통 계산값은 한 번만 표시하고, 결과가 달라지는 항목만 1안·2안으로 비교합니다.</p>
 </div>
 <div class="ba-header-actions">
 <div class="ba-rs-control">
@@ -1784,35 +1992,35 @@ body.app-menu-open{
 </div>
 </article>
 </section>
-<section aria-label="업그레이드 사업성 비교" class="ba-analysis-grid">
-<article class="ba-analysis-panel" data-ba-panel="fixed">
-<header class="ba-panel-head">
+<section aria-label="사업성 분석 비교" class="ba-analysis-grid ba-analysis-grid-unified">
+<article class="ba-analysis-panel ba-analysis-unified">
+<header class="ba-panel-head ba-unified-head">
 <div class="ba-panel-title">
-<span class="ba-panel-index">1</span>
+<span class="ba-panel-index">A</span>
 <div>
-<h2>업그레이드 고정비용 기준 분석</h2>
-<p>기존 위탁운영 수수료 + 업그레이드 고정비용</p>
+<h2>사업성 분석 비교</h2>
+<p>공통 매출·비용은 한 번만 표시하고, 안별 차이가 발생하는 항목만 직접 비교합니다.</p>
 </div>
 </div>
-<span class="ba-panel-chip">고정형</span>
-</header>
-<div class="ba-matrix-scroll">
-<div class="ba-matrix" data-ba-matrix="fixed"></div>
-</div>
-</article>
-<article class="ba-analysis-panel" data-ba-panel="share">
-<header class="ba-panel-head">
-<div class="ba-panel-title">
-<span class="ba-panel-index">2</span>
+<div aria-label="분석안 설명" class="ba-plan-legend">
+<div class="ba-plan-legend-item is-fixed">
+<span>1안</span>
 <div>
-<h2>업그레이드 매출배분 기준 분석</h2>
-<p>기본금 + 기준 초과 매출 × 추가 수수료율</p>
+<strong>고정비용형</strong>
+<small>기존 위탁운영 수수료 + 업그레이드 고정비용</small>
 </div>
 </div>
-<span class="ba-panel-chip">연동형</span>
+<div class="ba-plan-legend-item is-share">
+<span>2안</span>
+<div>
+<strong>매출배분형</strong>
+<small>기본금 + 기준매출 초과분 × 추가 수수료율</small>
+</div>
+</div>
+</div>
 </header>
-<div class="ba-matrix-scroll">
-<div class="ba-matrix" data-ba-matrix="share"></div>
+<div class="ba-matrix-scroll ba-unified-scroll">
+<div class="ba-matrix ba-unified-matrix" data-ba-matrix="comparison"></div>
 </div>
 </article>
 </section><section aria-label="사업성 분석 참고자료" class="ba-reference-grid">
@@ -2585,7 +2793,7 @@ body.app-menu-open{
 
   const root=document.querySelector('[data-app-view="business"]');
   const engine=window.BusinessAnalysisEngine;
-  if(!root || !engine) return;
+  if(!root||!engine) return;
 
   const infoSvg=`<svg class="ba-info-icon-svg" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.6v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="6.1" r=".9" fill="currentColor"/></svg>`;
 
@@ -2597,10 +2805,7 @@ body.app-menu-open{
 
   const settingInputs=[...root.querySelectorAll('[data-ba-setting]')];
   const stepButtons=[...root.querySelectorAll('[data-ba-rs-step]')];
-  const matrices={
-    fixed:root.querySelector('[data-ba-matrix="fixed"]'),
-    share:root.querySelector('[data-ba-matrix="share"]')
-  };
+  const matrix=root.querySelector('[data-ba-matrix="comparison"]');
   const tooltip=document.getElementById('baFloatingTooltip');
   const laborTable=root.querySelector('[data-ba-labor-table]');
   const upgradeTable=root.querySelector('[data-ba-upgrade-table]');
@@ -2608,19 +2813,19 @@ body.app-menu-open{
   const formatNumber=(value,maximumFractionDigits=0)=>
     new Intl.NumberFormat('ko-KR',{maximumFractionDigits}).format(value);
 
-  const formatMoney=(value)=>{
+  const formatMoney=value=>{
     if(!Number.isFinite(value)) return '—';
     return formatNumber(Math.round(value));
   };
 
-  const parseInput=(input)=>{
+  const parseInput=input=>{
     const raw=String(input.value??'').replace(/,/g,'').trim();
     const n=Number(raw);
     if(!Number.isFinite(n)) return null;
-    return input.dataset.baMode==='percent' ? n/100 : n;
+    return input.dataset.baMode==='percent'?n/100:n;
   };
 
-  const formatSettingInput=(input)=>{
+  const formatSettingInput=input=>{
     const key=input.dataset.baSetting;
     const val=state.settings[key];
     if(!Number.isFinite(Number(val))) return;
@@ -2637,58 +2842,20 @@ body.app-menu-open{
     salesFood:'RS 7의 기준 식음료 매출에서 RS +1당 설정한 증가액을 반영합니다.',
     salesTotalIncluded:'골프존 매출(VAT 포함) + 식음료 매출(VAT 별도) × 1.1.',
     salesTotalExcluded:'골프존 매출(VAT 별도) + 식음료 매출(VAT 별도). 매출배분형 추가 수수료의 기준 매출로 사용합니다.',
-    managementFixed:'기존 위탁운영 수수료 + 업그레이드 고정비용.',
-    managementShare:'기존 위탁운영 수수료 + 업그레이드 매출배분. 매출합계(VAT 별도)가 추가 수수료 기준 매출액 이상이면 초과분 × 추가 수수료율을 더합니다.',
     cardFee:'골프존 매출(VAT 포함) × 카드매출 비중 × 카드수수료율. 내부 계산은 소수점을 유지합니다.',
     maintenance:'RS × 총 룸 수 × 게임비 × 영업일수.',
     buildingManagement:'2026년 3~8월 용역비 정산서 관리비의 평균을 Excel ROUNDDOWN 방식으로 원 단위 절사한 값입니다.',
     fixedOperating:'2026년 7월 반복 운영비를 기준으로 POS 관리 4천원, 전화요금 1.5만원, 광고비 35만원을 반영한 고정 운영비입니다.',
     labor:'하단 월 인건비 추정의 근무시간·인원·시급 설정 결과를 사용합니다.',
     consumables:'상단 소모품비 설정값을 사용합니다.',
+    management:'1안은 기존 위탁운영 수수료 + 업그레이드 고정비용, 2안은 기존 수수료 + 기본 매출배분 + 기준매출 초과분 × 추가 수수료율입니다.',
+    deductionTotal:'공통 공제항목에 각 안의 위탁운영 수수료를 합산한 값입니다.',
     operatorProfit:'매출합계(VAT 별도) - 공제항목 합계 - 힐링스토리 지출 합계.',
-    easyProfit:'이지벤처스 수익은 위탁운영 수수료와 동일하게 표시합니다.'
+    easyProfit:'이지벤처스 수익은 각 안의 위탁운영 수수료와 동일합니다.',
+    diff:'차이는 2안 - 1안으로 계산합니다. 양수는 2안이 더 큰 값, 음수는 2안이 더 작은 값입니다.'
   };
 
-  const metricGroups=(mode)=>[
-    {
-      title:'매출',
-      rows:[
-        {key:'golfIn',label:'골프존 매출(VAT포함)',tooltip:tooltips.salesGolfIncluded,value:r=>r.sales.golfVatIncluded},
-        {key:'golfOut',label:'골프존 매출(VAT별도)',tooltip:tooltips.salesGolfExcluded,value:r=>r.sales.golfVatExcluded},
-        {key:'food',label:'식음료 매출(VAT별도)',tooltip:tooltips.salesFood,value:r=>r.sales.foodVatExcluded},
-        {key:'totalIn',label:'매출합계(VAT포함)',tooltip:tooltips.salesTotalIncluded,value:r=>r.sales.totalVatIncluded,subtotal:true},
-        {key:'totalOut',label:'매출합계(VAT별도)',tooltip:tooltips.salesTotalExcluded,value:r=>r.sales.totalVatExcluded,subtotal:true}
-      ]
-    },
-    {
-      title:'공제항목',
-      rows:[
-        {key:'management',label:'위탁운영 수수료(임대료)',tooltip:mode==='fixed'?tooltips.managementFixed:tooltips.managementShare,value:r=>r.deductions.managementFee},
-        {key:'card',label:'카드수수료',tooltip:tooltips.cardFee,value:r=>r.deductions.cardFee},
-        {key:'maintenance',label:'골프존 유지보수비',tooltip:tooltips.maintenance,value:r=>r.deductions.golfMaintenanceFee},
-        {key:'building',label:'관리비',tooltip:tooltips.buildingManagement,value:r=>r.deductions.buildingManagementFee},
-        {key:'fixedOperating',label:'운영비(고정비)',tooltip:tooltips.fixedOperating,value:r=>r.deductions.fixedOperatingCost},
-        {key:'deductions',label:'공제항목 합계(VAT별도)',value:r=>r.deductions.total,subtotal:true}
-      ]
-    },
-    {
-      title:'힐링스토리 지출',
-      rows:[
-        {key:'labor',label:'인건비',tooltip:tooltips.labor,value:r=>r.operatorExpenses.labor},
-        {key:'consumables',label:'소모품',tooltip:tooltips.consumables,value:r=>r.operatorExpenses.consumables},
-        {key:'expenses',label:'힐링스토리 지출 합계',value:r=>r.operatorExpenses.total,subtotal:true}
-      ]
-    },
-    {
-      title:'결과',
-      rows:[
-        {key:'operatorProfit',label:'김형호 수익(VAT별도)',tooltip:tooltips.operatorProfit,value:r=>r.results.operatorProfit,profit:true},
-        {key:'easyProfit',label:'이지벤처스 수익(VAT별도)',tooltip:tooltips.easyProfit,value:r=>r.results.easyVenturesProfit,easy:true}
-      ]
-    }
-  ];
-
-  const escapeAttr=(value)=>String(value)
+  const escapeAttr=value=>String(value)
     .replace(/&/g,'&amp;')
     .replace(/"/g,'&quot;')
     .replace(/</g,'&lt;')
@@ -2698,45 +2865,142 @@ body.app-menu-open{
     ? `<button type="button" class="ba-info-button" aria-label="${escapeAttr(label)} 설명" data-ba-tooltip="${escapeAttr(tip)}">${infoSvg}</button>`
     : '';
 
-  const renderMatrix=(mode)=>{
-    const host=matrices[mode];
-    if(!host) return;
-    const series=engine.calculateSeries(mode,{step:state.rsStep,overrides:state.settings});
-    host.style.setProperty('--ba-rs-count',String(series.length));
-
-    let html=`<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>`;
-    for(const item of series){
-      html+=`<div class="ba-rs-head">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
+  const commonGroups=[
+    {
+      title:'매출',
+      rows:[
+        {label:'골프존 매출(VAT포함)',tooltip:tooltips.salesGolfIncluded,value:r=>r.sales.golfVatIncluded},
+        {label:'골프존 매출(VAT별도)',tooltip:tooltips.salesGolfExcluded,value:r=>r.sales.golfVatExcluded},
+        {label:'식음료 매출(VAT별도)',tooltip:tooltips.salesFood,value:r=>r.sales.foodVatExcluded},
+        {label:'매출합계(VAT포함)',tooltip:tooltips.salesTotalIncluded,value:r=>r.sales.totalVatIncluded,subtotal:true},
+        {label:'매출합계(VAT별도)',tooltip:tooltips.salesTotalExcluded,value:r=>r.sales.totalVatExcluded,subtotal:true}
+      ]
+    },
+    {
+      title:'공통 비용',
+      rows:[
+        {label:'카드수수료',tooltip:tooltips.cardFee,value:r=>r.deductions.cardFee},
+        {label:'골프존 유지보수비',tooltip:tooltips.maintenance,value:r=>r.deductions.golfMaintenanceFee},
+        {label:'관리비',tooltip:tooltips.buildingManagement,value:r=>r.deductions.buildingManagementFee},
+        {label:'운영비(고정비)',tooltip:tooltips.fixedOperating,value:r=>r.deductions.fixedOperatingCost}
+      ]
+    },
+    {
+      title:'운영자 지출',
+      rows:[
+        {label:'인건비',tooltip:tooltips.labor,value:r=>r.operatorExpenses.labor},
+        {label:'소모품',tooltip:tooltips.consumables,value:r=>r.operatorExpenses.consumables},
+        {label:'힐링스토리 지출 합계',value:r=>r.operatorExpenses.total,subtotal:true}
+      ]
     }
-    html+=`</div>`;
+  ];
 
-    for(const group of metricGroups(mode)){
-      html+=`<div class="ba-group-title">${group.title}</div>`;
-      for(const metric of group.rows){
-        const rowClass=[
-          'ba-metric-row',
-          metric.subtotal?'is-subtotal':'',
-          metric.profit?'is-profit':'',
-          metric.easy?'is-easy':''
-        ].filter(Boolean).join(' ');
-        html+=`<div class="${rowClass}" data-ba-metric="${metric.key}">`;
-        html+=`<div class="ba-metric-label"><strong>${metric.label}</strong>${infoButton(metric.label,metric.tooltip)}</div>`;
-        for(const item of series){
-          const value=metric.value(item);
-          const classes=['ba-metric-cell'];
-          if(metric.profit && value<0) classes.push('is-negative');
-          if(metric.profit && value>0) classes.push('is-positive-strong');
-          html+=`<div class="${classes.join(' ')}">${formatMoney(value)}</div>`;
-        }
-        html+=`</div>`;
+  const compareGroups=[
+    {
+      title:'위탁운영 수수료',
+      note:'안별 계약 수수료',
+      tooltip:tooltips.management,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.deductions.managementFee},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.managementFee},
+        {kind:'diff',label:'2안 - 1안',tooltip:tooltips.diff,value:(f,s)=>s.deductions.managementFee-f.deductions.managementFee}
+      ]
+    },
+    {
+      title:'공제항목 합계',
+      note:'공통 비용 + 안별 위탁운영 수수료',
+      tooltip:tooltips.deductionTotal,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.deductions.total},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.total}
+      ]
+    },
+    {
+      title:'김형호 수익',
+      note:'최종 운영자 수익',
+      tooltip:tooltips.operatorProfit,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.results.operatorProfit,profit:true},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.operatorProfit,profit:true},
+        {kind:'diff',label:'2안 - 1안',tooltip:tooltips.diff,value:(f,s)=>s.results.operatorProfit-f.results.operatorProfit}
+      ]
+    },
+    {
+      title:'이지벤처스 수익',
+      note:'안별 위탁운영 수수료 귀속',
+      tooltip:tooltips.easyProfit,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.results.easyVenturesProfit},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.easyVenturesProfit}
+      ]
+    }
+  ];
+
+  const metricRowHtml=(metric,seriesFixed,seriesShare)=>{
+    const rowClass=[
+      'ba-metric-row',
+      metric.subtotal?'is-subtotal':'',
+      metric.kind?`is-plan-${metric.kind}`:''
+    ].filter(Boolean).join(' ');
+
+    let html=`<div class="${rowClass}">`;
+    html+=`<div class="ba-metric-label"><strong>${metric.label}</strong>${infoButton(metric.label,metric.tooltip)}</div>`;
+
+    for(let i=0;i<seriesFixed.length;i++){
+      const fixed=seriesFixed[i];
+      const share=seriesShare[i];
+      const source=metric.kind?metric.value(fixed,share):metric.value(fixed);
+      const classes=['ba-metric-cell'];
+
+      if(metric.profit){
+        if(source<0) classes.push('is-negative');
+        if(source>0) classes.push('is-positive-strong');
       }
+      if(metric.kind==='diff'){
+        if(source>0) classes.push('is-diff-positive');
+        else if(source<0) classes.push('is-diff-negative');
+        else classes.push('is-diff-zero');
+      }
+
+      html+=`<div class="${classes.join(' ')}">${formatMoney(source)}</div>`;
     }
-    host.innerHTML=html;
+
+    html+='</div>';
+    return html;
   };
 
-  const renderAll=()=>{
-    renderMatrix('fixed');
-    renderMatrix('share');
+  const renderMatrix=()=>{
+    if(!matrix) return;
+
+    const fixed=engine.calculateSeries('fixed',{step:state.rsStep,overrides:state.settings});
+    const share=engine.calculateSeries('share',{step:state.rsStep,overrides:state.settings});
+    matrix.style.setProperty('--ba-rs-count',String(fixed.length));
+
+    let html='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
+    for(const item of fixed){
+      html+=`<div class="ba-rs-head">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
+    }
+    html+='</div>';
+
+    for(const group of commonGroups){
+      html+=`<div class="ba-group-title">${group.title}</div>`;
+      for(const metric of group.rows){
+        html+=metricRowHtml(metric,fixed,share);
+      }
+    }
+
+    html+='<div class="ba-group-title">1안 / 2안 비교</div>';
+
+    for(const group of compareGroups){
+      html+=`<div class="ba-compare-block">`;
+      html+=`<div class="ba-compare-title"><strong>${group.title}</strong>${infoButton(group.title,group.tooltip)}<small>${group.note}</small></div>`;
+      for(const metric of group.rows){
+        html+=metricRowHtml(metric,fixed,share);
+      }
+      html+='</div>';
+    }
+
+    matrix.innerHTML=html;
   };
 
   const renderLaborReference=()=>{
@@ -2757,7 +3021,11 @@ body.app-menu-open{
     });
 
     laborTable.innerHTML=html;
-    const setText=(selector,text)=>{const el=root.querySelector(selector);if(el)el.textContent=text;};
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
     setText('[data-ba-labor-total]',formatMoney(result.total)+'원');
     setText('[data-ba-labor-gross]',formatMoney(result.gross)+'원');
     setText('[data-ba-labor-insurance]',formatMoney(result.socialInsurance)+'원');
@@ -2782,7 +3050,11 @@ body.app-menu-open{
     });
 
     upgradeTable.innerHTML=html;
-    const setText=(selector,text)=>{const el=root.querySelector(selector);if(el)el.textContent=text;};
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
     setText('[data-ba-upgrade-total]',formatMoney(result.total)+'원');
     setText('[data-ba-upgrade-total-summary]',formatMoney(result.total)+'원');
     setText('[data-ba-upgrade-monthly]',formatMoney(result.monthlyInterestFree)+'원');
@@ -2793,6 +3065,11 @@ body.app-menu-open{
   const renderReferences=()=>{
     renderLaborReference();
     renderUpgradeReference();
+  };
+
+  const renderAll=()=>{
+    renderMatrix();
+    renderReferences();
   };
 
   const syncStepButtons=()=>{
@@ -2821,7 +3098,6 @@ body.app-menu-open{
       if(parsed===null) return;
       state.settings[key]=parsed;
       renderAll();
-      renderReferences();
     });
 
     input.addEventListener('blur',()=>{
@@ -2829,7 +3105,6 @@ body.app-menu-open{
       if(parsed!==null) state.settings[key]=parsed;
       formatSettingInput(input);
       renderAll();
-      renderReferences();
     });
 
     input.addEventListener('keydown',event=>{
@@ -2856,11 +3131,11 @@ body.app-menu-open{
       const index=Number(row?.dataset.baLaborIndex);
       const field=laborInput.dataset.baLaborField;
       const value=Number(String(laborInput.value).replace(/,/g,'').trim());
+
       if(Number.isFinite(index)&&Number.isFinite(value)&&state.settings.laborShifts[index]){
         state.settings.laborShifts[index]={...state.settings.laborShifts[index],[field]:value};
-        renderAll();
       }
-      renderReferences();
+      renderAll();
       return;
     }
 
@@ -2870,6 +3145,7 @@ body.app-menu-open{
       const index=Number(row?.dataset.baUpgradeIndex);
       const field=upgradeInput.dataset.baUpgradeField;
       const value=Number(String(upgradeInput.value).replace(/,/g,'').trim());
+
       if(Number.isFinite(index)&&Number.isFinite(value)&&state.upgradeItems[index]){
         state.upgradeItems[index]={...state.upgradeItems[index],[field]:value};
       }
@@ -2877,17 +3153,16 @@ body.app-menu-open{
     }
   });
 
-
   stepButtons.forEach(button=>{
     button.addEventListener('click',()=>{
       state.rsStep=Number(button.dataset.baRsStep);
       syncStepButtons();
-      renderAll();
+      renderMatrix();
     });
   });
 
-  const positionTooltip=(button)=>{
-    if(!tooltip || !button) return;
+  const positionTooltip=button=>{
+    if(!tooltip||!button) return;
     tooltip.textContent=button.dataset.baTooltip||'';
     tooltip.classList.add('is-visible');
     tooltip.setAttribute('aria-hidden','false');
@@ -2925,12 +3200,12 @@ body.app-menu-open{
 
   root.addEventListener('pointerover',event=>{
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
-    if(!button || event.pointerType==='touch') return;
+    if(!button||event.pointerType==='touch') return;
     positionTooltip(button);
   });
   root.addEventListener('pointerout',event=>{
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
-    if(!button || event.pointerType==='touch') return;
+    if(!button||event.pointerType==='touch') return;
     if(!button.contains(event.relatedTarget)) hideTooltip();
   });
   root.addEventListener('focusin',event=>{
@@ -2944,7 +3219,7 @@ body.app-menu-open{
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
     if(!button) return;
     event.preventDefault();
-    const isOpen=button.classList.contains('is-open') && tooltip?.classList.contains('is-visible');
+    const isOpen=button.classList.contains('is-open')&&tooltip?.classList.contains('is-visible');
     hideTooltip();
     if(!isOpen) positionTooltip(button);
   });
@@ -2959,7 +3234,6 @@ body.app-menu-open{
 
   syncStepButtons();
   renderAll();
-  renderReferences();
 
   window.BusinessAnalysisUI=Object.freeze({
     getState:()=>({
@@ -2967,7 +3241,7 @@ body.app-menu-open{
       settings:{...state.settings,laborShifts:state.settings.laborShifts.map(item=>({...item}))},
       upgradeItems:state.upgradeItems.map(item=>({...item}))
     }),
-    render:()=>{renderAll();renderReferences();}
+    render:renderAll
   });
 })();
 </script></body></html>
