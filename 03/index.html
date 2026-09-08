@@ -1785,6 +1785,138 @@ body{
   min-width:var(--app-layout-max)!important;
   max-width:var(--app-layout-max)!important;
 }
+
+/* =========================================================
+   사업성 분석 레이아웃 정밀 조정
+   1) 분석표 좌측 정렬
+   2) RS 개수에 따라 표 자체 폭만 확장
+   3) RS 컬럼 폭 축소
+   4) 상단 카드 고정 40:20:40
+   5) 상단 설정 라벨/필드 수평 정렬
+   ========================================================= */
+
+/* ---------- 상단 설정 3카드 ---------- */
+.ba-settings{
+  width:1656px!important;
+  max-width:1656px!important;
+  grid-template-columns:656px 328px 656px!important;
+  gap:8px!important;
+  justify-content:start!important;
+  align-items:stretch!important;
+}
+
+/* 기본설정·산정기준: 2열 / 인건비: 1열 */
+.ba-settings-basic .ba-settings-grid,
+.ba-settings-assumption .ba-settings-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:8px!important;
+  row-gap:0!important;
+}
+.ba-settings-labor .ba-settings-grid{
+  grid-template-columns:1fr!important;
+  row-gap:0!important;
+}
+
+/* 모든 설정을 '라벨 | 입력필드' 한 줄 구조로 */
+.ba-setting-field{
+  display:grid!important;
+  grid-template-columns:138px 140px!important;
+  align-items:center!important;
+  justify-content:start!important;
+  column-gap:8px!important;
+  min-width:0!important;
+  padding:4px 6px!important;
+}
+.ba-settings-labor .ba-setting-field{
+  grid-template-columns:92px 140px!important;
+}
+.ba-settings-assumption .ba-setting-field{
+  grid-template-columns:130px 140px!important;
+}
+
+.ba-setting-label{
+  display:flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  min-width:0!important;
+  margin-bottom:0!important;
+  white-space:nowrap!important;
+  line-height:1.2!important;
+}
+
+.ba-value-shell{
+  width:140px!important;
+  min-width:140px!important;
+  max-width:140px!important;
+  justify-self:start!important;
+}
+.ba-setting-input{
+  min-width:0!important;
+}
+
+/* 카드 안쪽 여백은 컴팩트하게 */
+.ba-settings-grid{
+  padding:5px 7px 7px!important;
+}
+
+/* ---------- 사업성 분석 비교표 ---------- */
+/* 기존 100%/센터형을 해제하고 실제 표 폭만 사용 */
+.ba-analysis-grid.ba-analysis-grid-unified{
+  display:block!important;
+  width:fit-content!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+.ba-analysis-unified{
+  width:fit-content!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 표는 왼쪽에서 시작. 해상도가 부족할 때만 이 영역에서 스크롤 */
+.ba-unified-scroll{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  margin:0!important;
+}
+.ba-unified-matrix{
+  width:var(--ba-matrix-width,938px)!important;
+  min-width:var(--ba-matrix-width,938px)!important;
+  max-width:none!important;
+  margin:0!important;
+}
+
+/* 라벨열 182px + RS열 126px 고정.
+   RS 1.0=938px / RS 0.5=1,568px */
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:182px repeat(var(--ba-rs-count),126px)!important;
+}
+
+/* 각 컬럼의 체감 간격을 조금 더 촘촘하게 */
+.ba-unified-matrix .ba-rs-head{
+  padding:4px 4px!important;
+}
+.ba-unified-matrix .ba-metric-label{
+  padding-left:9px!important;
+  padding-right:6px!important;
+}
+.ba-unified-matrix .ba-metric-cell{
+  min-width:0!important;
+  padding:5px 5px!important;
+}
+
+/* 통합표 폭이 작아져도 헤더 설명이 과하게 퍼지지 않도록 */
+.ba-plan-legend{
+  gap:5px!important;
+}
+.ba-plan-legend-item{
+  min-width:220px!important;
+  padding:6px 7px!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -3219,6 +3351,7 @@ body{
     const fixed=engine.calculateSeries('fixed',{step:state.rsStep,overrides:state.settings});
     const share=engine.calculateSeries('share',{step:state.rsStep,overrides:state.settings});
     matrix.style.setProperty('--ba-rs-count',String(fixed.length));
+    matrix.style.setProperty('--ba-matrix-width',`${182 + fixed.length * 126}px`);
     matrix.dataset.rsDensity=state.rsStep===0.5?'wide':'compact';
 
     let html='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
