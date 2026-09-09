@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="light" name="color-scheme"/>
-<title>이지벤처스-힐링스토리 재계약 검토</title>
+<title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
 :root{--navy:#17395f;--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--blue:#edf4fb;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--red:#a53a31;--red-bg:#fff1ef;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--white:#fff;}
 *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#eef2f6;color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere} a{color:inherit}
@@ -30,10 +30,1964 @@ main{padding:24px 36px 38px} section{margin-top:28px} section:first-child{margin
 @media print{@page{size:A4 landscape;margin:8mm} body{background:#fff} .page{max-width:none;box-shadow:none} .hero{padding:14px 18px;background:#17395f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact} main{padding:14px 18px} section{margin-top:18px} .diff-toolbar{display:none} .diff-doc-head{position:static} .diff-section.hidden-by-filter{display:block} .diff-section{break-inside:auto} .diff-section-head,.article-title-row{break-after:avoid} .diff-row{break-inside:avoid} .doc-p{font-size:8.5pt}}
 
 .source-clause-label{margin:2px 0 4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.02em}
+
+/* =========================================================
+   Dashboard Shell · 1차
+   - Desktop: fixed left sidebar
+   - Phone: topbar + right drawer
+   - Existing contract-review content remains isolated
+   ========================================================= */
+:root{
+  --app-sidebar-w:218px;
+  --app-sidebar-bg:#ffffff;
+  --app-sidebar-border:#d7dee7;
+  --app-nav-text:#374151;
+  --app-nav-muted:#7a8696;
+  --app-nav-icon:#64748b;
+  --app-nav-hover:#f5f7fa;
+  --app-nav-current-bg:#eaf2ff;
+  --app-nav-current-text:#145fbd;
+  --app-nav-current-indicator:#3182f6;
+  --app-nav-item-h:36px;
+  --app-nav-radius:9px;
+  --app-drawer-shadow:0 20px 54px rgba(15,23,42,.22);
+  --app-mobile-bar-h:48px;
+}
+body.app-dashboard{
+  min-width:0;
+  background:#eef2f6;
+}
+.app-shell{min-height:100vh}
+.app-sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:80;
+  width:var(--app-sidebar-w);
+  background:var(--app-sidebar-bg);
+  border-right:1px solid var(--app-sidebar-border);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.app-sidebar-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:58px;
+  padding:12px 14px 11px;
+  border-bottom:1px solid var(--app-sidebar-border);
+}
+.app-brand{min-width:0}
+.app-brand small{
+  display:block;
+  margin-bottom:2px;
+  color:var(--app-nav-muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+.app-brand strong{
+  display:block;
+  overflow:hidden;
+  color:#17395f;
+  font-size:14px;
+  line-height:1.2;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.app-sidebar-close{
+  display:none;
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:var(--app-nav-muted);
+  cursor:pointer;
+}
+.app-sidebar-close:hover{background:var(--app-nav-hover);color:var(--app-nav-text)}
+.app-sidebar-close svg{display:block;width:17px;height:17px;margin:auto}
+.app-nav{
+  flex:1 1 auto;
+  overflow-y:auto;
+  padding:10px 8px 18px;
+  scrollbar-width:thin;
+  scrollbar-color:#cfd7e1 transparent;
+}
+.app-nav-label{
+  margin:9px 9px 5px;
+  color:var(--app-nav-muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.07em;
+}
+.app-nav-item,
+.app-subnav-item{
+  position:relative;
+  width:100%;
+  border:0;
+  color:var(--app-nav-text);
+  background:transparent;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+  text-decoration:none;
+}
+.app-nav-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:var(--app-nav-item-h);
+  margin:2px 0;
+  padding:7px 9px;
+  border-radius:var(--app-nav-radius);
+  font-size:11.5px;
+  font-weight:700;
+}
+.app-nav-item:hover,
+.app-subnav-item:hover{background:var(--app-nav-hover)}
+.app-nav-item.is-active{
+  color:var(--app-nav-current-text);
+  background:var(--app-nav-current-bg);
+}
+.app-nav-item.is-active::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:7px;
+  bottom:7px;
+  width:3px;
+  border-radius:3px;
+  background:var(--app-nav-current-indicator);
+}
+.app-nav-icon{
+  flex:0 0 17px;
+  width:17px;
+  height:17px;
+  color:var(--app-nav-icon);
+}
+.app-nav-item.is-active .app-nav-icon{color:var(--app-nav-current-text)}
+.app-nav-icon svg{display:block;width:100%;height:100%}
+.app-nav-text{flex:1 1 auto;min-width:0}
+.app-nav-chevron{
+  flex:0 0 14px;
+  width:14px;
+  height:14px;
+  color:var(--app-nav-muted);
+  transition:transform .18s ease;
+}
+.app-nav-parent[aria-expanded="true"] .app-nav-chevron{transform:rotate(90deg)}
+.app-subnav{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .20s ease;
+}
+.app-subnav.is-open{grid-template-rows:1fr}
+.app-subnav-inner{min-height:0;overflow:hidden}
+.app-subnav-list{
+  margin:2px 0 5px 25px;
+  padding:2px 0 2px 9px;
+  border-left:1px solid #e2e7ee;
+}
+.app-subnav-item{
+  display:block;
+  min-height:28px;
+  margin:1px 0;
+  padding:6px 8px;
+  border-radius:7px;
+  color:#667384;
+  font-size:10.5px;
+  font-weight:700;
+}
+.app-subnav-item.is-active{
+  color:var(--app-nav-current-text);
+  background:#f0f6ff;
+  font-weight:900;
+}
+.app-content{
+  min-width:0;
+  min-height:100vh;
+  margin-left:var(--app-sidebar-w);
+}
+.app-view{display:none;min-width:0}
+.app-view.is-active{display:block}
+.app-view-contract .page{
+  margin:0 auto;
+}
+.app-mobile-bar{display:none}
+.app-drawer-overlay{display:none}
+
+@media(max-width:760px){
+  body.app-dashboard{background:#fff}
+  .app-content{
+    margin-left:0;
+    padding-top:var(--app-mobile-bar-h);
+  }
+  .app-mobile-bar{
+    position:fixed;
+    inset:0 0 auto 0;
+    z-index:70;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:var(--app-mobile-bar-h);
+    padding:0 12px 0 14px;
+    border-bottom:1px solid var(--app-sidebar-border);
+    background:rgba(255,255,255,.97);
+    backdrop-filter:blur(12px);
+  }
+  .app-mobile-title{
+    min-width:0;
+    overflow:hidden;
+    color:#17395f;
+    font-size:13px;
+    font-weight:900;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .app-menu-button{
+    display:grid;
+    place-items:center;
+    width:32px;
+    height:32px;
+    border:1px solid #d2d9e2;
+    border-radius:9px;
+    background:#fff;
+    color:#4c5b6d;
+    cursor:pointer;
+  }
+  .app-menu-button:hover{background:#f5f7fa}
+  .app-menu-button svg{width:18px;height:18px}
+  .app-sidebar{
+    inset:0 0 0 auto;
+    z-index:100;
+    width:min(84vw,310px);
+    border-right:0;
+    border-left:1px solid var(--app-sidebar-border);
+    box-shadow:var(--app-drawer-shadow);
+    transform:translateX(calc(100% + 20px));
+    opacity:.92;
+    visibility:hidden;
+    transition:
+      transform .28s ease .03s,
+      opacity .10s ease,
+      visibility 0s linear .34s;
+  }
+  body.app-menu-open .app-sidebar{
+    transform:translateX(0);
+    opacity:1;
+    visibility:visible;
+    transition:
+      transform .28s ease .03s,
+      opacity .10s ease,
+      visibility 0s;
+  }
+  .app-sidebar-close{display:grid;place-items:center}
+  .app-drawer-overlay{
+    position:fixed;
+    inset:0;
+    z-index:90;
+    display:block;
+    background:rgba(15,23,42,.34);
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .15s ease,visibility 0s linear .18s;
+  }
+  body.app-menu-open .app-drawer-overlay{
+    opacity:1;
+    visibility:visible;
+    transition:opacity .15s ease,visibility 0s;
+  }
+  body.app-menu-open{overflow:hidden}
+}
+@media print{
+  .app-sidebar,.app-mobile-bar,.app-drawer-overlay{display:none!important}
+  .app-content{margin-left:0!important;padding-top:0!important}
+  .app-view:not(.is-active){display:none!important}
+}
+
+/* =========================================================
+   3차 · 사업성 분석 Main UI
+   - CSS 예시의 control / segmented / fixed tooltip 철학을 축약 적용
+   - 계약검토 화면과 충돌하지 않도록 ba- prefix 사용
+   ========================================================= */
+:root{
+  --ba-surface:#fff;
+  --ba-surface-subtle:#f7f9fb;
+  --ba-surface-soft:#f2f5f8;
+  --ba-border:#d8e0e8;
+  --ba-border-soft:#e8edf2;
+  --ba-ink:#172033;
+  --ba-muted:#6d7888;
+  --ba-navy:#17395f;
+  --ba-blue:#2f6fae;
+  --ba-blue-soft:#edf5fd;
+  --ba-green:#137454;
+  --ba-green-soft:#ecf8f2;
+  --ba-red:#b0443b;
+  --ba-red-soft:#fff1ef;
+  --ba-amber:#9a6414;
+  --ba-amber-soft:#fff7e7;
+  --ba-control-h:30px;
+  --ba-radius:9px;
+  --ba-shadow:0 4px 16px rgba(23,57,95,.045);
+  --ba-tooltip-bg:#17243a;
+  --ba-tooltip-color:#fff;
+  --ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);
+}
+.app-view-business{background:#eef2f6}
+.ba-page{
+  min-height:100vh;
+  padding:18px 18px 28px;
+}
+.ba-page-inner{
+  width:min(100%,2300px);
+  margin:0 auto;
+}
+.ba-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  padding:0 2px 12px;
+}
+.ba-kicker{
+  margin:0 0 2px;
+  color:var(--ba-blue);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.ba-title-wrap h1{
+  margin:0;
+  color:var(--ba-navy);
+  font-size:23px;
+  line-height:1.15;
+  letter-spacing:-.025em;
+}
+.ba-subtitle{
+  margin:5px 0 0;
+  color:var(--ba-muted);
+  font-size:11px;
+}
+.ba-header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.ba-rs-control{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.ba-rs-label{
+  color:#5f6c7c;
+  font-size:10px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.ba-segmented{
+  display:inline-grid;
+  grid-auto-flow:column;
+  gap:2px;
+  padding:2px;
+  border:1px solid var(--ba-border);
+  border-radius:8px;
+  background:#f4f7fa;
+}
+.ba-segmented button{
+  min-width:42px;
+  height:25px;
+  padding:0 8px;
+  border:0;
+  border-radius:6px;
+  background:transparent;
+  color:#677487;
+  font:inherit;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+.ba-segmented button:hover{background:#fff;color:var(--ba-navy)}
+.ba-segmented button:focus-visible{
+  outline:2px solid rgba(49,130,246,.32);
+  outline-offset:1px;
+}
+.ba-segmented button.active{
+  color:#fff;
+  background:var(--ba-navy);
+  box-shadow:0 1px 3px rgba(23,57,95,.16);
+}
+.ba-download-button{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:31px;
+  padding:6px 10px;
+  border:1px solid #b9c9d9;
+  border-radius:8px;
+  background:#fff;
+  color:var(--ba-navy);
+  text-decoration:none;
+  font-size:10.5px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.ba-download-button:hover{
+  border-color:#86a8c7;
+  background:#f7fbff;
+}
+.ba-download-button:focus-visible{
+  outline:2px solid rgba(49,130,246,.32);
+  outline-offset:2px;
+}
+.ba-download-icon{
+  display:block;
+  width:16px;
+  height:16px;
+  color:#26744d;
+}
+.ba-download-icon svg{display:block;width:100%;height:100%}
+
+.ba-settings{
+  display:grid;
+  grid-template-columns:minmax(0,1.72fr) minmax(230px,.62fr) minmax(0,1.06fr);
+  gap:8px;
+}
+.ba-settings-card{
+  min-width:0;
+  border:1px solid var(--ba-border);
+  border-radius:var(--ba-radius);
+  background:var(--ba-surface);
+  box-shadow:var(--ba-shadow);
+  overflow:hidden;
+}
+.ba-settings-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:34px;
+  padding:7px 9px;
+  border-bottom:1px solid var(--ba-border-soft);
+  background:var(--ba-surface-subtle);
+}
+.ba-settings-head>div{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+}
+.ba-settings-no{
+  display:grid;
+  place-items:center;
+  width:20px;
+  height:20px;
+  border-radius:6px;
+  background:#eaf2fb;
+  color:var(--ba-blue);
+  font-size:8.5px;
+  font-weight:900;
+}
+.ba-settings-head strong{
+  color:var(--ba-navy);
+  font-size:10.5px;
+}
+.ba-settings-caption{
+  color:#8a95a3;
+  font-size:8.5px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.ba-settings-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  padding:5px 7px 7px;
+}
+.ba-settings-grid-basic{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+.ba-setting-field{
+  min-width:0;
+  padding:5px 6px;
+  border-radius:6px;
+}
+.ba-setting-field:hover{background:#f8fafc}
+.ba-setting-label{
+  display:flex;
+  align-items:center;
+  min-width:0;
+  gap:3px;
+  margin-bottom:2px;
+  color:#748092;
+  font-size:8.8px;
+  font-weight:800;
+  line-height:1.2;
+}
+.ba-value-shell{
+  display:flex;
+  align-items:center;
+  min-width:0;
+  height:26px;
+  border:1px solid transparent;
+  border-radius:6px;
+  background:transparent;
+  transition:border-color .12s ease,background .12s ease,box-shadow .12s ease;
+}
+.ba-setting-field:hover .ba-value-shell{
+  border-color:#e1e7ee;
+  background:#fff;
+}
+.ba-value-shell:focus-within{
+  border-color:#8eb6dc;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(62,132,194,.12);
+}
+.ba-setting-input{
+  width:100%;
+  min-width:0;
+  height:24px;
+  padding:2px 3px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--ba-ink);
+  font-family:inherit;
+  font-size:11px;
+  font-weight:900;
+  line-height:1;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.ba-setting-unit{
+  flex:0 0 auto;
+  padding:0 4px 0 2px;
+  color:#7e8998;
+  font-size:8.5px;
+  font-weight:800;
+}
+.ba-help{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+}
+.ba-info-button{
+  display:inline-grid;
+  place-items:center;
+  width:14px;
+  height:14px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#eef4fa;
+  color:#52779c;
+  cursor:help;
+}
+.ba-info-button:hover,
+.ba-info-button:focus-visible,
+.ba-info-button.is-open{
+  background:#dceaf7;
+  color:#245c8f;
+  outline:0;
+}
+.ba-info-icon-svg{display:block;width:100%;height:100%;pointer-events:none}
+
+.ba-analysis-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:8px;
+}
+.ba-analysis-panel{
+  min-width:0;
+  border:1px solid var(--ba-border);
+  border-radius:var(--ba-radius);
+  background:#fff;
+  box-shadow:var(--ba-shadow);
+  overflow:hidden;
+}
+.ba-panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:44px;
+  padding:7px 9px;
+  border-bottom:1px solid var(--ba-border);
+  background:linear-gradient(180deg,#fbfcfd,#f6f8fa);
+}
+.ba-panel-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.ba-panel-index{
+  display:grid;
+  place-items:center;
+  flex:0 0 25px;
+  width:25px;
+  height:25px;
+  border-radius:7px;
+  color:#fff;
+  background:var(--ba-navy);
+  font-size:10px;
+  font-weight:900;
+}
+.ba-panel-title h2{
+  margin:0;
+  color:var(--ba-navy);
+  font-size:11.5px;
+  line-height:1.2;
+}
+.ba-panel-title p{
+  margin:2px 0 0;
+  color:#7a8696;
+  font-size:8.7px;
+}
+.ba-panel-chip{
+  flex:0 0 auto;
+  padding:3px 7px;
+  border-radius:999px;
+  background:#edf3f8;
+  color:#53708b;
+  font-size:8.5px;
+  font-weight:900;
+}
+.ba-matrix-scroll{
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#cbd5df transparent;
+}
+.ba-matrix{
+  --ba-rs-count:6;
+  --ba-rs-col:82px;
+  min-width:calc(172px + var(--ba-rs-count) * var(--ba-rs-col));
+}
+.ba-matrix-head,
+.ba-metric-row{
+  display:grid;
+  grid-template-columns:172px repeat(var(--ba-rs-count),minmax(var(--ba-rs-col),1fr));
+  align-items:stretch;
+}
+.ba-matrix-head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  min-height:31px;
+  border-bottom:1px solid var(--ba-border);
+  background:#fff;
+}
+.ba-matrix-label-head{
+  display:flex;
+  align-items:center;
+  padding:5px 9px;
+  color:#8792a0;
+  font-size:8.5px;
+  font-weight:900;
+}
+.ba-rs-head{
+  display:grid;
+  place-items:center;
+  border-left:1px solid #edf0f3;
+  color:#405064;
+  font-size:9px;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+}
+.ba-rs-head small{
+  display:block;
+  margin-left:2px;
+  color:#9aa4b0;
+  font-size:7px;
+}
+.ba-group-title{
+  display:flex;
+  align-items:center;
+  min-height:24px;
+  padding:4px 9px;
+  border-top:1px solid var(--ba-border);
+  border-bottom:1px solid var(--ba-border-soft);
+  background:#f7f9fb;
+  color:var(--ba-navy);
+  font-size:8.7px;
+  font-weight:900;
+  letter-spacing:.03em;
+}
+.ba-metric-row{
+  min-height:29px;
+  border-bottom:1px solid #eef1f4;
+}
+.ba-metric-row:last-child{border-bottom:0}
+.ba-metric-row:hover{background:#fbfcfd}
+.ba-metric-label{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  min-width:0;
+  padding:5px 9px;
+  color:#596779;
+  font-size:9px;
+  font-weight:700;
+}
+.ba-metric-label strong{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ba-metric-cell{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  min-width:0;
+  padding:5px 7px;
+  border-left:1px solid #f0f2f5;
+  color:#263548;
+  font-size:9.2px;
+  font-weight:800;
+  line-height:1.15;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.ba-metric-row.is-subtotal{
+  background:#f8fafc;
+}
+.ba-metric-row.is-subtotal .ba-metric-label,
+.ba-metric-row.is-subtotal .ba-metric-cell{
+  color:var(--ba-navy);
+  font-weight:900;
+}
+.ba-metric-row.is-profit{
+  background:#f7fbf9;
+}
+.ba-metric-row.is-profit .ba-metric-label{
+  color:#315b4b;
+  font-weight:900;
+}
+.ba-metric-row.is-profit .ba-metric-cell{
+  color:var(--ba-green);
+  font-weight:900;
+}
+.ba-metric-cell.is-negative{
+  color:var(--ba-red)!important;
+  background:linear-gradient(90deg,transparent,var(--ba-red-soft));
+}
+.ba-metric-cell.is-positive-strong{
+  color:var(--ba-green)!important;
+}
+.ba-metric-row.is-easy{
+  background:#f5f9fd;
+}
+.ba-metric-row.is-easy .ba-metric-label,
+.ba-metric-row.is-easy .ba-metric-cell{
+  color:#1c5d94;
+  font-weight:900;
+}
+
+.ba-floating-tooltip{
+  position:fixed;
+  z-index:1200;
+  left:-9999px;
+  top:-9999px;
+  width:min(300px,calc(100vw - 24px));
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:var(--ba-tooltip-bg);
+  color:var(--ba-tooltip-color);
+  box-shadow:var(--ba-tooltip-shadow);
+  font-size:9.5px;
+  font-weight:650;
+  line-height:1.48;
+  letter-spacing:-.01em;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(4px);
+  transition:opacity .14s ease,transform .14s ease,visibility .14s ease;
+  pointer-events:none;
+  word-break:keep-all;
+}
+.ba-floating-tooltip.is-visible{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+.ba-floating-tooltip::after{
+  content:"";
+  position:absolute;
+  left:var(--ba-tooltip-arrow,50%);
+  top:100%;
+  transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:var(--ba-tooltip-bg);
+}
+.ba-floating-tooltip.is-below::after{
+  top:auto;
+  bottom:100%;
+  border-top-color:transparent;
+  border-bottom-color:var(--ba-tooltip-bg);
+}
+
+@media(max-width:1600px){
+  .ba-settings{
+    grid-template-columns:minmax(0,1.45fr) minmax(220px,.7fr) minmax(0,1fr);
+  }
+  .ba-settings-grid-basic{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ba-matrix{--ba-rs-col:80px}
+}
+@media(max-width:1100px){
+  .ba-page{padding:14px 12px 24px}
+  .ba-header{align-items:flex-start}
+  .ba-settings{grid-template-columns:1fr 1fr}
+  .ba-settings-basic{grid-column:1/-1}
+  .ba-settings-grid-basic{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .ba-analysis-grid{grid-template-columns:1fr}
+  .ba-matrix{--ba-rs-col:88px}
+}
+@media(max-width:760px){
+  .app-view-business{background:#fff}
+  .ba-page{
+    min-height:calc(100vh - var(--app-mobile-bar-h));
+    padding:13px 10px 22px;
+  }
+  .ba-header{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:9px;
+    padding-bottom:10px;
+  }
+  .ba-title-wrap h1{font-size:20px}
+  .ba-header-actions{
+    width:100%;
+    justify-content:space-between;
+  }
+  .ba-settings{grid-template-columns:1fr}
+  .ba-settings-basic{grid-column:auto}
+  .ba-settings-grid-basic,
+  .ba-settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ba-analysis-grid{grid-template-columns:1fr}
+  .ba-panel-head{align-items:flex-start}
+  .ba-panel-title h2{font-size:11px}
+  .ba-matrix{--ba-rs-col:86px}
+}
+@media(max-width:430px){
+  .ba-settings-grid-basic,
+  .ba-settings-grid{grid-template-columns:1fr 1fr}
+  .ba-download-button{padding:6px 8px}
+  .ba-download-button span:last-child{font-size:9.5px}
+  .ba-rs-label{display:none}
+}
+
+/* 4차 · 월 인건비 추정 / 업그레이드 비용 */
+.ba-reference-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:8px}
+.ba-reference-card{min-width:0;border:1px solid var(--ba-border);border-radius:var(--ba-radius);background:#fff;box-shadow:var(--ba-shadow);overflow:hidden}
+.ba-reference-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:8px 10px;border-bottom:1px solid var(--ba-border);background:linear-gradient(180deg,#fbfcfd,#f6f8fa)}
+.ba-reference-kicker{margin:0 0 2px;color:#7a8797;font-size:7.8px;font-weight:900;letter-spacing:.08em}
+.ba-reference-title-line{display:flex;align-items:center;gap:4px}
+.ba-reference-title-line h2{margin:0;color:var(--ba-navy);font-size:11.5px;line-height:1.2}
+.ba-reference-total{flex:0 0 auto;text-align:right}
+.ba-reference-total span{display:block;margin-bottom:1px;color:#8792a0;font-size:8px;font-weight:800}
+.ba-reference-total strong{display:block;color:var(--ba-navy);font-size:13px;font-weight:900;font-variant-numeric:tabular-nums}
+.ba-reference-meta{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px;min-height:28px;padding:5px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd;color:#7a8696;font-size:8.3px}
+.ba-reference-meta b{color:#516173}
+.ba-labor-table,.ba-upgrade-table{width:100%;min-width:0}
+.ba-ref-head-row,.ba-labor-row,.ba-upgrade-row{display:grid;align-items:center;min-height:30px;border-bottom:1px solid #eef1f4}
+.ba-ref-head-row{min-height:25px;background:#f8fafc;color:#8893a1;font-size:7.8px;font-weight:900}
+.ba-ref-head-row>div,.ba-labor-row>div,.ba-upgrade-row>div{min-width:0;padding:5px 7px}
+.ba-ref-head-row>div:not(:first-child),.ba-labor-row>div:not(:first-child),.ba-upgrade-row>div:not(:first-child){border-left:1px solid #f0f2f5}
+.ba-labor-row:hover,.ba-upgrade-row:hover{background:#fbfcfd}
+.ba-labor-table .ba-ref-head-row,.ba-labor-row{grid-template-columns:minmax(140px,1.55fr) 58px 54px minmax(88px,1fr) minmax(78px,.9fr) minmax(76px,.82fr)}
+.ba-upgrade-table .ba-ref-head-row,.ba-upgrade-row{grid-template-columns:minmax(160px,1.55fr) minmax(96px,.92fr) 54px minmax(106px,1fr) minmax(98px,.95fr)}
+.ba-ref-head-row>div:not(:first-child){text-align:right}
+.ba-ref-label{display:flex;align-items:center;gap:6px;color:#526174;font-size:8.8px;font-weight:800}
+.ba-ref-label small{flex:0 0 auto;padding:2px 5px;border-radius:999px;background:#eef3f7;color:#718094;font-size:7.3px;font-weight:900}
+.ba-ref-label.is-sub{padding-left:13px;color:#657386}
+.ba-ref-value{color:#2c3b4e;font-size:8.8px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ba-ref-value.is-muted{color:#9aa4b0;font-weight:700}
+.ba-ref-input-shell{display:flex;align-items:center;justify-content:flex-end;min-width:0;height:24px;border:1px solid transparent;border-radius:6px}
+.ba-labor-row:hover .ba-ref-input-shell,.ba-upgrade-row:hover .ba-ref-input-shell{border-color:#e1e7ee;background:#fff}
+.ba-ref-input-shell:focus-within{border-color:#8eb6dc!important;background:#fff!important;box-shadow:0 0 0 2px rgba(62,132,194,.12)}
+.ba-ref-input{width:100%;min-width:0;height:22px;padding:2px 3px;border:0;outline:0;background:transparent;color:#263548;font-family:inherit;font-size:8.9px;font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+.ba-ref-input-unit{flex:0 0 auto;padding-right:3px;color:#8792a0;font-size:7.5px;font-weight:800}
+.ba-reference-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ba-border);background:#f8fafc}
+.ba-reference-summary>div{min-width:0;padding:7px 8px}
+.ba-reference-summary>div+div{border-left:1px solid var(--ba-border-soft)}
+.ba-reference-summary span{display:block;margin-bottom:2px;color:#7c8897;font-size:7.8px;font-weight:800}
+.ba-reference-summary strong{display:block;overflow:hidden;color:#344458;font-size:9.6px;font-weight:900;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ba-reference-summary .is-primary{background:#edf5fd}
+.ba-reference-summary .is-primary span{color:#54718d}
+.ba-reference-summary .is-primary strong{color:#1e5f96}
+.ba-upgrade-controls{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px;min-height:28px;padding:4px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd}
+.ba-upgrade-controls label{display:flex;align-items:center;gap:5px;color:#7a8696;font-size:8.2px;font-weight:800}
+.ba-inline-edit{display:inline-flex;align-items:center;height:22px;border:1px solid transparent;border-radius:6px}
+.ba-inline-edit:focus-within{border-color:#8eb6dc;background:#fff;box-shadow:0 0 0 2px rgba(62,132,194,.12)}
+.ba-inline-edit input{width:38px;height:20px;padding:1px 2px;border:0;outline:0;background:transparent;color:#334357;font-family:inherit;font-size:8.8px;font-weight:900;text-align:right}
+.ba-inline-edit em{padding-right:3px;color:#8792a0;font-size:7.6px;font-style:normal}
+.ba-reference-note{margin:0;padding:6px 9px;border-top:1px solid var(--ba-border-soft);background:#fffdf8;color:#8b744f;font-size:7.9px;line-height:1.4}
+.ba-reference-note b{color:#785e35}
+@media(max-width:1260px){.ba-reference-grid{grid-template-columns:1fr}}
+@media(max-width:760px){
+  .ba-reference-head{align-items:flex-start}
+  .ba-reference-total strong{font-size:11.5px}
+  .ba-labor-table,.ba-upgrade-table{overflow-x:auto}
+  .ba-labor-table .ba-ref-head-row,.ba-labor-row{min-width:650px}
+  .ba-upgrade-table .ba-ref-head-row,.ba-upgrade-row{min-width:600px}
+  .ba-reference-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ba-reference-summary>div:nth-child(3){border-left:0;border-top:1px solid var(--ba-border-soft)}
+  .ba-reference-summary>div:nth-child(4){border-top:1px solid var(--ba-border-soft)}
+}
+
+/* =========================================================
+   5차 · 용역비 정산서 2026-03 ~ 2026-08
+   ========================================================= */
+.app-view-settlement{background:#eef2f6}
+.st-page{min-height:100vh;padding:18px 18px 30px}
+.st-page-inner{width:min(100%,1500px);margin:0 auto}
+.st-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 2px 12px;
+}
+.st-kicker{margin:0 0 2px;color:#2f6fae;font-size:9px;font-weight:900;letter-spacing:.08em}
+.st-header h1{margin:0;color:#17395f;font-size:23px;line-height:1.15;letter-spacing:-.025em}
+.st-subtitle{margin:5px 0 0;color:#6d7888;font-size:11px}
+.st-header-meta{display:flex;align-items:center;gap:6px}
+.st-month-badge,.st-vat-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:27px;
+  padding:5px 9px;
+  border:1px solid #d8e0e8;
+  border-radius:999px;
+  background:#fff;
+  color:#526174;
+  font-size:9.5px;
+  font-weight:900;
+}
+.st-month-badge{color:#1f5f97;background:#edf5fd;border-color:#c8dcee}
+
+.st-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  margin-bottom:8px;
+}
+.st-summary article{
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid #d8e0e8;
+  border-radius:9px;
+  background:#fff;
+  box-shadow:0 4px 16px rgba(23,57,95,.04);
+}
+.st-summary span{
+  display:block;
+  margin-bottom:2px;
+  color:#7b8796;
+  font-size:8.5px;
+  font-weight:800;
+}
+.st-summary strong{
+  display:block;
+  overflow:hidden;
+  color:#2b3b4e;
+  font-size:13px;
+  font-weight:900;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.st-summary .is-result{
+  border-color:#bfd7ca;
+  background:#f4faf7;
+}
+.st-summary .is-result span{color:#56806c}
+.st-summary .is-result strong{color:#137454}
+
+.st-document{
+  border:1px solid #d6dee7;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 5px 20px rgba(23,57,95,.045);
+  overflow:hidden;
+}
+.st-document-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:12px 14px;
+  border-bottom:1px solid #dde4eb;
+  background:linear-gradient(180deg,#fbfcfd,#f7f9fb);
+}
+.st-document-title h2{
+  margin:0;
+  color:#17395f;
+  font-size:15px;
+  line-height:1.2;
+}
+.st-document-title p{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 14px;
+  margin:4px 0 0;
+  color:#7b8796;
+  font-size:8.8px;
+}
+.st-document-title b{color:#526174;font-weight:900}
+.st-document-month{
+  flex:0 0 auto;
+  color:#2d5f8e;
+  font-size:11px;
+  font-weight:900;
+}
+.st-notice{
+  padding:10px 14px;
+  border-bottom:1px solid #e3e8ee;
+  background:#f8fbfe;
+  color:#42536a;
+  font-size:9.5px;
+  font-weight:650;
+  line-height:1.55;
+  white-space:pre-line;
+}
+
+.st-section{border-bottom:1px solid #dfe5eb}
+.st-section-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-height:30px;
+  padding:6px 11px;
+  border-bottom:1px solid #e5eaf0;
+  background:#f7f9fb;
+}
+.st-section-title span{
+  display:grid;
+  place-items:center;
+  width:20px;
+  height:20px;
+  border-radius:6px;
+  background:#e8f1fa;
+  color:#2e6598;
+  font-size:7.8px;
+  font-weight:900;
+}
+.st-section-title strong{color:#17395f;font-size:9.8px}
+.st-row-head,.st-row{
+  display:grid;
+  grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr);
+}
+.st-row-head{
+  min-height:25px;
+  border-bottom:1px solid #edf0f3;
+  background:#fcfdfe;
+  color:#8b95a2;
+  font-size:7.7px;
+  font-weight:900;
+}
+.st-row-head>div,.st-row>div{min-width:0;padding:5px 9px}
+.st-row-head>div:nth-child(2),.st-row-amount{text-align:right}
+.st-row-head>div+div,.st-row>div+div{border-left:1px solid #f0f2f5}
+.st-row{
+  min-height:30px;
+  border-bottom:1px solid #eef1f4;
+}
+.st-row:last-child{border-bottom:0}
+.st-row:hover{background:#fbfcfd}
+.st-row-label{
+  display:flex;
+  align-items:center;
+  color:#4e5e72;
+  font-size:9px;
+  font-weight:800;
+}
+.st-row-label.is-sub{padding-left:22px;color:#667487}
+.st-row-amount{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  color:#2c3c50;
+  font-size:9.2px;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.st-row-note{
+  display:flex;
+  align-items:center;
+  color:#7a8797;
+  font-size:8.2px;
+  line-height:1.38;
+  word-break:keep-all;
+}
+.st-row.is-key{background:#f8fafc}
+.st-row.is-key .st-row-label,.st-row.is-key .st-row-amount{color:#17395f;font-weight:900}
+.st-row.is-zero .st-row-amount{color:#8b96a4}
+
+.st-totals{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid #d9e1e9;
+}
+.st-totals>div{
+  min-width:0;
+  padding:9px 11px;
+  background:#f8fafc;
+}
+.st-totals>div+div{border-left:1px solid #e4e9ef}
+.st-totals span{
+  display:block;
+  margin-bottom:2px;
+  color:#7c8796;
+  font-size:8.2px;
+  font-weight:800;
+}
+.st-totals strong{
+  display:block;
+  color:#334458;
+  font-size:11.5px;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+}
+.st-totals .is-final{background:#eef7f2}
+.st-totals .is-final span{color:#527865}
+.st-totals .is-final strong{color:#137454;font-size:13px}
+.st-totals small{display:block;margin-top:2px;color:#879289;font-size:7.5px}
+.st-stamp{
+  padding:9px 12px;
+  border-top:1px solid #dfe5eb;
+  color:#657285;
+  font-size:8.5px;
+  font-weight:800;
+  text-align:right;
+}
+
+@media(max-width:900px){
+  .st-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .st-row-head,.st-row{grid-template-columns:minmax(150px,.8fr) 110px minmax(230px,1.5fr)}
+  .st-section{overflow-x:auto}
+  .st-row-head,.st-row{min-width:620px}
+}
+@media(max-width:760px){
+  .app-view-settlement{background:#fff}
+  .st-page{min-height:calc(100vh - var(--app-mobile-bar-h));padding:13px 10px 24px}
+  .st-header{align-items:flex-start;flex-direction:column;gap:8px}
+  .st-header h1{font-size:20px}
+  .st-header-meta{width:100%;justify-content:flex-end}
+  .st-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .st-summary article{padding:8px}
+  .st-summary strong{font-size:11.5px}
+  .st-document-head{align-items:flex-start}
+  .st-document-title p{flex-direction:column;gap:2px}
+  .st-notice{padding:9px 10px;font-size:8.8px}
+  .st-totals{grid-template-columns:1fr}
+  .st-totals>div+div{border-left:0;border-top:1px solid #e4e9ef}
+  .st-stamp{text-align:left}
+}
+
+/* 6차 · 통합 QA 정리 */
+.ba-page-inner > .ba-reference-grid{margin-top:8px}
+
+/* 6차 · 구형 section 공통 margin의 신규 대시보드 침범 방지 */
+.app-content > .app-view{margin-top:0}
+.ba-settings{margin-top:8px}
+.st-summary{margin-top:8px}
+.st-document{margin-top:8px}
+
+/* =========================================================
+   Desktop-only mode
+   - 모든 기기에서 2560px 데스크탑 레이아웃만 사용
+   - 모바일/태블릿 반응형 규칙 무효화
+   ========================================================= */
+html,body{
+  min-width:2560px!important;
+}
+body.app-dashboard{
+  overflow-x:auto!important;
+}
+.app-shell{
+  min-width:2560px!important;
+}
+.app-sidebar{
+  display:flex!important;
+  position:fixed!important;
+  inset:0 auto 0 0!important;
+  width:var(--app-sidebar-w)!important;
+  transform:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+  border-right:1px solid var(--app-sidebar-border)!important;
+  border-left:0!important;
+  box-shadow:none!important;
+}
+.app-sidebar-close,
+.app-mobile-bar,
+.app-drawer-overlay,
+.app-menu-button{
+  display:none!important;
+}
+body.app-menu-open{
+  overflow:auto!important;
+}
+.app-content{
+  margin-left:var(--app-sidebar-w)!important;
+  padding-top:0!important;
+  min-width:calc(2560px - var(--app-sidebar-w))!important;
+}
+.app-view{
+  margin-top:0!important;
+}
+
+/* 사업성 분석: 항상 desktop 2열 */
+.ba-page{
+  min-height:100vh!important;
+  padding:18px 18px 28px!important;
+}
+.ba-page-inner{
+  width:min(100%,2300px)!important;
+  margin:0 auto!important;
+}
+.ba-header{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  padding:0 2px 12px!important;
+}
+.ba-header-actions{
+  width:auto!important;
+  justify-content:flex-start!important;
+}
+.ba-rs-label{
+  display:inline!important;
+}
+.ba-settings{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.72fr) minmax(230px,.62fr) minmax(0,1.06fr)!important;
+  gap:8px!important;
+}
+.ba-settings-basic{
+  grid-column:auto!important;
+}
+.ba-settings-grid-basic{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.ba-settings-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.ba-analysis-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.ba-matrix{
+  --ba-rs-col:82px!important;
+}
+.ba-reference-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+
+/* 용역비 정산서: 항상 desktop */
+.st-page{
+  min-height:100vh!important;
+  padding:18px 18px 30px!important;
+}
+.st-header{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+}
+.st-summary{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.st-row-head,
+.st-row{
+  grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr)!important;
+  min-width:0!important;
+}
+.st-section{
+  overflow:visible!important;
+}
+.st-totals{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.st-totals>div+div{
+  border-left:1px solid #e4e9ef!important;
+  border-top:0!important;
+}
+.st-stamp{
+  text-align:right!important;
+}
+
+/* 계약 검토 모바일 전용 압축/카드 규칙을 사용하지 않고 desktop 폭 유지 */
+.app-view-contract{
+  min-width:calc(2560px - var(--app-sidebar-w))!important;
+}
+.app-view-contract .page{
+  min-width:0!important;
+  max-width:none!important;
+}
+
+/* =========================================================
+   사업성 분석 통합형 리팩토링
+   - 1안/2안 중복 표 제거
+   - 공통값 1회 표시
+   - 차이 발생 항목만 1안/2안 비교
+   - 2560px 기준 가로스크롤 없는 fluid matrix
+   ========================================================= */
+
+/* 콘텐츠 폭을 2560 Desktop 가용영역까지 적극 사용 */
+.ba-page-inner{
+  width:100%!important;
+  max-width:none!important;
+}
+
+/* 상단 설정: 수정 가능한 값은 기본 상태부터 입력필드 외곽선 표시 */
+.ba-settings .ba-value-shell{
+  border:1px solid #d5dde6!important;
+  background:#fff!important;
+  box-shadow:0 1px 1px rgba(23,57,95,.025);
+}
+.ba-settings .ba-setting-field:hover .ba-value-shell{
+  border-color:#b8c6d5!important;
+  background:#fff!important;
+}
+.ba-settings .ba-value-shell:focus-within{
+  border-color:#78a7d2!important;
+  background:#fff!important;
+  box-shadow:0 0 0 2px rgba(49,130,246,.13)!important;
+}
+
+/* 단일 분석 패널 */
+.ba-analysis-grid.ba-analysis-grid-unified{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.ba-analysis-unified{
+  width:100%;
+}
+.ba-unified-head{
+  min-height:54px;
+}
+.ba-plan-legend{
+  display:flex;
+  align-items:stretch;
+  gap:6px;
+  flex:0 0 auto;
+}
+.ba-plan-legend-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:255px;
+  padding:6px 8px;
+  border:1px solid #dce3ea;
+  border-radius:8px;
+  background:#fff;
+}
+.ba-plan-legend-item>span{
+  display:grid;
+  place-items:center;
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-plan-legend-item div{
+  min-width:0;
+}
+.ba-plan-legend-item strong{
+  display:block;
+  color:#34465a;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-plan-legend-item small{
+  display:block;
+  margin-top:1px;
+  overflow:hidden;
+  color:#7a8796;
+  font-size:7.7px;
+  font-weight:700;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ba-plan-legend-item.is-fixed>span{
+  color:#235f95;
+  background:#eaf3fb;
+}
+.ba-plan-legend-item.is-share>span{
+  color:#7a5a16;
+  background:#fff4d8;
+}
+
+/* 2560px에서는 RS 0.5(11열)까지 전체 폭 안에 표시 */
+.ba-unified-scroll{
+  overflow-x:auto;
+}
+.ba-unified-matrix{
+  --ba-rs-count:6;
+  width:100%!important;
+  min-width:0!important;
+}
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:230px repeat(var(--ba-rs-count),minmax(0,1fr))!important;
+}
+.ba-unified-matrix .ba-matrix-head{
+  min-height:34px;
+}
+.ba-unified-matrix .ba-rs-head{
+  min-width:0;
+  padding:4px 5px;
+}
+.ba-unified-matrix .ba-metric-row{
+  min-height:30px;
+}
+.ba-unified-matrix .ba-metric-label{
+  padding-left:11px;
+}
+.ba-unified-matrix .ba-metric-cell{
+  min-width:0;
+  padding:5px 8px;
+}
+
+/* 안별 비교 묶음 */
+.ba-compare-block{
+  border-top:1px solid #dde4eb;
+}
+.ba-compare-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-height:27px;
+  padding:5px 10px;
+  border-bottom:1px solid #e7ebf0;
+  background:#f3f7fb;
+}
+.ba-compare-title strong{
+  color:#17395f;
+  font-size:9px;
+  font-weight:900;
+}
+.ba-compare-title small{
+  color:#7d8997;
+  font-size:7.8px;
+  font-weight:700;
+}
+.ba-metric-row.is-plan-fixed .ba-metric-label strong::before,
+.ba-metric-row.is-plan-share .ba-metric-label strong::before,
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
+  display:inline-grid;
+  place-items:center;
+  width:27px;
+  height:17px;
+  margin-right:6px;
+  border-radius:5px;
+  font-size:7.5px;
+  font-weight:900;
+  vertical-align:middle;
+}
+.ba-metric-row.is-plan-fixed .ba-metric-label strong::before{
+  content:"1안";
+  color:#235f95;
+  background:#eaf3fb;
+}
+.ba-metric-row.is-plan-share .ba-metric-label strong::before{
+  content:"2안";
+  color:#7a5a16;
+  background:#fff4d8;
+}
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
+  content:"차이";
+  color:#5f6976;
+  background:#eef1f4;
+}
+.ba-metric-row.is-plan-fixed{
+  background:#fbfdff;
+}
+.ba-metric-row.is-plan-share{
+  background:#fffdf8;
+}
+.ba-metric-row.is-plan-diff{
+  background:#f8fafc;
+}
+.ba-metric-row.is-plan-diff .ba-metric-label strong{
+  color:#596779;
+}
+.ba-metric-row.is-plan-diff .ba-metric-cell{
+  font-weight:900;
+}
+.ba-metric-cell.is-diff-positive{
+  color:#137454!important;
+  background:linear-gradient(90deg,transparent,#eef8f3);
+}
+.ba-metric-cell.is-diff-negative{
+  color:#b0443b!important;
+  background:linear-gradient(90deg,transparent,#fff2f0);
+}
+.ba-metric-cell.is-diff-zero{
+  color:#8792a0!important;
+}
+
+/* 참고자료는 기존 2열 유지 */
+.ba-reference-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+
+/* =========================================================
+   사업성 분석 밀도 조정
+   - 2560 모니터는 유지
+   - 콘텐츠는 약 1920급 밀도(본문 max-width 1740px)
+   - RS 1.0은 더 compact, RS 0.5는 넓게 사용
+   ========================================================= */
+.ba-page-inner{
+  width:100%!important;
+  max-width:1740px!important;
+  margin:0 auto!important;
+}
+
+/* 상단 설정/하단 참고자료도 동일 콘텐츠 폭 사용 */
+.ba-settings,
+.ba-reference-grid,
+.ba-analysis-grid{
+  width:100%!important;
+}
+
+/* 통합 Matrix 자체는 RS 개수에 따라 적정 폭만 사용 */
+.ba-unified-scroll{
+  overflow-x:auto!important;
+}
+.ba-unified-matrix{
+  width:min(100%, var(--ba-matrix-max,1240px))!important;
+  max-width:var(--ba-matrix-max,1240px)!important;
+  min-width:0!important;
+  margin:0 auto!important;
+}
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:220px repeat(var(--ba-rs-count), minmax(0,1fr))!important;
+}
+.ba-unified-matrix .ba-metric-cell{
+  padding-left:7px!important;
+  padding-right:7px!important;
+}
+
+/* RS 1.0: 6열은 약 1240px 안에서 비교 밀도 확보 */
+.ba-unified-matrix[data-rs-density="compact"]{
+  --ba-matrix-max:1240px;
+}
+
+/* RS 0.5: 11열은 본문폭을 최대한 활용 */
+.ba-unified-matrix[data-rs-density="wide"]{
+  --ba-matrix-max:1740px;
+}
+
+/* =========================================================
+   전체 메뉴 공통 가로 레이아웃
+   - 재계약 검토 / 사업성 분석 / 용역비 정산서 동일 1740px
+   - 2560 Desktop 화면에서 메뉴 전환 시 좌우 폭 변화 방지
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+}
+
+/* 1. 재계약 검토 */
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 2. 사업성 분석 */
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 3. 용역비 정산서 */
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* =========================================================
+   전체 메뉴 공통 좌측 정렬
+   - 좌측 메뉴 다음 28px 간격
+   - 모든 메뉴 본문 max-width 1740px
+   - 가운데 정렬 제거
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+  --app-content-gap:28px;
+}
+
+/* 재계약 검토 */
+.app-view-contract{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* 사업성 분석 */
+.ba-page{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* 용역비 정산서 */
+.st-page{
+  padding-left:var(--app-content-gap)!important;
+  padding-right:var(--app-content-gap)!important;
+  box-sizing:border-box!important;
+}
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* =========================================================
+   전체 대시보드 Shell 중앙 정렬
+   - 메뉴 218px + 간격 28px + 콘텐츠 1740px
+   - 전체 Shell 1986px을 2560 viewport 중앙에 배치
+   - Sidebar는 Shell 내부 sticky
+   - 모든 메뉴 콘텐츠 좌우 기준선 통일
+   ========================================================= */
+:root{
+  --app-layout-max:1740px;
+  --app-sidebar-w:218px;
+  --app-shell-gap:28px;
+  --app-shell-w:calc(var(--app-sidebar-w) + var(--app-shell-gap) + var(--app-layout-max));
+}
+
+.app-shell{
+  display:grid!important;
+  grid-template-columns:var(--app-sidebar-w) var(--app-layout-max)!important;
+  column-gap:var(--app-shell-gap)!important;
+  align-items:start!important;
+  width:var(--app-shell-w)!important;
+  min-width:var(--app-shell-w)!important;
+  min-height:100vh!important;
+  margin:0 auto!important;
+}
+
+/* 브라우저 최좌측 fixed 메뉴를 해제하고 Shell 안에서 고정 */
+.app-sidebar{
+  position:sticky!important;
+  top:0!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  inset:auto!important;
+  grid-column:1!important;
+  width:var(--app-sidebar-w)!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  align-self:start!important;
+}
+
+/* 가운데 Shell의 두 번째 열을 모든 메뉴 공통 콘텐츠 영역으로 사용 */
+.app-content{
+  grid-column:2!important;
+  width:var(--app-layout-max)!important;
+  min-width:var(--app-layout-max)!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  padding-top:0!important;
+}
+
+/* 이전 28px 개별 좌측 padding 제거: grid gap 28px가 메뉴↔콘텐츠 간격을 담당 */
+.app-view-contract{
+  padding-left:0!important;
+  padding-right:0!important;
+  box-sizing:border-box!important;
+}
+.app-view-contract .page{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 사업성 분석: 실제 콘텐츠 좌우선도 1740px에 맞춤 */
+.ba-page{
+  padding:18px 0 28px!important;
+  box-sizing:border-box!important;
+}
+.ba-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 용역비 정산서: 동일 기준선 */
+.st-page{
+  padding:18px 0 30px!important;
+  box-sizing:border-box!important;
+}
+.st-page-inner{
+  width:100%!important;
+  max-width:var(--app-layout-max)!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* =========================================================
+   Viewport 강제 해제
+   - meta viewport: device-width
+   - 2560px 강제 min-width 제거
+   - 실제 Desktop Shell 폭 1986px을 최소 레이아웃 기준으로 사용
+   ========================================================= */
+html,
+body{
+  min-width:var(--app-shell-w)!important;
+}
+
+.app-shell{
+  min-width:var(--app-shell-w)!important;
+  width:var(--app-shell-w)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* 2560 강제 viewport 없이도 Desktop-only 구조 유지 */
+.app-content{
+  width:var(--app-layout-max)!important;
+  min-width:var(--app-layout-max)!important;
+  max-width:var(--app-layout-max)!important;
+}
+
+/* =========================================================
+   사업성 분석 레이아웃 정밀 조정
+   1) 분석표 좌측 정렬
+   2) RS 개수에 따라 표 자체 폭만 확장
+   3) RS 컬럼 폭 축소
+   4) 상단 카드 고정 40:20:40
+   5) 상단 설정 라벨/필드 수평 정렬
+   ========================================================= */
+
+/* ---------- 상단 설정 3카드 ---------- */
+.ba-settings{
+  width:1656px!important;
+  max-width:1656px!important;
+  grid-template-columns:656px 328px 656px!important;
+  gap:8px!important;
+  justify-content:start!important;
+  align-items:stretch!important;
+}
+
+/* 기본설정·산정기준: 2열 / 인건비: 1열 */
+.ba-settings-basic .ba-settings-grid,
+.ba-settings-assumption .ba-settings-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:8px!important;
+  row-gap:0!important;
+}
+.ba-settings-labor .ba-settings-grid{
+  grid-template-columns:1fr!important;
+  row-gap:0!important;
+}
+
+/* 모든 설정을 '라벨 | 입력필드' 한 줄 구조로 */
+.ba-setting-field{
+  display:grid!important;
+  grid-template-columns:138px 140px!important;
+  align-items:center!important;
+  justify-content:start!important;
+  column-gap:8px!important;
+  min-width:0!important;
+  padding:4px 6px!important;
+}
+.ba-settings-labor .ba-setting-field{
+  grid-template-columns:92px 140px!important;
+}
+.ba-settings-assumption .ba-setting-field{
+  grid-template-columns:130px 140px!important;
+}
+
+.ba-setting-label{
+  display:flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  min-width:0!important;
+  margin-bottom:0!important;
+  white-space:nowrap!important;
+  line-height:1.2!important;
+}
+
+.ba-value-shell{
+  width:140px!important;
+  min-width:140px!important;
+  max-width:140px!important;
+  justify-self:start!important;
+}
+.ba-setting-input{
+  min-width:0!important;
+}
+
+/* 카드 안쪽 여백은 컴팩트하게 */
+.ba-settings-grid{
+  padding:5px 7px 7px!important;
+}
+
+/* ---------- 사업성 분석 비교표 ---------- */
+/* 기존 100%/센터형을 해제하고 실제 표 폭만 사용 */
+.ba-analysis-grid.ba-analysis-grid-unified{
+  display:block!important;
+  width:fit-content!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+.ba-analysis-unified{
+  width:fit-content!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* 표는 왼쪽에서 시작. 해상도가 부족할 때만 이 영역에서 스크롤 */
+.ba-unified-scroll{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  margin:0!important;
+}
+.ba-unified-matrix{
+  width:var(--ba-matrix-width,938px)!important;
+  min-width:var(--ba-matrix-width,938px)!important;
+  max-width:none!important;
+  margin:0!important;
+}
+
+/* 라벨열 182px + RS열 126px 고정.
+   RS 1.0=938px / RS 0.5=1,568px */
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:182px repeat(var(--ba-rs-count),126px)!important;
+}
+
+/* 각 컬럼의 체감 간격을 조금 더 촘촘하게 */
+.ba-unified-matrix .ba-rs-head{
+  padding:4px 4px!important;
+}
+.ba-unified-matrix .ba-metric-label{
+  padding-left:9px!important;
+  padding-right:6px!important;
+}
+.ba-unified-matrix .ba-metric-cell{
+  min-width:0!important;
+  padding:5px 5px!important;
+}
+
+/* 통합표 폭이 작아져도 헤더 설명이 과하게 퍼지지 않도록 */
+.ba-plan-legend{
+  gap:5px!important;
+}
+.ba-plan-legend-item{
+  min-width:220px!important;
+  padding:6px 7px!important;
+}
 </style>
 </head>
-<body>
-<div class="page">
+<body class="app-dashboard">
+<div class="app-shell">
+<aside aria-label="주요 메뉴" class="app-sidebar" id="appSidebar">
+<div class="app-sidebar-head">
+<div class="app-brand">
+<small>GOLFZON OPERATIONS</small>
+<strong>운영·계약 대시보드</strong>
+</div>
+<button aria-label="메뉴 닫기" class="app-sidebar-close" type="button">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</div>
+<nav class="app-nav">
+<p class="app-nav-label">MENU</p>
+<button class="app-nav-item is-active" data-view="contract" type="button">
+<span class="app-nav-icon">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="M6.5 3.5h8l3 3V20a.5.5 0 0 1-.5.5H6.5A1.5 1.5 0 0 1 5 19V5A1.5 1.5 0 0 1 6.5 3.5Z" stroke="currentColor" stroke-width="1.7"></path>
+<path d="M14.5 3.8V7h3.2M8 11h6.5M8 14h6.5M8 17h4.3" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
+</svg>
+</span>
+<span class="app-nav-text">재계약 검토</span>
+</button>
+<button class="app-nav-item" data-view="business" type="button">
+<span class="app-nav-icon">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="M5 19V10m7 9V5m7 14v-6" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path>
+<path d="M3.5 20.5h17" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path>
+<path d="m4.5 8 5-3 4 2 6-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path>
+</svg>
+</span>
+<span class="app-nav-text">사업성 분석</span>
+</button>
+<button aria-expanded="false" class="app-nav-item app-nav-parent" data-parent="settlement" type="button">
+<span class="app-nav-icon">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="M7 3.5h10a1 1 0 0 1 1 1v16l-2.2-1.2-2 1.2-2-1.2-2 1.2-2-1.2L5.6 20.5v-15A2 2 0 0 1 7 3.5Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.7"></path>
+<path d="M8.5 8h6.5M8.5 11.5h6.5M8.5 15h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
+</svg>
+</span>
+<span class="app-nav-text">용역비 정산서</span>
+<span class="app-nav-chevron">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="m9 6 6 6-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</span>
+</button>
+<div class="app-subnav" data-subnav="settlement">
+<div class="app-subnav-inner">
+<div class="app-subnav-list">
+<button class="app-subnav-item" data-month="2026-03" data-view="settlement" type="button">2026-03</button><button class="app-subnav-item" data-month="2026-04" data-view="settlement" type="button">2026-04</button><button class="app-subnav-item" data-month="2026-05" data-view="settlement" type="button">2026-05</button><button class="app-subnav-item" data-month="2026-06" data-view="settlement" type="button">2026-06</button><button class="app-subnav-item" data-month="2026-07" data-view="settlement" type="button">2026-07</button><button class="app-subnav-item" data-month="2026-08" data-view="settlement" type="button">2026-08</button>
+</div>
+</div>
+</div>
+</nav>
+</aside>
+<div aria-hidden="true" class="app-drawer-overlay"></div>
+<header class="app-mobile-bar">
+<div class="app-mobile-title">재계약 검토</div>
+<button aria-controls="appSidebar" aria-expanded="false" aria-label="메뉴 열기" class="app-menu-button" type="button">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</header>
+<div class="app-content">
+<section class="app-view app-view-contract is-active" data-app-view="contract"><div class="page">
 <header class="hero">
 <p class="eyebrow">CONTRACT REVIEW · 2026.09.08</p>
 <h1>이지벤처스-힐링스토리 골프존 운영 위탁 용역계약 재계약 검토</h1>
@@ -185,6 +2139,448 @@ main{padding:24px 36px 38px} section{margin-top:28px} section:first-child{margin
 </div>
 </section>
 </main>
+</div></section>
+<section class="app-view app-view-business" data-app-view="business">
+<div class="ba-page">
+<div class="ba-page-inner">
+<header class="ba-header">
+<div class="ba-title-wrap">
+<p class="ba-kicker">BUSINESS ANALYSIS</p>
+<h1>사업성 분석</h1>
+<p class="ba-subtitle">공통 계산값은 한 번만 표시하고, 결과가 달라지는 항목만 1안·2안으로 비교합니다.</p>
+</div>
+<div class="ba-header-actions">
+<div class="ba-rs-control">
+<span class="ba-rs-label">RS 간격</span>
+<div aria-label="RS 표시 간격" class="ba-segmented" role="group">
+<button aria-pressed="true" class="active" data-ba-rs-step="1" type="button">1.0</button>
+<button aria-pressed="false" data-ba-rs-step="0.5" type="button">0.5</button>
+</div>
+</div>
+<a class="ba-download-button" download="사업성분석_시뮬레이션.xlsx" href="사업성분석_시뮬레이션.xlsx">
+<span class="ba-download-icon">
+<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
+<path d="M4.5 4.5h10.2l4.8 4.8V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19V4.5Z" stroke="currentColor" stroke-width="1.6"></path>
+<path d="M14.5 4.8V9h4.2M8 11l4 5M12 11l-4 5" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
+</svg>
+</span>
+<span>Excel 다운로드</span>
+</a>
+</div>
+</header>
+<section aria-label="사업성 분석 설정" class="ba-settings">
+<article class="ba-settings-card ba-settings-basic">
+<div class="ba-settings-head">
+<div>
+<span class="ba-settings-no">01</span>
+<strong>기본 설정</strong>
+</div>
+<span class="ba-settings-caption">계약·매출 기준</span>
+</div>
+<div class="ba-settings-grid ba-settings-grid-basic">
+<label class="ba-setting-field">
+<span class="ba-setting-label">총 룸 수</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="number" data-ba-setting="roomCount" inputmode="decimal" type="text" value="14"/>
+<span class="ba-setting-unit">실</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">판매가</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="salePrice" inputmode="decimal" type="text" value="21,500"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">게임비</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="gameFee" inputmode="decimal" type="text" value="2,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">기존 위탁운영 수수료</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="existingManagementFee" inputmode="decimal" type="text" value="34,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">업그레이드 고정비용</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="upgradeFixedFee" inputmode="decimal" type="text" value="6,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">업그레이드 매출배분</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="upgradeRevenueShareBaseFee" inputmode="decimal" type="text" value="5,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">추가 수수료 기준 매출액</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="additionalFeeThreshold" inputmode="decimal" type="text" value="85,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">추가 수수료율</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="percent" data-ba-setting="additionalFeeRate" inputmode="decimal" type="text" value="20"/>
+<span class="ba-setting-unit">%</span>
+</span>
+</label>
+</div>
+</article>
+<article class="ba-settings-card ba-settings-labor">
+<div class="ba-settings-head">
+<div>
+<span class="ba-settings-no">02</span>
+<strong>인건비 및 소모품비</strong>
+</div>
+<span class="ba-settings-caption">운영자 지출</span>
+</div>
+<div class="ba-settings-grid">
+<label class="ba-setting-field">
+<span class="ba-setting-label">시급</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="hourlyWage" inputmode="decimal" type="text" value="13,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">소모품비
+        <span class="ba-help">
+<button aria-label="소모품비 설명" class="ba-info-button" data-ba-tooltip="음료·간식 등 월 소모품비. 사업성 분석의 힐링스토리 지출에 반영합니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="consumables" inputmode="decimal" type="text" value="4,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+</div>
+</article>
+<article class="ba-settings-card ba-settings-assumption">
+<div class="ba-settings-head">
+<div>
+<span class="ba-settings-no">03</span>
+<strong>산정 기준</strong>
+</div>
+<span class="ba-settings-caption">엑셀 고정 가정값</span>
+</div>
+<div class="ba-settings-grid">
+<label class="ba-setting-field">
+<span class="ba-setting-label">영업일수
+        <span class="ba-help">
+<button aria-label="영업일수 설명" class="ba-info-button" data-ba-tooltip="골프존 매출과 유지보수비 계산에 적용하는 월 기준 영업일수입니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="number" data-ba-setting="operatingDays" inputmode="decimal" type="text" value="30"/>
+<span class="ba-setting-unit">일</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">RS 7 식음료 매출
+        <span class="ba-help">
+<button aria-label="RS 7 식음료 매출 설명" class="ba-info-button" data-ba-tooltip="엑셀에서 RS 7의 식음료 매출 기준값으로 직접 입력된 값입니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="baseFoodSales" inputmode="decimal" type="text" value="2,000,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">RS +1 식음료 증가
+        <span class="ba-help">
+<button aria-label="RS +1 식음료 증가 설명" class="ba-info-button" data-ba-tooltip="RS가 1 증가할 때 식음료 매출이 30만원 증가하는 엑셀 기준입니다. 0.5 간격에서는 15만원씩 증가합니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="money" data-ba-setting="foodSalesPerRs1" inputmode="decimal" type="text" value="300,000"/>
+<span class="ba-setting-unit">원</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">카드매출 비중
+        <span class="ba-help">
+<button aria-label="카드매출 비중 설명" class="ba-info-button" data-ba-tooltip="2026년 3~8월 기준 골프존 카드매출 평균 비중으로 카드수수료 산정에 사용합니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="percent" data-ba-setting="cardSalesRatio" inputmode="decimal" type="text" value="87"/>
+<span class="ba-setting-unit">%</span>
+</span>
+</label>
+<label class="ba-setting-field">
+<span class="ba-setting-label">카드수수료율
+        <span class="ba-help">
+<button aria-label="카드수수료율 설명" class="ba-info-button" data-ba-tooltip="골프존 매출(VAT 포함) 중 카드매출 비중에 적용하는 수수료율입니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</span>
+</span>
+<span class="ba-value-shell">
+<input class="ba-setting-input" data-ba-mode="percent" data-ba-setting="cardFeeRate" inputmode="decimal" type="text" value="1.15"/>
+<span class="ba-setting-unit">%</span>
+</span>
+</label>
+</div>
+</article>
+</section>
+<section aria-label="사업성 분석 비교" class="ba-analysis-grid ba-analysis-grid-unified">
+<article class="ba-analysis-panel ba-analysis-unified">
+<header class="ba-panel-head ba-unified-head">
+<div class="ba-panel-title">
+<span class="ba-panel-index">A</span>
+<div>
+<h2>사업성 분석 비교</h2>
+<p>공통 매출·비용은 한 번만 표시하고, 안별 차이가 발생하는 항목만 직접 비교합니다.</p>
+</div>
+</div>
+<div aria-label="분석안 설명" class="ba-plan-legend">
+<div class="ba-plan-legend-item is-fixed">
+<span>1안</span>
+<div>
+<strong>고정비용형</strong>
+<small>기존 위탁운영 수수료 + 업그레이드 고정비용</small>
+</div>
+</div>
+<div class="ba-plan-legend-item is-share">
+<span>2안</span>
+<div>
+<strong>매출배분형</strong>
+<small>기본금 + 기준매출 초과분 × 추가 수수료율</small>
+</div>
+</div>
+</div>
+</header>
+<div class="ba-matrix-scroll ba-unified-scroll">
+<div class="ba-matrix ba-unified-matrix" data-ba-matrix="comparison"></div>
+</div>
+</article>
+</section><section aria-label="사업성 분석 참고자료" class="ba-reference-grid">
+<article class="ba-reference-card ba-labor-card">
+<header class="ba-reference-head">
+<div>
+<p class="ba-reference-kicker">REFERENCE 01</p>
+<div class="ba-reference-title-line">
+<h2>월 인건비 추정</h2>
+<button aria-label="월 인건비 추정 설명" class="ba-info-button" data-ba-tooltip="엑셀의 월 인건비 추정과 동일하게 평일·주말 근무시간, 인원, 시급, 월 환산 4.345주를 반영합니다. 평일 근무분에는 사회보험료 10%와 퇴직금(월 급여÷12, ROUNDUP)을 적용합니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</div>
+</div>
+<div class="ba-reference-total">
+<span>월 인건비</span>
+<strong data-ba-labor-total="">11,635,911원</strong>
+</div>
+</header>
+<div class="ba-reference-meta">
+<span>월 환산 <b>4.345주</b></span>
+<span>사회보험료 <b>10%</b></span>
+<span>평일 근무분만 보험·퇴직금 반영</span>
+</div>
+<div class="ba-labor-table" data-ba-labor-table=""></div>
+<div class="ba-reference-summary">
+<div><span>지급 총액</span><strong data-ba-labor-gross="">10,393,240원</strong></div>
+<div><span>사회보험료</span><strong data-ba-labor-insurance="">677,820원</strong></div>
+<div><span>퇴직금</span><strong data-ba-labor-retirement="">564,851원</strong></div>
+<div class="is-primary"><span>합계</span><strong data-ba-labor-grand="">11,635,911원</strong></div>
+</div>
+</article>
+<article class="ba-reference-card ba-upgrade-card">
+<header class="ba-reference-head">
+<div>
+<p class="ba-reference-kicker">REFERENCE 02</p>
+<div class="ba-reference-title-line">
+<h2>업그레이드 비용</h2>
+<button aria-label="업그레이드 비용 설명" class="ba-info-button" data-ba-tooltip="엑셀의 업그레이드 비용 참고자료입니다. 단가·수량·무이자 개월·연 이자율·이자 반영기간을 수정할 수 있습니다. 이 참고자료 계산값은 상단의 업그레이드 고정비용 또는 매출배분 입력값을 자동으로 변경하지 않습니다." type="button">
+<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
+<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
+</svg>
+</button>
+</div>
+</div>
+<div class="ba-reference-total">
+<span>업그레이드 합계</span>
+<strong data-ba-upgrade-total="">176,200,000원</strong>
+</div>
+</header>
+<div class="ba-upgrade-controls">
+<label><span>무이자</span><span class="ba-inline-edit">
+<input data-ba-mode="number" data-ba-setting="upgradeInstallmentMonths" inputmode="decimal" type="text" value="36"/><em>개월</em>
+</span></label>
+<label><span>연 이자율</span><span class="ba-inline-edit">
+<input data-ba-mode="percent" data-ba-setting="upgradeInterestRate" inputmode="decimal" type="text" value="5"/><em>%</em>
+</span></label>
+<label><span>이자 반영</span><span class="ba-inline-edit">
+<input data-ba-mode="number" data-ba-setting="upgradeInterestYears" inputmode="decimal" type="text" value="3"/><em>년</em>
+</span></label>
+</div>
+<div class="ba-upgrade-table" data-ba-upgrade-table=""></div>
+<div class="ba-reference-summary">
+<div><span>무이자 총액</span><strong data-ba-upgrade-total-summary="">176,200,000원</strong></div>
+<div><span>무이자 월비용</span><strong data-ba-upgrade-monthly="">4,894,446원</strong></div>
+<div><span>이자 반영 총액</span><strong data-ba-upgrade-interest-total="">202,630,000원</strong></div>
+<div class="is-primary"><span>이자 반영 월비용</span><strong data-ba-upgrade-interest-monthly="">5,628,612.9원</strong></div>
+</div>
+<p class="ba-reference-note">
+      참고자료 계산값은 상단의 <b>업그레이드 고정비용</b>·<b>업그레이드 매출배분</b> 설정에 자동 적용하지 않습니다.
+    </p>
+</article>
+</section>
+</div>
+</div>
+<div aria-hidden="true" class="ba-floating-tooltip" id="baFloatingTooltip" role="tooltip"></div>
+</section>
+<section class="app-view app-view-settlement" data-app-view="settlement">
+<div class="st-page">
+<div class="st-page-inner">
+<header class="st-header">
+<div>
+<p class="st-kicker">MONTHLY SETTLEMENT</p>
+<h1>용역비 정산서</h1>
+<p class="st-subtitle">월별 매출액과 공제항목을 기준으로 확정된 용역비를 확인합니다.</p>
+</div>
+<div class="st-header-meta">
+<span class="st-month-badge" data-st-month="">2026-03</span>
+<span class="st-vat-badge">VAT 별도</span>
+</div>
+</header>
+<section aria-label="정산 요약" class="st-summary">
+<article>
+<span>월별 매출액</span>
+<strong data-st-sales="">—</strong>
+</article>
+<article>
+<span>공제항목 합계</span>
+<strong data-st-deductions="">—</strong>
+</article>
+<article>
+<span>운영비 계</span>
+<strong data-st-operating="">—</strong>
+</article>
+<article class="is-result">
+<span data-st-result-label="">용역비</span>
+<strong data-st-result="">—</strong>
+</article>
+</section>
+<section class="st-document">
+<header class="st-document-head">
+<div class="st-document-title">
+<h2>용역비 정산서</h2>
+<p>
+<span>정산기준월 <b data-st-settlement-month="">—</b></span>
+<span>정산일 <b data-st-settlement-date="">—</b></span>
+</p>
+</div>
+<span class="st-document-month" data-st-doc-month="">2026-03</span>
+</header>
+<div class="st-notice" data-st-notice=""></div>
+<div class="st-section">
+<div class="st-section-title">
+<span>01</span>
+<strong>월별 매출액</strong>
+</div>
+<div class="st-row-head">
+<div>내역</div>
+<div>금액</div>
+<div>비고</div>
+</div>
+<div data-st-sales-rows=""></div>
+</div>
+<div class="st-section">
+<div class="st-section-title">
+<span>02</span>
+<strong>공제항목</strong>
+</div>
+<div class="st-row-head">
+<div>내역</div>
+<div>금액</div>
+<div>비고</div>
+</div>
+<div data-st-deduction-rows=""></div>
+</div>
+<div class="st-section st-operating-section">
+<div class="st-section-title">
+<span>03</span>
+<strong>운영비</strong>
+</div>
+<div class="st-row-head">
+<div>내역</div>
+<div>금액</div>
+<div>비고</div>
+</div>
+<div data-st-operating-rows=""></div>
+</div>
+<div class="st-totals">
+<div>
+<span>운영비 계</span>
+<strong data-st-operating-total="">—</strong>
+</div>
+<div>
+<span>공제항목 합계</span>
+<strong data-st-deduction-total="">—</strong>
+</div>
+<div class="is-final">
+<span data-st-final-label="">용역비</span>
+<strong data-st-final-result="">—</strong>
+<small>(월별 매출액 - 공제항목 합계)</small>
+</div>
+</div>
+<footer class="st-stamp" data-st-stamp="">주식회사 이지벤처스 [직인 생략]</footer>
+</section>
+</div>
+</div>
+</section>
+</div>
 </div>
 <script>
 (()=>{
@@ -199,5 +2595,1031 @@ main{padding:24px 36px 38px} section{margin-top:28px} section:first-child{margin
  buttons.forEach(btn=>btn.addEventListener('click',()=>applyFilter(btn.dataset.filter)));
  applyFilter('changed');
 })();
-</script>
-</body></html>
+</script><script id="settlement-data">
+(()=>{
+  'use strict';
+  const DATA=Object.freeze({"2026-03":{"month":"2026-03","settlementMonth":"2026-03-01","settlementDate":"2026-04-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 03월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 25,727,129원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":82820020,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":381329,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":82438691,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":74944264,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":833858,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":78878,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":367010,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7666082,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4657490,"note":"2026년 2월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13590,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":30000,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":"비즈몰 S-POINT","amount":6000000,"note":"비즈몰 S-POINT 750만 포인트 이용액"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":7613817,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49217135,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":25727129,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-04":{"month":"2026-04","settlementMonth":"2026-04-01","settlementDate":"2026-05-08","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 04월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 23,404,178원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":71921800,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":205606,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":71716194,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":65196540,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":726026,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":84737,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":19000,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":6867022,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4220400,"note":"2026년 3월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13182,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":291768,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1875177,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":41792362,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":23404178,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-05":{"month":"2026-05","settlementMonth":"2026-05-01","settlementDate":"2026-06-02","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 05월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,577,269원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":85477810,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":207022,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":85270788,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":77518898,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":883734,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":75711,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":110,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8133120,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":3955880,"note":"2026년 4월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":10782,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":312065,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1893074,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42941629,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34577269,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-06":{"month":"2026-06","settlementMonth":"2026-06-01","settlementDate":"2026-07-06","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 06월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 29,492,774원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":79523200,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":277222,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":79245978,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":72041798,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":807451,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":87794,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7505060,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4253850,"note":"2026년 5월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":11637,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":313005,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1894869,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42549024,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":29492774,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-07":{"month":"2026-07","settlementMonth":"2026-07-01","settlementDate":"2026-08-04","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 07월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 38,351,780원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":97225010,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":169558,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":97055452,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":88232229,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":977983,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":105978,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":9387761,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":5488860,"note":"2026년 6월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":12128,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":337512,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1919867,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49880449,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":38351780,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-08":{"month":"2026-08","settlementMonth":"2026-08-01","settlementDate":"2026-09-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 08월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,980,988원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":94264850,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":96662,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":94168188,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":85607443,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":954878,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":80959,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8986601,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":6761250,"note":"2026년 7월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":581,"note":"CCTV, 보안 이용료 (26년 8월 이용료 면제, 알림서비스만 청구)"},{"excelRow":28,"category":null,"detail":null,"subdetail":"POS관리","amount":4000,"note":"POS 유지보수"},{"excelRow":29,"category":null,"detail":null,"subdetail":"전화요금","amount":16209,"note":"매장 내 전화 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":33,"category":null,"detail":null,"subdetail":"광고비","amount":348750,"note":"광고비 충전 등"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1842767,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":50626455,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34980988,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"}});
+
+  const byExcelRow=(month,row)=>DATA[month]?.rows?.find(item=>item.excelRow===row)||null;
+  const amount=(month,row)=>Number(byExcelRow(month,row)?.amount||0);
+
+  const verifyMonth=(month)=>{
+    const operating=Array.from({length:13},(_,i)=>amount(month,22+i)).reduce((a,b)=>a+b,0);
+    const deductions=Array.from({length:6},(_,i)=>amount(month,16+i)).reduce((a,b)=>a+b,0)+amount(month,35);
+    const result=amount(month,15)-amount(month,36);
+    return Object.freeze({
+      operating:operating===amount(month,35),
+      deductions:deductions===amount(month,36),
+      result:result===amount(month,37)
+    });
+  };
+
+  const verification=Object.fromEntries(
+    Object.keys(DATA).map(month=>[month,verifyMonth(month)])
+  );
+  const passed=Object.values(verification).every(v=>Object.values(v).every(Boolean));
+
+  window.SettlementData=DATA;
+  window.SettlementDataQA=Object.freeze({passed,months:verification});
+
+  if(!passed) console.error('[SettlementData] workbook parity QA failed',verification);
+  else console.info('[SettlementData] workbook parity QA passed',verification);
+})();
+</script><script id="business-analysis-engine">
+(()=>{
+  'use strict';
+
+  const DEFAULTS = Object.freeze({
+    roomCount: 14,
+    salePrice: 21500,
+    gameFee: 2000,
+    existingManagementFee: 34000000,
+    upgradeFixedFee: 6000000,
+    upgradeRevenueShareBaseFee: 5000000,
+    additionalFeeThreshold: 85000000,
+    additionalFeeRate: 0.20,
+    hourlyWage: 13000,
+    consumables: 4000000,
+
+    operatingDays: 30,
+    baseRs: 7,
+    baseFoodSales: 2000000,
+    foodSalesPerRs1: 300000,
+    cardSalesRatio: 0.87,
+    cardFeeRate: 0.0115,
+
+    monthlyWeeks: 4.345,
+    socialInsuranceRate: 0.10,
+
+    upgradeInterestRate: 0.05,
+    upgradeInterestYears: 3,
+    upgradeInstallmentMonths: 36
+  });
+
+  const SETTLEMENT_MONTHS=['2026-03','2026-04','2026-05','2026-06','2026-07','2026-08'];
+  const settlementRows=month=>window.SettlementData?.[month]?.rows||[];
+  const settlementRow=(month,predicate)=>settlementRows(month).find(predicate)||null;
+
+  const SETTLEMENT_REFERENCE = Object.freeze({
+    managementFees:Object.freeze(
+      SETTLEMENT_MONTHS.map(month=>
+        Number(settlementRow(month,row=>row.detail==='관리비')?.amount||0)
+      )
+    ),
+    recurringOperatingCostsFrom202607:Object.freeze(
+      settlementRows('2026-07')
+        .filter(row=>row.excelRow>=22&&row.excelRow<=34&&row.subdetail&& !['전화요금','광고비'].includes(row.subdetail))
+        .map(row=>Number(row.amount||0))
+    ),
+    standardPosManagement:4000,
+    standardTelephone:15000,
+    standardAdvertising:350000
+  });
+
+  const UPGRADE_REFERENCE = Object.freeze([
+    Object.freeze({ key:'system', label:'시스템 업그레이드', unitCost:10000000, qty:14 }),
+    Object.freeze({ key:'ambidextrous', label:'양타 추가 비용', unitCost:4000000, qty:2 }),
+    Object.freeze({ key:'projector', label:'프로젝트(이펀)', unitCost:4000000, qty:6 }),
+    Object.freeze({ key:'projectorFloor', label:'프로젝트(바닥으로 변경)', unitCost:700000, qty:6 })
+  ]);
+
+  const LABOR_SHIFTS = Object.freeze([
+    Object.freeze({key:'weekdayMorning',group:'weekday',label:'08:00 ~ 16:00',hours:8,daysPerWeek:5,people:1,benefits:true}),
+    Object.freeze({key:'weekdayEvening',group:'weekday',label:'16:00 ~ 24:00',hours:8,daysPerWeek:5,people:2,benefits:true}),
+    Object.freeze({key:'weekendMorning',group:'weekend',label:'08:00 ~ 16:00',hours:8,daysPerWeek:2,people:2,benefits:false}),
+    Object.freeze({key:'weekendEvening',group:'weekend',label:'16:00 ~ 24:00',hours:8,daysPerWeek:2,people:2,benefits:false})
+  ]);
+
+  const EXPECTED = Object.freeze({"fixed":{"7":{"deduction":53341264.05,"operatorProfit":-9513539.049999997,"easyProfit":40000000},"8":{"deduction":54271609.2,"operatorProfit":-1934793.200000003,"easyProfit":40000000},"9":{"deduction":55201954.35,"operatorProfit":5643952.6499999985,"easyProfit":40000000},"10":{"deduction":56132299.5,"operatorProfit":13222698.5,"easyProfit":40000000},"11":{"deduction":57062644.65,"operatorProfit":20801444.35,"easyProfit":40000000},"12":{"deduction":57992989.8,"operatorProfit":28380189.200000003,"easyProfit":40000000}},"share":{"7":{"deduction":52341264.05,"operatorProfit":-8513539.049999997,"easyProfit":39000000},"8":{"deduction":53271609.2,"operatorProfit":-934793.200000003,"easyProfit":39000000},"9":{"deduction":54201954.35,"operatorProfit":6643952.6499999985,"easyProfit":39000000},"10":{"deduction":55132299.5,"operatorProfit":14222698.5,"easyProfit":39000000},"11":{"deduction":57762644.65,"operatorProfit":20101444.35,"easyProfit":40700000},"12":{"deduction":60394807.8,"operatorProfit":25978371.200000003,"easyProfit":42401818}}});
+
+  const mergeSettings = (overrides={})=>({...DEFAULTS,...overrides});
+
+  // Excel ROUNDDOWN(number,0): 0 방향 절사
+  const roundDown0 = value => value < 0 ? Math.ceil(value) : Math.floor(value);
+
+  // Excel ROUNDUP(number,0): 0에서 멀어지는 방향 올림
+  const roundUp0 = value => value < 0 ? Math.floor(value) : Math.ceil(value);
+
+  const sum = values => values.reduce((acc,value)=>acc+Number(value||0),0);
+  const average = values => values.length ? sum(values)/values.length : 0;
+
+  const calculateManagementFee = (reference=SETTLEMENT_REFERENCE) =>
+    roundDown0(average(reference.managementFees));
+
+  const calculateOperatingFixedCost = (reference=SETTLEMENT_REFERENCE) =>
+    sum(reference.recurringOperatingCostsFrom202607)
+    + reference.standardPosManagement
+    + reference.standardTelephone
+    + reference.standardAdvertising;
+
+  const calculateLabor = (overrides={})=>{
+    const s=mergeSettings(overrides);
+    const sourceShifts=Array.isArray(s.laborShifts)&&s.laborShifts.length?s.laborShifts:LABOR_SHIFTS;
+    const shifts=sourceShifts.map(shift=>{
+      const normalized={...shift,hours:Number(shift.hours),daysPerWeek:Number(shift.daysPerWeek),people:Number(shift.people)};
+      const gross=s.hourlyWage*normalized.hours*normalized.daysPerWeek*normalized.people*s.monthlyWeeks;
+      const socialInsurance=normalized.benefits ? gross*s.socialInsuranceRate : 0;
+      const retirement=normalized.benefits ? roundUp0(gross/12) : 0;
+      return {...normalized,gross,socialInsurance,retirement,total:gross+socialInsurance+retirement};
+    });
+
+    const gross=sum(shifts.map(v=>v.gross));
+    const socialInsurance=sum(shifts.map(v=>v.socialInsurance));
+    const retirement=sum(shifts.map(v=>v.retirement));
+    return Object.freeze({
+      shifts:Object.freeze(shifts),
+      people:sum(shifts.map(v=>v.people)),
+      gross,
+      socialInsurance,
+      retirement,
+      total:gross+socialInsurance+retirement
+    });
+  };
+
+  const calculateUpgradeReference = (items=UPGRADE_REFERENCE,overrides={})=>{
+    const s=mergeSettings(overrides);
+    const rows=items.map(item=>{
+      const total=item.unitCost*item.qty;
+      const monthlyInterestFree=roundUp0(total/s.upgradeInstallmentMonths);
+      return Object.freeze({...item,total,monthlyInterestFree});
+    });
+    const total=sum(rows.map(v=>v.total));
+    const monthlyInterestFree=sum(rows.map(v=>v.monthlyInterestFree));
+    const interestFactor=1+s.upgradeInterestRate*s.upgradeInterestYears;
+    return Object.freeze({
+      rows:Object.freeze(rows),
+      total,
+      monthlyInterestFree,
+      totalWithInterest:total*interestFactor,
+      monthlyWithInterest:monthlyInterestFree*interestFactor
+    });
+  };
+
+  const foodSalesForRs=(rs,s)=>s.baseFoodSales+(rs-s.baseRs)*s.foodSalesPerRs1;
+
+  const calculateScenario=(rs,mode='fixed',overrides={})=>{
+    const s=mergeSettings(overrides);
+    if(!Number.isFinite(Number(rs))) throw new TypeError('RS는 숫자여야 합니다.');
+    if(mode!=='fixed' && mode!=='share') throw new RangeError('mode는 fixed 또는 share여야 합니다.');
+
+    rs=Number(rs);
+    const golfSalesVatIncluded=rs*s.roomCount*s.salePrice*s.operatingDays;
+    const golfSalesVatExcluded=roundDown0(golfSalesVatIncluded/1.1);
+    const foodSalesVatExcluded=foodSalesForRs(rs,s);
+    const totalSalesVatIncluded=golfSalesVatIncluded+foodSalesVatExcluded*1.1;
+    const totalSalesVatExcluded=golfSalesVatExcluded+foodSalesVatExcluded;
+
+    const managementFee = mode==='fixed'
+      ? s.existingManagementFee+s.upgradeFixedFee
+      : s.existingManagementFee
+        + s.upgradeRevenueShareBaseFee
+        + (totalSalesVatExcluded < s.additionalFeeThreshold
+            ? 0
+            : (totalSalesVatExcluded-s.additionalFeeThreshold)*s.additionalFeeRate);
+
+    const cardFee=golfSalesVatIncluded*s.cardSalesRatio*s.cardFeeRate;
+    const golfMaintenanceFee=rs*s.roomCount*s.gameFee*s.operatingDays;
+    const buildingManagementFee=calculateManagementFee();
+    const fixedOperatingCost=calculateOperatingFixedCost();
+    const deductionsTotal=
+      managementFee+cardFee+golfMaintenanceFee+buildingManagementFee+fixedOperatingCost;
+
+    const labor=calculateLabor(s);
+    const operatorExpensesTotal=labor.total+s.consumables;
+    const operatorProfit=totalSalesVatExcluded-deductionsTotal-operatorExpensesTotal;
+    const easyVenturesProfit=managementFee;
+
+    return Object.freeze({
+      rs,mode,
+      sales:Object.freeze({
+        golfVatIncluded:golfSalesVatIncluded,
+        golfVatExcluded:golfSalesVatExcluded,
+        foodVatExcluded:foodSalesVatExcluded,
+        totalVatIncluded:totalSalesVatIncluded,
+        totalVatExcluded:totalSalesVatExcluded
+      }),
+      deductions:Object.freeze({
+        managementFee,
+        cardFee,
+        golfMaintenanceFee,
+        buildingManagementFee,
+        fixedOperatingCost,
+        total:deductionsTotal
+      }),
+      operatorExpenses:Object.freeze({
+        labor:labor.total,
+        consumables:s.consumables,
+        total:operatorExpensesTotal
+      }),
+      results:Object.freeze({
+        operatorProfit,
+        easyVenturesProfit
+      })
+    });
+  };
+
+  const generateRsSeries=(step=1,options={})=>{
+    const start=Number(options.start ?? 7);
+    const end=Number(options.end ?? 12);
+    step=Number(step);
+    if(!(step>0)) throw new RangeError('RS 간격은 0보다 커야 합니다.');
+    const rows=[];
+    const count=Math.floor(((end-start)/step)+1e-9);
+    for(let i=0;i<=count;i++){
+      rows.push(Number((start+i*step).toFixed(10)));
+    }
+    if(rows.length===0 || Math.abs(rows.at(-1)-end)>1e-9) rows.push(end);
+    return Object.freeze(rows);
+  };
+
+  const calculateSeries=(mode='fixed',options={})=>{
+    const step=Number(options.step ?? 1);
+    const overrides=options.overrides ?? {};
+    return Object.freeze(
+      generateRsSeries(step,options).map(rs=>calculateScenario(rs,mode,overrides))
+    );
+  };
+
+  const almostEqual=(a,b,tolerance=1e-6)=>Math.abs(a-b)<=tolerance;
+
+  const verifyAgainstWorkbook=()=>{
+    const details=[];
+    for(const mode of ['fixed','share']){
+      for(const rs of [7,8,9,10,11,12]){
+        const actual=calculateScenario(rs,mode);
+        const expected=EXPECTED[mode][String(rs)];
+        const checks={
+          deduction:almostEqual(actual.deductions.total,expected.deduction),
+          operatorProfit:almostEqual(actual.results.operatorProfit,expected.operatorProfit),
+          easyProfit:almostEqual(actual.results.easyVenturesProfit,expected.easyProfit)
+        };
+        details.push(Object.freeze({
+          mode,rs,passed:Object.values(checks).every(Boolean),checks,
+          actual:Object.freeze({
+            deduction:actual.deductions.total,
+            operatorProfit:actual.results.operatorProfit,
+            easyProfit:actual.results.easyVenturesProfit
+          }),
+          expected
+        }));
+      }
+    }
+
+    const managementFee=calculateManagementFee();
+    const fixedOperatingCost=calculateOperatingFixedCost();
+    const labor=calculateLabor();
+    const upgrade=calculateUpgradeReference();
+
+    const referenceChecks={
+      managementFee: managementFee===4889621,
+      fixedOperatingCost: fixedOperatingCost===1939227,
+      labor: labor.total===11635911,
+      upgradeTotal: upgrade.total===176200000,
+      upgradeMonthlyInterestFree: upgrade.monthlyInterestFree===4894446,
+      upgradeTotalWithInterest: almostEqual(upgrade.totalWithInterest,202630000),
+      upgradeMonthlyWithInterest: almostEqual(upgrade.monthlyWithInterest,5628612.9)
+    };
+
+    const halfStep=calculateScenario(7.5,'fixed');
+    const halfStepChecks={
+      series: JSON.stringify(generateRsSeries(0.5))===JSON.stringify([7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12]),
+      foodSales: halfStep.sales.foodVatExcluded===2150000
+    };
+
+    return Object.freeze({
+      passed:details.every(v=>v.passed)
+        && Object.values(referenceChecks).every(Boolean)
+        && Object.values(halfStepChecks).every(Boolean),
+      scenarioPassed:details.filter(v=>v.passed).length,
+      scenarioTotal:details.length,
+      details:Object.freeze(details),
+      referenceChecks:Object.freeze(referenceChecks),
+      halfStepChecks:Object.freeze(halfStepChecks),
+      references:Object.freeze({
+        managementFee,
+        fixedOperatingCost,
+        labor:labor.total,
+        upgrade
+      })
+    });
+  };
+
+  const formatWon=value=>new Intl.NumberFormat('ko-KR',{maximumFractionDigits:0}).format(value)+'원';
+
+  const API=Object.freeze({
+    version:'2.0-excel-parity',
+    defaults:DEFAULTS,
+    settlementReference:SETTLEMENT_REFERENCE,
+    upgradeReference:UPGRADE_REFERENCE,
+    laborShifts:LABOR_SHIFTS,
+    roundDown0,
+    roundUp0,
+    calculateManagementFee,
+    calculateOperatingFixedCost,
+    calculateLabor,
+    calculateUpgradeReference,
+    calculateScenario,
+    generateRsSeries,
+    calculateSeries,
+    verifyAgainstWorkbook
+  });
+
+  window.BusinessAnalysisEngine=API;
+
+  const qa=API.verifyAgainstWorkbook();
+  window.BusinessAnalysisEngineQA=qa;
+
+  const fixedEl=document.querySelector('[data-engine-fixed]');
+  const shareEl=document.querySelector('[data-engine-share]');
+  const managementEl=document.querySelector('[data-engine-management]');
+  const laborEl=document.querySelector('[data-engine-labor]');
+
+  const fixedPassed=qa.details.filter(v=>v.mode==='fixed' && v.passed).length;
+  const sharePassed=qa.details.filter(v=>v.mode==='share' && v.passed).length;
+
+  const paint=(el,text,pass=true)=>{
+    if(!el) return;
+    el.textContent=text;
+    el.classList.toggle('is-pass',pass);
+    el.classList.toggle('is-fail',!pass);
+  };
+
+  paint(fixedEl,`${fixedPassed} / 6 일치`,fixedPassed===6);
+  paint(shareEl,`${sharePassed} / 6 일치`,sharePassed===6);
+  paint(managementEl,formatWon(qa.references.managementFee),qa.referenceChecks.managementFee);
+  paint(laborEl,formatWon(qa.references.labor),qa.referenceChecks.labor);
+
+  if(!qa.passed){
+    console.error('[BusinessAnalysisEngine] Excel parity QA failed',qa);
+  }else{
+    console.info('[BusinessAnalysisEngine] Excel parity QA passed',qa);
+  }
+})();
+</script><script>
+(()=>{
+  const body=document.body;
+  const sidebar=document.getElementById('appSidebar');
+  const menuButton=document.querySelector('.app-menu-button');
+  const closeButton=document.querySelector('.app-sidebar-close');
+  const overlay=document.querySelector('.app-drawer-overlay');
+  const mobileTitle=document.querySelector('.app-mobile-title');
+  const views=[...document.querySelectorAll('[data-app-view]')];
+  const topItems=[...document.querySelectorAll('.app-nav-item[data-view]')];
+  const parent=document.querySelector('.app-nav-parent[data-parent="settlement"]');
+  const subnav=document.querySelector('[data-subnav="settlement"]');
+  const monthItems=[...document.querySelectorAll('.app-subnav-item[data-month]')];
+  const monthBadge=document.querySelector('[data-current-month]');
+  const settlementTitle=document.querySelector('[data-settlement-title]');
+
+  const titles={
+    contract:'재계약 검토',
+    business:'사업성 분석',
+    settlement:'용역비 정산서'
+  };
+
+  const isMobile=()=>false;
+
+  const openMenu=()=>{
+    body.classList.add('app-menu-open');
+    menuButton?.setAttribute('aria-expanded','true');
+  };
+  const closeMenu=()=>{
+    body.classList.remove('app-menu-open');
+    menuButton?.setAttribute('aria-expanded','false');
+  };
+  const setSettlementOpen=(open)=>{
+    parent?.setAttribute('aria-expanded',String(open));
+    subnav?.classList.toggle('is-open',open);
+  };
+
+  const setView=(view,{month=null,closeDrawer=true}={})=>{
+    views.forEach(v=>v.classList.toggle('is-active',v.dataset.appView===view));
+    topItems.forEach(item=>{
+      const active=item.dataset.view===view;
+      item.classList.toggle('is-active',active);
+      if(active) item.setAttribute('aria-current','page');
+      else item.removeAttribute('aria-current');
+    });
+    parent?.classList.toggle('is-active',view==='settlement');
+    if(parent){
+      if(view==='settlement') parent.setAttribute('aria-current','page');
+      else parent.removeAttribute('aria-current');
+    }
+
+    if(view==='settlement'){
+      setSettlementOpen(true);
+      if(month){
+        monthItems.forEach(item=>{
+          const active=item.dataset.month===month;
+          item.classList.toggle('is-active',active);
+          if(active) item.setAttribute('aria-current','page');
+          else item.removeAttribute('aria-current');
+        });
+        if(monthBadge) monthBadge.textContent=month;
+        if(settlementTitle) settlementTitle.textContent=`${month} 용역비 정산서`;
+      }
+    }else{
+      monthItems.forEach(item=>{
+        item.classList.remove('is-active');
+        item.removeAttribute('aria-current');
+      });
+    }
+
+    if(mobileTitle) mobileTitle.textContent=titles[view] || '운영·계약 대시보드';
+    window.scrollTo({top:0,left:0,behavior:'auto'});
+    if(closeDrawer && isMobile()) closeMenu();
+  };
+
+  topItems.forEach(item=>{
+    item.addEventListener('click',()=>setView(item.dataset.view));
+  });
+
+  parent?.addEventListener('click',()=>{
+    const next=parent.getAttribute('aria-expanded')!=='true';
+    setSettlementOpen(next);
+  });
+
+  monthItems.forEach(item=>{
+    item.addEventListener('click',()=>setView('settlement',{month:item.dataset.month}));
+  });
+
+  menuButton?.addEventListener('click',()=>{
+    body.classList.contains('app-menu-open') ? closeMenu() : openMenu();
+  });
+  closeButton?.addEventListener('click',closeMenu);
+  overlay?.addEventListener('click',closeMenu);
+
+  document.addEventListener('keydown',(event)=>{
+    if(event.key==='Escape' && body.classList.contains('app-menu-open')) closeMenu();
+  });
+
+  window.addEventListener('resize',()=>{
+    if(!isMobile()) closeMenu();
+  });
+})();
+</script><script id="settlement-renderer">
+(()=>{
+  'use strict';
+
+  const root=document.querySelector('[data-app-view="settlement"]');
+  const data=window.SettlementData;
+  if(!root||!data) return;
+
+  const monthButtons=[...document.querySelectorAll('.app-subnav-item[data-month]')];
+  const formatWon=value=>new Intl.NumberFormat('ko-KR',{maximumFractionDigits:0}).format(Number(value||0))+'원';
+
+  const formatDate=iso=>{
+    if(!iso) return '—';
+    const [y,m,d]=iso.split('-');
+    return `${y}.${m}.${d}`;
+  };
+
+  const findRow=(month,row)=>data[month].rows.find(item=>item.excelRow===row);
+  const amount=(month,row)=>Number(findRow(month,row)?.amount||0);
+
+  const escapeHtml=value=>String(value??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+
+  const rowHtml=(item,{key=false,sub=false}={})=>{
+    const classes=['st-row'];
+    if(key) classes.push('is-key');
+    if(Number(item.amount||0)===0) classes.push('is-zero');
+
+    const label=item.subdetail||item.detail||item.category||'';
+    const note=item.note||'';
+
+    return `<div class="${classes.join(' ')}">
+      <div class="st-row-label ${sub?'is-sub':''}">${escapeHtml(label)}</div>
+      <div class="st-row-amount">${formatWon(item.amount)}</div>
+      <div class="st-row-note">${escapeHtml(note)}</div>
+    </div>`;
+  };
+
+  const render=(month)=>{
+    const d=data[month];
+    if(!d) return;
+
+    const salesRows=d.rows.filter(r=>r.excelRow>=12&&r.excelRow<=15);
+    const deductionRows=d.rows.filter(r=>r.excelRow>=16&&r.excelRow<=21);
+    const operatingRows=d.rows.filter(r=>r.excelRow>=22&&r.excelRow<=34&&r.subdetail&&r.amount!==null);
+
+    const salesHost=root.querySelector('[data-st-sales-rows]');
+    const deductionHost=root.querySelector('[data-st-deduction-rows]');
+    const operatingHost=root.querySelector('[data-st-operating-rows]');
+
+    salesHost.innerHTML=salesRows.map(r=>
+      rowHtml(r,{key:r.excelRow===15})
+    ).join('');
+
+    deductionHost.innerHTML=deductionRows.map(r=>
+      rowHtml(r,{key:r.excelRow===16})
+    ).join('');
+
+    operatingHost.innerHTML=operatingRows.map(r=>
+      rowHtml(r,{sub:true})
+    ).join('');
+
+    const resultRow=findRow(month,37);
+    const resultLabel=resultRow?.category||'용역비';
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
+
+    setText('[data-st-month]',month);
+    setText('[data-st-doc-month]',month);
+    setText('[data-st-settlement-month]',formatDate(d.settlementMonth));
+    setText('[data-st-settlement-date]',formatDate(d.settlementDate));
+    setText('[data-st-notice]',d.notice||'');
+    setText('[data-st-stamp]',d.stamp||'');
+
+    setText('[data-st-sales]',formatWon(amount(month,15)));
+    setText('[data-st-deductions]',formatWon(amount(month,36)));
+    setText('[data-st-operating]',formatWon(amount(month,35)));
+    setText('[data-st-result-label]',resultLabel);
+    setText('[data-st-result]',formatWon(amount(month,37)));
+
+    setText('[data-st-operating-total]',formatWon(amount(month,35)));
+    setText('[data-st-deduction-total]',formatWon(amount(month,36)));
+    setText('[data-st-final-label]',resultLabel);
+    setText('[data-st-final-result]',formatWon(amount(month,37)));
+
+    monthButtons.forEach(button=>
+      button.classList.toggle('is-active',button.dataset.month===month)
+    );
+
+    window.SettlementViewState=Object.freeze({month});
+  };
+
+  monthButtons.forEach(button=>{
+    button.addEventListener('click',()=>render(button.dataset.month));
+  });
+
+  render('2026-03');
+
+  window.SettlementRenderer=Object.freeze({render});
+})();
+</script><script id="business-analysis-ui">
+(()=>{
+  'use strict';
+
+  const root=document.querySelector('[data-app-view="business"]');
+  const engine=window.BusinessAnalysisEngine;
+  if(!root||!engine) return;
+
+  const infoSvg=`<svg class="ba-info-icon-svg" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.6v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="6.1" r=".9" fill="currentColor"/></svg>`;
+
+  const state={
+    rsStep:1,
+    settings:{...engine.defaults,laborShifts:engine.laborShifts.map(item=>({...item}))},
+    upgradeItems:engine.upgradeReference.map(item=>({...item}))
+  };
+
+  const settingInputs=[...root.querySelectorAll('[data-ba-setting]')];
+  const stepButtons=[...root.querySelectorAll('[data-ba-rs-step]')];
+  const matrix=root.querySelector('[data-ba-matrix="comparison"]');
+  const tooltip=document.getElementById('baFloatingTooltip');
+  const laborTable=root.querySelector('[data-ba-labor-table]');
+  const upgradeTable=root.querySelector('[data-ba-upgrade-table]');
+
+  const formatNumber=(value,maximumFractionDigits=0)=>
+    new Intl.NumberFormat('ko-KR',{maximumFractionDigits}).format(value);
+
+  const formatMoney=value=>{
+    if(!Number.isFinite(value)) return '—';
+    return formatNumber(Math.round(value));
+  };
+
+  const parseInput=input=>{
+    const raw=String(input.value??'').replace(/,/g,'').trim();
+    const n=Number(raw);
+    if(!Number.isFinite(n)) return null;
+    return input.dataset.baMode==='percent'?n/100:n;
+  };
+
+  const formatSettingInput=input=>{
+    const key=input.dataset.baSetting;
+    const val=state.settings[key];
+    if(!Number.isFinite(Number(val))) return;
+    if(input.dataset.baMode==='percent'){
+      input.value=formatNumber(Number(val)*100,2).replace(/\.00$/,'');
+    }else{
+      input.value=formatNumber(Number(val),2).replace(/\.00$/,'');
+    }
+  };
+
+  const tooltips={
+    salesGolfIncluded:'RS × 총 룸 수 × 판매가 × 영업일수. 엑셀의 골프존 매출(VAT 포함) 계산식과 동일합니다.',
+    salesGolfExcluded:'골프존 매출(VAT 포함) ÷ 1.1 후 Excel ROUNDDOWN 방식으로 원 단위 절사합니다.',
+    salesFood:'RS 7의 기준 식음료 매출에서 RS +1당 설정한 증가액을 반영합니다.',
+    salesTotalIncluded:'골프존 매출(VAT 포함) + 식음료 매출(VAT 별도) × 1.1.',
+    salesTotalExcluded:'골프존 매출(VAT 별도) + 식음료 매출(VAT 별도). 매출배분형 추가 수수료의 기준 매출로 사용합니다.',
+    cardFee:'골프존 매출(VAT 포함) × 카드매출 비중 × 카드수수료율. 내부 계산은 소수점을 유지합니다.',
+    maintenance:'RS × 총 룸 수 × 게임비 × 영업일수.',
+    buildingManagement:'2026년 3~8월 용역비 정산서 관리비의 평균을 Excel ROUNDDOWN 방식으로 원 단위 절사한 값입니다.',
+    fixedOperating:'2026년 7월 반복 운영비를 기준으로 POS 관리 4천원, 전화요금 1.5만원, 광고비 35만원을 반영한 고정 운영비입니다.',
+    labor:'하단 월 인건비 추정의 근무시간·인원·시급 설정 결과를 사용합니다.',
+    consumables:'상단 소모품비 설정값을 사용합니다.',
+    management:'1안은 기존 위탁운영 수수료 + 업그레이드 고정비용, 2안은 기존 수수료 + 기본 매출배분 + 기준매출 초과분 × 추가 수수료율입니다.',
+    deductionTotal:'공통 공제항목에 각 안의 위탁운영 수수료를 합산한 값입니다.',
+    operatorProfit:'매출합계(VAT 별도) - 공제항목 합계 - 힐링스토리 지출 합계.',
+    easyProfit:'이지벤처스 수익은 각 안의 위탁운영 수수료와 동일합니다.',
+    diff:'차이는 2안 - 1안으로 계산합니다. 양수는 2안이 더 큰 값, 음수는 2안이 더 작은 값입니다.'
+  };
+
+  const escapeAttr=value=>String(value)
+    .replace(/&/g,'&amp;')
+    .replace(/"/g,'&quot;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+
+  const infoButton=(label,tip)=>tip
+    ? `<button type="button" class="ba-info-button" aria-label="${escapeAttr(label)} 설명" data-ba-tooltip="${escapeAttr(tip)}">${infoSvg}</button>`
+    : '';
+
+  const commonGroups=[
+    {
+      title:'매출',
+      rows:[
+        {label:'골프존 매출(VAT포함)',tooltip:tooltips.salesGolfIncluded,value:r=>r.sales.golfVatIncluded},
+        {label:'골프존 매출(VAT별도)',tooltip:tooltips.salesGolfExcluded,value:r=>r.sales.golfVatExcluded},
+        {label:'식음료 매출(VAT별도)',tooltip:tooltips.salesFood,value:r=>r.sales.foodVatExcluded},
+        {label:'매출합계(VAT포함)',tooltip:tooltips.salesTotalIncluded,value:r=>r.sales.totalVatIncluded,subtotal:true},
+        {label:'매출합계(VAT별도)',tooltip:tooltips.salesTotalExcluded,value:r=>r.sales.totalVatExcluded,subtotal:true}
+      ]
+    },
+    {
+      title:'공통 비용',
+      rows:[
+        {label:'카드수수료',tooltip:tooltips.cardFee,value:r=>r.deductions.cardFee},
+        {label:'골프존 유지보수비',tooltip:tooltips.maintenance,value:r=>r.deductions.golfMaintenanceFee},
+        {label:'관리비',tooltip:tooltips.buildingManagement,value:r=>r.deductions.buildingManagementFee},
+        {label:'운영비(고정비)',tooltip:tooltips.fixedOperating,value:r=>r.deductions.fixedOperatingCost}
+      ]
+    },
+    {
+      title:'운영자 지출',
+      rows:[
+        {label:'인건비',tooltip:tooltips.labor,value:r=>r.operatorExpenses.labor},
+        {label:'소모품',tooltip:tooltips.consumables,value:r=>r.operatorExpenses.consumables},
+        {label:'힐링스토리 지출 합계',value:r=>r.operatorExpenses.total,subtotal:true}
+      ]
+    }
+  ];
+
+  const compareGroups=[
+    {
+      title:'위탁운영 수수료',
+      note:'안별 계약 수수료',
+      tooltip:tooltips.management,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.deductions.managementFee},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.managementFee},
+        {kind:'diff',label:'2안 - 1안',tooltip:tooltips.diff,value:(f,s)=>s.deductions.managementFee-f.deductions.managementFee}
+      ]
+    },
+    {
+      title:'공제항목 합계',
+      note:'공통 비용 + 안별 위탁운영 수수료',
+      tooltip:tooltips.deductionTotal,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.deductions.total},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.total}
+      ]
+    },
+    {
+      title:'김형호 수익',
+      note:'최종 운영자 수익',
+      tooltip:tooltips.operatorProfit,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.results.operatorProfit,profit:true},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.operatorProfit,profit:true},
+        {kind:'diff',label:'2안 - 1안',tooltip:tooltips.diff,value:(f,s)=>s.results.operatorProfit-f.results.operatorProfit}
+      ]
+    },
+    {
+      title:'이지벤처스 수익',
+      note:'안별 위탁운영 수수료 귀속',
+      tooltip:tooltips.easyProfit,
+      rows:[
+        {kind:'fixed',label:'고정비용형',value:(f,s)=>f.results.easyVenturesProfit},
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.easyVenturesProfit}
+      ]
+    }
+  ];
+
+  const metricRowHtml=(metric,seriesFixed,seriesShare)=>{
+    const rowClass=[
+      'ba-metric-row',
+      metric.subtotal?'is-subtotal':'',
+      metric.kind?`is-plan-${metric.kind}`:''
+    ].filter(Boolean).join(' ');
+
+    let html=`<div class="${rowClass}">`;
+    html+=`<div class="ba-metric-label"><strong>${metric.label}</strong>${infoButton(metric.label,metric.tooltip)}</div>`;
+
+    for(let i=0;i<seriesFixed.length;i++){
+      const fixed=seriesFixed[i];
+      const share=seriesShare[i];
+      const source=metric.kind?metric.value(fixed,share):metric.value(fixed);
+      const classes=['ba-metric-cell'];
+
+      if(metric.profit){
+        if(source<0) classes.push('is-negative');
+        if(source>0) classes.push('is-positive-strong');
+      }
+      if(metric.kind==='diff'){
+        if(source>0) classes.push('is-diff-positive');
+        else if(source<0) classes.push('is-diff-negative');
+        else classes.push('is-diff-zero');
+      }
+
+      html+=`<div class="${classes.join(' ')}">${formatMoney(source)}</div>`;
+    }
+
+    html+='</div>';
+    return html;
+  };
+
+  const renderMatrix=()=>{
+    if(!matrix) return;
+
+    const fixed=engine.calculateSeries('fixed',{step:state.rsStep,overrides:state.settings});
+    const share=engine.calculateSeries('share',{step:state.rsStep,overrides:state.settings});
+    matrix.style.setProperty('--ba-rs-count',String(fixed.length));
+    matrix.style.setProperty('--ba-matrix-width',`${182 + fixed.length * 126}px`);
+    matrix.dataset.rsDensity=state.rsStep===0.5?'wide':'compact';
+
+    let html='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
+    for(const item of fixed){
+      html+=`<div class="ba-rs-head">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
+    }
+    html+='</div>';
+
+    for(const group of commonGroups){
+      html+=`<div class="ba-group-title">${group.title}</div>`;
+      for(const metric of group.rows){
+        html+=metricRowHtml(metric,fixed,share);
+      }
+    }
+
+    html+='<div class="ba-group-title">1안 / 2안 비교</div>';
+
+    for(const group of compareGroups){
+      html+=`<div class="ba-compare-block">`;
+      html+=`<div class="ba-compare-title"><strong>${group.title}</strong>${infoButton(group.title,group.tooltip)}<small>${group.note}</small></div>`;
+      for(const metric of group.rows){
+        html+=metricRowHtml(metric,fixed,share);
+      }
+      html+='</div>';
+    }
+
+    matrix.innerHTML=html;
+  };
+
+  const renderLaborReference=()=>{
+    if(!laborTable) return;
+    const result=engine.calculateLabor(state.settings);
+    let html='<div class="ba-ref-head-row"><div>근무시간대</div><div>시간</div><div>인원</div><div>지급 총액</div><div>사회보험료</div><div>퇴직금</div></div>';
+
+    result.shifts.forEach((shift,index)=>{
+      const groupText=shift.group==='weekday'?'평일':'주말';
+      html+=`<div class="ba-labor-row" data-ba-labor-index="${index}">
+        <div class="ba-ref-label"><small>${groupText} · 주${shift.daysPerWeek}일</small><span>${shift.label}</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-labor-field="hours" value="${formatNumber(shift.hours,2)}"><span class="ba-ref-input-unit">시간</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-labor-field="people" value="${formatNumber(shift.people,2)}"><span class="ba-ref-input-unit">명</span></div>
+        <div class="ba-ref-value">${formatMoney(shift.gross)}원</div>
+        <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.socialInsurance)+'원':'—'}</div>
+        <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.retirement)+'원':'—'}</div>
+      </div>`;
+    });
+
+    laborTable.innerHTML=html;
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
+    setText('[data-ba-labor-total]',formatMoney(result.total)+'원');
+    setText('[data-ba-labor-gross]',formatMoney(result.gross)+'원');
+    setText('[data-ba-labor-insurance]',formatMoney(result.socialInsurance)+'원');
+    setText('[data-ba-labor-retirement]',formatMoney(result.retirement)+'원');
+    setText('[data-ba-labor-grand]',formatMoney(result.total)+'원');
+  };
+
+  const renderUpgradeReference=()=>{
+    if(!upgradeTable) return;
+    const result=engine.calculateUpgradeReference(state.upgradeItems,state.settings);
+    let html='<div class="ba-ref-head-row"><div>구분</div><div>단가</div><div>수량</div><div>합계</div><div>무이자 월비용</div></div>';
+
+    result.rows.forEach((item,index)=>{
+      const isSub=item.key==='ambidextrous'||item.key==='projectorFloor';
+      html+=`<div class="ba-upgrade-row" data-ba-upgrade-index="${index}">
+        <div class="ba-ref-label ${isSub?'is-sub':''}"><span>${item.label}</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-upgrade-field="unitCost" value="${formatNumber(item.unitCost)}"><span class="ba-ref-input-unit">원</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-upgrade-field="qty" value="${formatNumber(item.qty,2)}"></div>
+        <div class="ba-ref-value">${formatMoney(item.total)}원</div>
+        <div class="ba-ref-value">${formatMoney(item.monthlyInterestFree)}원</div>
+      </div>`;
+    });
+
+    upgradeTable.innerHTML=html;
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
+    setText('[data-ba-upgrade-total]',formatMoney(result.total)+'원');
+    setText('[data-ba-upgrade-total-summary]',formatMoney(result.total)+'원');
+    setText('[data-ba-upgrade-monthly]',formatMoney(result.monthlyInterestFree)+'원');
+    setText('[data-ba-upgrade-interest-total]',formatMoney(result.totalWithInterest)+'원');
+    setText('[data-ba-upgrade-interest-monthly]',formatNumber(result.monthlyWithInterest,1)+'원');
+  };
+
+  const renderReferences=()=>{
+    renderLaborReference();
+    renderUpgradeReference();
+  };
+
+  const renderAll=()=>{
+    renderMatrix();
+    renderReferences();
+  };
+
+  const syncStepButtons=()=>{
+    stepButtons.forEach(button=>{
+      const active=Number(button.dataset.baRsStep)===state.rsStep;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+  };
+
+  settingInputs.forEach(input=>{
+    const key=input.dataset.baSetting;
+    if(key in state.settings) formatSettingInput(input);
+
+    input.addEventListener('focus',()=>{
+      const val=state.settings[key];
+      if(!Number.isFinite(Number(val))) return;
+      input.value=input.dataset.baMode==='percent'
+        ? String(Number((Number(val)*100).toFixed(4)))
+        : String(Number(val));
+      input.select();
+    });
+
+    input.addEventListener('input',()=>{
+      const parsed=parseInput(input);
+      if(parsed===null) return;
+      state.settings[key]=parsed;
+      renderAll();
+    });
+
+    input.addEventListener('blur',()=>{
+      const parsed=parseInput(input);
+      if(parsed!==null) state.settings[key]=parsed;
+      formatSettingInput(input);
+      renderAll();
+    });
+
+    input.addEventListener('keydown',event=>{
+      if(event.key==='Enter') input.blur();
+    });
+  });
+
+  root.addEventListener('focusin',event=>{
+    const input=event.target.closest('.ba-ref-input');
+    if(!input) return;
+    input.value=String(input.value).replace(/,/g,'');
+    input.select();
+  });
+
+  root.addEventListener('keydown',event=>{
+    const input=event.target.closest('.ba-ref-input');
+    if(input&&event.key==='Enter') input.blur();
+  });
+
+  root.addEventListener('change',event=>{
+    const laborInput=event.target.closest('.ba-ref-input[data-ba-labor-field]');
+    if(laborInput){
+      const row=laborInput.closest('[data-ba-labor-index]');
+      const index=Number(row?.dataset.baLaborIndex);
+      const field=laborInput.dataset.baLaborField;
+      const value=Number(String(laborInput.value).replace(/,/g,'').trim());
+
+      if(Number.isFinite(index)&&Number.isFinite(value)&&state.settings.laborShifts[index]){
+        state.settings.laborShifts[index]={...state.settings.laborShifts[index],[field]:value};
+      }
+      renderAll();
+      return;
+    }
+
+    const upgradeInput=event.target.closest('.ba-ref-input[data-ba-upgrade-field]');
+    if(upgradeInput){
+      const row=upgradeInput.closest('[data-ba-upgrade-index]');
+      const index=Number(row?.dataset.baUpgradeIndex);
+      const field=upgradeInput.dataset.baUpgradeField;
+      const value=Number(String(upgradeInput.value).replace(/,/g,'').trim());
+
+      if(Number.isFinite(index)&&Number.isFinite(value)&&state.upgradeItems[index]){
+        state.upgradeItems[index]={...state.upgradeItems[index],[field]:value};
+      }
+      renderReferences();
+    }
+  });
+
+  stepButtons.forEach(button=>{
+    button.addEventListener('click',()=>{
+      state.rsStep=Number(button.dataset.baRsStep);
+      syncStepButtons();
+      renderMatrix();
+    });
+  });
+
+  const positionTooltip=button=>{
+    if(!tooltip||!button) return;
+    tooltip.textContent=button.dataset.baTooltip||'';
+    tooltip.classList.add('is-visible');
+    tooltip.setAttribute('aria-hidden','false');
+
+    const rect=button.getBoundingClientRect();
+    const gutter=12;
+    const gap=7;
+    const width=tooltip.offsetWidth;
+    const height=tooltip.offsetHeight;
+
+    let left=rect.left+rect.width/2-width/2;
+    left=Math.max(gutter,Math.min(left,window.innerWidth-width-gutter));
+
+    let top=rect.top-height-gap;
+    let below=false;
+    if(top<gutter){
+      top=rect.bottom+gap;
+      below=true;
+    }
+
+    const arrow=rect.left+rect.width/2-left;
+    tooltip.style.left=`${Math.round(left)}px`;
+    tooltip.style.top=`${Math.round(top)}px`;
+    tooltip.style.setProperty('--ba-tooltip-arrow',`${Math.max(10,Math.min(width-10,arrow))}px`);
+    tooltip.classList.toggle('is-below',below);
+    button.classList.add('is-open');
+  };
+
+  const hideTooltip=()=>{
+    if(!tooltip) return;
+    tooltip.classList.remove('is-visible','is-below');
+    tooltip.setAttribute('aria-hidden','true');
+    root.querySelectorAll('.ba-info-button.is-open').forEach(b=>b.classList.remove('is-open'));
+  };
+
+  root.addEventListener('pointerover',event=>{
+    const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
+    if(!button||event.pointerType==='touch') return;
+    positionTooltip(button);
+  });
+  root.addEventListener('pointerout',event=>{
+    const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
+    if(!button||event.pointerType==='touch') return;
+    if(!button.contains(event.relatedTarget)) hideTooltip();
+  });
+  root.addEventListener('focusin',event=>{
+    const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
+    if(button) positionTooltip(button);
+  });
+  root.addEventListener('focusout',event=>{
+    if(event.target.closest('.ba-info-button[data-ba-tooltip]')) hideTooltip();
+  });
+  root.addEventListener('click',event=>{
+    const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
+    if(!button) return;
+    event.preventDefault();
+    const isOpen=button.classList.contains('is-open')&&tooltip?.classList.contains('is-visible');
+    hideTooltip();
+    if(!isOpen) positionTooltip(button);
+  });
+  document.addEventListener('click',event=>{
+    if(!event.target.closest('.ba-info-button[data-ba-tooltip]')) hideTooltip();
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape') hideTooltip();
+  });
+  window.addEventListener('resize',hideTooltip,{passive:true});
+  window.addEventListener('scroll',hideTooltip,{passive:true});
+
+  syncStepButtons();
+  renderAll();
+
+  window.BusinessAnalysisUI=Object.freeze({
+    getState:()=>({
+      rsStep:state.rsStep,
+      settings:{...state.settings,laborShifts:state.settings.laborShifts.map(item=>({...item}))},
+      upgradeItems:state.upgradeItems.map(item=>({...item}))
+    }),
+    render:renderAll
+  });
+})();
+</script></body></html>
