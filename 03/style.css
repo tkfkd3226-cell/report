@@ -42,6 +42,12 @@
   --dash-panel-head-bg:#f4f7fa;
   --dash-panel-border:#d5dee8;
   --dash-line:#dbe3eb;
+  --dash-table-cell-line:#f0f2f5;
+  --dash-table-row-line:#eef1f4;
+  --dash-table-label-color:#596779;
+  --dash-table-value-color:#263548;
+  --dash-table-row-hover:#fbfcfd;
+  --ba-focus-border:#8eb6dc;
   --dash-panel-radius:10px;
   --dash-control-radius:8px;
   --dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);
@@ -63,7 +69,7 @@
 
 body{
   margin:0;
-  background:#eef2f6;
+  background:var(--dash-page-bg);
   color:var(--dash-color-ink);
   font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;
   line-height:1.48;
@@ -620,7 +626,7 @@ p{
 /* Business analysis */
 
 .app-view-business{
-  background:#eef2f6;
+  background:var(--dash-page-bg);
 }
 
 .ba-settings-head>div{
@@ -640,7 +646,7 @@ p{
 }
 
 .ba-value-shell:focus-within{
-  border-color:#8eb6dc;
+  border-color:var(--ba-focus-border);
   background:#fff;
   box-shadow:0 0 0 2px rgba(62,132,194,.12);
 }
@@ -712,7 +718,7 @@ p{
 }
 
 .ba-metric-row:hover{
-  background:#fbfcfd;
+  background:var(--dash-table-row-hover);
 }
 
 .ba-metric-label{
@@ -720,7 +726,7 @@ p{
   align-items:center;
   gap:3px;
   min-width:0;
-  color:#596779;
+  color:var(--dash-table-label-color);
 }
 
 .ba-metric-label strong{
@@ -734,8 +740,8 @@ p{
   align-items:center;
   justify-content:flex-end;
   min-width:0;
-  border-left:1px solid #f0f2f5;
-  color:#263548;
+  border-left:1px solid var(--dash-table-cell-line);
+  color:var(--dash-table-value-color);
   text-align:right;
   font-variant-numeric:tabular-nums;
   white-space:nowrap;
@@ -834,11 +840,11 @@ p{
 }
 
 .ba-ref-head-row>div:not(:first-child), .ba-labor-row>div:not(:first-child), .ba-upgrade-row>div:not(:first-child){
-  border-left:1px solid #f0f2f5;
+  border-left:1px solid var(--dash-table-cell-line);
 }
 
 .ba-labor-row:hover, .ba-upgrade-row:hover{
-  background:#fbfcfd;
+  background:var(--dash-table-row-hover);
 }
 
 .ba-labor-table .ba-ref-head-row, .ba-labor-row{
@@ -884,7 +890,7 @@ p{
 }
 
 .ba-ref-input-shell:focus-within{
-  border-color:#8eb6dc;
+  border-color:var(--ba-focus-border);
   background:#fff;
   box-shadow:0 0 0 2px rgba(62,132,194,.12);
 }
@@ -926,7 +932,7 @@ p{
 }
 
 .ba-inline-edit:focus-within{
-  border-color:#8eb6dc;
+  border-color:var(--ba-focus-border);
   background:#fff;
   box-shadow:0 0 0 2px rgba(62,132,194,.12);
 }
@@ -950,7 +956,7 @@ p{
 }
 
 .app-view-settlement{
-  background:#eef2f6;
+  background:var(--dash-page-bg);
 }
 
 .st-month-badge, .st-vat-badge{
@@ -1018,7 +1024,7 @@ p{
 }
 
 .st-row-head>div+div, .st-row>div+div{
-  border-left:1px solid #f0f2f5;
+  border-left:1px solid var(--dash-table-cell-line);
 }
 
 .st-row:last-child{
@@ -1026,7 +1032,7 @@ p{
 }
 
 .st-row:hover{
-  background:#fbfcfd;
+  background:var(--dash-table-row-hover);
 }
 
 .st-row-label.is-sub{
@@ -1164,7 +1170,7 @@ p{
 }
 
 .ba-metric-row.is-plan-diff .ba-metric-label strong{
-  color:#596779;
+  color:var(--dash-table-label-color);
 }
 
 .ba-metric-row.is-plan-diff .ba-metric-cell{
@@ -1356,7 +1362,7 @@ p{
 
 .ba-metric-row{
   background:#fff;
-  border-bottom:1px solid #eef1f4;
+  border-bottom:1px solid var(--dash-table-row-line);
   min-height:34px;
 }
 
@@ -1470,7 +1476,7 @@ p{
 .ba-ref-head-row, .ba-labor-row, .ba-upgrade-row{
   display:grid;
   align-items:center;
-  border-bottom:1px solid #eef1f4;
+  border-bottom:1px solid var(--dash-table-row-line);
   min-height:36px;
 }
 
@@ -1501,7 +1507,7 @@ p{
   border:0;
   outline:0;
   background:transparent;
-  color:#263548;
+  color:var(--dash-table-value-color);
   font-weight:900;
   text-align:right;
   height:27px;
@@ -1622,7 +1628,7 @@ p{
 }
 
 .st-row{
-  border-bottom:1px solid #eef1f4;
+  border-bottom:1px solid var(--dash-table-row-line);
   min-height:36px;
 }
 
@@ -2057,7 +2063,7 @@ p{
   padding:6px 10px;
   border-top:1px solid #e2e8ee;
   border-bottom:1px solid #e2e8ee;
-  background:#f4f7fa;
+  background:var(--dash-panel-head-bg);
 }
 
 .ba-matrix-bundle.is-compare .ba-compare-block:first-child .ba-compare-title{
@@ -2663,7 +2669,7 @@ p{
 }
 
 .contract-panel-diff:has(.contract-diff-collapsible:not([hidden])) .contract-panel-head{
-  border-bottom:1px solid #dbe3eb;
+  border-bottom:1px solid var(--dash-line);
 }
 
 .contract-diff-toggle{
@@ -2673,7 +2679,7 @@ p{
 .contract-diff-body>.lead{
   margin:0;
   padding:8px 11px;
-  border-bottom:1px solid #dbe3eb;
+  border-bottom:1px solid var(--dash-line);
   background:#fbfcfe;
 }
 
@@ -3471,7 +3477,7 @@ body.app-dashboard{
 .st-overview-total-head, .st-overview-average-head{
   justify-content:flex-end;
   border-left:1px solid var(--dash-line);
-  background:#f4f7fa;
+  background:var(--dash-panel-head-bg);
   color:var(--dash-color-title);
 }
 
@@ -3493,12 +3499,12 @@ body.app-dashboard{
 
 .st-overview-row{
   min-height:34px;
-  border-bottom:1px solid #eef1f4;
+  border-bottom:1px solid var(--dash-table-row-line);
   background:#fff;
 }
 
 .st-overview-row:hover{
-  background:#fbfcfd;
+  background:var(--dash-table-row-hover);
 }
 
 .st-overview-row-label, .st-overview-cell{
@@ -3510,13 +3516,13 @@ body.app-dashboard{
 }
 
 .st-overview-row-label{
-  color:#596779;
+  color:var(--dash-table-label-color);
 }
 
 .st-overview-cell{
   justify-content:flex-end;
-  border-left:1px solid #f0f2f5;
-  color:#263548;
+  border-left:1px solid var(--dash-table-cell-line);
+  color:var(--dash-table-value-color);
   text-align:right;
   white-space:nowrap;
 }
