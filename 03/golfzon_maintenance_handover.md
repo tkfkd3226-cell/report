@@ -1,6 +1,8 @@
 # 골프존 운영·계약 대시보드 유지보수 기준
 
 기준일: 2026-09-10
+Release: v1.0.0
+Git commit: cb227bd
 기준 원본: 현재 프로젝트 root의 Release 기준본 (`index.html`, `style.css`, `common.js`, `data/`)
 상태: 반응형·상호작용·접근성 마감과 코드·모의 검증, 사용자 실화면 QA를 완료한 Release 기준본.
 
@@ -208,41 +210,37 @@ RS +1 식음료 증가 설명은 고정 금액 대신 “입력 금액만큼 증
 
 ### 9.5 화면·기능별 체크리스트
 
-**재계약 검토**
-- 반영 현황 label/value gap 공통화와 Phone 카드 정렬.
-- 주요 변경 요약 grid가 폭별로 자연스럽게 재배치되는지.
-- Web Diff 3열, Tablet old/new paired row + 반영내용 full-width, Phone 문서별 stack.
-- Tablet에서 old/new 같은 항의 상·하단선이 동일 row 높이를 공유하는지.
-- 화면 모드 변경·인쇄 전후에 Diff DOM이 원래 위치로 정확히 복원되는지.
+이 절은 **평가 관점만 정의**한다. 실제 수치·배치·상태 규칙은 앞선 유지보수 Contract를 Source of Truth로 사용하며, 여기에서 다시 중복 기재하지 않는다. 평가 시에는 아래 각 화면이 해당 Contract와 일치하는지 확인한다.
 
-**사업성 설정·참고표**
-- Wide Web 43:17:40, business container 1600 이하 1+2, 861~1100 하단 27:73, 761~860 50:50, Phone 카드 세로 + 항목 2열.
-- Phone label 위/input 아래 구조, input 값·단위 잘림 여부.
-- 인건비/업그레이드 참고표의 subgrid 세로선, 첫 라벨 최소폭, 입력 최소 track, 실제 overflow 발생 시점.
-- 잘못된 입력 복원, notice/aria-describedby 정리, Tab·클릭 시 input DOM/포커스 보존.
-- 동적 input이 항목과 필드를 식별할 수 있는 접근성 이름을 갖는지.
+**재계약 검토 — §3 기준**
+- 반영 현황과 주요 변경 요약의 반응형 배치가 §3의 현재 Contract와 일치하는지.
+- Diff가 Web / Tablet / Phone에서 §3의 DOM 이동·복원 원칙을 지키는지.
+- Tablet에서 old/new 같은 항이 동일 row 높이를 공유하고, Phone을 벗어나거나 인쇄가 끝난 뒤 원래 DOM으로 정확히 복원되는지.
 
-**사업성 비교표·RS**
-- 모든 화면에서 충분한 폭에서는 먼저 축소하고 intrinsic minimum 이후 내부 scroll이 생기는지.
-- scroll 시 첫 라벨과 그룹 제목의 첫 라벨만 sticky인지. 그룹 띠 전체가 움직이거나 별도 세로선이 생기지 않는지.
-- Tablet/Phone 1.0/0.5 toggle, Web 전체 0.5, 계산 series는 항상 0.5 유지.
-- Fixed RS Header track 복사와 scrollLeft 보정이 live matrix와 일치하는지.
-- RS hover, 최소 1개 표시 규칙, 변경값 orange dashed 850ms, 동일값 재입력 시 불필요한 재렌더 여부.
+**사업성 설정·참고표 — §4, §6 기준**
+- 설정 카드의 Web / Tablet / Phone 배치가 §4의 확정 반응형 Contract와 일치하는지.
+- Phone의 label/input 구조와 입력값·단위 표시가 잘리거나 겹치지 않는지.
+- 인건비·업그레이드 참고표가 §6의 subgrid·최소 track·overflow 원칙을 지키는지.
+- 잘못된 입력 복원, notice/aria-describedby 정리, Tab·클릭 시 input DOM/포커스 보존이 §6과 일치하는지.
+- 동적 input의 accessible name이 항목과 필드를 식별할 수 있는지.
 
-**용역비 정산서**
-- 2026-03~08의 매출·공제·운영비·용역비 합계 및 누계가 원천 데이터와 일치하는지.
-- 월별 정산 현황이 사업성 표와 같은 shrink→intrinsic min→internal scroll→sticky contract인지.
-- row별 max-content가 아니라 부모 grid + subgrid로 세로선이 맞는지.
-- 용역비 최종 row의 월·누계·평균이 `--st-result-bg`를 공유하는지.
-- 정산 부모 메뉴는 Overview에서 열림 유지, 실제 월 선택 시 Drawer가 닫히는지.
-- Overview에서는 부모만, 월 화면에서는 해당 월만 `aria-current="page"`인지.
+**사업성 비교표·RS — §5 기준**
+- 비교표가 §5의 shrink → intrinsic minimum → internal scroll 원칙을 지키는지.
+- scroll 시 첫 라벨과 그룹 제목의 첫 라벨만 sticky이고, 그룹 띠 전체가 sticky 되거나 별도 세로선이 생기지 않는지.
+- RS 표시 간격 전환과 계산 series, Fixed RS Header 동기화가 §5의 기준과 일치하는지.
+- RS hover와 변경값 강조가 의도된 상태에서만 동작하고, 동일값 재입력 등에서 불필요한 재렌더가 없는지.
 
-**Snapshot·Print·Tooltip**
-- 스냅샷 클릭 전/생성 중/완료 후 카메라 아이콘이 유지되고 텍스트만 바뀌는지.
-- snapshot stage에 화면용 Tablet/Phone 특수규칙이 유입되지 않는지.
-- transient hover/focus/tooltip이 출력물에 남지 않는지.
-- tooltip의 focus→click 고정, 재클릭 닫기, ESC/외부 클릭/scroll/resize cleanup.
-- Print 전후 view·Diff·Fixed Header 상태가 원복되는지.
+**용역비 정산서 — §5 기준**
+- 월별 원천 데이터와 매출·공제·운영비·용역비 합계 및 누계가 일치하는지.
+- 월별 정산 현황이 §5의 공통 table contract와 subgrid 정렬 원칙을 지키는지.
+- 용역비 최종 row의 의미색과 월 이동·정산 메뉴 상태가 §5 및 §2의 Navigation 기준과 일치하는지.
+- Overview와 특정 월 화면의 `aria-current="page"`가 실제 현재 화면 하나만 가리키는지.
+
+**Snapshot·Print·Tooltip — §4, §7 기준**
+- 스냅샷의 출력 범위·stage·버튼 상태 복구가 §4의 기준과 일치하는지.
+- snapshot/print에 화면용 transient hover·focus·tooltip이나 Compact 전용 규칙이 유입되지 않는지.
+- tooltip의 focus→click 고정, 재클릭 닫기, ESC/외부 클릭/scroll/resize cleanup이 §7의 기준과 일치하는지.
+- Print 전후 view·Diff·Fixed Header 상태가 원래 화면 상태로 복원되는지.
 
 ### 9.6 CSS·JS 정적 검사
 
