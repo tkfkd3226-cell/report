@@ -3335,6 +3335,29 @@ body.app-dashboard{
   background:transparent;
 }
 
+.dashboard-input.is-ba-input-rejected,
+.ba-inline-edit input.is-ba-input-rejected{
+  outline:2px dashed #b45309;
+  outline-offset:1px;
+}
+
+.ba-input-notice{
+  position:fixed;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  z-index:1250;
+  width:max-content;
+  max-width:calc(100% - 28px);
+  padding:10px 14px;
+  border-radius:var(--dash-control-radius);
+  background:var(--dash-tooltip-bg);
+  color:#fff;
+  font-size:var(--dash-font-value);
+  line-height:1.48;
+  pointer-events:none;
+}
+
 .dashboard-input--ghost:focus{
   border-color:#8fb0d0;
   background:#fff;

@@ -1193,6 +1193,55 @@
     }
   };
 
+  // One non-modal notice reports rejected commits without moving the page or focus.
+  const inputNotice=document.createElement('div');
+  inputNotice.id='baInputNotice';
+  inputNotice.className='ba-input-notice';
+  inputNotice.setAttribute('role','status');
+  inputNotice.setAttribute('aria-live','polite');
+  inputNotice.setAttribute('aria-atomic','true');
+  inputNotice.hidden=true;
+  document.body.appendChild(inputNotice);
+  let rejectedInput=null;
+  let inputNoticeTimer=null;
+
+  const clearInputNotice=()=>{
+    if(inputNoticeTimer!==null) clearTimeout(inputNoticeTimer);
+    inputNoticeTimer=null;
+    if(rejectedInput){
+      rejectedInput.classList.remove('is-ba-input-rejected');
+      const ids=(rejectedInput.getAttribute('aria-describedby')||'').split(/\s+/)
+        .filter(id=>id&&id!==inputNotice.id);
+      if(ids.length) rejectedInput.setAttribute('aria-describedby',ids.join(' '));
+      else rejectedInput.removeAttribute('aria-describedby');
+    }
+    rejectedInput=null;
+    inputNotice.hidden=true;
+    inputNotice.textContent='';
+  };
+
+  const showInputNotice=input=>{
+    clearInputNotice();
+    rejectedInput=input;
+    input.classList.add('is-ba-input-rejected');
+    const ids=(input.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);
+    input.setAttribute('aria-describedby',[...new Set([...ids,inputNotice.id])].join(' '));
+    const reason=input.dataset.baSetting==='upgradeInstallmentMonths'
+      ?'무이자 개월은 0보다 큰 숫자여야 합니다.'
+      :input.dataset.baMode==='percent'
+        ?'비율은 0~100% 범위의 숫자여야 합니다.'
+        :'0 이상의 숫자를 입력해 주세요.';
+    inputNotice.textContent=`${reason} 마지막 유효값으로 복원했습니다.`;
+    inputNotice.hidden=false;
+    inputNoticeTimer=window.setTimeout(clearInputNotice,5000);
+  };
+
+  root.addEventListener('input',event=>{
+    if(event.target===rejectedInput&&parseInput(event.target)!==null) clearInputNotice();
+  });
+  document.addEventListener('app:viewchange',clearInputNotice);
+  window.addEventListener('beforeprint',clearInputNotice);
+
   const commonGroups=[
     {
       title:'매출',
@@ -1581,6 +1630,7 @@
 
   const downloadBusinessSnapshot=async()=>{
     if(!snapshotButton||snapshotButton.disabled) return;
+    clearInputNotice();
 
     const label=snapshotButton.querySelector('.ba-button-icon + span');
     const originalLabel=label?.textContent||'스냅샷';
@@ -1657,6 +1707,7 @@
   snapshotButton?.addEventListener('click',downloadBusinessSnapshot);
 
   const resetAll=()=>{
+    clearInputNotice();
     state.settings={
       ...engine.defaults,
       laborShifts:engine.laborShifts.map(item=>({...item}))
@@ -1697,12 +1748,11 @@
       next=Math.max(0,next);
     }
 
-    state.settings[key]=next;
-
     const input=root.querySelector(`[data-ba-setting="${key}"]`);
+    if(input===rejectedInput) clearInputNotice();
+    state.settings[key]=next;
     if(input) formatSettingInput(input);
-
-    renderAllWithValueFocus();
+    if(next!==current) renderAllWithValueFocus();
   });
 
   settingInputs.forEach(input=>{
@@ -1720,16 +1770,19 @@
 
     input.addEventListener('input',()=>{
       const parsed=parseInput(input);
-      if(parsed===null) return;
+      if(parsed===null||parsed===state.settings[key]) return;
       state.settings[key]=parsed;
       renderAllWithValueFocus();
     });
 
     input.addEventListener('blur',()=>{
       const parsed=parseInput(input);
+      const changed=parsed!==null&&parsed!==state.settings[key];
       if(parsed!==null) state.settings[key]=parsed;
       formatSettingInput(input);
-      renderAllWithValueFocus();
+      if(parsed===null) showInputNotice(input);
+      else if(input===rejectedInput) clearInputNotice();
+      if(changed) renderAllWithValueFocus();
     });
 
     input.addEventListener('keydown',event=>{
@@ -1752,43 +1805,24 @@
     const field=input.dataset.baLaborField||input.dataset.baUpgradeField;
     const item=laborRow?state.settings.laborShifts[Number(laborRow.dataset.baLaborIndex)]:
       state.upgradeItems[Number(upgradeRow?.dataset.baUpgradeIndex)];
-    if(item&&field in item) input.value=formatNumber(item[field],field==='unitCost'?0:2);
+    const allowed=laborRow?['hours','people']:['unitCost','qty'];
+    if(!item||!allowed.includes(field)) return;
+    const value=parseInput(input);
+    const changed=value!==null&&value!==item[field];
+    if(value!==null) item[field]=value;
+    input.value=formatNumber(item[field],field==='unitCost'?0:2);
+    if(value===null) showInputNotice(input);
+    else if(input===rejectedInput) clearInputNotice();
+    if(changed){
+      if(laborRow) renderAllWithValueFocus();
+      else renderReferences();
+    }
   });
 
   root.addEventListener('keydown',event=>{
     const input=event.target.closest('.ba-ref-input');
     if(input&&event.key==='Enter') input.blur();
   });
-
-  root.addEventListener('change',event=>{
-    const laborInput=event.target.closest('.ba-ref-input[data-ba-labor-field]');
-    if(laborInput){
-      const row=laborInput.closest('[data-ba-labor-index]');
-      const index=Number(row?.dataset.baLaborIndex);
-      const field=laborInput.dataset.baLaborField;
-      const value=parseInput(laborInput);
-
-      if(Number.isInteger(index)&&value!==null&&['hours','people'].includes(field)&&state.settings.laborShifts[index]){
-        state.settings.laborShifts[index]={...state.settings.laborShifts[index],[field]:value};
-      }
-      renderAll();
-      return;
-    }
-
-    const upgradeInput=event.target.closest('.ba-ref-input[data-ba-upgrade-field]');
-    if(upgradeInput){
-      const row=upgradeInput.closest('[data-ba-upgrade-index]');
-      const index=Number(row?.dataset.baUpgradeIndex);
-      const field=upgradeInput.dataset.baUpgradeField;
-      const value=parseInput(upgradeInput);
-
-      if(Number.isInteger(index)&&value!==null&&['unitCost','qty'].includes(field)&&state.upgradeItems[index]){
-        state.upgradeItems[index]={...state.upgradeItems[index],[field]:value};
-      }
-      renderReferences();
-    }
-  });
-
 
   let pinnedTooltip=null;
   const positionTooltip=button=>{
