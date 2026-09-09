@@ -1917,6 +1917,261 @@ body{
   min-width:220px!important;
   padding:6px 7px!important;
 }
+
+/* =========================================================
+   1920 Desktop base + shared data-page system
+   ========================================================= */
+:root{
+  --dash-layout-w:1920px;
+  --dash-sidebar-w:218px;
+  --dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));
+  --dash-page-pad-x:18px;
+  --dash-panel-gap:8px;
+  --dash-font-value:12px;
+  --dash-font-label:11.5px;
+  --dash-font-caption:10.5px;
+  --dash-font-section:12px;
+  --dash-panel-radius:10px;
+}
+html,body{min-width:var(--dash-layout-w)!important;}
+.app-shell{
+  display:block!important;
+  width:var(--dash-layout-w)!important;
+  min-width:var(--dash-layout-w)!important;
+  margin:0!important;
+}
+.app-sidebar{
+  position:fixed!important;
+  inset:0 auto 0 0!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:var(--dash-sidebar-w)!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  transform:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.app-content{
+  display:block!important;
+  width:var(--dash-content-w)!important;
+  min-width:var(--dash-content-w)!important;
+  max-width:var(--dash-content-w)!important;
+  margin-left:var(--dash-sidebar-w)!important;
+  margin-right:0!important;
+  padding-top:0!important;
+}
+.app-mobile-bar,.app-sidebar-close,.app-drawer-overlay,.app-menu-button{display:none!important;}
+
+/* page width commonization */
+.app-view-contract .page,
+.ba-page-inner,
+.st-page-inner{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  box-sizing:border-box!important;
+}
+.app-view-contract .page{box-shadow:none!important;}
+.ba-page,.st-page{
+  width:100%!important;
+  box-sizing:border-box!important;
+  padding-left:var(--dash-page-pad-x)!important;
+  padding-right:var(--dash-page-pad-x)!important;
+}
+
+/* shared panel sizing */
+.ba-settings,.ba-analysis-grid,.ba-reference-grid,.st-summary,.st-document{width:100%!important;max-width:none!important;box-sizing:border-box!important;}
+.ba-settings-card,.ba-analysis-panel,.ba-reference-card,.st-summary article,.st-document{border-radius:var(--dash-panel-radius)!important;}
+
+/* shared typography */
+.ba-setting-input,.ba-metric-cell,.ba-ref-input,.ba-ref-value,.st-row-amount{font-size:var(--dash-font-value)!important;}
+.ba-setting-label,.ba-metric-label,.ba-ref-label,.st-row-label{font-size:var(--dash-font-label)!important;}
+.ba-settings-caption,.ba-panel-title p,.ba-plan-legend-item small,.ba-reference-meta,.st-document-title p,.st-row-note{font-size:var(--dash-font-caption)!important;}
+.ba-settings-head strong,.ba-reference-title-line h2,.st-section-title strong{font-size:var(--dash-font-section)!important;}
+
+/* business settings: 100% width, 40:20:40 */
+.ba-settings{
+  display:grid!important;
+  grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,2fr)!important;
+  gap:var(--dash-panel-gap)!important;
+  justify-content:stretch!important;
+}
+.ba-settings-card{width:100%!important;min-width:0!important;}
+.ba-settings-basic .ba-settings-grid,
+.ba-settings-assumption .ba-settings-grid,
+.ba-settings-grid-basic{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.ba-settings-labor .ba-settings-grid{grid-template-columns:1fr!important;}
+.ba-setting-field{
+  display:grid!important;
+  align-items:center!important;
+  justify-content:start!important;
+  column-gap:8px!important;
+  min-width:0!important;
+  padding:6px 7px!important;
+}
+.ba-settings-basic .ba-setting-field{grid-template-columns:150px 140px!important;}
+.ba-settings-labor .ba-setting-field{grid-template-columns:100px 140px!important;}
+.ba-settings-assumption .ba-setting-field{grid-template-columns:145px 140px!important;}
+.ba-setting-label{margin-bottom:0!important;line-height:1.25!important;white-space:nowrap!important;}
+.ba-value-shell{width:140px!important;min-width:140px!important;max-width:140px!important;height:30px!important;}
+.ba-setting-input{height:28px!important;padding:3px 5px!important;}
+.ba-setting-unit{font-size:10.5px!important;}
+.ba-settings-head{min-height:38px!important;padding:8px 10px!important;}
+.ba-settings-head strong{font-size:12.5px!important;}
+.ba-settings-no{width:22px!important;height:22px!important;font-size:9.5px!important;}
+
+/* business header/control typography */
+.ba-kicker{font-size:10.5px!important;}
+.ba-title-wrap h1{font-size:25px!important;}
+.ba-subtitle{font-size:12px!important;}
+.ba-rs-label{font-size:11.5px!important;}
+.ba-segmented button{font-size:11.5px!important;min-width:46px!important;height:29px!important;}
+.ba-download-button{font-size:11.5px!important;min-height:34px!important;}
+
+/* analysis/reference panels full width */
+.ba-analysis-grid.ba-analysis-grid-unified{display:block!important;width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;}
+.ba-analysis-unified{width:100%!important;max-width:none!important;margin:0!important;}
+.ba-panel-head{min-height:54px!important;padding:9px 11px!important;}
+.ba-panel-title h2{font-size:13.5px!important;}
+.ba-panel-title p{font-size:11px!important;}
+.ba-panel-index{width:28px!important;height:28px!important;flex-basis:28px!important;font-size:11px!important;}
+.ba-plan-legend-item{min-width:240px!important;}
+.ba-plan-legend-item>span{font-size:10px!important;}
+.ba-plan-legend-item strong{font-size:11px!important;}
+.ba-plan-legend-item small{font-size:10px!important;}
+
+/* keep compact data columns; panel itself is 100% */
+.ba-unified-scroll{width:100%!important;max-width:100%!important;margin:0!important;overflow-x:auto!important;}
+.ba-unified-matrix{margin:0!important;max-width:none!important;}
+.ba-unified-matrix .ba-matrix-head,.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:190px repeat(var(--ba-rs-count),126px)!important;
+}
+.ba-matrix-label-head,.ba-rs-head{font-size:11px!important;}
+.ba-group-title{font-size:11px!important;min-height:30px!important;padding:6px 10px!important;}
+.ba-metric-row{min-height:34px!important;}
+.ba-metric-label{padding:6px 10px!important;}
+.ba-metric-cell{padding:6px 6px!important;}
+.ba-compare-title{min-height:32px!important;padding:6px 10px!important;}
+.ba-compare-title strong{font-size:11.5px!important;}
+.ba-compare-title small{font-size:10px!important;}
+.ba-metric-row.is-plan-fixed .ba-metric-label strong::before,
+.ba-metric-row.is-plan-share .ba-metric-label strong::before,
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{font-size:9px!important;width:30px!important;height:19px!important;}
+.ba-info-button{width:16px!important;height:16px!important;}
+.ba-floating-tooltip{font-size:11px!important;}
+
+.ba-reference-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:var(--dash-panel-gap)!important;}
+.ba-reference-head{min-height:54px!important;padding:9px 11px!important;}
+.ba-reference-kicker{font-size:9.5px!important;}
+.ba-reference-title-line h2{font-size:13px!important;}
+.ba-reference-total span{font-size:10px!important;}
+.ba-reference-total strong{font-size:14px!important;}
+.ba-reference-meta{font-size:10.5px!important;min-height:32px!important;}
+.ba-ref-head-row{font-size:10.5px!important;min-height:30px!important;}
+.ba-ref-head-row,.ba-labor-row,.ba-upgrade-row{min-height:36px!important;}
+.ba-ref-label small{font-size:9px!important;}
+.ba-ref-input-shell{height:29px!important;}
+.ba-ref-input{height:27px!important;font-size:12px!important;}
+.ba-ref-input-unit{font-size:10px!important;}
+.ba-reference-summary span{font-size:10.5px!important;}
+.ba-reference-summary strong{font-size:12px!important;}
+.ba-upgrade-controls label{font-size:10.5px!important;}
+
+/* settlement: same scale system */
+.st-page{padding-top:18px!important;padding-bottom:30px!important;}
+.st-kicker{font-size:10.5px!important;}
+.st-header h1{font-size:25px!important;}
+.st-subtitle{font-size:12px!important;}
+.st-month-badge,.st-vat-badge{font-size:11px!important;min-height:31px!important;}
+.st-summary{gap:var(--dash-panel-gap)!important;}
+.st-summary article{padding:11px 12px!important;}
+.st-summary span{font-size:11px!important;}
+.st-summary strong{font-size:15px!important;}
+.st-document-head{padding:13px 15px!important;}
+.st-document-title h2{font-size:16px!important;}
+.st-document-title p{font-size:11px!important;}
+.st-document-month{font-size:12.5px!important;}
+.st-notice{font-size:11.5px!important;padding:11px 15px!important;}
+.st-section-title{min-height:36px!important;padding:7px 12px!important;}
+.st-section-title span{width:23px!important;height:23px!important;font-size:9.5px!important;}
+.st-section-title strong{font-size:12px!important;}
+.st-row-head{font-size:10.5px!important;min-height:30px!important;}
+.st-row{min-height:36px!important;}
+.st-row-head>div,.st-row>div{padding:6px 10px!important;}
+.st-row-label{font-size:12px!important;}
+.st-row-amount{font-size:12px!important;}
+.st-row-note{font-size:11px!important;}
+.st-totals>div{padding:11px 12px!important;}
+.st-totals span{font-size:11px!important;}
+.st-totals strong{font-size:13.5px!important;}
+.st-totals .is-final strong{font-size:15px!important;}
+.st-totals small{font-size:10px!important;}
+.st-stamp{font-size:11px!important;padding:10px 13px!important;}
+
+/* =========================================================
+   2026-09-09 refinement
+   ========================================================= */
+
+/* 재계약 검토도 사업성 분석/정산서와 동일한 1920 콘텐츠 레이아웃 */
+.app-view-contract{
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  padding:18px 18px 38px!important;
+  background:#eef2f6!important;
+}
+.app-view-contract .page{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+
+/* Diff 상단 문서 출처/파일명: 기존 대비 +1px */
+.diff-doc-head>div{font-size:12px!important;}
+.diff-doc-head small{font-size:10.5px!important;}
+.diff-doc-head .amendment-note{font-size:10px!important;}
+
+/* 실제 계약서 내용 셀: 기존 대비 +1px */
+.doc-cell .doc-p{font-size:12.25px!important;}
+.doc-cell .doc-table{font-size:10.8px!important;}
+.doc-cell .source-clause-label{font-size:11px!important;}
+
+/* 조문 바로가기 제거 후 toolbar 여백 정리 */
+.diff-toolbar{padding-bottom:7px!important;}
+
+/* 사업성 분석: 기본 0.5 RS, 표는 레이아웃 폭 100% */
+.ba-unified-scroll{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+}
+.ba-unified-matrix{
+  width:100%!important;
+  min-width:1290px!important;
+  max-width:none!important;
+  margin:0!important;
+}
+.ba-unified-matrix .ba-matrix-head,
+.ba-unified-matrix .ba-metric-row{
+  grid-template-columns:190px repeat(var(--ba-rs-count),minmax(100px,1fr))!important;
+}
+
+/* 제거된 보조문구 때문에 헤더 높이가 과하게 남지 않도록 정리 */
+.ba-panel-title{align-items:center!important;}
+.ba-panel-title h2{margin:0!important;}
+.ba-settings-head{align-items:center!important;}
+
+/* 상단 RS 컨트롤 제거 후 다운로드 버튼만 우측 정렬 */
+.ba-header-actions{
+  margin-left:auto!important;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -2035,9 +2290,9 @@ body{
 </section>
 <section id="contract-diff">
 <p class="section-kicker">FULL CONTRACT DIFF</p><h2>종전계약 ↔ 재계약 조문 Diff</h2>
-<p class="lead" style="margin-bottom:9px">비교 대상은 종전계약과 재계약안 두 문서입니다. 삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p>
+<p class="lead" style="margin-bottom:9px">삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p>
 <div class="diff-shell">
-<div class="diff-toolbar"><div class="toolbar-top"><div class="toolbar-actions"><button class="toggle-btn" data-filter="all">전체 항목</button><button class="toggle-btn active" data-filter="changed">변경 항목만</button></div><div class="legend"><span><i class="lg-del"></i>종전 문구 삭제·변경</span><span><i class="lg-add"></i>재계약 신설·변경</span><span>17/24 항목 변경</span></div></div><nav aria-label="조문 바로가기" class="diff-nav"><a class="nav-chip same hidden-by-filter" href="#diff-1">계약서 서두</a><a class="nav-chip changed" href="#diff-2">제1조 목적</a><a class="nav-chip changed" href="#diff-3">제2조 용어의 정의</a><a class="nav-chip changed" href="#diff-4">제3조 시설 및 영업장의 표시</a><a class="nav-chip changed" href="#diff-5">제4조 계약 조건</a><a class="nav-chip changed" href="#diff-6">제5조 용역 기간</a><a class="nav-chip changed" href="#diff-7">제6조 수탁인의 업무 범위</a><a class="nav-chip changed" href="#diff-8">제7조 용역비 정산</a><a class="nav-chip changed" href="#diff-9">제8조 인력 관리 책임</a><a class="nav-chip changed" href="#diff-10">제9조 당사자의 의무</a><a class="nav-chip same hidden-by-filter" href="#diff-11">제10조 비밀유지</a><a class="nav-chip same hidden-by-filter" href="#diff-12">제11조 운영권한의 양도·재위탁</a><a class="nav-chip same hidden-by-filter" href="#diff-13">제12조 영업권 및 권리금</a><a class="nav-chip changed" href="#diff-14">계약 종료 구조 통합</a><a class="nav-chip same hidden-by-filter" href="#diff-15">통지</a><a class="nav-chip changed" href="#diff-16">손해배상</a><a class="nav-chip changed" href="#diff-17">지연손해금</a><a class="nav-chip changed" href="#diff-18">계약의 성격</a><a class="nav-chip same hidden-by-filter" href="#diff-19">관할법원</a><a class="nav-chip changed" href="#diff-20">조항의 유지</a><a class="nav-chip changed" href="#diff-21">계약 체결 및 서명</a><a class="nav-chip changed" href="#diff-22">별첨 1. 시설물 상태 확인서</a><a class="nav-chip changed" href="#diff-23">별첨 2. 운영비 목록</a><a class="nav-chip same hidden-by-filter" href="#diff-24">별첨 3. 계정정보 리스트</a></nav></div>
+<div class="diff-toolbar"><div class="toolbar-top"><div class="toolbar-actions"><button class="toggle-btn" data-filter="all">전체 항목</button><button class="toggle-btn active" data-filter="changed">변경 항목만</button></div><div class="legend"><span><i class="lg-del"></i>종전 문구 삭제·변경</span><span><i class="lg-add"></i>재계약 신설·변경</span><span>17/24 항목 변경</span></div></div></div>
 <div class="diff-doc-head"><div class="old">종전계약<small>260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf</small><span class="amendment-note">※ 2026.07.22 부속합의서 제2조(위탁운영 수수료 변경) 반영</span></div><div class="new">재계약안<small>20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf</small></div></div>
 <article class="diff-section hidden-by-filter" data-changed="false" id="diff-1">
 <div class="diff-section-head"><div><span class="section-no">01</span><strong>계약서 서두</strong></div><span class="change-badge same">동일</span></div>
@@ -2147,16 +2402,10 @@ body{
 <div class="ba-title-wrap">
 <p class="ba-kicker">BUSINESS ANALYSIS</p>
 <h1>사업성 분석</h1>
-<p class="ba-subtitle">공통 계산값은 한 번만 표시하고, 결과가 달라지는 항목만 1안·2안으로 비교합니다.</p>
+
 </div>
 <div class="ba-header-actions">
-<div class="ba-rs-control">
-<span class="ba-rs-label">RS 간격</span>
-<div aria-label="RS 표시 간격" class="ba-segmented" role="group">
-<button aria-pressed="true" class="active" data-ba-rs-step="1" type="button">1.0</button>
-<button aria-pressed="false" data-ba-rs-step="0.5" type="button">0.5</button>
-</div>
-</div>
+
 <a class="ba-download-button" download="사업성분석_시뮬레이션.xlsx" href="사업성분석_시뮬레이션.xlsx">
 <span class="ba-download-icon">
 <svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
@@ -2164,7 +2413,7 @@ body{
 <path d="M14.5 4.8V9h4.2M8 11l4 5M12 11l-4 5" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
 </svg>
 </span>
-<span>Excel 다운로드</span>
+<span>분석파일 다운로드</span>
 </a>
 </div>
 </header>
@@ -2175,7 +2424,7 @@ body{
 <span class="ba-settings-no">01</span>
 <strong>기본 설정</strong>
 </div>
-<span class="ba-settings-caption">계약·매출 기준</span>
+
 </div>
 <div class="ba-settings-grid ba-settings-grid-basic">
 <label class="ba-setting-field">
@@ -2242,7 +2491,7 @@ body{
 <span class="ba-settings-no">02</span>
 <strong>인건비 및 소모품비</strong>
 </div>
-<span class="ba-settings-caption">운영자 지출</span>
+
 </div>
 <div class="ba-settings-grid">
 <label class="ba-setting-field">
@@ -2254,15 +2503,7 @@ body{
 </label>
 <label class="ba-setting-field">
 <span class="ba-setting-label">소모품비
-        <span class="ba-help">
-<button aria-label="소모품비 설명" class="ba-info-button" data-ba-tooltip="음료·간식 등 월 소모품비. 사업성 분석의 힐링스토리 지출에 반영합니다." type="button">
-<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
-<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
-<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
-</svg>
-</button>
-</span>
+        
 </span>
 <span class="ba-value-shell">
 <input class="ba-setting-input" data-ba-mode="money" data-ba-setting="consumables" inputmode="decimal" type="text" value="4,000,000"/>
@@ -2277,20 +2518,12 @@ body{
 <span class="ba-settings-no">03</span>
 <strong>산정 기준</strong>
 </div>
-<span class="ba-settings-caption">엑셀 고정 가정값</span>
+
 </div>
 <div class="ba-settings-grid">
 <label class="ba-setting-field">
 <span class="ba-setting-label">영업일수
-        <span class="ba-help">
-<button aria-label="영업일수 설명" class="ba-info-button" data-ba-tooltip="골프존 매출과 유지보수비 계산에 적용하는 월 기준 영업일수입니다." type="button">
-<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
-<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
-<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
-</svg>
-</button>
-</span>
+        
 </span>
 <span class="ba-value-shell">
 <input class="ba-setting-input" data-ba-mode="number" data-ba-setting="operatingDays" inputmode="decimal" type="text" value="30"/>
@@ -2300,7 +2533,7 @@ body{
 <label class="ba-setting-field">
 <span class="ba-setting-label">RS 7 식음료 매출
         <span class="ba-help">
-<button aria-label="RS 7 식음료 매출 설명" class="ba-info-button" data-ba-tooltip="엑셀에서 RS 7의 식음료 매출 기준값으로 직접 입력된 값입니다." type="button">
+<button aria-label="RS 7 식음료 매출 설명" class="ba-info-button" data-ba-tooltip="RS 7의 식음료 매출 기준값으로 직접 입력한 값입니다." type="button">
 <svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
 <circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
 <path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
@@ -2317,7 +2550,7 @@ body{
 <label class="ba-setting-field">
 <span class="ba-setting-label">RS +1 식음료 증가
         <span class="ba-help">
-<button aria-label="RS +1 식음료 증가 설명" class="ba-info-button" data-ba-tooltip="RS가 1 증가할 때 식음료 매출이 30만원 증가하는 엑셀 기준입니다. 0.5 간격에서는 15만원씩 증가합니다." type="button">
+<button aria-label="RS +1 식음료 증가 설명" class="ba-info-button" data-ba-tooltip="RS가 1 증가할 때 식음료 매출이 30만원 증가하는 기준입니다. 0.5 간격에서는 15만원씩 증가합니다." type="button">
 <svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
 <circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
 <path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
@@ -2350,15 +2583,7 @@ body{
 </label>
 <label class="ba-setting-field">
 <span class="ba-setting-label">카드수수료율
-        <span class="ba-help">
-<button aria-label="카드수수료율 설명" class="ba-info-button" data-ba-tooltip="골프존 매출(VAT 포함) 중 카드매출 비중에 적용하는 수수료율입니다." type="button">
-<svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
-<circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
-<path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
-<circle cx="10" cy="6.1" fill="currentColor" r=".9"></circle>
-</svg>
-</button>
-</span>
+        
 </span>
 <span class="ba-value-shell">
 <input class="ba-setting-input" data-ba-mode="percent" data-ba-setting="cardFeeRate" inputmode="decimal" type="text" value="1.15"/>
@@ -2372,10 +2597,10 @@ body{
 <article class="ba-analysis-panel ba-analysis-unified">
 <header class="ba-panel-head ba-unified-head">
 <div class="ba-panel-title">
-<span class="ba-panel-index">A</span>
+
 <div>
 <h2>사업성 분석 비교</h2>
-<p>공통 매출·비용은 한 번만 표시하고, 안별 차이가 발생하는 항목만 직접 비교합니다.</p>
+
 </div>
 </div>
 <div aria-label="분석안 설명" class="ba-plan-legend">
@@ -2406,7 +2631,7 @@ body{
 <p class="ba-reference-kicker">REFERENCE 01</p>
 <div class="ba-reference-title-line">
 <h2>월 인건비 추정</h2>
-<button aria-label="월 인건비 추정 설명" class="ba-info-button" data-ba-tooltip="엑셀의 월 인건비 추정과 동일하게 평일·주말 근무시간, 인원, 시급, 월 환산 4.345주를 반영합니다. 평일 근무분에는 사회보험료 10%와 퇴직금(월 급여÷12, ROUNDUP)을 적용합니다." type="button">
+<button aria-label="월 인건비 추정 설명" class="ba-info-button" data-ba-tooltip="평일·주말 근무시간, 인원, 시급, 월 환산 4.345주를 반영합니다. 평일 근무분에는 사회보험료 10%와 퇴직금(월 급여÷12를 원 단위 올림)을 적용합니다." type="button">
 <svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
 <circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
 <path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
@@ -2439,7 +2664,7 @@ body{
 <p class="ba-reference-kicker">REFERENCE 02</p>
 <div class="ba-reference-title-line">
 <h2>업그레이드 비용</h2>
-<button aria-label="업그레이드 비용 설명" class="ba-info-button" data-ba-tooltip="엑셀의 업그레이드 비용 참고자료입니다. 단가·수량·무이자 개월·연 이자율·이자 반영기간을 수정할 수 있습니다. 이 참고자료 계산값은 상단의 업그레이드 고정비용 또는 매출배분 입력값을 자동으로 변경하지 않습니다." type="button">
+<button aria-label="업그레이드 비용 설명" class="ba-info-button" data-ba-tooltip="업그레이드 비용 참고자료입니다. 단가·수량·무이자 개월·연 이자율·이자 반영기간을 수정할 수 있습니다." type="button">
 <svg aria-hidden="true" class="ba-info-icon-svg" fill="none" viewbox="0 0 20 20">
 <circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
 <path d="M10 8.6v5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
@@ -2471,9 +2696,7 @@ body{
 <div><span>이자 반영 총액</span><strong data-ba-upgrade-interest-total="">202,630,000원</strong></div>
 <div class="is-primary"><span>이자 반영 월비용</span><strong data-ba-upgrade-interest-monthly="">5,628,612.9원</strong></div>
 </div>
-<p class="ba-reference-note">
-      참고자료 계산값은 상단의 <b>업그레이드 고정비용</b>·<b>업그레이드 매출배분</b> 설정에 자동 적용하지 않습니다.
-    </p>
+
 </article>
 </section>
 </div>
@@ -2575,27 +2798,23 @@ body{
 <small>(월별 매출액 - 공제항목 합계)</small>
 </div>
 </div>
-<footer class="st-stamp" data-st-stamp="">주식회사 이지벤처스 [직인 생략]</footer>
+
 </section>
 </div>
 </div>
 </section>
 </div>
 </div>
-<script>
-(()=>{
+<script>(()=>{
  const buttons=[...document.querySelectorAll('.toggle-btn')];
  const sections=[...document.querySelectorAll('.diff-section')];
- const chips=[...document.querySelectorAll('.nav-chip')];
  const applyFilter=(filter)=>{
    buttons.forEach(b=>b.classList.toggle('active', b.dataset.filter===filter));
    sections.forEach(s=>s.classList.toggle('hidden-by-filter', filter==='changed' && s.dataset.changed!=='true'));
-   chips.forEach(c=>c.classList.toggle('hidden-by-filter', filter==='changed' && c.classList.contains('same')));
  };
  buttons.forEach(btn=>btn.addEventListener('click',()=>applyFilter(btn.dataset.filter)));
  applyFilter('changed');
-})();
-</script><script id="settlement-data">
+})();</script><script id="settlement-data">
 (()=>{
   'use strict';
   const DATA=Object.freeze({"2026-03":{"month":"2026-03","settlementMonth":"2026-03-01","settlementDate":"2026-04-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 03월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 25,727,129원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":82820020,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":381329,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":82438691,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":74944264,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":833858,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":78878,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":367010,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7666082,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4657490,"note":"2026년 2월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13590,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":30000,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":"비즈몰 S-POINT","amount":6000000,"note":"비즈몰 S-POINT 750만 포인트 이용액"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":7613817,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49217135,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":25727129,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-04":{"month":"2026-04","settlementMonth":"2026-04-01","settlementDate":"2026-05-08","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 04월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 23,404,178원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":71921800,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":205606,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":71716194,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":65196540,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":726026,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":84737,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":19000,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":6867022,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4220400,"note":"2026년 3월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13182,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":291768,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1875177,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":41792362,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":23404178,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-05":{"month":"2026-05","settlementMonth":"2026-05-01","settlementDate":"2026-06-02","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 05월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,577,269원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":85477810,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":207022,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":85270788,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":77518898,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":883734,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":75711,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":110,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8133120,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":3955880,"note":"2026년 4월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":10782,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":312065,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1893074,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42941629,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34577269,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-06":{"month":"2026-06","settlementMonth":"2026-06-01","settlementDate":"2026-07-06","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 06월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 29,492,774원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":79523200,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":277222,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":79245978,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":72041798,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":807451,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":87794,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7505060,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4253850,"note":"2026년 5월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":11637,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":313005,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1894869,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42549024,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":29492774,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-07":{"month":"2026-07","settlementMonth":"2026-07-01","settlementDate":"2026-08-04","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 07월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 38,351,780원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":97225010,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":169558,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":97055452,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":88232229,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":977983,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":105978,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":9387761,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":5488860,"note":"2026년 6월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":12128,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":337512,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1919867,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49880449,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":38351780,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-08":{"month":"2026-08","settlementMonth":"2026-08-01","settlementDate":"2026-09-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 08월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,980,988원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":94264850,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":96662,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":94168188,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":85607443,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":954878,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":80959,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8986601,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":6761250,"note":"2026년 7월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":581,"note":"CCTV, 보안 이용료 (26년 8월 이용료 면제, 알림서비스만 청구)"},{"excelRow":28,"category":null,"detail":null,"subdetail":"POS관리","amount":4000,"note":"POS 유지보수"},{"excelRow":29,"category":null,"detail":null,"subdetail":"전화요금","amount":16209,"note":"매장 내 전화 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":33,"category":null,"detail":null,"subdetail":"광고비","amount":348750,"note":"광고비 충전 등"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1842767,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":50626455,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34980988,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"}});
@@ -3174,7 +3393,7 @@ body{
   const infoSvg=`<svg class="ba-info-icon-svg" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.6v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="6.1" r=".9" fill="currentColor"/></svg>`;
 
   const state={
-    rsStep:1,
+    rsStep:0.5,
     settings:{...engine.defaults,laborShifts:engine.laborShifts.map(item=>({...item}))},
     upgradeItems:engine.upgradeReference.map(item=>({...item}))
   };
@@ -3213,14 +3432,14 @@ body{
   };
 
   const tooltips={
-    salesGolfIncluded:'RS × 총 룸 수 × 판매가 × 영업일수. 엑셀의 골프존 매출(VAT 포함) 계산식과 동일합니다.',
-    salesGolfExcluded:'골프존 매출(VAT 포함) ÷ 1.1 후 Excel ROUNDDOWN 방식으로 원 단위 절사합니다.',
+    salesGolfIncluded:'RS × 총 룸 수 × 판매가 × 영업일수로 계산합니다.',
+    salesGolfExcluded:'골프존 매출(VAT 포함) ÷ 1.1 후 원 단위 절사합니다.',
     salesFood:'RS 7의 기준 식음료 매출에서 RS +1당 설정한 증가액을 반영합니다.',
     salesTotalIncluded:'골프존 매출(VAT 포함) + 식음료 매출(VAT 별도) × 1.1.',
     salesTotalExcluded:'골프존 매출(VAT 별도) + 식음료 매출(VAT 별도). 매출배분형 추가 수수료의 기준 매출로 사용합니다.',
     cardFee:'골프존 매출(VAT 포함) × 카드매출 비중 × 카드수수료율. 내부 계산은 소수점을 유지합니다.',
     maintenance:'RS × 총 룸 수 × 게임비 × 영업일수.',
-    buildingManagement:'2026년 3~8월 용역비 정산서 관리비의 평균을 Excel ROUNDDOWN 방식으로 원 단위 절사한 값입니다.',
+    buildingManagement:'2026년 3~8월 용역비 정산서 관리비의 평균을 원 단위 절사한 값입니다.',
     fixedOperating:'2026년 7월 반복 운영비를 기준으로 POS 관리 4천원, 전화요금 1.5만원, 광고비 35만원을 반영한 고정 운영비입니다.',
     labor:'하단 월 인건비 추정의 근무시간·인원·시급 설정 결과를 사용합니다.',
     consumables:'상단 소모품비 설정값을 사용합니다.',
@@ -3237,9 +3456,7 @@ body{
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;');
 
-  const infoButton=(label,tip)=>tip
-    ? `<button type="button" class="ba-info-button" aria-label="${escapeAttr(label)} 설명" data-ba-tooltip="${escapeAttr(tip)}">${infoSvg}</button>`
-    : '';
+  const infoButton=()=>'';
 
   const commonGroups=[
     {
@@ -3288,7 +3505,8 @@ body{
       tooltip:tooltips.deductionTotal,
       rows:[
         {kind:'fixed',label:'고정비용형',value:(f,s)=>f.deductions.total},
-        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.total}
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.deductions.total},
+        {kind:'diff',label:'2안 - 1안',value:(f,s)=>s.deductions.total-f.deductions.total}
       ]
     },
     {
@@ -3307,7 +3525,8 @@ body{
       tooltip:tooltips.easyProfit,
       rows:[
         {kind:'fixed',label:'고정비용형',value:(f,s)=>f.results.easyVenturesProfit},
-        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.easyVenturesProfit}
+        {kind:'share',label:'매출배분형',value:(f,s)=>s.results.easyVenturesProfit},
+        {kind:'diff',label:'2안 - 1안',value:(f,s)=>s.results.easyVenturesProfit-f.results.easyVenturesProfit}
       ]
     }
   ];
@@ -3351,7 +3570,6 @@ body{
     const fixed=engine.calculateSeries('fixed',{step:state.rsStep,overrides:state.settings});
     const share=engine.calculateSeries('share',{step:state.rsStep,overrides:state.settings});
     matrix.style.setProperty('--ba-rs-count',String(fixed.length));
-    matrix.style.setProperty('--ba-matrix-width',`${182 + fixed.length * 126}px`);
     matrix.dataset.rsDensity=state.rsStep===0.5?'wide':'compact';
 
     let html='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
@@ -3495,6 +3713,12 @@ body{
     if(!input) return;
     input.value=String(input.value).replace(/,/g,'');
     input.select();
+  });
+
+  root.addEventListener('focusout',event=>{
+    const input=event.target.closest('.ba-ref-input');
+    if(!input) return;
+    queueMicrotask(()=>renderReferences());
   });
 
   root.addEventListener('keydown',event=>{
