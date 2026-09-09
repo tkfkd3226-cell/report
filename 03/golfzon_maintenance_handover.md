@@ -1,20 +1,20 @@
 # 골프존 운영·계약 대시보드 유지보수 기준
 
-기준일: 2026-09-09
-기준 원본: 이 채팅에 첨부한 `golfzon_operations.zip`
-상태: `golfzon.zip`에 입력 피드백·변경 강조 보완을 적용하고 코드·모의 검증 및 사용자 실화면 QA를 완료한 Release 기준본.
+기준일: 2026-09-10
+기준 원본: 현재 프로젝트 root의 Release 기준본 (`index.html`, `style.css`, `common.js`, `data/`)
+상태: 반응형·상호작용·접근성 마감과 코드·모의 검증, 사용자 실화면 QA를 완료한 Release 기준본.
 
 ## 1. 파일과 적용
 
 - `index.html`: 재계약 검토·사업성 분석·용역비 정산서 화면 구조.
 - `style.css`: root 공통 CSS와 화면별 반응형·인쇄 규칙.
 - `common.js`: 메뉴, Diff DOM 이동, 정산 데이터·렌더링, 사업성 계산·입력·스냅샷.
-- `data/`: 계약 PDF 등 기존 자료. 이번 패치에서 변경하지 않음.
-- `golfzon_maintenance_handover.md`: 현재 유지보수 기준. 이번에 새로 작성.
+- `data/`: 계약 PDF와 사용자 관리용 자료.
+- `golfzon_maintenance_handover.md`: 현재 Release의 유지보수·평가 기준.
 
-1차 패치의 `style.css`, `common.js`, 이 MD를 적용한 상태에서 2차 패치의 `index.html`, `common.js`, 이 MD를 프로젝트 root에 덮어쓴다. 2차 패치에는 변경하지 않은 `style.css`가 없으므로 1차 CSS를 유지한다. `data/`는 원본을 유지한다. 최초 원본 ZIP에는 과거 MD와 phase notes가 없었다. 최종 문서 마감 패치는 이 MD만 변경했다. 이후 상호작용 보완 패치의 `common.js`, `style.css`, 이 MD는 실기 완료한 `golfzon.zip` 기준본의 root에 덮어쓴다. `index.html`과 `data/`는 해당 기준본을 유지한다. 상호작용 보완 후 실화면 QA 완료를 반영한 이번 문서 마감은 이 MD만 root에 덮어쓴다.
+현재 프로젝트 root의 실제 코드가 Source of Truth다. 과거 패치 적용 순서나 phase notes를 현재 코드보다 우선하지 않으며, 문서와 코드가 다르면 최신 실제 코드를 먼저 확인한다. 새로운 디자인 추가보다 확정 UI의 회귀·중복·유지보수 문제 제거를 우선한다.
 
-현재 실제 코드가 기준이다. 과거 phase notes와 다르다는 이유로 코드를 되돌리지 않는다. 새로운 디자인 추가보다 확정 UI의 회귀·중복·유지보수 문제 제거를 우선한다.
+`data/260908_용역계약서_재계약.lnk`는 **원본 Word 파일들이 있는 관리 폴더로 이동하기 위한 사용자 관리용 바로가기**다. Runtime에서 참조되지 않는 것이 정상이며 Release ZIP에 포함하는 것도 의도된 상태다. 따라서 평가 시 이 파일의 존재, 미참조 상태, `.lnk` 확장자 자체를 감점 사유·불필요 파일·삭제 대상으로 판단하지 않는다. 사용자의 별도 삭제 지시가 없는 한 유지한다.
 
 ## 2. 반응형·Navigation
 
@@ -37,6 +37,7 @@ Drawer에서는 branding과 MENU 라벨을 숨기고 실제 메뉴만 표시한�
 - 용역비 정산서 부모 선택: Overview로 이동, 월별 하위메뉴 열기, Compact Drawer 유지.
 - 실제 월 선택: 해당 월로 이동, Drawer 닫기.
 - Web으로 전환: Drawer 상태를 닫고 Sidebar를 다시 사용 가능하게 한다.
+- `aria-current="page"`는 현재 실제 페이지를 하나만 가리킨다. 정산 Overview에서는 부모 `용역비 정산서`가 current이고, 특정 월 화면에서는 해당 월 하위메뉴만 current다. 부모는 활성·확장 상태만 유지한다.
 
 ## 3. 재계약 검토
 
@@ -123,6 +124,8 @@ Phone 참고표는 부모 grid와 row subgrid로 세로선을 맞춘다. 첫 라
 
 활성 입력칸의 편집 문자열은 렌더링으로 덮어쓰지 않는다. 참고표의 값 확정은 focusout에서 한 번 처리한다. 실제 유효값이 달라지면 인건비는 비교표 강조를 포함해 갱신하고 업그레이드는 참고표만 갱신한다. 값이 같거나 잘못된 경우에는 계산표를 재생성하지 않고 해당 입력의 표시를 정리한다. focusout마다 표 전체를 innerHTML로 재생성하거나 queueMicrotask로 지연 재생성하지 않는다. 다음 클릭·Tab 대상이 제거되기 때문이다.
 
+참고표의 동적 input에는 시각적 column header만 의존하지 않고 항목·필드가 결합된 접근성 이름을 부여한다. 예: `평일 08:00 ~ 16:00 근무시간`, `시스템 업그레이드 단가`. input DOM을 보존하는 갱신 구조에서도 이 accessible name을 제거하지 않는다.
+
 초기화는 설정·인건비·업그레이드 기본값 복원과 기존 matrix scroll·tooltip·강조 상태 정리 동작을 유지한다.
 
 ## 7. Tooltip
@@ -139,15 +142,141 @@ RS +1 식음료 증가 설명은 고정 금액 대신 “입력 금액만큼 증
 
 월별 정산 tooltip은 기존 `pinnedNote`를 유지한다.
 
-## 8. 정리·평가 원칙
+## 8. 정리·유지보수 원칙
 
 - `!important` 금지. 기존 규칙을 직접 수정하고 override 블록을 누적하지 않는다.
-- 사용되지 않는 선언·주석을 정리하되 의도된 화면/인쇄/스냅샷 분리를 중복으로 오인하지 않는다.
-- 의미 없는 1~2px 차이를 별도 토큰으로 늘리지 않는다.
-- 320px Drawer, Tablet 문서별 Diff stack 등 과거 규칙을 복구하지 않는다.
-- 실제 A/B/C급 감점 요소로 점수를 산정한다. 수정했다고 자동으로 100점을 부여하지 않는다.
+- 사용되지 않는 선언·주석을 정리하되 의도된 Web/Tablet/Phone·인쇄·스냅샷 분리를 중복으로 오인하지 않는다.
+- 의미 없는 1~2px 차이를 별도 토큰으로 늘리지 않는다. 반대로 실제 역할이 다른 규칙을 점수 목적으로 억지 통합하지 않는다.
+- 320px Drawer, Tablet 문서별 Diff stack, 과거 RS 고정폭 등 폐기된 규칙을 복구하지 않는다.
+- 새 파일·새 토큰·새 breakpoint는 기존 구조로 해결할 수 없는 경우에만 추가한다.
+- 현재 확정 UI를 유지하는 cleanup이 목적일 때는 디자인을 임의 변경하지 않는다.
 
-## 9. 검증 이력 및 Release 확정
+## 9. `평가해줘`·`평가`·`점수` 요청 시 평가 기준
+
+사용자가 별도 범위를 지정하지 않고 **“평가해줘”**, **“평가”**, **“점수”**라고 요청하면 현재 최신 Release 전체를 아래 기준으로 평가한다. 직전 대화에서 특정 화면·파일·기능만 평가 대상으로 명확히 좁힌 경우에만 그 범위로 제한한다.
+
+평가 단계에서는 사용자가 동시에 수정을 요청하지 않는 한 **먼저 평가만 하고 코드를 수정하지 않는다.** 최신 첨부 ZIP 또는 현재 프로젝트 root를 Source of Truth로 사용하며, 과거 handover·phase notes의 오래된 설명으로 최신 코드를 감점하거나 되돌리지 않는다.
+
+### 9.1 채점 원칙
+
+- 총점은 100점이며 **100점을 예약하지 않는다.** 실제 감점 사유가 없을 때만 100점이다.
+- 수정 직후라는 이유로 점수를 올리지 않는다. 반대로 사소한 차이를 억지로 문제화해 점수를 깎지도 않는다.
+- 동일 원인의 반복 증상은 원칙적으로 하나의 구조적 이슈로 묶고, 서로 독립적인 회귀라면 별도 감점한다.
+- 정적 검사로 확인한 사실, 계산 엔진 실행 결과, 실제 브라우저 실측 결과, 사용자 실기 완료 이력을 구분해 서술한다. 브라우저를 직접 실행하지 못한 환경에서는 “픽셀 QA 통과”, “모든 viewport 실화면 통과”라고 단정하지 않는다.
+- `data/260908_용역계약서_재계약.lnk`는 사용자 관리용 원본 Word 폴더 바로가기이므로 **존재·미참조·확장자 자체를 감점하지 않는다.**
+- 의도된 분리(Web/Tablet/Phone, screen/print, snapshot/live), 의도된 761~860px 50:50 특수구간, 의미색 차이는 중복·예외라는 이유만으로 감점하지 않는다.
+
+### 9.2 심각도 등급
+
+| 등급 | 판단 기준 | 대표 사례 | 일반적인 감점 범위 |
+| --- | --- | --- | ---: |
+| A | 핵심 기능·계산·데이터·접근 경로가 깨지거나 Release를 막는 문제 | 계산 오류, 월 정산 불일치, Diff 내용 소실, 메뉴/스냅샷/초기화 불능, page 전체 overflow로 사용 불가 | 건당 약 3~15점 이상 |
+| B | 기능은 가능하지만 실제 사용성·반응형·상태관리·유지보수에 명확한 결함 | breakpoint 회귀, sticky/Fixed Header 불일치, 입력값 잘림, focus 소실, 중복 이벤트, 구조적 CSS 충돌 | 건당 약 0.5~3점 |
+| C | Release를 막지는 않지만 구체적으로 고칠 가치가 있는 경미한 문제 | 접근성 이름 누락, 문서와 코드의 부분 불일치, 실제 dead selector, 의미 없는 중복 선언 | 건당 약 0.1~0.5점 |
+
+감점 범위는 기계적으로 고정하지 않고 영향 범위·재현성·회귀 위험을 함께 본다. 같은 C급을 여러 개 찾았다고 무조건 B급으로 승격하지 않는다.
+
+### 9.3 100점 세부 평가 항목
+
+| 평가 영역 | 배점 | 반드시 확인할 내용 |
+| --- | ---: | --- |
+| 계약·데이터 정합성 | 10 | Diff 24건/변경17/유지7 구조, 계약 문구 대응, 정산 원천 데이터, PDF 링크, 월 데이터 누락 여부 |
+| 사업성·정산 계산 | 15 | Business Engine 12개 기준, RS 0.5 계산, 인건비·업그레이드·이자 반영 월비용, 6개월 정산 합계·용역비 산식 |
+| Web/Tablet/Phone 반응형 | 20 | 1920 max-width, Sidebar/Drawer 전환, 설정카드 43:17:40→1+2→특수 50:50→Phone, Diff, 표 scroll/sticky, page overflow |
+| Navigation·상호작용·접근성 | 10 | 햄버거↔X, ESC/backdrop/focus/inert, 정산 부모/하위메뉴, aria-current, tooltip, input accessible name, keyboard 이동 |
+| 사업성 분석 UI·RS 표 | 10 | RS 1.0/0.5 표시, shrink→scroll, 첫 컬럼 sticky, 그룹 라벨, Fixed RS Header sync, hover, orange dashed 변경 강조 |
+| 용역비 정산 UI | 10 | KPI/월별표, shrink→scroll→sticky, subgrid 정렬, 용역비 결과색, 월 이동, 평균/누계 표시, 모바일 tooltip |
+| Snapshot·Print | 5 | 1702px snapshot stage, Wide Web 카드 배치, RS 전체 0.5, transient state 제외, 버튼 아이콘/라벨 복구, print 회귀 |
+| CSS 구조·토큰·공통화 | 10 | parse error, `!important`, 동일 scope duplicate, dead selector/property, 과토큰화, patch override, typography/table contract |
+| JS 상태·회귀 안전성 | 7 | `node --check`, dead branch/listener, DOM 보존, focusout 확정, stale timer/state, Fixed Header sync, view/print cleanup |
+| Release·문서 | 3 | 실제 파일 참조, 최신 handover와 코드 일치, 임시 산출물/과거 지시 오해 가능성. 단, 명시된 관리용 `.lnk`는 감점 제외 |
+| **합계** | **100** |  |
+
+### 9.4 반응형 필수 점검 폭
+
+가능하면 아래 폭을 기준으로 확인하고, 최소한 breakpoint 직전·직후는 반드시 검토한다.
+
+`2560, 1920, 1600, 1440, 1280, 1101, 1100, 920, 861, 860, 778, 761, 760, 600, 430, 390`
+
+특히 다음 경계는 우선순위가 높다.
+
+- `1101 ↔ 1100`: Web Sidebar ↔ Compact Drawer, Diff 3열 ↔ Tablet 2열, 콘텐츠 실제 가용폭 역전 여부.
+- `861 ↔ 860`: 사업성 하단 27:73 ↔ 50:50 전환과 input 잘림.
+- `761 ↔ 760`: Tablet ↔ Phone, Diff stack, 설정 카드 내부 2열, 표 sticky/scroll, 햄버거 위치.
+
+브라우저 실측이 가능하면 화면 전체 horizontal overflow, sticky seam, 겹침, 잘림, 버튼 정렬, tooltip 위치를 함께 본다. 브라우저 실행이 불가능하면 CSS/DOM 계약과 계산된 track 구조를 확인하고 그 한계를 평가문에 명시한다.
+
+### 9.5 화면·기능별 체크리스트
+
+**재계약 검토**
+- 반영 현황 label/value gap 공통화와 Phone 카드 정렬.
+- 주요 변경 요약 grid가 폭별로 자연스럽게 재배치되는지.
+- Web Diff 3열, Tablet old/new paired row + 반영내용 full-width, Phone 문서별 stack.
+- Tablet에서 old/new 같은 항의 상·하단선이 동일 row 높이를 공유하는지.
+- 화면 모드 변경·인쇄 전후에 Diff DOM이 원래 위치로 정확히 복원되는지.
+
+**사업성 설정·참고표**
+- Wide Web 43:17:40, business container 1600 이하 1+2, 861~1100 하단 27:73, 761~860 50:50, Phone 카드 세로 + 항목 2열.
+- Phone label 위/input 아래 구조, input 값·단위 잘림 여부.
+- 인건비/업그레이드 참고표의 subgrid 세로선, 첫 라벨 최소폭, 입력 최소 track, 실제 overflow 발생 시점.
+- 잘못된 입력 복원, notice/aria-describedby 정리, Tab·클릭 시 input DOM/포커스 보존.
+- 동적 input이 항목과 필드를 식별할 수 있는 접근성 이름을 갖는지.
+
+**사업성 비교표·RS**
+- 모든 화면에서 충분한 폭에서는 먼저 축소하고 intrinsic minimum 이후 내부 scroll이 생기는지.
+- scroll 시 첫 라벨과 그룹 제목의 첫 라벨만 sticky인지. 그룹 띠 전체가 움직이거나 별도 세로선이 생기지 않는지.
+- Tablet/Phone 1.0/0.5 toggle, Web 전체 0.5, 계산 series는 항상 0.5 유지.
+- Fixed RS Header track 복사와 scrollLeft 보정이 live matrix와 일치하는지.
+- RS hover, 최소 1개 표시 규칙, 변경값 orange dashed 850ms, 동일값 재입력 시 불필요한 재렌더 여부.
+
+**용역비 정산서**
+- 2026-03~08의 매출·공제·운영비·용역비 합계 및 누계가 원천 데이터와 일치하는지.
+- 월별 정산 현황이 사업성 표와 같은 shrink→intrinsic min→internal scroll→sticky contract인지.
+- row별 max-content가 아니라 부모 grid + subgrid로 세로선이 맞는지.
+- 용역비 최종 row의 월·누계·평균이 `--st-result-bg`를 공유하는지.
+- 정산 부모 메뉴는 Overview에서 열림 유지, 실제 월 선택 시 Drawer가 닫히는지.
+- Overview에서는 부모만, 월 화면에서는 해당 월만 `aria-current="page"`인지.
+
+**Snapshot·Print·Tooltip**
+- 스냅샷 클릭 전/생성 중/완료 후 카메라 아이콘이 유지되고 텍스트만 바뀌는지.
+- snapshot stage에 화면용 Tablet/Phone 특수규칙이 유입되지 않는지.
+- transient hover/focus/tooltip이 출력물에 남지 않는지.
+- tooltip의 focus→click 고정, 재클릭 닫기, ESC/외부 클릭/scroll/resize cleanup.
+- Print 전후 view·Diff·Fixed Header 상태가 원복되는지.
+
+### 9.6 CSS·JS 정적 검사
+
+CSS는 다음을 확인한다.
+
+- CSS parse error 0.
+- `!important` 0.
+- 같은 media/container/scope에서 실질적으로 중복되는 selector·declaration이 없는지.
+- 사용되지 않는 custom property, 폐기된 Drawer/Tablet Diff/RS 규칙, 마지막 임시 override 블록이 없는지.
+- 공통 역할의 typography·control·table 규칙은 공통화되어 있고, 의미가 다른 상태까지 억지 통합하지 않았는지.
+- sticky, `max-content`, `min-content`, `subgrid`, container query가 서로 덮어써 예상 밖의 page overflow를 만들지 않는지.
+
+JS는 다음을 확인한다.
+
+- `node --check` 통과.
+- 중복 event listener, dead branch, 오래된 breakpoint/selector, 전역 bridge의 불필요한 증가가 없는지.
+- view change, reset, print, snapshot, resize에서 timer·tooltip·focus·menu·Fixed Header 상태가 정리되는지.
+- 참고표 갱신이 editable input 노드를 보존하는지.
+- 동일값 입력/잘못된 입력에서 불필요한 matrix 재생성이나 stale focus 문제가 없는지.
+- 접근성 상태(`aria-expanded`, `aria-current`, `aria-busy`, `aria-describedby`, accessible name)가 실제 UI 상태와 맞는지.
+
+### 9.7 평가 결과 보고 형식
+
+기본 평가 답변에는 다음을 포함한다.
+
+1. **종합점수 / A·B·C 건수**.
+2. 화면·기능·CSS·JS·데이터·문서 영역별 점수와 판단 근거.
+3. 감점한 모든 항목의 등급, 재현 조건, 실제 원인, 영향 범위.
+4. 직접 실행한 QA와 실행하지 못한 QA의 구분.
+5. 수정 우선순위. 단, 사용자가 `수정해`라고 하기 전에는 평가 과정에서 파일을 변경하지 않는다.
+
+점수만 요청한 경우에는 상세 분석을 내부적으로 수행하되 사용자에게는 종합점수와 A/B/C 건수 중심으로 간결하게 보고한다.
+
+## 10. 검증 이력 및 Release 확정
 
 완료한 검증:
 
@@ -175,4 +304,4 @@ RS +1 식음료 증가 설명은 고정 금액 대신 “입력 금액만큼 증
 4. 터치 tooltip 첫 클릭·두 번째 클릭과 ESC 동작.
 5. 비교표·정산표의 실제 글자 잘림, page overflow, sticky 경계 및 Fixed RS Header 가로 위치.
 
-현재 상태: 코드·모의 검증 36건 통과와 상호작용 보완 후 사용자의 별도 실화면 QA 성공 보고를 근거로 현재 누적 패치 적용본을 Release 기준본으로 확정한다. 이번 마감은 문서 상태만 갱신하며 코드 변경이나 배포 실행을 포함하지 않는다. Codex의 직접 브라우저 검증 한계와 사용자 실기 검증은 구분해 기록한다.
+현재 상태: 코드·모의 검증 36건 통과와 상호작용 보완 후 사용자의 별도 실화면 QA 성공 보고를 근거로 현재 누적 패치 적용본을 Release 기준본으로 확정한다. 2026-09-10 최종 마감에서 참고표 동적 input의 accessible name을 보완하고, 정산 Overview/월 하위메뉴의 `aria-current`가 동시에 page가 되지 않도록 정리했으며, 평가 기준과 관리용 `.lnk` 예외를 본 문서에 명시했다. 이 변경은 계산·레이아웃·CSS 구조를 변경하지 않는다. Codex의 직접 브라우저 검증 한계와 사용자 실기 검증은 구분해 기록한다.

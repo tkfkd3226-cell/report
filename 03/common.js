@@ -525,7 +525,7 @@
     settlementParent?.classList.toggle('is-active',settlementActive);
 
     if(settlementParent){
-      if(settlementActive) settlementParent.setAttribute('aria-current','page');
+      if(view==='settlement-overview') settlementParent.setAttribute('aria-current','page');
       else settlementParent.removeAttribute('aria-current');
     }
 
@@ -1425,8 +1425,8 @@
       const groupText=shift.group==='weekday'?'평일':'주말';
       html+=`<div class="ba-labor-row" data-ba-labor-index="${index}">
         <div class="ba-ref-label"><small>${groupText} · 주${shift.daysPerWeek}일</small><span>${shift.label}</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="hours" value="${formatNumber(shift.hours,2)}"><span class="ba-ref-input-unit">시간</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="people" value="${formatNumber(shift.people,2)}"><span class="ba-ref-input-unit">명</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="hours" aria-label="${groupText} ${shift.label} 근무시간" value="${formatNumber(shift.hours,2)}"><span class="ba-ref-input-unit">시간</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="people" aria-label="${groupText} ${shift.label} 근무인원" value="${formatNumber(shift.people,2)}"><span class="ba-ref-input-unit">명</span></div>
         <div class="ba-ref-value">${formatMoney(shift.gross)}원</div>
         <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.socialInsurance)+'원':'—'}</div>
         <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.retirement)+'원':'—'}</div>
@@ -1455,8 +1455,8 @@
       const isSub=item.key==='ambidextrous'||item.key==='projectorFloor';
       html+=`<div class="ba-upgrade-row" data-ba-upgrade-index="${index}">
         <div class="ba-ref-label ${isSub?'is-sub':''}"><span>${item.label}</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="unitCost" value="${formatNumber(item.unitCost)}"><span class="ba-ref-input-unit">원</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="qty" value="${formatNumber(item.qty,2)}"></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="unitCost" aria-label="${item.label} 단가" value="${formatNumber(item.unitCost)}"><span class="ba-ref-input-unit">원</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="qty" aria-label="${item.label} 수량" value="${formatNumber(item.qty,2)}"></div>
         <div class="ba-ref-value">${formatMoney(item.total)}원</div>
         <div class="ba-ref-value">${formatMoney(item.monthlyInterestFree)}원</div>
       </div>`;
