@@ -8,31 +8,31 @@
 <title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
 /* Core tokens & reset */
-:root{--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--app-sidebar-bg:#ffffff;--app-sidebar-border:#d7dee7;--app-nav-text:#374151;--app-nav-muted:#7a8696;--app-nav-icon:#64748b;--app-nav-hover:#f5f7fa;--app-nav-current-bg:#eaf2ff;--app-nav-current-text:#145fbd;--app-nav-current-indicator:#3182f6;--app-nav-item-h:36px;--app-nav-radius:9px;--ba-border:#d8e0e8;--ba-border-soft:#e8edf2;--ba-green:#137454;--ba-red:#b0443b;--ba-red-soft:#fff1ef;--ba-tooltip-bg:#17243a;--ba-tooltip-color:#fff;--ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);--dash-layout-w:1920px;--dash-sidebar-w:218px;--dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));--dash-page-bg:#eef2f6;--dash-page-pad-x:18px;--dash-page-pad-top:18px;--dash-page-pad-bottom:30px;--dash-section-gap:8px;--dash-panel-gap:8px;--dash-color-title:#17395f;--dash-color-accent:#2f6fae;--dash-color-muted:#718092;--dash-panel-bg:#fff;--dash-panel-head-bg:#f4f7fa;--dash-panel-border:#d5dee8;--dash-line:#dbe3eb;--dash-panel-radius:10px;--dash-control-radius:8px;--dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);--dash-font-page-title:25px;--dash-font-kicker:10.5px;--dash-font-value:12px;--dash-font-label:11.5px;--dash-font-caption:10.5px;--dash-font-section:12px;--ba-matrix-column-hover-bg:#e8f0f8;}
-*{box-sizing:border-box;}  body{margin:0;background:#eef2f6;color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere;} a{color:inherit;}
+:root{--contract-color-change:#295981;--dash-color-ink:#172033;--contract-color-muted:#687384;--contract-line:#d9e1ea;--contract-surface-soft:#f5f7fa;--contract-status-done:#117052;--contract-status-done-bg:#eaf7f1;--contract-status-need:#9a5b05;--contract-status-need-bg:#fff5df;--contract-diff-add-bg:#dff5e9;--contract-diff-add-legend:#bfe8d1;--contract-diff-del-bg:#ffe3df;--contract-diff-del-legend:#f5c8c1;--app-sidebar-bg:#ffffff;--app-sidebar-border:#d7dee7;--app-nav-text:#374151;--app-nav-muted:#7a8696;--app-nav-icon:#64748b;--app-nav-hover:#f5f7fa;--app-nav-current-bg:#eaf2ff;--app-nav-current-text:#145fbd;--app-nav-current-indicator:#3182f6;--app-nav-item-h:36px;--app-nav-radius:9px;--ba-border:#d8e0e8;--ba-border-soft:#e8edf2;--dash-color-positive:#137454;--ba-red:#b0443b;--ba-red-soft:#fff1ef;--ba-tooltip-bg:#17243a;--ba-tooltip-color:#fff;--ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);--dash-layout-w:1920px;--dash-sidebar-w:218px;--dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));--dash-page-bg:#eef2f6;--dash-page-pad-x:18px;--dash-page-pad-top:18px;--dash-page-pad-bottom:30px;--dash-section-gap:8px;--dash-panel-gap:8px;--dash-color-title:#17395f;--dash-color-accent:#2f6fae;--dash-color-muted:#718092;--dash-panel-bg:#fff;--dash-panel-head-bg:#f4f7fa;--dash-panel-border:#d5dee8;--dash-line:#dbe3eb;--dash-panel-radius:10px;--dash-control-radius:8px;--dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);--dash-font-page-title:25px;--dash-font-kicker:10.5px;--dash-font-value:12px;--dash-font-label:11.5px;--dash-font-caption:10.5px;--dash-font-section:12px;--ba-matrix-column-hover-bg:#e8f0f8;}
+*{box-sizing:border-box;}  body{margin:0;background:#eef2f6;color:var(--dash-color-ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere;} a{color:inherit;}
 /* Contract review & clause Diff */
 .page{margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(23,57,95,.07);}
    
-     h3{margin:0;font-size:15px;} p{margin:0;} .lead{color:var(--muted);font-size:12.5px;}
+     h3{margin:0;font-size:15px;} p{margin:0;} .lead{color:var(--contract-color-muted);font-size:12.5px;}
    
    
 .downloads{display:flex;gap:7px;margin-top:0;flex-wrap:wrap;}  
-.table-wrap{overflow-x:auto;border:1px solid var(--line);} .app-view-contract table{width:100%;border-collapse:collapse;background:#fff;font-size:12px;} .app-view-contract th, .app-view-contract td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;} .app-view-contract th{background:var(--soft);color:var(--dash-color-title);font-size:11.5px;} .app-view-contract tr:last-child td{border-bottom:0;} .status-pill{display:inline-flex;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;} .status-pill.done{background:var(--green-bg);color:var(--green);} .status-pill.need{background:var(--amber-bg);color:var(--amber);border:1px solid #ecd09c;}
-.change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;} .change-card{padding:10px 11px;border:1px solid var(--line);background:#fff;} .change-card strong{display:block;margin-bottom:3px;color:var(--dash-color-title);} .change-card p{color:#465365;}
-.diff-shell{border:1px solid var(--line);overflow:hidden;background:#fff;}  .toolbar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;} .toolbar-actions{display:flex;gap:6px;} .toggle-btn{border:1px solid var(--line);border-radius:7px;background:#fff;color:#526174;padding:6px 9px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;} .toggle-btn.active{background:var(--dash-color-title);border-color:var(--dash-color-title);color:#fff;} .legend{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--muted);} .legend i{width:12px;height:9px;border-radius:2px;display:inline-block;vertical-align:-1px;margin-right:3px;} .legend .lg-del{background:var(--del-strong);} .legend .lg-add{background:var(--add-strong);}
+.table-wrap{overflow-x:auto;border:1px solid var(--contract-line);} .app-view-contract table{width:100%;border-collapse:collapse;background:#fff;font-size:12px;} .app-view-contract th, .app-view-contract td{padding:7px 9px;border-bottom:1px solid var(--contract-line);text-align:left;vertical-align:top;} .app-view-contract th{background:var(--contract-surface-soft);color:var(--dash-color-title);font-size:11.5px;} .app-view-contract tr:last-child td{border-bottom:0;} .status-pill{display:inline-flex;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;} .status-pill.done{background:var(--contract-status-done-bg);color:var(--contract-status-done);} .status-pill.need{background:var(--contract-status-need-bg);color:var(--contract-status-need);border:1px solid #ecd09c;}
+.change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;} .change-card{padding:10px 11px;border:1px solid var(--contract-line);background:#fff;} .change-card strong{display:block;margin-bottom:3px;color:var(--dash-color-title);} .change-card p{color:#465365;}
+.diff-shell{border:1px solid var(--contract-line);overflow:hidden;background:#fff;}  .toolbar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;} .toolbar-actions{display:flex;gap:6px;} .toggle-btn{border:1px solid var(--contract-line);border-radius:7px;background:#fff;color:#526174;padding:6px 9px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;} .toggle-btn.active{background:var(--dash-color-title);border-color:var(--dash-color-title);color:#fff;} .legend{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--contract-color-muted);} .legend i{width:12px;height:9px;border-radius:2px;display:inline-block;vertical-align:-1px;margin-right:3px;} .legend .lg-del{background:var(--contract-diff-del-legend);} .legend .lg-add{background:var(--contract-diff-add-legend);}
    
-  .diff-doc-head .old{color:#8d332c;background:#fff8f7;} .diff-doc-head .new{color:#0c684a;background:#f3fbf7;border-left:1px solid var(--line);}  
-.diff-section{border-bottom:1px solid var(--line);scroll-margin-top:52px;} .diff-section:last-child{border-bottom:0;} .diff-section-head{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#eef3f7;border-bottom:1px solid var(--line);font-size:11.5px;} .section-no{display:inline-grid;place-items:center;width:24px;height:20px;margin-right:7px;border-radius:5px;background:var(--dash-color-title);color:#fff;font-size:9px;font-weight:900;} .change-badge{padding:2px 6px;border-radius:999px;font-size:9px;font-weight:900;} .change-badge.changed{background:#e5eff8;color:var(--navy2);} .change-badge.same{background:#eef1f4;color:#667482;}
- .article-title-row>div{padding:7px 10px;font-size:11.5px;font-weight:900;} .old-title{color:#8d332c;background:#fffafa;} .new-title{color:#0d6b4d;background:#f8fcfa;border-left:1px solid var(--line);}
-.diff-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #edf0f4;} .diff-row:last-child{border-bottom:0;} .doc-cell{min-width:0;padding:6px 9px;} .new-cell{border-left:1px solid var(--line);} .same-row .doc-cell{background:#fff;} .changed-row .old-cell{background:#fffafa;} .changed-row .new-cell{background:#f9fdfa;} .doc-p{margin:0;line-height:1.52;color:#273448;white-space:normal;} .doc-p.continuation{padding-left:16px;} .diff-del{text-decoration:line-through;text-decoration-thickness:1px;background:var(--del);color:#7c2f29;border-radius:2px;} .diff-add{text-decoration:none;background:var(--add);color:#075f43;border-radius:2px;} .diff-del.block, .diff-add.block{display:block;padding:2px 3px;}   .empty-line{color:#b1bac4;font-size:10px;padding:2px 0;}
-.doc-table-wrap{overflow-x:auto;} .doc-table{line-height:1.35;} .doc-table th, .doc-table td{padding:4px 5px;} .cell-del{background:var(--del);color:#7c2f29;} .cell-add{background:var(--add);color:#075f43;}
+  .diff-doc-head .old{color:#8d332c;background:#fff8f7;} .diff-doc-head .new{color:#0c684a;background:#f3fbf7;border-left:1px solid var(--contract-line);}  
+.diff-section{border-bottom:1px solid var(--contract-line);scroll-margin-top:52px;} .diff-section:last-child{border-bottom:0;} .diff-section-head{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#eef3f7;border-bottom:1px solid var(--contract-line);font-size:11.5px;} .section-no{display:inline-grid;place-items:center;width:24px;height:20px;margin-right:7px;border-radius:5px;background:var(--dash-color-title);color:#fff;font-size:9px;font-weight:900;} .change-badge{padding:2px 6px;border-radius:999px;font-size:9px;font-weight:900;} .change-badge.changed{background:#e5eff8;color:var(--contract-color-change);} .change-badge.same{background:#eef1f4;color:#667482;}
+ .article-title-row>div{padding:7px 10px;font-size:11.5px;font-weight:900;} .old-title{color:#8d332c;background:#fffafa;} .new-title{color:#0d6b4d;background:#f8fcfa;border-left:1px solid var(--contract-line);}
+.diff-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #edf0f4;} .diff-row:last-child{border-bottom:0;} .doc-cell{min-width:0;padding:6px 9px;} .new-cell{border-left:1px solid var(--contract-line);} .same-row .doc-cell{background:#fff;} .changed-row .old-cell{background:#fffafa;} .changed-row .new-cell{background:#f9fdfa;} .doc-p{margin:0;line-height:1.52;color:#273448;white-space:normal;} .doc-p.continuation{padding-left:16px;} .diff-del{text-decoration:line-through;text-decoration-thickness:1px;background:var(--contract-diff-del-bg);color:#7c2f29;border-radius:2px;} .diff-add{text-decoration:none;background:var(--contract-diff-add-bg);color:#075f43;border-radius:2px;} .diff-del.block, .diff-add.block{display:block;padding:2px 3px;}   .empty-line{color:#b1bac4;font-size:10px;padding:2px 0;}
+.doc-table-wrap{overflow-x:auto;} .doc-table{line-height:1.35;} .doc-table th, .doc-table td{padding:4px 5px;} .cell-del{background:var(--contract-diff-del-bg);color:#7c2f29;} .cell-add{background:var(--contract-diff-add-bg);color:#075f43;}
 .diff-section.hidden-by-filter{display:none;}
 
 
 /* Print */
 @media print{@page{size:A4 landscape;margin:8mm} body{background:#fff} .page{max-width:none;box-shadow:none}  main{padding:14px 18px} section{margin-top:18px} .diff-toolbar{display:none} .diff-doc-head{position:static} .diff-section.hidden-by-filter{display:block} .diff-section{break-inside:auto} .diff-section-head, .article-title-row{break-after:avoid} .diff-row{break-inside:avoid} .doc-p{font-size:8.5pt}}
 
-.source-clause-label{margin:2px 0 4px;color:var(--muted);font-weight:900;letter-spacing:.02em;}
+.source-clause-label{margin:2px 0 4px;color:var(--contract-color-muted);font-weight:900;letter-spacing:.02em;}
 
 
 /* App shell & navigation */
@@ -306,7 +306,7 @@
   background:linear-gradient(90deg,transparent,var(--ba-red-soft));
 }
 .ba-metric-cell.is-positive-strong{
-  color:var(--ba-green);
+  color:var(--dash-color-positive);
 }
 
 
@@ -405,7 +405,7 @@ font-size:11px;min-height:31px;}
   background:#f4faf7;
 }
 .st-summary .is-result span{color:#56806c;}
-.st-summary .is-result strong{color:#137454;}
+.st-summary .is-result strong{color:var(--dash-color-positive);}
 
 
 .st-document-head{
@@ -428,7 +428,7 @@ padding:13px 15px;
 .st-section{border-bottom:1px solid #dfe5eb;}
 
 
-.st-section-title strong{color:#17395f;}
+.st-section-title strong{color:var(--dash-color-title);}
 .st-row-head, .st-row{
   display:grid;
   grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr);
@@ -454,7 +454,7 @@ padding:13px 15px;
 }
 
 .st-row.is-key{background:#f8fafc;}
-.st-row.is-key .st-row-label, .st-row.is-key .st-row-amount{color:#17395f;font-weight:900;}
+.st-row.is-key .st-row-label, .st-row.is-key .st-row-amount{color:var(--dash-color-title);font-weight:900;}
 .st-row.is-zero .st-row-amount{color:#8b96a4;}
 
 
@@ -579,7 +579,7 @@ padding:13px 15px;
   font-weight:900;
 }
 .ba-metric-cell.is-diff-positive{
-  color:#137454;
+  color:var(--dash-color-positive);
   background:linear-gradient(90deg,transparent,#eef8f3);
 }
 .ba-metric-cell.is-diff-negative{
@@ -698,7 +698,7 @@ width:142px;min-width:142px;max-width:142px;height:30px;}
   border:0;
   outline:0;
   background:transparent;
-  color:var(--ink);
+  color:var(--dash-color-ink);
   
   
   font-weight:900;
@@ -852,7 +852,7 @@ font-size:15px;}
 
 .st-document-title h2{
   margin:0;
-  color:#17395f;
+  color:var(--dash-color-title);
   
   line-height:1.2;
 font-size:16px;}
@@ -940,14 +940,14 @@ font-size:11px;}
   font-weight:900;
   font-variant-numeric:tabular-nums;
 font-size:13.5px;}
-.st-totals .is-final strong{color:#137454;font-size:15px;}
+.st-totals .is-final strong{color:var(--dash-color-positive);font-size:15px;}
 .st-totals small{display:block;margin-top:2px;color:#879289;font-size:10px;}
 
 
 .diff-doc-head>div{padding:8px 12px;font-weight:900;
 font-size:12px;
 }
-.diff-doc-head small{display:block;margin-top:1px;font-weight:500;color:var(--muted);
+.diff-doc-head small{display:block;margin-top:1px;font-weight:500;color:var(--contract-color-muted);
 font-size:10.5px;
 }
 .diff-doc-head .amendment-note{display:block;margin-top:2px;color:#7a5a15;font-weight:800;line-height:1.35;
@@ -960,7 +960,7 @@ font-size:10px;
 .doc-cell .source-clause-label{font-size:11px;}
 
 
-.diff-toolbar{padding:10px 12px;border-bottom:1px solid var(--line);background:#f8fafc;
+.diff-toolbar{padding:10px 12px;border-bottom:1px solid var(--contract-line);background:#f8fafc;
 padding-bottom:7px;
 }
 
@@ -1198,7 +1198,7 @@ font-size:13.5px;margin:0;}
 .app-brand strong{
   display:block;
   overflow:hidden;
-  color:#17395f;
+  color:var(--dash-color-title);
   
   
   text-overflow:ellipsis;
@@ -1217,14 +1217,14 @@ font-size:13.5px;margin:0;}
 }
 
 
-.article-title-row{display:grid;border-bottom:1px solid var(--line);
+.article-title-row{display:grid;border-bottom:1px solid var(--contract-line);
   grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px;
 }
 .reflection-title{
   display:flex;
   align-items:center;
   padding:8px 10px;
-  border-left:1px solid var(--line);
+  border-left:1px solid var(--contract-line);
   background:#eef4f9;
   color:var(--dash-color-title);
   font-size:11.5px;
@@ -1244,7 +1244,7 @@ font-size:13.5px;margin:0;}
 .diff-reflection-cell{
   min-width:0;
   padding:12px 13px;
-  border-left:1px solid var(--line);
+  border-left:1px solid var(--contract-line);
   background:#fbfcfe;
 }
 .diff-reflection-status{
@@ -1259,12 +1259,12 @@ font-size:13.5px;margin:0;}
   white-space:nowrap;
 }
 .diff-reflection-status.is-done{
-  color:var(--green);
-  background:var(--green-bg);
+  color:var(--contract-status-done);
+  background:var(--contract-status-done-bg);
 }
 .diff-reflection-status.is-check{
-  color:var(--amber);
-  background:var(--amber-bg);
+  color:var(--contract-status-need);
+  background:var(--contract-status-need-bg);
   border:1px solid #ecd09c;
 }
 .diff-reflection-status.is-same{
@@ -1552,14 +1552,14 @@ font-size:13.5px;margin:0;}
 }
 
 
-.diff-doc-head{position:sticky;top:0;z-index:10;display:grid;border-bottom:1px solid var(--line);background:#fff;box-shadow:0 2px 6px rgba(23,57,95,.05);
+.diff-doc-head{position:sticky;top:0;z-index:10;display:grid;border-bottom:1px solid var(--contract-line);background:#fff;box-shadow:0 2px 6px rgba(23,57,95,.05);
 
   grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px;
 
 }
 .diff-doc-head .reflection-file-head{
   min-width:0;
-  border-left:1px solid var(--line);
+  border-left:1px solid var(--contract-line);
   background:#fbfcfe;
 }
 
@@ -1600,7 +1600,7 @@ font-size:13.5px;margin:0;}
 }
 .contract-panel-title h2{
   margin:0;
-  color:#17395f;
+  color:var(--dash-color-title);
   font-size:12px;
   line-height:1.25;
   font-weight:900;
@@ -1661,20 +1661,6 @@ font-size:13.5px;margin:0;}
 }
 .contract-diff-toggle{
   flex:0 0 auto;
-  
-  
-  padding:0 11px;
-  
-  
-  
-  
-  
-  
-  
-
-
-  min-width:64px;
-  height:28px;
   
   
 
@@ -1885,6 +1871,15 @@ body.app-dashboard{
   border-radius:6px;
   font-size:11px;
 }
+.dashboard-button--compact-link{
+  padding:6px 9px;
+}
+.dashboard-button--compact-toggle{
+  min-width:64px;
+  height:28px;
+  padding:0 11px;
+}
+
 
 .dashboard-button:hover{
   border-color:#91a8bf;
@@ -2125,7 +2120,7 @@ body.app-dashboard{
 }
 .st-overview-row.is-final .st-overview-row-label,
 .st-overview-row.is-final .st-overview-cell{
-  color:#137454;
+  color:var(--dash-color-positive);
   font-weight:900;
 }
 .st-overview-row.is-final .st-overview-cell.is-total,
@@ -2232,7 +2227,7 @@ body.app-dashboard{
 </div>
 </header>
 <main class="dashboard-section-stack">
-<section class="contract-panel contract-panel-implementation dashboard-panel"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">01</span><h2>반영 현황</h2></div><div class="implementation-downloads downloads contract-panel-actions"><a class="download dashboard-button dashboard-button--compact" href="260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf" rel="noopener noreferrer" target="_blank">종전계약 PDF ↗</a><a class="download is-primary-pdf dashboard-button dashboard-button--primary dashboard-button--compact" href="20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf" rel="noopener noreferrer" target="_blank">재계약안 PDF ↗</a></div></div>
+<section class="contract-panel contract-panel-implementation dashboard-panel"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">01</span><h2>반영 현황</h2></div><div class="implementation-downloads downloads contract-panel-actions"><a class="download dashboard-button dashboard-button--compact dashboard-button--compact-link" href="260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf" rel="noopener noreferrer" target="_blank">종전계약 PDF ↗</a><a class="download is-primary-pdf dashboard-button dashboard-button--primary dashboard-button--compact dashboard-button--compact-link" href="20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf" rel="noopener noreferrer" target="_blank">재계약안 PDF ↗</a></div></div>
 <div class="table-wrap contract-panel-table"><table><thead><tr><th style="width:42px">No.</th><th>반영사항</th><th style="width:118px">계약조항</th><th>반영내용</th><th style="width:86px">상태</th></tr></thead><tbody>
 <tr><td>1</td><td><strong>두 영업장을 계약범위에 반영</strong></td><td>제1·3·6조</td><td>사업구조 개편에 맞춰 창릉 프리미어 골프존과 힐링밥상을 이지벤처스의 대상 영업장으로 명시하고 업무범위를 연결.</td><td><span class="status-pill done">반영 완료</span></td></tr>
 <tr><td>2</td><td><strong>위탁운영 수수료와 용역비 구분</strong></td><td>제2·7조</td><td>위탁인 귀속 수수료와 공제 후 수탁인에게 지급되는 용역비의 성격·귀속방향을 구분.</td><td><span class="status-pill done">반영 완료</span></td></tr>
@@ -2256,7 +2251,7 @@ body.app-dashboard{
 <div class="change-card"><strong>금전채무 회수</strong><p>용역비·정산금 우선공제 → 보증금 충당 → 보충 및 지급유보 구조를 명시.</p></div>
 <div class="change-card"><strong>종전계약 대체</strong><p>재계약 효력일부터 종전계약·부속합의서 대체, 기존 채권·채무·보증금 승계.</p></div>
 </div></div></section>
-<section class="contract-panel contract-panel-diff dashboard-panel" id="contract-diff"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">03</span><h2>종전계약 ↔ 재계약 조문 Diff</h2></div><button aria-controls="contract-diff-collapsible" aria-expanded="false" class="contract-diff-toggle contract-panel-actions dashboard-button dashboard-button--compact" data-contract-diff-toggle="" type="button">펼치기</button></div><div class="contract-diff-collapsible contract-panel-body contract-diff-body" hidden="" id="contract-diff-collapsible"><p class="lead">삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p><div class="diff-shell">
+<section class="contract-panel contract-panel-diff dashboard-panel" id="contract-diff"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">03</span><h2>종전계약 ↔ 재계약 조문 Diff</h2></div><button aria-controls="contract-diff-collapsible" aria-expanded="false" class="contract-diff-toggle contract-panel-actions dashboard-button dashboard-button--compact dashboard-button--compact-toggle" data-contract-diff-toggle="" type="button">펼치기</button></div><div class="contract-diff-collapsible contract-panel-body contract-diff-body" hidden="" id="contract-diff-collapsible"><p class="lead">삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p><div class="diff-shell">
 <div class="diff-toolbar"><div class="toolbar-top"><div class="toolbar-actions"><button aria-pressed="false" class="toggle-btn" data-filter="all" type="button">전체 항목</button><button aria-pressed="true" class="toggle-btn active" data-filter="changed" type="button">변경 항목만</button></div><div class="legend"><span><i class="lg-del"></i>종전 문구 삭제·변경</span><span><i class="lg-add"></i>재계약 신설·변경</span><span>17/24 항목 변경</span></div></div></div>
 <div class="diff-doc-head"><div class="old">종전계약<small>260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf</small><span class="amendment-note">※ 2026.07.22 부속합의서 제2조(위탁운영 수수료 변경) 반영</span></div><div class="new">재계약안<small>20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf</small></div><div aria-hidden="true" class="reflection-file-head"></div></div>
 <article class="diff-section hidden-by-filter" data-changed="false" id="diff-1">
