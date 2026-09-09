@@ -7,7 +7,7 @@
 <meta content="light" name="color-scheme"/>
 <title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
-:root{--navy:#17395f;--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--blue:#edf4fb;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--red:#a53a31;--red-bg:#fff1ef;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--white:#fff;}
+:root{--navy:#17395f;--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--app-sidebar-bg:#ffffff;--app-sidebar-border:#d7dee7;--app-nav-text:#374151;--app-nav-muted:#7a8696;--app-nav-icon:#64748b;--app-nav-hover:#f5f7fa;--app-nav-current-bg:#eaf2ff;--app-nav-current-text:#145fbd;--app-nav-current-indicator:#3182f6;--app-nav-item-h:36px;--app-nav-radius:9px;--ba-surface:#fff;--ba-surface-subtle:#f7f9fb;--ba-border:#d8e0e8;--ba-border-soft:#e8edf2;--ba-ink:#172033;--ba-navy:#17395f;--ba-blue:#2f6fae;--ba-green:#137454;--ba-red:#b0443b;--ba-red-soft:#fff1ef;--ba-tooltip-bg:#17243a;--ba-tooltip-color:#fff;--ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);--dash-layout-w:1920px;--dash-sidebar-w:218px;--dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));--dash-page-bg:#eef2f6;--dash-page-pad-x:18px;--dash-page-pad-top:18px;--dash-page-pad-bottom:30px;--dash-section-gap:8px;--dash-panel-gap:8px;--dash-color-title:#17395f;--dash-color-accent:#2f6fae;--dash-color-muted:#718092;--dash-panel-bg:#fff;--dash-panel-head-bg:#f4f7fa;--dash-panel-border:#d5dee8;--dash-line:#dbe3eb;--dash-panel-radius:10px;--dash-control-radius:8px;--dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);--dash-font-page-title:25px;--dash-font-kicker:10.5px;--dash-font-value:12px;--dash-font-label:11.5px;--dash-font-caption:10.5px;--dash-font-section:12px;--ba-matrix-column-hover-bg:#e8f0f8;}
 *{box-sizing:border-box;} html{scroll-behavior:smooth;} body{margin:0;background:#eef2f6;color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere;} a{color:inherit;}
 .page{max-width:1440px;margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(23,57,95,.07);}
   h1{margin:0;font-size:clamp(21px,2.15vw,30px);line-height:1.22;letter-spacing:-.03em;} 
@@ -37,22 +37,7 @@ main{padding:24px 36px 38px;} section{margin-top:28px;} section:first-child{marg
    - Phone: topbar + right drawer
    - Existing contract-review content remains isolated
    ========================================================= */
-:root{
-  
-  --app-sidebar-bg:#ffffff;
-  --app-sidebar-border:#d7dee7;
-  --app-nav-text:#374151;
-  --app-nav-muted:#7a8696;
-  --app-nav-icon:#64748b;
-  --app-nav-hover:#f5f7fa;
-  --app-nav-current-bg:#eaf2ff;
-  --app-nav-current-text:#145fbd;
-  --app-nav-current-indicator:#3182f6;
-  --app-nav-item-h:36px;
-  --app-nav-radius:9px;
-  --app-drawer-shadow:0 20px 54px rgba(15,23,42,.22);
-  --app-mobile-bar-h:48px;
-}
+
 body.app-dashboard{
   min-width:0;
   background:#eef2f6;
@@ -95,7 +80,6 @@ body.app-dashboard{
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-
 
 
 .app-nav{
@@ -204,9 +188,6 @@ body.app-dashboard{
 .app-view.is-active{display:block;}
 
 
-
-
-
 @media print{
   .app-sidebar{display:none!important}
   .app-content{margin-left:0!important;padding-top:0!important}
@@ -218,33 +199,8 @@ body.app-dashboard{
    - CSS 예시의 control / segmented / fixed tooltip 철학을 축약 적용
    - 계약검토 화면과 충돌하지 않도록 ba- prefix 사용
    ========================================================= */
-:root{
-  --ba-surface:#fff;
-  --ba-surface-subtle:#f7f9fb;
-  --ba-surface-soft:#f2f5f8;
-  --ba-border:#d8e0e8;
-  --ba-border-soft:#e8edf2;
-  --ba-ink:#172033;
-  --ba-muted:#6d7888;
-  --ba-navy:#17395f;
-  --ba-blue:#2f6fae;
-  --ba-blue-soft:#edf5fd;
-  --ba-green:#137454;
-  --ba-green-soft:#ecf8f2;
-  --ba-red:#b0443b;
-  --ba-red-soft:#fff1ef;
-  --ba-amber:#9a6414;
-  --ba-amber-soft:#fff7e7;
-  --ba-control-h:30px;
-  --ba-radius:9px;
-  --ba-shadow:0 4px 16px rgba(23,57,95,.045);
-  --ba-tooltip-bg:#17243a;
-  --ba-tooltip-color:#fff;
-  --ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);
-}
+
 .app-view-business{background:#eef2f6;}
-
-
 
 
 .ba-title-wrap h1{
@@ -254,21 +210,6 @@ body.app-dashboard{
   line-height:1.15;
   letter-spacing:-.025em;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .ba-settings-head{
@@ -533,7 +474,6 @@ body.app-dashboard{
 }
 
 
-
 .ba-metric-cell.is-negative{
   color:var(--ba-red)!important;
   background:linear-gradient(90deg,transparent,var(--ba-red-soft));
@@ -541,7 +481,6 @@ body.app-dashboard{
 .ba-metric-cell.is-positive-strong{
   color:var(--ba-green)!important;
 }
-
 
 
 .ba-floating-tooltip{
@@ -587,10 +526,6 @@ body.app-dashboard{
   border-top-color:transparent;
   border-bottom-color:var(--ba-tooltip-bg);
 }
-
-
-
-
 
 
 /* 4차 · 월 인건비 추정 / 업그레이드 비용 */
@@ -640,18 +575,10 @@ body.app-dashboard{
 .ba-inline-edit em{padding-right:3px;color:#8792a0;font-size:7.6px;font-style:normal;}
 
 
-
-
-
 /* =========================================================
    5차 · 용역비 정산서 2026-03 ~ 2026-08
    ========================================================= */
 .app-view-settlement{background:#eef2f6;}
-
-
-
-
-
 
 
 .st-month-badge, .st-vat-badge{
@@ -843,9 +770,6 @@ body.app-dashboard{
 .st-totals small{display:block;margin-top:2px;color:#879289;}
 
 
-
-
-
 /* 6차 · 통합 QA 정리 */
 .ba-page-inner > .ba-reference-grid{margin-top:8px;}
 
@@ -854,12 +778,6 @@ body.app-dashboard{
 .ba-settings{margin-top:8px;}
 .st-summary{margin-top:8px;}
 
-
-/* =========================================================
-   Desktop-only mode
-   - 모든 기기에서 2560px 데스크탑 레이아웃만 사용
-   - 모바일/태블릿 반응형 규칙 무효화
-   ========================================================= */
 
 body.app-dashboard{
   overflow-x:auto!important;
@@ -879,16 +797,11 @@ body.app-dashboard{
 }
 
 
-
 .app-view{
   margin-top:0!important;
 }
 
 /* 사업성 분석: 항상 desktop 2열 */
-
-
-
-
 
 
 .ba-settings-basic{
@@ -932,18 +845,6 @@ body.app-dashboard{
 
 
 /* 계약 검토 모바일 전용 압축/카드 규칙을 사용하지 않고 desktop 폭 유지 */
-
-
-
-/* =========================================================
-   사업성 분석 통합형 리팩토링
-   - 1안/2안 중복 표 제거
-   - 공통값 1회 표시
-   - 차이 발생 항목만 1안/2안 비교
-   - 2560px 기준 가로스크롤 없는 fluid matrix
-   ========================================================= */
-
-/* 콘텐츠 폭을 2560 Desktop 가용영역까지 적극 사용 */
 
 
 /* 상단 설정: 수정 가능한 값은 기본 상태부터 입력필드 외곽선 표시 */
@@ -1024,7 +925,6 @@ body.app-dashboard{
   background:#fff4d8;
 }
 
-/* 2560px에서는 RS 0.5(11열)까지 전체 폭 안에 표시 */
 
 .ba-unified-matrix{
   --ba-rs-count:6;
@@ -1042,7 +942,6 @@ body.app-dashboard{
 .ba-unified-matrix .ba-metric-row{
   min-height:30px;
 }
-
 
 
 /* 안별 비교 묶음 */
@@ -1126,14 +1025,6 @@ body.app-dashboard{
 /* 참고자료는 기존 2열 유지 */
 
 
-/* =========================================================
-   사업성 분석 밀도 조정
-   - 2560 모니터는 유지
-   - 콘텐츠는 약 1920급 밀도(본문 max-width 1740px)
-   - RS 1.0은 더 compact, RS 0.5는 넓게 사용
-   ========================================================= */
-
-
 /* 상단 설정/하단 참고자료도 동일 콘텐츠 폭 사용 */
 .ba-settings, 
 .ba-reference-grid, 
@@ -1144,27 +1035,10 @@ body.app-dashboard{
 /* 통합 Matrix 자체는 RS 개수에 따라 적정 폭만 사용 */
 
 
-
 .ba-unified-matrix .ba-metric-cell{
   padding-left:7px!important;
   padding-right:7px!important;
 }
-
-/* RS 1.0: 6열은 약 1240px 안에서 비교 밀도 확보 */
-.ba-unified-matrix[data-rs-density="compact"]{
-  --ba-matrix-max:1240px;
-}
-
-/* RS 0.5: 11열은 본문폭을 최대한 활용 */
-.ba-unified-matrix[data-rs-density="wide"]{
-  --ba-matrix-max:1740px;
-}
-
-/* =========================================================
-   전체 메뉴 공통 가로 레이아웃
-   - 재계약 검토 / 사업성 분석 / 용역비 정산서 동일 1740px
-   - 2560 Desktop 화면에서 메뉴 전환 시 좌우 폭 변화 방지
-   ========================================================= */
 
 
 /* 1. 재계약 검토 */
@@ -1176,53 +1050,14 @@ body.app-dashboard{
 /* 3. 용역비 정산서 */
 
 
-/* =========================================================
-   전체 메뉴 공통 좌측 정렬
-   - 좌측 메뉴 다음 28px 간격
-   - 모든 메뉴 본문 max-width 1740px
-   - 가운데 정렬 제거
-   ========================================================= */
-:root{
-  
-  --app-content-gap:28px;
-}
-
 /* 재계약 검토 */
-
 
 
 /* 사업성 분석 */
 
 
-
 /* 용역비 정산서 */
 
-
-
-/* =========================================================
-   전체 대시보드 Shell 중앙 정렬
-   - 메뉴 218px + 간격 28px + 콘텐츠 1740px
-   - 전체 Shell 1986px을 2560 viewport 중앙에 배치
-   - Sidebar는 Shell 내부 sticky
-   - 모든 메뉴 콘텐츠 좌우 기준선 통일
-   ========================================================= */
-:root{
-  --app-layout-max:1740px;
-  --app-sidebar-w:218px;
-  --app-shell-gap:28px;
-  --app-shell-w:calc(var(--app-sidebar-w) + var(--app-shell-gap) + var(--app-layout-max));
-}
-
-.app-shell{
-  
-  grid-template-columns:var(--app-sidebar-w) var(--app-layout-max)!important;
-  column-gap:var(--app-shell-gap)!important;
-  align-items:start!important;
-  
-  
-  min-height:100vh!important;
-  
-}
 
 /* 브라우저 최좌측 fixed 메뉴를 해제하고 Shell 안에서 고정 */
 .app-sidebar{
@@ -1232,55 +1067,20 @@ body.app-dashboard{
   right:auto!important;
   
   
-  grid-column:1!important;
   
   
   
-  align-self:start!important;
+  
+  
 }
 
 /* 가운데 Shell의 두 번째 열을 모든 메뉴 공통 콘텐츠 영역으로 사용 */
-.app-content{
-  grid-column:2!important;
-  
-  
-  
-  
-  
-  
-}
+
 
 /* 이전 28px 개별 좌측 padding 제거: grid gap 28px가 메뉴↔콘텐츠 간격을 담당 */
 
 
-
-/* 사업성 분석: 실제 콘텐츠 좌우선도 1740px에 맞춤 */
-
-
-
 /* 용역비 정산서: 동일 기준선 */
-
-
-
-/* =========================================================
-   Viewport 강제 해제
-   - meta viewport: device-width
-   - 2560px 강제 min-width 제거
-   - 실제 Desktop Shell 폭 1986px을 최소 레이아웃 기준으로 사용
-   ========================================================= */
-html, 
-body{
-  min-width:var(--app-shell-w)!important;
-}
-
-.app-shell{
-  
-  
-  margin-left:auto!important;
-  margin-right:auto!important;
-}
-
-/* 2560 강제 viewport 없이도 Desktop-only 구조 유지 */
 
 
 /* =========================================================
@@ -1326,7 +1126,6 @@ body{
 }
 
 
-
 .ba-setting-label{
   display:flex!important;
   align-items:center!important;
@@ -1365,11 +1164,6 @@ body{
 /* 표는 왼쪽에서 시작. 해상도가 부족할 때만 이 영역에서 스크롤 */
 
 
-
-/* 라벨열 182px + RS열 126px 고정.
-   RS 1.0=938px / RS 0.5=1,568px */
-
-
 /* 각 컬럼의 체감 간격을 조금 더 촘촘하게 */
 .ba-unified-matrix .ba-rs-head{
   padding:4px 4px!important;
@@ -1393,7 +1187,6 @@ body{
 /* =========================================================
    1920 Desktop base + shared data-page system
    ========================================================= */
-
 
 
 .app-sidebar{
@@ -1421,8 +1214,6 @@ body{
 
 
 /* page width commonization */
-
-
 
 
 /* shared panel sizing */
@@ -1473,9 +1264,6 @@ body{
 .ba-title-wrap h1{font-size:25px!important;}
 
 
-
-
-
 /* analysis/reference panels full width */
 .ba-analysis-grid.ba-analysis-grid-unified{display:block!important;width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;}
 .ba-analysis-unified{width:100%!important;max-width:none!important;margin:0!important;}
@@ -1484,8 +1272,6 @@ body{
 .ba-panel-title p{font-size:11px!important;}
 
 .ba-plan-legend-item{min-width:240px!important;}
-
-
 
 
 /* keep compact data columns; panel itself is 100% */
@@ -1528,8 +1314,6 @@ body{
 /* settlement: same scale system */
 
 
-
-
 .st-month-badge, .st-vat-badge{font-size:11px!important;min-height:31px!important;}
 .st-summary{gap:var(--dash-panel-gap)!important;}
 .st-summary article{padding:11px 12px!important;}
@@ -1561,7 +1345,6 @@ body{
    ========================================================= */
 
 /* 재계약 검토도 사업성 분석/정산서와 동일한 1920 콘텐츠 레이아웃 */
-
 
 
 /* Diff 상단 문서 출처/파일명: 기존 대비 +1px */
@@ -1631,9 +1414,6 @@ padding-bottom:7px!important;
 /* 분석안 설명은 한 줄 유지 */
 
 
-
-
-
 /* =========================================================
    사업성 분석 설정 카드 내부 레이아웃 재구성
    - 기본 설정 / 산정 기준을 좌우 독립 column으로 분리
@@ -1675,7 +1455,6 @@ padding-bottom:7px!important;
 
 
 /* 산정 기준 - 각 그룹별 독립 시작선 */
-
 
 
 /* 입력필드 폭은 설정 카드 전반에서 통일 */
@@ -1876,8 +1655,6 @@ padding-bottom:7px!important;
 }
 
 
-
-
 .ba-common-block + .ba-common-block, 
 .ba-compare-block + .ba-compare-block{
   border-top:1px solid #e0e6ec!important;
@@ -1942,7 +1719,6 @@ padding-bottom:7px!important;
 }
 
 /* 검토 요약 제거 후 반영 현황 헤더 우측에 비교 PDF 배치 */
-
 
 
 .implementation-downloads{
@@ -2281,8 +2057,6 @@ padding-bottom:7px!important;
 /* Diff 제목 + 우측 펼치기/접기 */
 
 
-
-
 .contract-diff-toggle:hover{
   border-color:#9fb2c6;
   background:#f5f8fb;
@@ -2317,10 +2091,6 @@ padding-bottom:7px!important;
    ========================================================= */
 
 
-
-
-
-
 /* Hero 전용 잔여 효과 차단 */
 
 
@@ -2333,7 +2103,6 @@ padding-bottom:7px!important;
 /* Contract 페이지 자체는 layout wrapper 역할만 */
 
 
-
 .app-view-contract main>section{
   margin:0!important;
 }
@@ -2341,12 +2110,7 @@ padding-bottom:7px!important;
 /* 페이지 헤더: BA/ST와 동일한 시작선·밀도 */
 
 
-
-
-
 /* Contract도 기존 dashboard panel token을 공유 */
-
-
 
 
 /* 01/02/03 공통 패널 헤더 */
@@ -2498,47 +2262,11 @@ padding-bottom:7px!important;
    2차 리팩토링 · Dashboard Foundation
    역할: Page / Header / Panel / Control 기준 공통화
    ========================================================= */
-:root{
-  --dash-layout-w:1920px;
-  --dash-sidebar-w:218px;
-  --dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));
 
-  --dash-page-bg:#eef2f6;
-  --dash-page-pad-x:18px;
-  --dash-page-pad-top:18px;
-  --dash-page-pad-bottom:30px;
-  --dash-section-gap:8px;
-  --dash-panel-gap:8px;
-
-  --dash-color-title:#17395f;
-  --dash-color-accent:#2f6fae;
-  --dash-color-text:#2b3b4e;
-  --dash-color-muted:#718092;
-
-  --dash-panel-bg:#fff;
-  --dash-panel-head-bg:#f4f7fa;
-  --dash-panel-border:#d5dee8;
-  --dash-line:#dbe3eb;
-  --dash-panel-radius:10px;
-  --dash-control-radius:8px;
-  --dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);
-
-  --dash-font-page-title:25px;
-  --dash-font-kicker:10.5px;
-  --dash-font-value:12px;
-  --dash-font-label:11.5px;
-  --dash-font-caption:10.5px;
-  --dash-font-section:12px;
-}
 
 /* fixed 1920 shell */
 html, body{min-width:var(--dash-layout-w)!important;}
-.app-shell{
-  display:block!important;
-  width:var(--dash-layout-w)!important;
-  min-width:var(--dash-layout-w)!important;
-  margin:0!important;
-}
+.app-shell{display:block!important;width:var(--dash-layout-w)!important;min-width:var(--dash-layout-w)!important;min-height:100vh!important;margin:0!important;}
 .app-sidebar{
   position:fixed!important;
   inset:0 auto 0 0!important;
@@ -2782,6 +2510,10 @@ html, body{min-width:var(--dash-layout-w)!important;}
 .st-overview-summary{
   margin:0!important;
 }
+.st-overview-panel{
+  margin-top:0!important;
+  margin-bottom:0!important;
+}
 .st-overview-panel-head{
   min-height:54px!important;
   padding:9px 11px!important;
@@ -2959,6 +2691,17 @@ html, body{min-width:var(--dash-layout-w)!important;}
 .st-overview-row.is-final .st-overview-cell.is-total,
 .st-overview-cell.is-average{
   background:#edf7f2;
+}
+
+/* 사업성 분석 Matrix · RS 열 hover */
+.ba-unified-matrix [data-ba-rs-index].is-rs-column-hover{
+  background:var(--ba-matrix-column-hover-bg)!important;
+}
+.ba-unified-matrix>.ba-matrix-head:first-child>.ba-rs-head[data-ba-rs-index].is-rs-column-hover{
+  background:var(--ba-matrix-column-hover-bg)!important;
+}
+.ba-rs-fixed-header .ba-rs-fixed-track>.ba-rs-head[data-ba-rs-index].is-rs-column-hover{
+  background:var(--ba-matrix-column-hover-bg)!important;
 }
 </style>
 </head>
@@ -4365,6 +4108,33 @@ html, body{min-width:var(--dash-layout-w)!important;}
     fixedRsHeader.replaceChildren();
   };
 
+  let activeRsColumn=null;
+
+  const paintRsColumn=index=>{
+    const normalized=index===null||index===undefined?null:String(index);
+
+    matrix?.querySelectorAll('.is-rs-column-hover')
+      .forEach(el=>el.classList.remove('is-rs-column-hover'));
+    fixedRsHeader.querySelectorAll('.is-rs-column-hover')
+      .forEach(el=>el.classList.remove('is-rs-column-hover'));
+
+    activeRsColumn=normalized;
+    if(normalized===null) return;
+
+    const selector=`[data-ba-rs-index="${normalized}"]`;
+    matrix?.querySelectorAll(selector)
+      .forEach(el=>el.classList.add('is-rs-column-hover'));
+    fixedRsHeader.querySelectorAll(selector)
+      .forEach(el=>el.classList.add('is-rs-column-hover'));
+  };
+
+  const syncRsColumnHoverFromPointer=event=>{
+    const target=event.target.closest?.('[data-ba-rs-index]');
+    const next=target?.dataset.baRsIndex??null;
+    if(next===activeRsColumn) return;
+    paintRsColumn(next);
+  };
+
   const syncFixedRsHeader=()=>{
     if(!matrix||!matrixScroll||!root.classList.contains('is-active')){
       hideFixedRsHeader();
@@ -4414,6 +4184,12 @@ html, body{min-width:var(--dash-layout-w)!important;}
     fixedRsHeader.style.width=`${Math.round(scrollRect.width)}px`;
     fixedRsHeader.style.height=`${headerHeight}px`;
     fixedRsHeader.classList.add('is-visible');
+
+    if(activeRsColumn!==null){
+      fixedRsHeader.querySelector(
+        `[data-ba-rs-index="${activeRsColumn}"]`
+      )?.classList.add('is-rs-column-hover');
+    }
   };
   const laborTable=root.querySelector('[data-ba-labor-table]');
   const upgradeTable=root.querySelector('[data-ba-upgrade-table]');
@@ -4564,7 +4340,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
         else classes.push('is-diff-zero');
       }
 
-      html+=`<div class="${classes.join(' ')}">${formatMoney(source)}</div>`;
+      html+=`<div class="${classes.join(' ')}" data-ba-rs-index="${i}">${formatMoney(source)}</div>`;
     }
 
     html+='</div>';
@@ -4581,8 +4357,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
 
     const rsHeader=()=>{
       let header='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
-      for(const item of fixed){
-        header+=`<div class="ba-rs-head">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
+      for(const [index,item] of fixed.entries()){
+        header+=`<div class="ba-rs-head" data-ba-rs-index="${index}">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
       }
       header+='</div>';
       return header;
@@ -4617,6 +4393,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
     html+='</section>';
 
     matrix.innerHTML=html;
+    activeRsColumn=null;
     requestAnimationFrame(syncFixedRsHeader);
   };
 
@@ -4886,6 +4663,9 @@ html, body{min-width:var(--dash-layout-w)!important;}
   document.addEventListener('keydown',event=>{
     if(event.key==='Escape') hideTooltip();
   });
+  matrix?.addEventListener('pointerover',syncRsColumnHoverFromPointer);
+  matrix?.addEventListener('pointerleave',()=>paintRsColumn(null));
+
   const onViewportChange=()=>{
     hideTooltip();
     syncFixedRsHeader();
