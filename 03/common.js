@@ -33,6 +33,59 @@
 })();
 (()=>{
   'use strict';
+  // Move the existing cells, retaining row parents for exact Web alignment restoration.
+  const compact=window.matchMedia('(max-width:1100px)');
+  const print=window.matchMedia('print');
+  const sections=[...document.querySelectorAll('.diff-section')].map(section=>{
+    const body=section.querySelector('.diff-body');
+    const titles=section.querySelector('.article-title-row');
+    const oldTitle=titles.querySelector('.old-title');
+    const newTitle=titles.querySelector('.new-title');
+    const reflectionTitle=titles.querySelector('.reflection-title');
+    const reflection=section.querySelector('.diff-reflection-cell');
+    const rows=[...body.querySelectorAll(':scope > .diff-row')].map(row=>{
+      const cells=[...row.children];
+      cells.forEach(cell=>{
+        cell.dataset.diffRow=row.classList.contains('changed-row')?'changed-row':
+          row.classList.contains('same-row')?'same-row':'table-row';
+      });
+      return {row,cells};
+    });
+    return {body,titles,oldTitle,newTitle,reflectionTitle,reflection,rows,groups:null};
+  });
+  const arrange=stacked=>sections.forEach(item=>{
+    if(stacked===Boolean(item.groups)) return;
+    if(stacked){
+      const groups=['old','new'].map(kind=>{
+        const group=document.createElement('div');
+        group.className='diff-document';
+        group.setAttribute('role','group');
+        group.setAttribute('aria-label',kind==='old'?'종전계약':'재계약안');
+        return group;
+      });
+      groups[0].append(item.oldTitle);
+      groups[1].append(item.newTitle);
+      item.rows.forEach(({cells})=>cells.forEach((cell,index)=>groups[index].append(cell)));
+      item.body.append(...groups);
+      item.reflection.prepend(item.reflectionTitle);
+      item.groups=groups;
+    }else{
+      item.titles.append(item.oldTitle,item.newTitle,item.reflectionTitle);
+      item.rows.forEach(({row,cells})=>row.append(...cells));
+      item.groups.forEach(group=>group.remove());
+      item.groups=null;
+    }
+  });
+  const sync=()=>arrange(compact.matches&&!print.matches);
+  compact.addEventListener('change',sync);
+  print.addEventListener('change',sync);
+  window.addEventListener('beforeprint',()=>arrange(false));
+  window.addEventListener('afterprint',sync);
+  sync();
+})();
+
+(()=>{
+  'use strict';
   const DATA=Object.freeze({"2026-03":{"month":"2026-03","settlementMonth":"2026-03-01","settlementDate":"2026-04-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 03월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 25,727,129원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":82820020,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":381329,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":82438691,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":74944264,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":833858,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":78878,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":367010,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7666082,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4657490,"note":"2026년 2월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13590,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":30000,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":"비즈몰 S-POINT","amount":6000000,"note":"비즈몰 S-POINT 750만 포인트 이용액"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":7613817,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49217135,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":25727129,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-04":{"month":"2026-04","settlementMonth":"2026-04-01","settlementDate":"2026-05-08","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 04월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 23,404,178원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":71921800,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":205606,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":71716194,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":65196540,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":726026,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":84737,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":19000,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":6867022,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4220400,"note":"2026년 3월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린 유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":13182,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":291768,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1875177,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":41792362,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":23404178,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-05":{"month":"2026-05","settlementMonth":"2026-05-01","settlementDate":"2026-06-02","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 05월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,577,269원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":85477810,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":207022,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, 골프존마일리지)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":85270788,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":77518898,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":883734,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":75711,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":110,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8133120,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":3955880,"note":"2026년 4월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":10782,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":312065,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1893074,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42941629,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34577269,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-06":{"month":"2026-06","settlementMonth":"2026-06-01","settlementDate":"2026-07-06","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 06월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 29,492,774원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":79523200,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":277222,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":79245978,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":72041798,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":28000000,"note":"2027년 1월 1일부터 30,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":807451,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":87794,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":7505060,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":4253850,"note":"2026년 5월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":11637,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":313005,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1894869,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":42549024,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":29492774,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-07":{"month":"2026-07","settlementMonth":"2026-07-01","settlementDate":"2026-08-04","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 07월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 38,351,780원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":97225010,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":169558,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":97055452,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":88232229,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":977983,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":105978,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":9387761,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":5488860,"note":"2026년 6월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":97000,"note":"CCTV, 보안 이용료"},{"excelRow":28,"category":null,"detail":null,"subdetail":"전화요금","amount":12128,"note":"매장 내 전화 이용료"},{"excelRow":29,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"광고비","amount":337512,"note":"광고비 충전 등"},{"excelRow":33,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1919867,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":49880449,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":38351780,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"},"2026-08":{"month":"2026-08","settlementMonth":"2026-08-01","settlementDate":"2026-09-03","notice":"당사 간 체결한 위탁운영 계약에 따라 2026년 08월 정산기준월의 용역비를 아래와 같이 정산합니다.\n확정된 용역비 34,980,988원(VAT 별도)에 대한 세금계산서를 당사로 발행하여 주시기 바랍니다.","rows":[{"excelRow":12,"category":"월별 매출액","detail":"실제 매출","subdetail":null,"amount":94264850,"note":"GPM상 월별 매출(매출/라운드관리 > 매출 조회 > 월별 매출) 화면에 표시되는 “매출금액”과 “보조단말기 결제내역”을 합산한 금액에서 “할인금액”을 차감한 금액"},{"excelRow":13,"category":null,"detail":"차감액","subdetail":null,"amount":96662,"note":"정산서의 ‘할인 및 이용권’으로 차감되는 결제 항목(모바일이용권, 지류이용권, 상품권, G패스 포인트)의 표시 금액 합계"},{"excelRow":14,"category":null,"detail":"실제 매출 - 차감액","subdetail":null,"amount":94168188,"note":null},{"excelRow":15,"category":null,"detail":"월별 매출액","subdetail":null,"amount":85607443,"note":"(실제 매출 - 차감액) / 1.1"},{"excelRow":16,"category":"공제항목","detail":"위탁운영 수수료","subdetail":null,"amount":32000000,"note":"2027년 1월 1일부터 34,000,000원"},{"excelRow":17,"category":null,"detail":"카드수수료","subdetail":null,"amount":954878,"note":"월별 매출의 ‘신용카드’ 금액과 보조단말기 카드 승인 금액 x 1.15%"},{"excelRow":18,"category":null,"detail":"결제수단수수료","subdetail":null,"amount":80959,"note":"입금내역 조회상 '선결제', '골프존패스'의 정산기준월 수수료"},{"excelRow":19,"category":null,"detail":"현금 정산 차액","subdetail":null,"amount":0,"note":"GPM상 현금과 실정산 현금 차액"},{"excelRow":20,"category":null,"detail":"골프존 유지보수비","subdetail":null,"amount":8986601,"note":"GPM 정산서상 부가세를 제외한 금액"},{"excelRow":21,"category":null,"detail":"관리비","subdetail":null,"amount":6761250,"note":"2026년 7월분"},{"excelRow":22,"category":null,"detail":"운영비","subdetail":"서빙로봇","amount":549734,"note":"로봇 2대 이용료, 단말비 및 보험료"},{"excelRow":23,"category":null,"detail":null,"subdetail":"테이블오더","amount":187216,"note":"메뉴판 14대·알림판 이용료"},{"excelRow":24,"category":null,"detail":null,"subdetail":"롤스크린유지보수","amount":420000,"note":"롤스크린 14개 유지보수료"},{"excelRow":25,"category":null,"detail":null,"subdetail":"인터넷","amount":15000,"note":"1Gbps 인터넷 이용료"},{"excelRow":26,"category":null,"detail":null,"subdetail":"IPTV","amount":42000,"note":"IPTV 이용료"},{"excelRow":27,"category":null,"detail":null,"subdetail":"KT텔레캅","amount":581,"note":"CCTV, 보안 이용료 (26년 8월 이용료 면제, 알림서비스만 청구)"},{"excelRow":28,"category":null,"detail":null,"subdetail":"POS관리","amount":4000,"note":"POS 유지보수"},{"excelRow":29,"category":null,"detail":null,"subdetail":"전화요금","amount":16209,"note":"매장 내 전화 이용료"},{"excelRow":30,"category":null,"detail":null,"subdetail":"정수기 렌탈","amount":104093,"note":"청호나이스, 쿠쿠 정수기 이용료"},{"excelRow":31,"category":null,"detail":null,"subdetail":"공기청정기 렌탈","amount":130184,"note":"쿠쿠 공기청정기 이용료"},{"excelRow":32,"category":null,"detail":null,"subdetail":"도도포인트","amount":25000,"note":"포인트 적립 서비스 이용료"},{"excelRow":33,"category":null,"detail":null,"subdetail":"광고비","amount":348750,"note":"광고비 충전 등"},{"excelRow":34,"category":null,"detail":null,"subdetail":null,"amount":null,"note":null},{"excelRow":35,"category":null,"detail":null,"subdetail":"운영비 계","amount":1842767,"note":null},{"excelRow":36,"category":"공제항목 합계","detail":null,"subdetail":null,"amount":50626455,"note":null},{"excelRow":37,"category":"용역비","detail":null,"subdetail":null,"amount":34980988,"note":"(월별 매출액 - 공제항목 합계)"}],"stamp":"주식회사 이지벤처스 [직인 생략]"}});
 
   const byExcelRow=(month,row)=>DATA[month]?.rows?.find(item=>item.excelRow===row)||null;
@@ -378,6 +431,55 @@
   const settlementSubnav=document.querySelector('[data-subnav="settlement"]');
   const monthItems=[...document.querySelectorAll('.app-subnav-item[data-month]')];
 
+  // One sidebar DOM serves both fixed Web navigation and the small-screen overlay.
+  const sidebar=document.getElementById('appSidebar');
+  const menuToggle=document.getElementById('appMenuToggle');
+  const menuBackdrop=document.getElementById('appMenuBackdrop');
+  const content=document.querySelector('.app-content');
+  const compactMenu=window.matchMedia('(max-width:1100px)');
+  let menuOpen=false;
+  const menuItems=()=>[...sidebar.querySelectorAll('button,a[href],[tabindex="0"]')]
+    .filter(item=>!item.disabled&&item.getClientRects().length);
+
+  const setMenuOpen=(requested,{restoreFocus=true}={})=>{
+    const wasOpen=menuOpen;
+    menuOpen=compactMenu.matches&&requested;
+    // Move focus before making its current subtree inert.
+    if(!menuOpen&&compactMenu.matches&&(wasOpen||sidebar.contains(document.activeElement))&&restoreFocus){
+      menuToggle.focus({preventScroll:true});
+    }
+    sidebar.inert=compactMenu.matches&&!menuOpen;
+    content.inert=menuOpen;
+    document.body.classList.toggle('app-menu-open',menuOpen);
+    menuBackdrop.hidden=!menuOpen;
+    menuToggle.setAttribute('aria-expanded',String(menuOpen));
+    menuToggle.setAttribute('aria-label',menuOpen?'메뉴 닫기':'메뉴 열기');
+    if(menuOpen) (menuItems()[0]||menuToggle).focus({preventScroll:true});
+  };
+
+  menuToggle.addEventListener('click',()=>setMenuOpen(!menuOpen));
+  menuBackdrop.addEventListener('click',()=>setMenuOpen(false));
+  document.addEventListener('keydown',event=>{
+    if(!menuOpen) return;
+    if(event.key==='Escape'){
+      event.preventDefault();
+      setMenuOpen(false);
+    }else if(event.key==='Tab'){
+      const items=[menuToggle,...menuItems()];
+      const current=items.indexOf(document.activeElement);
+      event.preventDefault();
+      items[(current+(event.shiftKey?-1:1)+items.length)%items.length].focus();
+    }
+  });
+  compactMenu.addEventListener('change',()=>{
+    const toggleFocused=document.activeElement===menuToggle;
+    setMenuOpen(false);
+    if(!compactMenu.matches&&toggleFocused){
+      (sidebar.querySelector('[aria-current="page"]')||menuItems()[0])?.focus({preventScroll:true});
+    }
+  });
+  setMenuOpen(false,{restoreFocus:false});
+
   const setSettlementOpen=open=>{
     settlementParent?.setAttribute('aria-expanded',String(open));
     settlementSubnav?.classList.toggle('is-open',open);
@@ -430,6 +532,7 @@
       detail:Object.freeze({view,month})
     }));
 
+    setMenuOpen(false);
     window.scrollTo({top:0,left:0,behavior:'auto'});
   };
 
@@ -491,11 +594,78 @@
     return `<div class="${classes.join(' ')}">
       <div class="st-row-label ${sub?'is-sub':''}">${escapeHtml(label)}</div>
       <div class="st-row-amount">${formatWon(item.amount)}</div>
-      <div class="st-row-note">${escapeHtml(note)}</div>
+      <div class="st-row-note"><span class="st-note-text">${escapeHtml(note)}</span>${note?`<button class="st-note-button" type="button" aria-label="${escapeHtml(label)} 비고 보기">ⓘ</button>`:''}</div>
     </div>`;
   };
 
+  const noteTooltip=document.getElementById('stNoteTooltip');
+  const phoneNotes=window.matchMedia('(max-width:760px)');
+  let noteAnchor=null;
+  let pinnedNote=null;
+  const hideNote=()=>{
+    noteAnchor?.removeAttribute('aria-describedby');
+    noteTooltip.classList.remove('is-visible');
+    noteTooltip.setAttribute('aria-hidden','true');
+    noteAnchor=null;
+    pinnedNote=null;
+  };
+  const showNote=button=>{
+    if(!phoneNotes.matches) return;
+    if(noteAnchor!==button) hideNote();
+    noteAnchor=button;
+    noteTooltip.textContent=button.parentElement.querySelector('.st-note-text').textContent;
+    button.setAttribute('aria-describedby','stNoteTooltip');
+    noteTooltip.setAttribute('aria-hidden','false');
+    noteTooltip.classList.add('is-visible');
+    noteTooltip.scrollTop=0;
+    const rect=button.getBoundingClientRect();
+    const gutter=12,gap=7;
+    const width=noteTooltip.offsetWidth,height=noteTooltip.offsetHeight;
+    const left=Math.max(gutter,Math.min(rect.left+rect.width/2-width/2,window.innerWidth-width-gutter));
+    const below=rect.top-height-gap<gutter;
+    const top=Math.max(gutter,Math.min(below?rect.bottom+gap:rect.top-height-gap,window.innerHeight-height-gutter));
+    noteTooltip.style.left=`${left}px`;
+    noteTooltip.style.top=`${top}px`;
+    noteTooltip.style.setProperty('--dash-tooltip-arrow',`${Math.max(10,Math.min(width-10,rect.left+rect.width/2-left))}px`);
+    noteTooltip.classList.toggle('is-below',below);
+  };
+  root.addEventListener('click',event=>{
+    const button=event.target.closest('.st-note-button');
+    if(!button) return;
+    if(pinnedNote===button) hideNote();
+    else {showNote(button);pinnedNote=button;}
+  });
+  root.addEventListener('focusin',event=>{
+    const button=event.target.closest('.st-note-button');
+    if(button) showNote(button);
+  });
+  root.addEventListener('focusout',event=>{
+    if(event.target===noteAnchor) hideNote();
+  });
+  root.addEventListener('pointerover',event=>{
+    const button=event.target.closest('.st-note-button');
+    if(button&&event.pointerType!=='touch') showNote(button);
+  });
+  root.addEventListener('pointerout',event=>{
+    if(event.target.closest('.st-note-button')!==noteAnchor||!noteAnchor) return;
+    if(noteTooltip.contains(event.relatedTarget)||noteAnchor.contains(event.relatedTarget)) return;
+    if(!pinnedNote&&document.activeElement!==noteAnchor) hideNote();
+  });
+  noteTooltip.addEventListener('pointerleave',()=>{
+    if(!pinnedNote&&document.activeElement!==noteAnchor) hideNote();
+  });
+  document.addEventListener('click',event=>{
+    if(!event.target.closest('.st-note-button')&&!noteTooltip.contains(event.target)) hideNote();
+  });
+  document.addEventListener('keydown',event=>{if(event.key==='Escape') hideNote();});
+  document.addEventListener('app:viewchange',hideNote);
+  window.addEventListener('resize',hideNote,{passive:true});
+  window.addEventListener('scroll',event=>{if(event.target!==noteTooltip) hideNote();},{capture:true,passive:true});
+  window.addEventListener('beforeprint',hideNote);
+  phoneNotes.addEventListener('change',hideNote);
+
   const render=(month)=>{
+    hideNote();
     const d=data[month];
     if(!d) return;
 
@@ -801,6 +971,13 @@
   const matrix=root.querySelector('[data-ba-matrix="comparison"]');
   const matrixScroll=root.querySelector('.ba-unified-scroll');
   const tooltip=document.getElementById('baFloatingTooltip');
+  const rsStepButtons=[...root.querySelectorAll('[data-ba-rs-step]')];
+  const compactRs=window.matchMedia('(max-width:1100px)');
+  const phoneRs=window.matchMedia('(max-width:760px)');
+  const printRs=window.matchMedia('print');
+  let compactRsStep=1;
+  let printingRs=false;
+
 
   const fixedRsHeader=document.createElement('div');
   fixedRsHeader.className='ba-rs-fixed-header';
@@ -839,7 +1016,7 @@
   };
 
   const syncFixedRsHeader=()=>{
-    if(!matrix||!matrixScroll||!root.classList.contains('is-active')){
+    if(!matrix||!matrixScroll||printingRs||printRs.matches||!root.classList.contains('is-active')){
       hideFixedRsHeader();
       return;
     }
@@ -882,6 +1059,9 @@
     clone.style.maxWidth='none';
     clone.style.gridTemplateColumns=computed.gridTemplateColumns;
     clone.style.transform=`translateX(${-matrixScroll.scrollLeft}px)`;
+    const label=clone.querySelector('.ba-matrix-label-head');
+    if(label) label.style.transform=phoneRs.matches?`translateX(${matrixScroll.scrollLeft}px)`:'none';
+
 
     fixedRsHeader.style.left=`${Math.round(scrollRect.left)}px`;
     fixedRsHeader.style.width=`${Math.round(scrollRect.width)}px`;
@@ -894,6 +1074,43 @@
       )?.classList.add('is-rs-column-hover');
     }
   };
+  const setRsDisplay=(target,step)=>{
+    if(!target) return;
+    const headers=[...target.querySelectorAll(':scope > .ba-matrix-head > .ba-rs-head')];
+    const visible=new Set(headers.filter(cell=>step===0.5||Number.isInteger(Number(cell.dataset.baRsValue)))
+      .map(cell=>cell.dataset.baRsIndex));
+    target.querySelectorAll('[data-ba-rs-index]').forEach(cell=>{
+      cell.hidden=!visible.has(cell.dataset.baRsIndex);
+    });
+    target.style.setProperty('--ba-rs-count',String(visible.size));
+  };
+
+  const applyRsView=(resetScroll=false)=>{
+    const step=compactRs.matches&&!printingRs&&!printRs.matches?compactRsStep:0.5;
+    setRsDisplay(matrix,step);
+    rsStepButtons.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.baRsStep)===step)));
+    paintRsColumn(null);
+    hideFixedRsHeader();
+    if(resetScroll&&matrixScroll) matrixScroll.scrollLeft=0;
+    requestAnimationFrame(syncFixedRsHeader);
+  };
+
+  rsStepButtons.forEach(button=>button.addEventListener('click',()=>{
+    if(!compactRs.matches) return;
+    compactRsStep=Number(button.dataset.baRsStep);
+    applyRsView(true);
+  }));
+  compactRs.addEventListener('change',()=>applyRsView(true));
+  printRs.addEventListener('change',()=>applyRsView());
+  window.addEventListener('beforeprint',()=>{
+    printingRs=true;
+    applyRsView();
+  });
+  window.addEventListener('afterprint',()=>{
+    printingRs=false;
+    applyRsView();
+  });
+
   const laborTable=root.querySelector('[data-ba-labor-table]');
   const upgradeTable=root.querySelector('[data-ba-upgrade-table]');
 
@@ -1055,13 +1272,12 @@
 
     const fixed=engine.calculateSeries('fixed',{step:RS_STEP,overrides:state.settings});
     const share=engine.calculateSeries('share',{step:RS_STEP,overrides:state.settings});
-    matrix.style.setProperty('--ba-rs-count',String(fixed.length));
-    matrix.dataset.rsDensity='wide';
+
 
     const rsHeader=()=>{
       let header='<div class="ba-matrix-head"><div class="ba-matrix-label-head">구분</div>';
       for(const [index,item] of fixed.entries()){
-        header+=`<div class="ba-rs-head" data-ba-rs-index="${index}">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
+        header+=`<div class="ba-rs-head" data-ba-rs-index="${index}" data-ba-rs-value="${item.rs}">RS ${formatNumber(item.rs,1).replace(/\.0$/,'')}</div>`;
       }
       header+='</div>';
       return header;
@@ -1096,8 +1312,7 @@
     html+='</section>';
 
     matrix.innerHTML=html;
-    activeRsColumn=null;
-    requestAnimationFrame(syncFixedRsHeader);
+    applyRsView();
   };
 
   const renderLaborReference=()=>{
@@ -1286,8 +1501,10 @@
 
   const buildSnapshotClone=()=>{
     const clone=root.cloneNode(true);
-    clone.classList.add('is-active');
+    clone.classList.add('is-active','is-ba-snapshot');
     clone.querySelector('.ba-header')?.remove();
+    clone.querySelector('.ba-rs-controls')?.remove();
+    setRsDisplay(clone.querySelector('[data-ba-matrix="comparison"]'),0.5);
     clone.querySelector('.ba-reference-grid')?.remove();
     clone.querySelector('.ba-matrix-bundle.is-common')?.remove();
     clone.querySelectorAll('.is-rs-column-hover,.is-ba-value-changed,.is-open')
@@ -1326,7 +1543,7 @@
     try{
       await document.fonts?.ready;
 
-      const sourceWidth=Math.ceil(root.getBoundingClientRect().width);
+      // Fixed report width is independent of the current screen size.
       const clone=buildSnapshotClone();
       stage=document.createElement('div');
       stage.setAttribute('aria-hidden','true');
@@ -1334,7 +1551,7 @@
         position:'fixed',
         left:'-20000px',
         top:'0',
-        width:`${sourceWidth}px`,
+        width:'var(--dash-content-w)',
         margin:'0',
         padding:'0',
         pointerEvents:'none',
@@ -1543,7 +1760,7 @@
     const arrow=rect.left+rect.width/2-left;
     tooltip.style.left=`${Math.round(left)}px`;
     tooltip.style.top=`${Math.round(top)}px`;
-    tooltip.style.setProperty('--ba-tooltip-arrow',`${Math.max(10,Math.min(width-10,arrow))}px`);
+    tooltip.style.setProperty('--dash-tooltip-arrow',`${Math.max(10,Math.min(width-10,arrow))}px`);
     tooltip.classList.toggle('is-below',below);
     button.classList.add('is-open');
   };
