@@ -813,16 +813,6 @@
   };
 
   let activeRsColumn=null;
-  let activeRsCell=null;
-
-  const paintRsCell=cell=>{
-    const next=cell?.matches?.('.ba-metric-cell[data-ba-rs-index]')?cell:null;
-    if(next===activeRsCell) return;
-
-    activeRsCell?.classList.remove('is-rs-cell-hover');
-    activeRsCell=next;
-    activeRsCell?.classList.add('is-rs-cell-hover');
-  };
 
   const paintRsColumn=index=>{
     const normalized=index===null||index===undefined?null:String(index);
@@ -844,8 +834,6 @@
 
   const syncRsColumnHoverFromPointer=event=>{
     const target=event.target.closest?.('[data-ba-rs-index]');
-    paintRsCell(target);
-
     const next=target?.dataset.baRsIndex??null;
     if(next!==activeRsColumn) paintRsColumn(next);
   };
@@ -1109,7 +1097,6 @@
 
     matrix.innerHTML=html;
     activeRsColumn=null;
-    activeRsCell=null;
     requestAnimationFrame(syncFixedRsHeader);
   };
 
@@ -1303,8 +1290,8 @@
     clone.querySelector('.ba-header')?.remove();
     clone.querySelector('.ba-reference-grid')?.remove();
     clone.querySelector('.ba-matrix-bundle.is-common')?.remove();
-    clone.querySelectorAll('.is-rs-column-hover,.is-rs-cell-hover,.is-ba-value-changed,.is-open')
-      .forEach(element=>element.classList.remove('is-rs-column-hover','is-rs-cell-hover','is-ba-value-changed','is-open'));
+    clone.querySelectorAll('.is-rs-column-hover,.is-ba-value-changed,.is-open')
+      .forEach(element=>element.classList.remove('is-rs-column-hover','is-ba-value-changed','is-open'));
     syncSnapshotFormState(root,clone);
     return clone;
   };
@@ -1601,7 +1588,6 @@
   });
   matrix?.addEventListener('pointerover',syncRsColumnHoverFromPointer);
   matrix?.addEventListener('pointerleave',()=>{
-    paintRsCell(null);
     paintRsColumn(null);
   });
 

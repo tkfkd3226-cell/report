@@ -754,9 +754,8 @@ p{
 .ba-metric-cell.is-ba-value-changed{
   position:relative;
   z-index:1;
-  outline:2px solid var(--dash-color-accent);
-  outline-offset:-2px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);
+  outline:1px dashed #e58a00;
+  outline-offset:-1px;
 }
 
 .ba-metric-cell.is-rs-column-hover{
@@ -785,14 +784,6 @@ p{
 
 .ba-metric-cell.is-diff-negative.is-rs-column-hover{
   background:linear-gradient(90deg,#e7eef5,#f7dfdc);
-}
-
-.ba-metric-cell.is-rs-cell-hover{
-  position:relative;
-  z-index:3;
-  outline:2px solid var(--dash-color-title);
-  outline-offset:-2px;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.88);
 }
 
 .ba-floating-tooltip.is-visible{
