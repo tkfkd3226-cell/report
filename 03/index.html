@@ -7,53 +7,35 @@
 <meta content="light" name="color-scheme"/>
 <title>이지벤처스 골프존 운영·계약 대시보드</title>
 <style>
-:root{--navy:#17395f;--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--app-sidebar-bg:#ffffff;--app-sidebar-border:#d7dee7;--app-nav-text:#374151;--app-nav-muted:#7a8696;--app-nav-icon:#64748b;--app-nav-hover:#f5f7fa;--app-nav-current-bg:#eaf2ff;--app-nav-current-text:#145fbd;--app-nav-current-indicator:#3182f6;--app-nav-item-h:36px;--app-nav-radius:9px;--ba-surface:#fff;--ba-surface-subtle:#f7f9fb;--ba-border:#d8e0e8;--ba-border-soft:#e8edf2;--ba-ink:#172033;--ba-navy:#17395f;--ba-blue:#2f6fae;--ba-green:#137454;--ba-red:#b0443b;--ba-red-soft:#fff1ef;--ba-tooltip-bg:#17243a;--ba-tooltip-color:#fff;--ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);--dash-layout-w:1920px;--dash-sidebar-w:218px;--dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));--dash-page-bg:#eef2f6;--dash-page-pad-x:18px;--dash-page-pad-top:18px;--dash-page-pad-bottom:30px;--dash-section-gap:8px;--dash-panel-gap:8px;--dash-color-title:#17395f;--dash-color-accent:#2f6fae;--dash-color-muted:#718092;--dash-panel-bg:#fff;--dash-panel-head-bg:#f4f7fa;--dash-panel-border:#d5dee8;--dash-line:#dbe3eb;--dash-panel-radius:10px;--dash-control-radius:8px;--dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);--dash-font-page-title:25px;--dash-font-kicker:10.5px;--dash-font-value:12px;--dash-font-label:11.5px;--dash-font-caption:10.5px;--dash-font-section:12px;--ba-matrix-column-hover-bg:#e8f0f8;}
-*{box-sizing:border-box;} html{scroll-behavior:smooth;} body{margin:0;background:#eef2f6;color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere;} a{color:inherit;}
-.page{max-width:1440px;margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(23,57,95,.07);}
-  h1{margin:0;font-size:clamp(21px,2.15vw,30px);line-height:1.22;letter-spacing:-.03em;} 
-main{padding:24px 36px 38px;} section{margin-top:28px;} section:first-child{margin-top:0;}  h2{margin:0 0 12px;color:var(--navy);font-size:20px;line-height:1.3;letter-spacing:-.02em;} h3{margin:0;font-size:15px;} p{margin:0;} .lead{color:var(--muted);font-size:12.5px;}
- .panel{border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden;} .panel-head{padding:10px 13px;border-bottom:1px solid var(--line);background:var(--soft);font-weight:900;color:var(--navy);} .panel-body{padding:12px 13px;}
+/* Core tokens & reset */
+:root{--navy2:#295981;--ink:#172033;--muted:#687384;--line:#d9e1ea;--soft:#f5f7fa;--green:#117052;--green-bg:#eaf7f1;--amber:#9a5b05;--amber-bg:#fff5df;--add:#dff5e9;--add-strong:#bfe8d1;--del:#ffe3df;--del-strong:#f5c8c1;--app-sidebar-bg:#ffffff;--app-sidebar-border:#d7dee7;--app-nav-text:#374151;--app-nav-muted:#7a8696;--app-nav-icon:#64748b;--app-nav-hover:#f5f7fa;--app-nav-current-bg:#eaf2ff;--app-nav-current-text:#145fbd;--app-nav-current-indicator:#3182f6;--app-nav-item-h:36px;--app-nav-radius:9px;--ba-border:#d8e0e8;--ba-border-soft:#e8edf2;--ba-green:#137454;--ba-red:#b0443b;--ba-red-soft:#fff1ef;--ba-tooltip-bg:#17243a;--ba-tooltip-color:#fff;--ba-tooltip-shadow:0 10px 26px rgba(15,23,42,.24);--dash-layout-w:1920px;--dash-sidebar-w:218px;--dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));--dash-page-bg:#eef2f6;--dash-page-pad-x:18px;--dash-page-pad-top:18px;--dash-page-pad-bottom:30px;--dash-section-gap:8px;--dash-panel-gap:8px;--dash-color-title:#17395f;--dash-color-accent:#2f6fae;--dash-color-muted:#718092;--dash-panel-bg:#fff;--dash-panel-head-bg:#f4f7fa;--dash-panel-border:#d5dee8;--dash-line:#dbe3eb;--dash-panel-radius:10px;--dash-control-radius:8px;--dash-panel-shadow:0 1px 3px rgba(23,57,95,.035);--dash-font-page-title:25px;--dash-font-kicker:10.5px;--dash-font-value:12px;--dash-font-label:11.5px;--dash-font-caption:10.5px;--dash-font-section:12px;--ba-matrix-column-hover-bg:#e8f0f8;}
+*{box-sizing:border-box;}  body{margin:0;background:#eef2f6;color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;line-height:1.48;word-break:keep-all;overflow-wrap:anywhere;} a{color:inherit;}
+/* Contract review & clause Diff */
+.page{margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(23,57,95,.07);}
    
-.downloads{display:flex;gap:7px;margin-top:0;flex-wrap:wrap;} .download{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;text-decoration:none;background:#fff;font-size:11.5px;font-weight:800;color:var(--navy);} .download:hover{border-color:#8facbd;background:#f9fbfd;}
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;} table{width:100%;border-collapse:collapse;background:#fff;font-size:12px;} th, td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;} th{background:var(--soft);color:var(--navy);font-size:11.5px;} tr:last-child td{border-bottom:0;} .status-pill{display:inline-flex;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;} .status-pill.done{background:var(--green-bg);color:var(--green);} .status-pill.need{background:var(--amber-bg);color:var(--amber);border:1px solid #ecd09c;}
-.change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;} .change-card{padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;} .change-card strong{display:block;margin-bottom:3px;color:var(--navy);font-size:12.5px;} .change-card p{color:#465365;font-size:11.5px;}
-.diff-shell{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;}  .toolbar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;} .toolbar-actions{display:flex;gap:6px;} .toggle-btn{border:1px solid var(--line);border-radius:7px;background:#fff;color:#526174;padding:6px 9px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;} .toggle-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;} .legend{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--muted);} .legend i{width:12px;height:9px;border-radius:2px;display:inline-block;vertical-align:-1px;margin-right:3px;} .legend .lg-del{background:var(--del-strong);} .legend .lg-add{background:var(--add-strong);}
+     h3{margin:0;font-size:15px;} p{margin:0;} .lead{color:var(--muted);font-size:12.5px;}
+   
+   
+.downloads{display:flex;gap:7px;margin-top:0;flex-wrap:wrap;}  
+.table-wrap{overflow-x:auto;border:1px solid var(--line);} .app-view-contract table{width:100%;border-collapse:collapse;background:#fff;font-size:12px;} .app-view-contract th, .app-view-contract td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;} .app-view-contract th{background:var(--soft);color:var(--dash-color-title);font-size:11.5px;} .app-view-contract tr:last-child td{border-bottom:0;} .status-pill{display:inline-flex;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap;} .status-pill.done{background:var(--green-bg);color:var(--green);} .status-pill.need{background:var(--amber-bg);color:var(--amber);border:1px solid #ecd09c;}
+.change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;} .change-card{padding:10px 11px;border:1px solid var(--line);background:#fff;} .change-card strong{display:block;margin-bottom:3px;color:var(--dash-color-title);} .change-card p{color:#465365;}
+.diff-shell{border:1px solid var(--line);overflow:hidden;background:#fff;}  .toolbar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;} .toolbar-actions{display:flex;gap:6px;} .toggle-btn{border:1px solid var(--line);border-radius:7px;background:#fff;color:#526174;padding:6px 9px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;} .toggle-btn.active{background:var(--dash-color-title);border-color:var(--dash-color-title);color:#fff;} .legend{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--muted);} .legend i{width:12px;height:9px;border-radius:2px;display:inline-block;vertical-align:-1px;margin-right:3px;} .legend .lg-del{background:var(--del-strong);} .legend .lg-add{background:var(--add-strong);}
    
   .diff-doc-head .old{color:#8d332c;background:#fff8f7;} .diff-doc-head .new{color:#0c684a;background:#f3fbf7;border-left:1px solid var(--line);}  
-.diff-section{border-bottom:1px solid var(--line);scroll-margin-top:52px;} .diff-section:last-child{border-bottom:0;} .diff-section-head{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#eef3f7;border-bottom:1px solid var(--line);font-size:11.5px;} .section-no{display:inline-grid;place-items:center;width:24px;height:20px;margin-right:7px;border-radius:5px;background:var(--navy);color:#fff;font-size:9px;font-weight:900;} .change-badge{padding:2px 6px;border-radius:999px;font-size:9px;font-weight:900;} .change-badge.changed{background:#e5eff8;color:var(--navy2);} .change-badge.same{background:#eef1f4;color:#667482;}
-.article-title-row{display:grid;border-bottom:1px solid var(--line);} .article-title-row>div{padding:7px 10px;font-size:11.5px;font-weight:900;} .old-title{color:#8d332c;background:#fffafa;} .new-title{color:#0d6b4d;background:#f8fcfa;border-left:1px solid var(--line);}
-.diff-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #edf0f4;} .diff-row:last-child{border-bottom:0;} .doc-cell{min-width:0;padding:6px 9px;} .new-cell{border-left:1px solid var(--line);} .same-row .doc-cell{background:#fff;} .changed-row .old-cell{background:#fffafa;} .changed-row .new-cell{background:#f9fdfa;} .doc-p{margin:0;font-size:11.25px;line-height:1.52;color:#273448;white-space:normal;} .doc-p.continuation{padding-left:16px;} .diff-del{text-decoration:line-through;text-decoration-thickness:1px;background:var(--del);color:#7c2f29;border-radius:2px;} .diff-add{text-decoration:none;background:var(--add);color:#075f43;border-radius:2px;} .diff-del.block, .diff-add.block{display:block;padding:2px 3px;}   .empty-line{color:#b1bac4;font-size:10px;padding:2px 0;}
-.doc-table-wrap{overflow-x:auto;} .doc-table{font-size:9.8px;line-height:1.35;} .doc-table th, .doc-table td{padding:4px 5px;} .cell-del{background:var(--del)!important;color:#7c2f29;} .cell-add{background:var(--add)!important;color:#075f43;}
+.diff-section{border-bottom:1px solid var(--line);scroll-margin-top:52px;} .diff-section:last-child{border-bottom:0;} .diff-section-head{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#eef3f7;border-bottom:1px solid var(--line);font-size:11.5px;} .section-no{display:inline-grid;place-items:center;width:24px;height:20px;margin-right:7px;border-radius:5px;background:var(--dash-color-title);color:#fff;font-size:9px;font-weight:900;} .change-badge{padding:2px 6px;border-radius:999px;font-size:9px;font-weight:900;} .change-badge.changed{background:#e5eff8;color:var(--navy2);} .change-badge.same{background:#eef1f4;color:#667482;}
+ .article-title-row>div{padding:7px 10px;font-size:11.5px;font-weight:900;} .old-title{color:#8d332c;background:#fffafa;} .new-title{color:#0d6b4d;background:#f8fcfa;border-left:1px solid var(--line);}
+.diff-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #edf0f4;} .diff-row:last-child{border-bottom:0;} .doc-cell{min-width:0;padding:6px 9px;} .new-cell{border-left:1px solid var(--line);} .same-row .doc-cell{background:#fff;} .changed-row .old-cell{background:#fffafa;} .changed-row .new-cell{background:#f9fdfa;} .doc-p{margin:0;line-height:1.52;color:#273448;white-space:normal;} .doc-p.continuation{padding-left:16px;} .diff-del{text-decoration:line-through;text-decoration-thickness:1px;background:var(--del);color:#7c2f29;border-radius:2px;} .diff-add{text-decoration:none;background:var(--add);color:#075f43;border-radius:2px;} .diff-del.block, .diff-add.block{display:block;padding:2px 3px;}   .empty-line{color:#b1bac4;font-size:10px;padding:2px 0;}
+.doc-table-wrap{overflow-x:auto;} .doc-table{line-height:1.35;} .doc-table th, .doc-table td{padding:4px 5px;} .cell-del{background:var(--del);color:#7c2f29;} .cell-add{background:var(--add);color:#075f43;}
 .diff-section.hidden-by-filter{display:none;}
 
 
+/* Print */
 @media print{@page{size:A4 landscape;margin:8mm} body{background:#fff} .page{max-width:none;box-shadow:none}  main{padding:14px 18px} section{margin-top:18px} .diff-toolbar{display:none} .diff-doc-head{position:static} .diff-section.hidden-by-filter{display:block} .diff-section{break-inside:auto} .diff-section-head, .article-title-row{break-after:avoid} .diff-row{break-inside:avoid} .doc-p{font-size:8.5pt}}
 
-.source-clause-label{margin:2px 0 4px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.02em;}
+.source-clause-label{margin:2px 0 4px;color:var(--muted);font-weight:900;letter-spacing:.02em;}
 
-/* =========================================================
-   Dashboard Shell · 1차
-   - Desktop: fixed left sidebar
-   - Phone: topbar + right drawer
-   - Existing contract-review content remains isolated
-   ========================================================= */
 
-body.app-dashboard{
-  min-width:0;
-  background:#eef2f6;
-}
-
-.app-sidebar{
-  
-  
-  z-index:80;
-  
-  background:var(--app-sidebar-bg);
-  
-  
-  flex-direction:column;
-  overflow:hidden;
-}
+/* App shell & navigation */
 .app-sidebar-head{
   display:flex;
   align-items:center;
@@ -71,15 +53,7 @@ body.app-dashboard{
   font-weight:800;
   letter-spacing:.08em;
 }
-.app-brand strong{
-  display:block;
-  overflow:hidden;
-  color:#17395f;
-  
-  
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
+
 
 
 .app-nav{
@@ -179,105 +153,30 @@ body.app-dashboard{
   background:#f0f6ff;
   font-weight:900;
 }
-.app-content{
-  
-  min-height:100vh;
-  
-}
-.app-view{display:none;min-width:0;}
+
+
 .app-view.is-active{display:block;}
 
 
-@media print{
-  .app-sidebar{display:none!important}
-  .app-content{margin-left:0!important;padding-top:0!important}
-  .app-view:not(.is-active){display:none!important}
-}
-
-/* =========================================================
-   3차 · 사업성 분석 Main UI
-   - CSS 예시의 control / segmented / fixed tooltip 철학을 축약 적용
-   - 계약검토 화면과 충돌하지 않도록 ba- prefix 사용
-   ========================================================= */
-
+/* Business analysis */
 .app-view-business{background:#eef2f6;}
 
 
-.ba-title-wrap h1{
-  margin:0;
-  color:var(--ba-navy);
-  
-  line-height:1.15;
-  letter-spacing:-.025em;
-}
-
-
-.ba-settings-head{
-  display:flex;
-  
-  justify-content:space-between;
-  gap:8px;
-  
-  
-  border-bottom:1px solid var(--ba-border-soft);
-  background:var(--ba-surface-subtle);
-}
 .ba-settings-head>div{
   display:flex;
   align-items:center;
   gap:6px;
   min-width:0;
 }
-.ba-settings-no{
-  display:grid;
-  place-items:center;
-  
-  
-  border-radius:6px;
-  background:#eaf2fb;
-  color:var(--ba-blue);
-  
-  font-weight:900;
-}
-.ba-settings-head strong{
-  color:var(--ba-navy);
-  
-}
 
-.ba-settings-grid{
-  display:grid;
-  
-  gap:0;
-  
-}
 
-.ba-setting-field{
-  
-  
-  border-radius:6px;
-}
+
+
+
+
 .ba-setting-field:hover{background:#f8fafc;}
-.ba-setting-label{
-  
-  
-  
-  
-  
-  color:#748092;
-  font-size:8.8px;
-  font-weight:800;
-  
-}
-.ba-value-shell{
-  display:flex;
-  align-items:center;
-  
-  
-  border:1px solid transparent;
-  border-radius:6px;
-  background:transparent;
-  transition:border-color .12s ease,background .12s ease,box-shadow .12s ease;
-}
+
+
 .ba-setting-field:hover .ba-value-shell{
   border-color:#e1e7ee;
   background:#fff;
@@ -287,47 +186,15 @@ body.app-dashboard{
   background:#fff;
   box-shadow:0 0 0 2px rgba(62,132,194,.12);
 }
-.ba-setting-input{
-  width:100%;
-  
-  
-  
-  border:0;
-  outline:0;
-  background:transparent;
-  color:var(--ba-ink);
-  font-family:inherit;
-  font-size:11px;
-  font-weight:900;
-  line-height:1;
-  text-align:right;
-  font-variant-numeric:tabular-nums;
-}
-.ba-setting-unit{
-  flex:0 0 auto;
-  padding:0 4px 0 2px;
-  color:#7e8998;
-  
-  font-weight:800;
-}
+
+
 .ba-help{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   flex:0 0 auto;
 }
-.ba-info-button{
-  display:inline-grid;
-  place-items:center;
-  
-  
-  padding:0;
-  border:0;
-  border-radius:50%;
-  background:#eef4fa;
-  color:#52779c;
-  cursor:help;
-}
+
 .ba-info-button:hover, 
 .ba-info-button:focus-visible, 
 .ba-info-button.is-open{
@@ -341,43 +208,13 @@ body.app-dashboard{
   display:grid;
   
   gap:8px;
-  margin-top:8px;
-}
-
-.ba-panel-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  
-  
-  border-bottom:1px solid var(--ba-border);
-  background:linear-gradient(180deg,#fbfcfd,#f6f8fa);
-}
-
-
-.ba-panel-title h2{
-  
-  color:var(--ba-navy);
-  
-  line-height:1.2;
-}
-.ba-panel-title p{
-  margin:2px 0 0;
-  color:#7a8696;
   
 }
 
-.ba-matrix-scroll{
-  overflow-x:auto;
-  scrollbar-width:thin;
-  scrollbar-color:#cbd5df transparent;
-}
-.ba-matrix{
-  --ba-rs-count:6;
-  
-  min-width:calc(172px + var(--ba-rs-count) * var(--ba-rs-col));
-}
+
+
+
+
 .ba-matrix-head, 
 .ba-metric-row{
   display:grid;
@@ -397,7 +234,7 @@ body.app-dashboard{
   align-items:center;
   padding:5px 9px;
   color:#8792a0;
-  font-size:8.5px;
+  
   font-weight:900;
 }
 .ba-rs-head{
@@ -405,33 +242,25 @@ body.app-dashboard{
   place-items:center;
   border-left:1px solid #edf0f3;
   color:#405064;
-  font-size:9px;
+  
   font-weight:900;
   font-variant-numeric:tabular-nums;
 }
-.ba-rs-head small{
-  display:block;
-  margin-left:2px;
-  color:#9aa4b0;
-  font-size:7px;
-}
+
 .ba-group-title{
   display:flex;
   align-items:center;
   
   
-  border-top:1px solid var(--ba-border);
-  border-bottom:1px solid var(--ba-border-soft);
-  background:#f7f9fb;
-  color:var(--ba-navy);
   
-  font-weight:900;
+  
+  
+  
+  
+  
   letter-spacing:.03em;
 }
-.ba-metric-row{
-  
-  border-bottom:1px solid #eef1f4;
-}
+
 .ba-metric-row:last-child{border-bottom:0;}
 .ba-metric-row:hover{background:#fbfcfd;}
 .ba-metric-label{
@@ -441,7 +270,7 @@ body.app-dashboard{
   min-width:0;
   
   color:#596779;
-  font-size:9px;
+  
   font-weight:700;
 }
 .ba-metric-label strong{
@@ -457,55 +286,31 @@ body.app-dashboard{
   
   border-left:1px solid #f0f2f5;
   color:#263548;
-  font-size:9.2px;
+  
   font-weight:800;
   line-height:1.15;
   text-align:right;
   font-variant-numeric:tabular-nums;
   white-space:nowrap;
 }
-.ba-metric-row.is-subtotal{
-  background:#f8fafc;
-}
+
 .ba-metric-row.is-subtotal .ba-metric-label, 
 .ba-metric-row.is-subtotal .ba-metric-cell{
-  color:var(--ba-navy);
+  color:var(--dash-color-title);
   font-weight:900;
 }
 
 
 .ba-metric-cell.is-negative{
-  color:var(--ba-red)!important;
+  color:var(--ba-red);
   background:linear-gradient(90deg,transparent,var(--ba-red-soft));
 }
 .ba-metric-cell.is-positive-strong{
-  color:var(--ba-green)!important;
+  color:var(--ba-green);
 }
 
 
-.ba-floating-tooltip{
-  position:fixed;
-  z-index:1200;
-  left:-9999px;
-  top:-9999px;
-  width:min(300px,calc(100vw - 24px));
-  padding:8px 10px;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:8px;
-  background:var(--ba-tooltip-bg);
-  color:var(--ba-tooltip-color);
-  box-shadow:var(--ba-tooltip-shadow);
-  
-  font-weight:650;
-  line-height:1.48;
-  letter-spacing:-.01em;
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(4px);
-  transition:opacity .14s ease,transform .14s ease,visibility .14s ease;
-  pointer-events:none;
-  word-break:keep-all;
-}
+
 .ba-floating-tooltip.is-visible{
   opacity:1;
   visibility:visible;
@@ -528,56 +333,52 @@ body.app-dashboard{
 }
 
 
-/* 4차 · 월 인건비 추정 / 업그레이드 비용 */
-.ba-reference-grid{display:grid;margin-top:8px;}
 
-.ba-reference-head{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ba-border);background:linear-gradient(180deg,#fbfcfd,#f6f8fa);}
-.ba-reference-kicker{margin:0 0 2px;color:#7a8797;font-weight:900;letter-spacing:.08em;}
+
+
+
 .ba-reference-title-line{display:flex;align-items:center;gap:4px;}
-.ba-reference-title-line h2{margin:0;color:var(--ba-navy);line-height:1.2;}
+
 .ba-reference-total{flex:0 0 auto;text-align:right;}
-.ba-reference-total span{display:block;margin-bottom:1px;color:#8792a0;font-weight:800;}
-.ba-reference-total strong{display:block;color:var(--ba-navy);font-weight:900;font-variant-numeric:tabular-nums;}
-.ba-reference-meta{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px;padding:5px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd;color:#7a8696;}
+
+
+
 .ba-reference-meta b{color:#516173;}
-.ba-labor-table, .ba-upgrade-table{width:100%;min-width:0;}
-.ba-ref-head-row, .ba-labor-row, .ba-upgrade-row{display:grid;align-items:center;border-bottom:1px solid #eef1f4;}
-.ba-ref-head-row{background:#f8fafc;color:#8893a1;font-weight:900;}
+
+
+
 .ba-ref-head-row>div, .ba-labor-row>div, .ba-upgrade-row>div{min-width:0;padding:5px 7px;}
 .ba-ref-head-row>div:not(:first-child), .ba-labor-row>div:not(:first-child), .ba-upgrade-row>div:not(:first-child){border-left:1px solid #f0f2f5;}
 .ba-labor-row:hover, .ba-upgrade-row:hover{background:#fbfcfd;}
 .ba-labor-table .ba-ref-head-row, .ba-labor-row{grid-template-columns:minmax(140px,1.55fr) 58px 54px minmax(88px,1fr) minmax(78px,.9fr) minmax(76px,.82fr);}
 .ba-upgrade-table .ba-ref-head-row, .ba-upgrade-row{grid-template-columns:minmax(160px,1.55fr) minmax(96px,.92fr) 54px minmax(106px,1fr) minmax(98px,.95fr);}
 .ba-ref-head-row>div:not(:first-child){text-align:right;}
-.ba-ref-label{display:flex;align-items:center;gap:6px;color:#526174;font-size:8.8px;font-weight:800;}
-.ba-ref-label small{flex:0 0 auto;padding:2px 5px;border-radius:999px;background:#eef3f7;color:#718094;font-weight:900;}
+.ba-ref-label{display:flex;align-items:center;gap:6px;color:#526174;font-weight:800;}
+
 .ba-ref-label.is-sub{padding-left:13px;color:#657386;}
-.ba-ref-value{color:#2c3b4e;font-size:8.8px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ba-ref-value{color:#2c3b4e;font-weight:800;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .ba-ref-value.is-muted{color:#9aa4b0;font-weight:700;}
-.ba-ref-input-shell{display:flex;align-items:center;justify-content:flex-end;min-width:0;border:1px solid transparent;border-radius:6px;}
+
 .ba-labor-row:hover .ba-ref-input-shell, .ba-upgrade-row:hover .ba-ref-input-shell{border-color:#e1e7ee;background:#fff;}
-.ba-ref-input-shell:focus-within{border-color:#8eb6dc!important;background:#fff!important;box-shadow:0 0 0 2px rgba(62,132,194,.12);}
-.ba-ref-input{width:100%;min-width:0;padding:2px 3px;border:0;outline:0;background:transparent;color:#263548;font-family:inherit;font-weight:900;text-align:right;font-variant-numeric:tabular-nums;}
-.ba-ref-input-unit{flex:0 0 auto;padding-right:3px;color:#8792a0;font-weight:800;}
+.ba-ref-input-shell:focus-within{border-color:#8eb6dc;background:#fff;box-shadow:0 0 0 2px rgba(62,132,194,.12);}
+
+
 .ba-reference-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ba-border);background:#f8fafc;}
 .ba-reference-summary>div{min-width:0;padding:7px 8px;}
 .ba-reference-summary>div+div{border-left:1px solid var(--ba-border-soft);}
-.ba-reference-summary span{display:block;margin-bottom:2px;color:#7c8897;font-weight:800;}
-.ba-reference-summary strong{display:block;overflow:hidden;color:#344458;font-weight:900;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums;}
+
+
 .ba-reference-summary .is-primary{background:#edf5fd;}
 .ba-reference-summary .is-primary span{color:#54718d;}
 .ba-reference-summary .is-primary strong{color:#1e5f96;}
-.ba-upgrade-controls{display:flex;flex-wrap:wrap;gap:5px 12px;min-height:28px;padding:4px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd;}
-.ba-upgrade-controls label{color:#7a8696;font-weight:800;}
+
+
 .ba-inline-edit{display:inline-flex;align-items:center;height:22px;border:1px solid transparent;border-radius:6px;}
 .ba-inline-edit:focus-within{border-color:#8eb6dc;background:#fff;box-shadow:0 0 0 2px rgba(62,132,194,.12);}
-.ba-inline-edit input{width:38px;height:20px;padding:1px 2px;border:0;outline:0;background:transparent;color:#334357;font-family:inherit;font-size:8.8px;font-weight:900;text-align:right;}
-.ba-inline-edit em{padding-right:3px;color:#8792a0;font-size:7.6px;font-style:normal;}
+.ba-inline-edit input{width:38px;padding:1px 2px;border:0;outline:0;background:transparent;color:#334357;font-family:inherit;font-weight:900;text-align:right;}
+.ba-inline-edit em{padding-right:3px;color:#8792a0;font-style:normal;}
 
 
-/* =========================================================
-   5차 · 용역비 정산서 2026-03 ~ 2026-08
-   ========================================================= */
 .app-view-settlement{background:#eef2f6;}
 
 
@@ -592,40 +393,13 @@ body.app-dashboard{
   color:#526174;
   
   font-weight:900;
-}
+font-size:11px;min-height:31px;}
 .st-month-badge{color:#1f5f97;background:#edf5fd;border-color:#c8dcee;}
 
-.st-summary{
-  display:grid;
-  
-  
-  margin-bottom:8px;
-}
-.st-summary article{
-  min-width:0;
-  
-  border:1px solid #d8e0e8;
-  border-radius:9px;
-  background:#fff;
-  box-shadow:0 4px 16px rgba(23,57,95,.04);
-}
-.st-summary span{
-  display:block;
-  margin-bottom:2px;
-  color:#7b8796;
-  
-  font-weight:800;
-}
-.st-summary strong{
-  display:block;
-  overflow:hidden;
-  color:#2b3b4e;
-  
-  font-weight:900;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font-variant-numeric:tabular-nums;
-}
+
+
+
+
 .st-summary .is-result{
   border-color:#bfd7ca;
   background:#f4faf7;
@@ -642,81 +416,32 @@ body.app-dashboard{
   
   border-bottom:1px solid #dde4eb;
   
+padding:13px 15px;
+  background:linear-gradient(180deg,#fbfcfd,#f7f9fb);
 }
-.st-document-title h2{
-  margin:0;
-  color:#17395f;
-  
-  line-height:1.2;
-}
-.st-document-title p{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px 14px;
-  margin:4px 0 0;
-  color:#7b8796;
-  
-}
+
+
 .st-document-title b{color:#526174;font-weight:900;}
-.st-document-month{
-  flex:0 0 auto;
-  color:#2d5f8e;
-  
-  font-weight:900;
-}
+
 
 
 .st-section{border-bottom:1px solid #dfe5eb;}
-.st-section-title{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  
-  
-  border-bottom:1px solid #e5eaf0;
-  background:#f7f9fb;
-}
-.st-section-title span{
-  display:grid;
-  place-items:center;
-  
-  
-  border-radius:6px;
-  background:#e8f1fa;
-  color:#2e6598;
-  
-  font-weight:900;
-}
+
+
 .st-section-title strong{color:#17395f;}
 .st-row-head, .st-row{
   display:grid;
   grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr);
 }
-.st-row-head{
-  
-  border-bottom:1px solid #edf0f3;
-  background:#fcfdfe;
-  color:#8b95a2;
-  
-  font-weight:900;
-}
-.st-row-head>div, .st-row>div{min-width:0;}
+
+
 .st-row-head>div:nth-child(2), .st-row-amount{text-align:right;}
 .st-row-head>div+div, .st-row>div+div{border-left:1px solid #f0f2f5;}
-.st-row{
-  
-  border-bottom:1px solid #eef1f4;
-}
+
 .st-row:last-child{border-bottom:0;}
 .st-row:hover{background:#fbfcfd;}
-.st-row-label{
-  display:flex;
-  align-items:center;
-  color:#4e5e72;
-  
-  font-weight:800;
-}
-.st-row-label.is-sub{padding-left:22px;color:#667487;}
+
+.st-row-label.is-sub{color:#667487;}
 .st-row-amount{
   display:flex;
   align-items:center;
@@ -727,195 +452,73 @@ body.app-dashboard{
   font-variant-numeric:tabular-nums;
   white-space:nowrap;
 }
-.st-row-note{
-  display:flex;
-  align-items:center;
-  color:#7a8797;
-  
-  line-height:1.38;
-  word-break:keep-all;
-}
+
 .st-row.is-key{background:#f8fafc;}
 .st-row.is-key .st-row-label, .st-row.is-key .st-row-amount{color:#17395f;font-weight:900;}
 .st-row.is-zero .st-row-amount{color:#8b96a4;}
+
+
+
+
+
+
+.st-totals .is-final{background:#eef7f2;}
+.st-totals .is-final span{color:#527865;}
+
+
+
+
+.app-content > .app-view{margin-top:0;}
+
+
+.app-view{display:none;min-width:0;
+  margin-top:0;
+}
+
+
+
+
 
 .st-totals{
   display:grid;
   
   border-top:1px solid #d9e1e9;
-}
-.st-totals>div{
-  min-width:0;
-  
-  background:#f8fafc;
-}
 
-.st-totals span{
-  display:block;
-  margin-bottom:2px;
-  color:#7c8796;
-  
-  font-weight:800;
-}
-.st-totals strong{
-  display:block;
-  color:#334458;
-  
-  font-weight:900;
-  font-variant-numeric:tabular-nums;
-}
-.st-totals .is-final{background:#eef7f2;}
-.st-totals .is-final span{color:#527865;}
-.st-totals .is-final strong{color:#137454;}
-.st-totals small{display:block;margin-top:2px;color:#879289;}
-
-
-/* 6차 · 통합 QA 정리 */
-.ba-page-inner > .ba-reference-grid{margin-top:8px;}
-
-/* 6차 · 구형 section 공통 margin의 신규 대시보드 침범 방지 */
-.app-content > .app-view{margin-top:0;}
-.ba-settings{margin-top:8px;}
-.st-summary{margin-top:8px;}
-
-
-body.app-dashboard{
-  overflow-x:auto!important;
-}
-
-.app-sidebar{
-  display:flex!important;
-  
-  
-  
-  
-  
-  
-  border-right:1px solid var(--app-sidebar-border)!important;
-  border-left:0!important;
-  box-shadow:none!important;
-}
-
-
-.app-view{
-  margin-top:0!important;
-}
-
-/* 사업성 분석: 항상 desktop 2열 */
-
-
-.ba-settings-basic{
-  grid-column:auto!important;
-}
-.ba-settings-grid-basic{
-  grid-template-columns:repeat(4,minmax(0,1fr))!important;
-}
-.ba-settings-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-}
-.ba-analysis-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-}
-.ba-matrix{
-  --ba-rs-col:82px!important;
-}
-
-
-/* 용역비 정산서: 항상 desktop */
-
-
-.st-summary{
-  grid-template-columns:repeat(4,minmax(0,1fr))!important;
-}
-.st-row-head, 
-.st-row{
-  grid-template-columns:minmax(180px,.8fr) 130px minmax(260px,1.7fr)!important;
-  min-width:0!important;
-}
-.st-section{
-  overflow:visible!important;
-}
-.st-totals{
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
 }
 .st-totals>div+div{
-  border-left:1px solid #e4e9ef!important;
-  border-top:0!important;
+  border-left:1px solid #e4e9ef;
+  border-top:0;
 }
 
 
-/* 계약 검토 모바일 전용 압축/카드 규칙을 사용하지 않고 desktop 폭 유지 */
-
-
-/* 상단 설정: 수정 가능한 값은 기본 상태부터 입력필드 외곽선 표시 */
 .ba-settings .ba-value-shell{
-  border:1px solid #d5dde6!important;
-  background:#fff!important;
+  border:1px solid #d5dde6;
+  background:#fff;
   box-shadow:0 1px 1px rgba(23,57,95,.025);
 }
 .ba-settings .ba-setting-field:hover .ba-value-shell{
-  border-color:#b8c6d5!important;
-  background:#fff!important;
-}
-.ba-settings .ba-value-shell:focus-within{
-  border-color:#78a7d2!important;
-  background:#fff!important;
-  box-shadow:0 0 0 2px rgba(49,130,246,.13)!important;
-}
-
-/* 단일 분석 패널 */
-.ba-analysis-grid.ba-analysis-grid-unified{
-  grid-template-columns:minmax(0,1fr)!important;
-}
-
-.ba-unified-head{
-  min-height:54px;
-}
-.ba-plan-legend{
-  display:flex;
-  align-items:stretch;
-  
-  flex:0 0 auto;
-}
-.ba-plan-legend-item{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  
-  
-  border:1px solid #dce3ea;
-  
+  border-color:#b8c6d5;
   background:#fff;
 }
-.ba-plan-legend-item>span{
-  display:grid;
-  place-items:center;
-  flex:0 0 28px;
-  
-  
-  
-  
-  font-weight:900;
+.ba-settings .ba-value-shell:focus-within{
+  border-color:#78a7d2;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(49,130,246,.13);
 }
+
+
+
+
+
+
+
+
 .ba-plan-legend-item div{
   min-width:0;
 }
-.ba-plan-legend-item strong{
-  display:block;
-  color:#34465a;
-  
-  font-weight:900;
-}
-.ba-plan-legend-item small{
-  display:block;
-  
-  
-  color:#7a8796;
-  
-  font-weight:700;
-  
-  
-}
+
+
 .ba-plan-legend-item.is-fixed>span{
   color:#235f95;
   background:#eaf3fb;
@@ -926,25 +529,12 @@ body.app-dashboard{
 }
 
 
-.ba-unified-matrix{
-  --ba-rs-count:6;
-  
-  
-}
-
 .ba-unified-matrix .ba-matrix-head{
   min-height:34px;
 }
-.ba-unified-matrix .ba-rs-head{
-  min-width:0;
-  
-}
-.ba-unified-matrix .ba-metric-row{
-  min-height:30px;
-}
 
 
-/* 안별 비교 묶음 */
+
 .ba-compare-block{
   border-top:1px solid #dde4eb;
 }
@@ -954,32 +544,12 @@ body.app-dashboard{
   gap:7px;
   
   
-  border-bottom:1px solid #e7ebf0;
-  background:#f3f7fb;
+  
+  
 }
-.ba-compare-title strong{
-  color:#17395f;
-  
-  font-weight:900;
-}
-.ba-compare-title small{
-  color:#7d8997;
-  
-  font-weight:700;
-}
-.ba-metric-row.is-plan-fixed .ba-metric-label strong::before, 
-.ba-metric-row.is-plan-share .ba-metric-label strong::before, 
-.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
-  display:inline-grid;
-  place-items:center;
-  
-  
-  margin-right:6px;
-  border-radius:5px;
-  
-  font-weight:900;
-  vertical-align:middle;
-}
+
+
+
 .ba-metric-row.is-plan-fixed .ba-metric-label strong::before{
   content:"1안";
   color:#235f95;
@@ -1001,9 +571,7 @@ body.app-dashboard{
 .ba-metric-row.is-plan-share{
   background:#fffdf8;
 }
-.ba-metric-row.is-plan-diff{
-  background:#f8fafc;
-}
+
 .ba-metric-row.is-plan-diff .ba-metric-label strong{
   color:#596779;
 }
@@ -1011,729 +579,646 @@ body.app-dashboard{
   font-weight:900;
 }
 .ba-metric-cell.is-diff-positive{
-  color:#137454!important;
+  color:#137454;
   background:linear-gradient(90deg,transparent,#eef8f3);
 }
 .ba-metric-cell.is-diff-negative{
-  color:#b0443b!important;
+  color:#b0443b;
   background:linear-gradient(90deg,transparent,#fff2f0);
 }
 .ba-metric-cell.is-diff-zero{
-  color:#8792a0!important;
+  color:#8792a0;
 }
 
-/* 참고자료는 기존 2열 유지 */
 
 
-/* 상단 설정/하단 참고자료도 동일 콘텐츠 폭 사용 */
-.ba-settings, 
-.ba-reference-grid, 
-.ba-analysis-grid{
-  width:100%!important;
+
+
+
+
+
+
+
+
+.ba-settings-grid{
+  display:grid;
+  
+  gap:0;
+  
+
+  padding:5px 7px 7px;
 }
 
-/* 통합 Matrix 자체는 RS 개수에 따라 적정 폭만 사용 */
 
+.ba-unified-matrix .ba-rs-head{
+  min-width:0;
+  
 
+  padding:4px 4px;
+}
+.ba-unified-matrix .ba-metric-label{
+  
+  
+padding:6px 6px 6px 9px;}
 .ba-unified-matrix .ba-metric-cell{
-  padding-left:7px!important;
-  padding-right:7px!important;
+  min-width:0;
+  padding:5px 5px;
 }
 
 
-/* 1. 재계약 검토 */
 
 
-/* 2. 사업성 분석 */
+
+.ba-settings, .ba-analysis-grid, .ba-reference-grid, .st-summary, .st-document{width:100%;max-width:none;box-sizing:border-box;}
+.ba-settings-card, .ba-analysis-panel, .ba-reference-card, .st-summary article, .st-document{border-radius:var(--dash-panel-radius);}
 
 
-/* 3. 용역비 정산서 */
+.ba-setting-input, .ba-metric-cell, .ba-ref-input, .ba-ref-value, .st-row-amount{font-size:var(--dash-font-value);}
+.ba-setting-label, .ba-metric-label, .ba-ref-label{font-size:var(--dash-font-label);}
+.ba-panel-title p, .ba-plan-legend-item small, .ba-reference-meta, .st-document-title p, .st-row-note{font-size:var(--dash-font-caption);}
+.ba-settings-head strong, .ba-reference-title-line h2, .st-section-title strong{font-size:var(--dash-font-section);}
 
 
-/* 재계약 검토 */
 
 
-/* 사업성 분석 */
 
-
-/* 용역비 정산서 */
-
-
-/* 브라우저 최좌측 fixed 메뉴를 해제하고 Shell 안에서 고정 */
-.app-sidebar{
-  
-  
-  
-  right:auto!important;
-  
-  
-  
-  
-  
-  
-  
-}
-
-/* 가운데 Shell의 두 번째 열을 모든 메뉴 공통 콘텐츠 영역으로 사용 */
-
-
-/* 이전 28px 개별 좌측 padding 제거: grid gap 28px가 메뉴↔콘텐츠 간격을 담당 */
-
-
-/* 용역비 정산서: 동일 기준선 */
-
-
-/* =========================================================
-   사업성 분석 레이아웃 정밀 조정
-   1) 분석표 좌측 정렬
-   2) RS 개수에 따라 표 자체 폭만 확장
-   3) RS 컬럼 폭 축소
-   4) 상단 카드 고정 40:20:40
-   5) 상단 설정 라벨/필드 수평 정렬
-   ========================================================= */
-
-/* ---------- 상단 설정 3카드 ---------- */
-.ba-settings{
-  width:1656px!important;
-  max-width:1656px!important;
-  
-  
-  
-  align-items:stretch!important;
-}
-
-/* 기본설정·산정기준: 2열 / 인건비: 1열 */
-.ba-settings-basic .ba-settings-grid, 
-.ba-settings-assumption .ba-settings-grid{
-  
-  column-gap:8px!important;
-  row-gap:0!important;
-}
-.ba-settings-labor .ba-settings-grid{
-  
-  row-gap:0!important;
-}
-
-/* 모든 설정을 '라벨 | 입력필드' 한 줄 구조로 */
 .ba-setting-field{
   
-  grid-template-columns:138px 140px!important;
   
-  
-  
-  
-  
+  border-radius:6px;
+
+  display:grid;
+  align-items:center;
+  justify-content:start;
+  column-gap:8px;
+  min-width:0;
+  padding:6px 7px;
 }
 
 
 .ba-setting-label{
-  display:flex!important;
-  align-items:center!important;
-  gap:3px!important;
-  min-width:0!important;
   
   
   
-}
+  
+  
+  color:#748092;
+  
+  font-weight:800;
+  
 
+  display:flex;
+  align-items:center;
+  gap:3px;
+  min-width:0;
+  
+  
+  
+margin-bottom:0;line-height:1.25;white-space:nowrap;}
 .ba-value-shell{
+  display:flex;
+  align-items:center;
+  
+  
+  border:1px solid transparent;
+  border-radius:6px;
+  background:transparent;
+  transition:border-color .12s ease,background .12s ease,box-shadow .12s ease;
+
   
   
   
-  justify-self:start!important;
-}
+  justify-self:start;
+width:142px;min-width:142px;max-width:142px;height:30px;}
 .ba-setting-input{
-  min-width:0!important;
-}
-
-/* 카드 안쪽 여백은 컴팩트하게 */
-.ba-settings-grid{
-  padding:5px 7px 7px!important;
-}
-
-/* ---------- 사업성 분석 비교표 ---------- */
-/* 기존 100%/센터형을 해제하고 실제 표 폭만 사용 */
-
-.ba-analysis-unified{
-  
-  
-  margin-left:0!important;
-  margin-right:0!important;
-}
-
-/* 표는 왼쪽에서 시작. 해상도가 부족할 때만 이 영역에서 스크롤 */
-
-
-/* 각 컬럼의 체감 간격을 조금 더 촘촘하게 */
-.ba-unified-matrix .ba-rs-head{
-  padding:4px 4px!important;
-}
-.ba-unified-matrix .ba-metric-label{
-  padding-left:9px!important;
-  padding-right:6px!important;
-}
-.ba-unified-matrix .ba-metric-cell{
-  min-width:0!important;
-  padding:5px 5px!important;
-}
-
-/* 통합표 폭이 작아져도 헤더 설명이 과하게 퍼지지 않도록 */
-
-.ba-plan-legend-item{
-  
-  padding:6px 7px!important;
-}
-
-/* =========================================================
-   1920 Desktop base + shared data-page system
-   ========================================================= */
-
-
-.app-sidebar{
-  
-  
-  left:0!important;
-  top:0!important;
-  bottom:0!important;
+  width:100%;
   
   
   
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--ink);
   
   
+  font-weight:900;
+  line-height:1;
+  text-align:right;
   
-}
-.app-content{
-  
-  
-  
-  
-  
-  
-  padding-top:0!important;
-}
 
-
-/* page width commonization */
-
-
-/* shared panel sizing */
-.ba-settings, .ba-analysis-grid, .ba-reference-grid, .st-summary, .st-document{width:100%!important;max-width:none!important;box-sizing:border-box!important;}
-.ba-settings-card, .ba-analysis-panel, .ba-reference-card, .st-summary article, .st-document{border-radius:var(--dash-panel-radius)!important;}
-
-/* shared typography */
-.ba-setting-input, .ba-metric-cell, .ba-ref-input, .ba-ref-value, .st-row-amount{font-size:var(--dash-font-value)!important;}
-.ba-setting-label, .ba-metric-label, .ba-ref-label, .st-row-label{font-size:var(--dash-font-label)!important;}
-.ba-panel-title p, .ba-plan-legend-item small, .ba-reference-meta, .st-document-title p, .st-row-note{font-size:var(--dash-font-caption)!important;}
-.ba-settings-head strong, .ba-reference-title-line h2, .st-section-title strong{font-size:var(--dash-font-section)!important;}
-
-/* business settings: 100% width, 40:20:40 */
-.ba-settings{
-  display:grid!important;
+  min-width:0;
+height:28px;padding:3px 5px;}
+.ba-setting-unit{
+  flex:0 0 auto;
+  padding:0 4px 0 2px;
+  color:#7e8998;
+  
+  font-weight:800;
+font-size:10.5px;}
+.ba-settings-head{min-height:38px;padding:8px 10px;}
+.ba-settings-head strong{
+  color:var(--dash-color-title);
+  
+font-size:12.5px;}
+.ba-settings-no{
+  display:grid;
+  place-items:center;
   
   
-  justify-content:stretch!important;
-}
-
-.ba-settings-basic .ba-settings-grid, 
-.ba-settings-assumption .ba-settings-grid, 
-.ba-settings-grid-basic{
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-}
-
-.ba-setting-field{
-  display:grid!important;
-  align-items:center!important;
-  justify-content:start!important;
-  column-gap:8px!important;
-  min-width:0!important;
-  padding:6px 7px!important;
-}
+  border-radius:6px;
+  background:#eaf2fb;
+  color:var(--dash-color-accent);
+  
+  font-weight:900;
+width:22px;height:22px;font-size:9.5px;}
 
 
-.ba-settings-assumption .ba-setting-field{grid-template-columns:145px 140px!important;}
-.ba-setting-label{margin-bottom:0!important;line-height:1.25!important;white-space:nowrap!important;}
-.ba-value-shell{width:140px!important;min-width:140px!important;max-width:140px!important;height:30px!important;}
-.ba-setting-input{height:28px!important;padding:3px 5px!important;}
-.ba-setting-unit{font-size:10.5px!important;}
-.ba-settings-head{min-height:38px!important;padding:8px 10px!important;}
-.ba-settings-head strong{font-size:12.5px!important;}
-.ba-settings-no{width:22px!important;height:22px!important;font-size:9.5px!important;}
-
-/* business header/control typography */
-
-.ba-title-wrap h1{font-size:25px!important;}
+.ba-analysis-grid.ba-analysis-grid-unified{
+  grid-template-columns:minmax(0,1fr);
+display:block;width:100%;max-width:none;margin-left:0;margin-right:0;}
 
 
-/* analysis/reference panels full width */
-.ba-analysis-grid.ba-analysis-grid-unified{display:block!important;width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;}
-.ba-analysis-unified{width:100%!important;max-width:none!important;margin:0!important;}
-.ba-panel-head{min-height:54px!important;padding:9px 11px!important;}
-.ba-panel-title h2{font-size:13.5px!important;}
-.ba-panel-title p{font-size:11px!important;}
-
-.ba-plan-legend-item{min-width:240px!important;}
 
 
-/* keep compact data columns; panel itself is 100% */
-.ba-unified-scroll{margin:0!important;}
 
-.ba-unified-matrix .ba-matrix-head, .ba-unified-matrix .ba-metric-row{
-  grid-template-columns:190px repeat(var(--ba-rs-count),126px)!important;
-}
-.ba-matrix-label-head, .ba-rs-head{font-size:11px!important;}
-.ba-group-title{font-size:11px!important;min-height:30px!important;padding:6px 10px!important;}
-.ba-metric-row{min-height:34px!important;}
-.ba-metric-label{padding:6px 10px!important;}
-.ba-metric-cell{padding:6px 6px!important;}
-.ba-compare-title{min-height:32px!important;padding:6px 10px!important;}
-.ba-compare-title strong{font-size:11.5px!important;}
-.ba-compare-title small{font-size:10px!important;}
+.ba-matrix-label-head, .ba-rs-head{font-size:11px;}
+
+.ba-metric-row{
+  
+  border-bottom:1px solid #eef1f4;
+min-height:34px;}
+
+
 .ba-metric-row.is-plan-fixed .ba-metric-label strong::before, 
 .ba-metric-row.is-plan-share .ba-metric-label strong::before, 
-.ba-metric-row.is-plan-diff .ba-metric-label strong::before{font-size:9px!important;width:30px!important;height:19px!important;}
-.ba-info-button{width:16px!important;height:16px!important;}
-.ba-floating-tooltip{font-size:11px!important;}
+.ba-metric-row.is-plan-diff .ba-metric-label strong::before{
+  display:inline-grid;
+  place-items:center;
+  
+  
+  margin-right:6px;
+  border-radius:5px;
+  
+  font-weight:900;
+  vertical-align:middle;
+font-size:9px;width:30px;height:19px;}
+.ba-info-button{
+  display:inline-grid;
+  place-items:center;
+  
+  
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#eef4fa;
+  color:#52779c;
+  cursor:help;
+width:16px;height:16px;}
+.ba-floating-tooltip{
+  position:fixed;
+  z-index:1200;
+  left:-9999px;
+  top:-9999px;
+  width:min(300px,calc(100vw - 24px));
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:var(--ba-tooltip-bg);
+  color:var(--ba-tooltip-color);
+  box-shadow:var(--ba-tooltip-shadow);
+  
+  font-weight:650;
+  line-height:1.48;
+  letter-spacing:-.01em;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(4px);
+  transition:opacity .14s ease,transform .14s ease,visibility .14s ease;
+  pointer-events:none;
+  word-break:keep-all;
+font-size:11px;}
 
-.ba-reference-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:var(--dash-panel-gap)!important;}
-.ba-reference-head{min-height:54px!important;padding:9px 11px!important;}
-.ba-reference-kicker{font-size:9.5px!important;}
-.ba-reference-title-line h2{font-size:13px!important;}
-.ba-reference-total span{font-size:10px!important;}
-.ba-reference-total strong{font-size:14px!important;}
-.ba-reference-meta{font-size:10.5px!important;min-height:32px!important;}
-.ba-ref-head-row{font-size:10.5px!important;min-height:30px!important;}
-.ba-ref-head-row, .ba-labor-row, .ba-upgrade-row{min-height:36px!important;}
-.ba-ref-label small{font-size:9px!important;}
-.ba-ref-input-shell{height:29px!important;}
-.ba-ref-input{height:27px!important;font-size:12px!important;}
-.ba-ref-input-unit{font-size:10px!important;}
-.ba-reference-summary span{font-size:10.5px!important;}
-.ba-reference-summary strong{font-size:12px!important;}
+.ba-reference-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--dash-panel-gap);}
+
+.ba-reference-kicker{margin:0 0 2px;color:#7a8797;font-weight:900;letter-spacing:.08em;font-size:9.5px;}
+.ba-reference-title-line h2{margin:0;color:var(--dash-color-title);line-height:1.2;font-size:13px;}
+.ba-reference-total span{display:block;margin-bottom:1px;color:#8792a0;font-weight:800;font-size:10px;}
+.ba-reference-total strong{display:block;color:var(--dash-color-title);font-weight:900;font-variant-numeric:tabular-nums;font-size:14px;}
+.ba-reference-meta{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px;padding:5px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd;color:#7a8696;font-size:10.5px;min-height:32px;}
+.ba-ref-head-row{background:#f8fafc;color:#8893a1;font-weight:900;font-size:10.5px;min-height:30px;}
+.ba-ref-head-row, .ba-labor-row, .ba-upgrade-row{display:grid;align-items:center;border-bottom:1px solid #eef1f4;min-height:36px;}
+.ba-ref-label small{flex:0 0 auto;padding:2px 5px;border-radius:999px;background:#eef3f7;color:#718094;font-weight:900;font-size:9px;}
+.ba-ref-input-shell{display:flex;align-items:center;justify-content:flex-end;min-width:0;border:1px solid transparent;border-radius:6px;height:29px;}
+.ba-ref-input{width:100%;min-width:0;padding:2px 3px;border:0;outline:0;background:transparent;color:#263548;font-weight:900;text-align:right;height:27px;}
+.ba-ref-input-unit{flex:0 0 auto;padding-right:3px;color:#8792a0;font-weight:800;font-size:10px;}
+.ba-reference-summary span{display:block;margin-bottom:2px;color:#7c8897;font-weight:800;font-size:10.5px;}
+.ba-reference-summary strong{display:block;overflow:hidden;color:#344458;font-weight:900;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:12px;}
 
 
-/* settlement: same scale system */
+
+.st-summary{
+  display:grid;
+  
+  
+  
+
+  grid-template-columns:repeat(4,minmax(0,1fr));
+gap:var(--dash-panel-gap);}
+.st-summary article{
+  min-width:0;
+  
+  border:1px solid #d8e0e8;
+  
+  background:#fff;
+  box-shadow:0 4px 16px rgba(23,57,95,.04);
+padding:11px 12px;}
+.st-summary span{
+  display:block;
+  margin-bottom:2px;
+  color:#7b8796;
+  
+  font-weight:800;
+font-size:11px;}
+.st-summary strong{
+  display:block;
+  overflow:hidden;
+  color:#2b3b4e;
+  
+  font-weight:900;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+font-size:15px;}
+
+.st-document-title h2{
+  margin:0;
+  color:#17395f;
+  
+  line-height:1.2;
+font-size:16px;}
+.st-document-title p{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 14px;
+  margin:4px 0 0;
+  color:#7b8796;
+  
+font-size:11px;}
+.st-document-month{
+  flex:0 0 auto;
+  color:#2d5f8e;
+  
+  font-weight:900;
+font-size:12.5px;}
+
+.st-section-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  
+  
+  border-bottom:1px solid #e5eaf0;
+  background:#f7f9fb;
+min-height:36px;padding:7px 12px;}
+.st-section-title span{
+  display:grid;
+  place-items:center;
+  
+  
+  border-radius:6px;
+  background:#e8f1fa;
+  color:#2e6598;
+  
+  font-weight:900;
+width:23px;height:23px;font-size:9.5px;}
+
+.st-row-head{
+  
+  border-bottom:1px solid #edf0f3;
+  background:#fcfdfe;
+  color:#8b95a2;
+  
+  font-weight:900;
+font-size:10.5px;min-height:30px;}
+.st-row{
+  
+  border-bottom:1px solid #eef1f4;
+min-height:36px;}
+.st-row-head>div, .st-row>div{min-width:0;padding:6px 10px;}
+.st-row-label{
+  display:flex;
+  align-items:center;
+  color:#4e5e72;
+  
+  font-weight:800;
+font-size:12px;}
+
+.st-row-note{
+  display:flex;
+  align-items:center;
+  color:#7a8797;
+  
+  line-height:1.38;
+  word-break:keep-all;
+font-size:11px;}
+.st-totals>div{
+  min-width:0;
+  
+  background:#f8fafc;
+padding:11px 12px;}
+.st-totals span{
+  display:block;
+  margin-bottom:2px;
+  color:#7c8796;
+  
+  font-weight:800;
+font-size:11px;}
+.st-totals strong{
+  display:block;
+  color:#334458;
+  
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+font-size:13.5px;}
+.st-totals .is-final strong{color:#137454;font-size:15px;}
+.st-totals small{display:block;margin-top:2px;color:#879289;font-size:10px;}
 
 
-.st-month-badge, .st-vat-badge{font-size:11px!important;min-height:31px!important;}
-.st-summary{gap:var(--dash-panel-gap)!important;}
-.st-summary article{padding:11px 12px!important;}
-.st-summary span{font-size:11px!important;}
-.st-summary strong{font-size:15px!important;}
-.st-document-head{padding:13px 15px!important;}
-.st-document-title h2{font-size:16px!important;}
-.st-document-title p{font-size:11px!important;}
-.st-document-month{font-size:12.5px!important;}
-
-.st-section-title{min-height:36px!important;padding:7px 12px!important;}
-.st-section-title span{width:23px!important;height:23px!important;font-size:9.5px!important;}
-.st-section-title strong{font-size:12px!important;}
-.st-row-head{font-size:10.5px!important;min-height:30px!important;}
-.st-row{min-height:36px!important;}
-.st-row-head>div, .st-row>div{padding:6px 10px!important;}
-.st-row-label{font-size:12px!important;}
-.st-row-amount{font-size:12px!important;}
-.st-row-note{font-size:11px!important;}
-.st-totals>div{padding:11px 12px!important;}
-.st-totals span{font-size:11px!important;}
-.st-totals strong{font-size:13.5px!important;}
-.st-totals .is-final strong{font-size:15px!important;}
-.st-totals small{font-size:10px!important;}
-
-
-/* =========================================================
-   2026-09-09 refinement
-   ========================================================= */
-
-/* 재계약 검토도 사업성 분석/정산서와 동일한 1920 콘텐츠 레이아웃 */
-
-
-/* Diff 상단 문서 출처/파일명: 기존 대비 +1px */
 .diff-doc-head>div{padding:8px 12px;font-weight:900;
-font-size:12px!important;
+font-size:12px;
 }
 .diff-doc-head small{display:block;margin-top:1px;font-weight:500;color:var(--muted);
-font-size:10.5px!important;
+font-size:10.5px;
 }
 .diff-doc-head .amendment-note{display:block;margin-top:2px;color:#7a5a15;font-weight:800;line-height:1.35;
-font-size:10px!important;
+font-size:10px;
 }
 
-/* 실제 계약서 내용 셀: 기존 대비 +1px */
-.doc-cell .doc-p{font-size:12.25px!important;}
-.doc-cell .doc-table{font-size:10.8px!important;}
-.doc-cell .source-clause-label{font-size:11px!important;}
 
-/* 조문 바로가기 제거 후 toolbar 여백 정리 */
+.doc-cell .doc-p{font-size:12.25px;}
+.doc-cell .doc-table{font-size:10.8px;}
+.doc-cell .source-clause-label{font-size:11px;}
+
+
 .diff-toolbar{padding:10px 12px;border-bottom:1px solid var(--line);background:#f8fafc;
-padding-bottom:7px!important;
+padding-bottom:7px;
 }
 
-/* 사업성 분석: 기본 0.5 RS, 표는 레이아웃 폭 100% */
+
 .ba-unified-scroll{
-  width:100%!important;
-  max-width:100%!important;
-  overflow-x:auto!important;
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
 }
 .ba-unified-matrix{
-  width:100%!important;
-  min-width:1290px!important;
-  max-width:none!important;
-  margin:0!important;
+  width:100%;
+  min-width:1290px;
+  max-width:none;
+  margin:0;
 }
 .ba-unified-matrix .ba-matrix-head, 
 .ba-unified-matrix .ba-metric-row{
-  grid-template-columns:190px repeat(var(--ba-rs-count),minmax(100px,1fr))!important;
+  grid-template-columns:190px repeat(var(--ba-rs-count),minmax(100px,1fr));
 }
 
-/* 제거된 보조문구 때문에 헤더 높이가 과하게 남지 않도록 정리 */
 
-.ba-panel-title h2{margin:0!important;}
-.ba-settings-head{align-items:center!important;}
-
-/* 상단 RS 컨트롤 제거 후 다운로드 버튼만 우측 정렬 */
-
-
-/* =========================================================
-   사업성 분석 기본설정 / 분석안 카드 정리
-   ========================================================= */
-
-/* 기본 설정은 좌/우 4개씩 명확한 2열 */
-.ba-settings-basic .ba-settings-grid{
+.ba-panel-title h2{
   
-  grid-auto-flow:row!important;
-}
-
-/* 긴 새 라벨을 수용하면서 입력필드 시작선은 각 열에서 동일 */
-.ba-settings-basic .ba-setting-field{
-  grid-template-columns:190px 140px!important;
-}
-.ba-settings-basic .ba-setting-label{
-  white-space:nowrap!important;
-}
-
-/* 분석안 설명은 한 줄 유지 */
+  color:var(--dash-color-title);
+  
+  line-height:1.2;
+font-size:13.5px;margin:0;}
 
 
-/* =========================================================
-   사업성 분석 설정 카드 내부 레이아웃 재구성
-   - 기본 설정 / 산정 기준을 좌우 독립 column으로 분리
-   - 각 column 안에서 input 시작선 정렬
-   - 긴 라벨이 이웃 column을 침범하지 않도록 폭 책임 분리
-   ========================================================= */
-
-/* 40:20:40 바깥 카드 비율은 유지 */
-
-
-/* 기본 설정과 산정 기준: 독립 좌/우 그룹 */
 .ba-settings-basic .ba-settings-grid, 
 .ba-settings-assumption .ba-settings-grid{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-  gap:12px!important;
-  align-items:start!important;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:12px;
+  align-items:start;
 }
 
 .ba-setting-column{
-  display:grid!important;
-  grid-auto-rows:minmax(34px,auto)!important;
-  align-content:start!important;
-  min-width:0!important;
+  display:grid;
+  grid-auto-rows:minmax(34px,auto);
+  align-content:start;
+  min-width:0;
 }
 
-/* 공통 row primitive */
+
 .ba-setting-column .ba-setting-field{
-  width:100%!important;
-  min-width:0!important;
-  padding:4px 4px!important;
-  box-sizing:border-box!important;
-  align-items:center!important;
+  width:100%;
+  min-width:0;
+  padding:4px 4px;
+  box-sizing:border-box;
+  align-items:center;
 }
 
-/* 기본 설정 - 좌측: 짧은 라벨 */
 
-/* 기본 설정 - 우측: 긴 라벨 전용 */
-
-
-/* 산정 기준 - 각 그룹별 독립 시작선 */
-
-
-/* 입력필드 폭은 설정 카드 전반에서 통일 */
-.ba-settings .ba-value-shell{
-  
-  
-  
-  justify-self:start!important;
-}
-.ba-settings .ba-setting-label{
-  min-width:0!important;
-  margin:0!important;
-  white-space:nowrap!important;
-  overflow:visible!important;
-}
-
-/* 가운데 카드도 같은 입력필드 규격 사용 */
-
-
-/* 1안/2안 설명은 읽기 좋은 크기로 확대하고 한 줄 유지 */
 .ba-plan-legend{
-  flex-wrap:nowrap!important;
-  gap:8px!important;
+  display:flex;
+  align-items:stretch;
+  
+  flex:0 0 auto;
+
+  flex-wrap:nowrap;
+  gap:8px;
 }
-.ba-plan-legend-item{
-  min-height:44px!important;
-}
+
 
 
 .ba-plan-legend-item strong{
-  font-size:12px!important;
-  line-height:1.2!important;
-}
-.ba-plan-legend-item small{
-  margin-top:2px!important;
+  display:block;
+  color:#34465a;
   
-  line-height:1.25!important;
-  
-  overflow:visible!important;
-  text-overflow:clip!important;
-}
-.ba-plan-legend-item>span{
-  flex-basis:32px!important;
-  width:32px!important;
-  height:32px!important;
-  font-size:10px!important;
+  font-weight:900;
+
+  font-size:12px;
+  line-height:1.2;
 }
 
-/* 사업성 분석 비교 헤더: 제목은 필요한 만큼, legend가 나머지 공간 사용 */
-.ba-unified-head{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-}
+
+
+
 .ba-unified-head .ba-panel-title{
-  flex:0 0 auto!important;
-  min-width:max-content!important;
+  flex:0 0 auto;
+  min-width:max-content;
 }
 .ba-unified-head .ba-plan-legend{
-  margin-left:auto!important;
+  margin-left:auto;
 }
 
-/* =========================================================
-   상단 설정 카드 균형 조정
-   - 기본 설정 / 인건비·소모품비 / 산정 기준 = 43 : 17 : 40
-   - 세 카드 내부 좌우 여백 공통화
-   - 기본 설정 내부는 45 : 55로 재배분
-   ========================================================= */
 
 .ba-settings{
-  grid-template-columns:minmax(0,43fr) minmax(0,17fr) minmax(0,40fr)!important;
-  gap:8px!important;
+  
+  
+  
+  
+  
+  align-items:stretch;
+
+  display:grid;
+  
+  
+  justify-content:stretch;
+
+  grid-template-columns:minmax(0,43fr) minmax(0,17fr) minmax(0,40fr);
+  gap:8px;
 }
 
-/* 세 카드 공통 내부 여백 */
 
 .ba-settings-card .ba-settings-head{
-  padding-left:12px!important;
-  padding-right:12px!important;
+  padding-left:12px;
+  padding-right:12px;
 }
 .ba-settings-card .ba-settings-grid{
-  padding-left:12px!important;
-  padding-right:12px!important;
-  box-sizing:border-box!important;
+  padding-left:12px;
+  padding-right:12px;
+  box-sizing:border-box;
 }
 
-/* 기본 설정: 우측 긴 라벨/필드를 위해 우측 그룹에 더 많은 폭 배정 */
+
 .ba-settings-basic .ba-settings-grid{
-  grid-template-columns:minmax(0,45fr) minmax(0,55fr)!important;
-  gap:12px!important;
+  grid-template-columns:minmax(0,45fr) minmax(0,55fr);
+  gap:12px;
 }
 
-/* 기본 설정 필드 폭 약간 정리 */
+
 .ba-settings-basic .ba-setting-column-left .ba-setting-field{
-  grid-template-columns:128px 142px!important;
-  column-gap:8px!important;
-}
-.ba-settings-basic .ba-setting-column-right .ba-setting-field{
-  
-  column-gap:8px!important;
+  grid-template-columns:128px 142px;
+  column-gap:8px;
 }
 
-/* 가운데 카드는 실제 내용 폭에 맞춰 과도한 우측 공백 제거 */
-.ba-settings-labor .ba-settings-grid{
-  grid-template-columns:1fr!important;
-}
+
 .ba-settings-labor .ba-setting-field{
-  grid-template-columns:78px 142px!important;
-  column-gap:8px!important;
-  width:max-content!important;
-  max-width:100%!important;
-}
-.ba-settings-labor .ba-value-shell{
-  width:142px!important;
-  min-width:142px!important;
-  max-width:142px!important;
+  grid-template-columns:78px 142px;
+  column-gap:8px;
+  width:max-content;
+  max-width:100%;
 }
 
-/* 산정 기준도 카드 안쪽 여백/필드 규격 통일 */
 
-.ba-settings-assumption .ba-setting-column-left .ba-setting-field{
-  
-  column-gap:8px!important;
-}
-.ba-settings-assumption .ba-setting-column-right .ba-setting-field{
-  
-  column-gap:8px!important;
-}
-
-/* 세 카드 입력필드 폭 통일 */
-.ba-settings .ba-value-shell{
-  width:142px!important;
-  min-width:142px!important;
-  max-width:142px!important;
-}
-
-/* 행의 좌우 padding도 동일하게 */
 .ba-settings .ba-setting-field{
-  padding-left:0!important;
-  padding-right:0!important;
+  padding-left:0;
+  padding-right:0;
 }
 
-/* =========================================================
-   사업성 분석 2차 정리
-   ========================================================= */
 
-/* 산정 기준: 좌측 3개 / 우측 2개 */
-.ba-settings-assumption .ba-settings-grid{
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-  gap:12px!important;
-}
 .ba-settings-assumption .ba-setting-column-left .ba-setting-field{
-  grid-template-columns:138px 142px!important;
+  grid-template-columns:138px 142px;
 }
 .ba-settings-assumption .ba-setting-column-right .ba-setting-field{
-  grid-template-columns:126px 142px!important;
+  grid-template-columns:126px 142px;
 }
 
-/* 통상 고정값: 입력 가능 상태는 유지하되 외곽라인만 제거 */
 
 .ba-settings .ba-setting-field.is-fixed-assumption:hover .ba-value-shell{
-  border-color:transparent!important;
-  background:rgba(255,255,255,.34)!important;
+  border-color:transparent;
+  background:rgba(255,255,255,.34);
 }
 
 
-/* 1안/2안 설명 카드: 동일한 가로폭 */
 .ba-plan-legend-item.is-fixed, 
 .ba-plan-legend-item.is-share{
-  flex:0 0 560px!important;
-  width:560px!important;
-  min-width:560px!important;
+  flex:0 0 560px;
+  width:560px;
+  min-width:560px;
 }
 .ba-plan-legend-item small{
-  font-size:10px!important;
-  letter-spacing:-.15px!important;
-  white-space:nowrap!important;
-}
-
-/* 비교 Matrix: 두 덩어리로 명확히 분리 */
-.ba-unified-matrix{
-  background:transparent!important;
-}
-.ba-matrix-bundle{
-  margin:8px 8px 10px!important;
-  border:1px solid #dbe3ec!important;
+  display:block;
   
-  overflow:hidden!important;
-  background:#fff!important;
-}
-.ba-matrix-bundle.is-compare{
-  border-color:#cfddeb!important;
-  box-shadow:0 1px 3px rgba(28,62,98,.04)!important;
-}
-.ba-matrix-bundle.is-common{
-  margin-top:12px!important;
+  
+  color:#7a8796;
+  
+  font-weight:700;
+  
+  
+
+  margin-top:2px;
+  
+  line-height:1.25;
+  
+  overflow:visible;
+  text-overflow:clip;
+
+  font-size:10px;
+  letter-spacing:-.15px;
+  white-space:nowrap;
 }
 
 
-.ba-common-block + .ba-common-block, 
-.ba-compare-block + .ba-compare-block{
-  border-top:1px solid #e0e6ec!important;
-}
-.ba-matrix-bundle .ba-group-title, 
-.ba-matrix-bundle .ba-compare-title{
-  border-top:0!important;
-}
 
-/* 합계 행을 각 묶음의 마감행으로 명확히 */
+
+
+
+
 .ba-matrix-bundle .ba-metric-row.is-subtotal{
-  background:#f7f9fb!important;
-  font-weight:900!important;
+  background:#f7f9fb;
+  font-weight:900;
 }
 
-/* 업그레이드 비용 상단 입력: 라벨/값/단위 모두 같은 글자 크기와 베이스라인 */
-.ba-upgrade-controls{
-  align-items:center!important;
+
+.ba-upgrade-controls{display:flex;flex-wrap:wrap;gap:5px 12px;min-height:28px;padding:4px 9px;border-bottom:1px solid var(--ba-border-soft);background:#fbfcfd;
+  align-items:center;
 }
-.ba-upgrade-controls label{
-  display:flex!important;
-  align-items:center!important;
-  gap:6px!important;
-  font-size:11px!important;
-  line-height:1.2!important;
+.ba-upgrade-controls label{color:#7a8696;font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  line-height:1.2;
 }
 .ba-upgrade-controls label>span:first-child, 
 .ba-upgrade-controls .ba-inline-edit, 
 .ba-upgrade-controls .ba-inline-edit input, 
 .ba-upgrade-controls .ba-inline-edit em{
-  font-size:11px!important;
-  line-height:1.2!important;
-  font-weight:700!important;
+  font-size:11px;
+  line-height:1.2;
+  font-weight:700;
 }
 .ba-upgrade-controls .ba-inline-edit{
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:3px!important;
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
 }
 .ba-upgrade-controls .ba-inline-edit input{
-  height:27px!important;
-  padding-top:0!important;
-  padding-bottom:0!important;
+  height:27px;
+  padding-top:0;
+  padding-bottom:0;
 }
 .ba-upgrade-controls .ba-inline-edit em{
-  position:static!important;
-  top:auto!important;
-  transform:none!important;
-  vertical-align:middle!important;
-  font-style:normal!important;
+  position:static;
+  top:auto;
+  transform:none;
+  vertical-align:middle;
+  font-style:normal;
 }
 
-/* =========================================================
-   재계약 검토 정리
-   ========================================================= */
 
-/* 좌측 브랜드 긴 문구 대응 */
 .app-brand strong{
-  font-size:13px!important;
-  line-height:1.35!important;
-  letter-spacing:-.02em!important;
-}
+  display:block;
+  overflow:hidden;
+  color:#17395f;
+  
+  
+  text-overflow:ellipsis;
+  white-space:nowrap;
 
-/* 검토 요약 제거 후 반영 현황 헤더 우측에 비교 PDF 배치 */
+  font-size:13px;
+  line-height:1.35;
+  letter-spacing:-.02em;
+}
 
 
 .implementation-downloads{
   flex:0 0 auto;
   justify-content:flex-end;
-  margin:0!important;
-}
-.implementation-downloads .download{
-  font-size:12px!important;
-  padding:7px 11px!important;
+  margin:0;
 }
 
-/* Diff 3열: 종전계약 / 재계약안 / 반영 내용 */
-.article-title-row{
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px!important;
+
+.article-title-row{display:grid;border-bottom:1px solid var(--line);
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px;
 }
 .reflection-title{
   display:flex;
@@ -1741,7 +1226,7 @@ padding-bottom:7px!important;
   padding:8px 10px;
   border-left:1px solid var(--line);
   background:#eef4f9;
-  color:var(--navy);
+  color:var(--dash-color-title);
   font-size:11.5px;
   font-weight:900;
 }
@@ -1794,117 +1279,135 @@ padding-bottom:7px!important;
   word-break:keep-all;
 }
 
-/* 종전/재계약 원문 2열은 기존 구조 유지 */
-.diff-content-grid .diff-row{
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-}
-
-/* =========================================================
-   사업성 분석 비교 가독성 정리
-   ========================================================= */
-
-/* 1. 비교안 계열 코너 라운드 축소 */
 
 .ba-plan-legend-item{
-  border-radius:5px!important;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  
+  
+  border:1px solid #dce3ea;
+  
+  background:#fff;
+
+  
+  padding:6px 7px;
+
+  min-height:44px;
+
+  border-radius:5px;
 }
 .ba-plan-legend-item>span{
-  border-radius:4px!important;
+  display:grid;
+  place-items:center;
+  flex:0 0 28px;
+  
+  
+  
+  
+  font-weight:900;
+
+  flex-basis:32px;
+  width:32px;
+  height:32px;
+  font-size:10px;
+
+  border-radius:4px;
 }
 
-/* 2. 차이(2안-1안)는 소스/계산 로직을 유지하되 화면에서만 숨김 */
+
 .ba-metric-row.is-plan-diff{
-  display:none!important;
+  background:#f8fafc;
+
+  display:none;
 }
 
-/* 3. 공통 계산 위 반복 RS 헤더 */
 
-
-/* 4. 1안/2안 비교 내부 항목 그룹 구분 강화 */
 .ba-matrix-bundle.is-compare{
-  padding-bottom:7px!important;
+  border-color:#cfddeb;
+  box-shadow:0 1px 3px rgba(28,62,98,.04);
+
+  padding-bottom:7px;
 }
 .ba-matrix-bundle.is-compare .ba-compare-block{
-  background:#fff!important;
+  background:#fff;
 }
 .ba-matrix-bundle.is-compare .ba-compare-block + .ba-compare-block{
-  margin-top:7px!important;
-  border-top:0!important;
+  margin-top:7px;
+  border-top:0;
 }
 .ba-matrix-bundle.is-compare .ba-compare-title{
-  min-height:31px!important;
-  padding:6px 10px!important;
-  border-top:1px solid #e2e8ee!important;
-  border-bottom:1px solid #e2e8ee!important;
-  background:#f4f7fa!important;
+  min-height:31px;
+  padding:6px 10px;
+  border-top:1px solid #e2e8ee;
+  border-bottom:1px solid #e2e8ee;
+  background:#f4f7fa;
 }
 .ba-matrix-bundle.is-compare .ba-compare-block:first-child .ba-compare-title{
-  border-top:0!important;
+  border-top:0;
 }
 .ba-matrix-bundle.is-compare .ba-compare-title strong{
-  color:#28435f!important;
-  font-size:12px!important;
-  font-weight:900!important;
-}
-.ba-matrix-bundle.is-compare .ba-compare-title small{
-  color:#7d8996!important;
-  font-size:10px!important;
-}
-.ba-matrix-bundle.is-compare .ba-compare-block .ba-metric-row:last-child{
-  border-bottom:1px solid #e5e9ee!important;
+  color:#28435f;
+  font-size:12px;
+  font-weight:900;
 }
 
-/* 결과 영역은 제목만 아주 살짝 강조 */
+.ba-matrix-bundle.is-compare .ba-compare-block .ba-metric-row:last-child{
+  border-bottom:1px solid #e5e9ee;
+}
+
+
 .ba-matrix-bundle.is-compare .ba-compare-block:nth-of-type(3) .ba-compare-title, 
 .ba-matrix-bundle.is-compare .ba-compare-block:nth-of-type(4) .ba-compare-title{
-  background:#eef4f9!important;
+  background:#eef4f9;
 }
 
-/* 5. 공통 계산 내부의 매출 / 공통 비용 / 힐링스토리 지출 구분 강화 */
+
 .ba-matrix-bundle.is-common{
-  padding-bottom:8px!important;
+  margin-top:12px;
+
+  padding-bottom:8px;
 }
 .ba-matrix-bundle.is-common .ba-common-block{
-  background:#fff!important;
+  background:#fff;
 }
 .ba-matrix-bundle.is-common .ba-common-block + .ba-common-block{
-  margin-top:8px!important;
-  border-top:0!important;
+  margin-top:8px;
+  border-top:0;
 }
 .ba-matrix-bundle.is-common .ba-group-title{
-  min-height:31px!important;
-  padding:6px 10px!important;
-  border-top:1px solid #e2e8ee!important;
-  border-bottom:1px solid #e2e8ee!important;
-  background:#eef3f7!important;
-  color:#29445f!important;
-  font-size:12px!important;
-  font-weight:900!important;
+  min-height:31px;
+  padding:6px 10px;
+  border-top:1px solid #e2e8ee;
+  border-bottom:1px solid #e2e8ee;
+  background:#eef3f7;
+  color:#29445f;
+  font-size:12px;
+  font-weight:900;
 }
 .ba-matrix-bundle.is-common .ba-common-block:first-child .ba-group-title{
-  border-top:0!important;
+  border-top:0;
 }
 .ba-matrix-bundle.is-common .ba-common-block .ba-metric-row:last-child{
-  border-bottom:1px solid #e5e9ee!important;
+  border-bottom:1px solid #e5e9ee;
 }
 
-/* =========================================================
-   사업성 분석 비교/공통 계산 카드 플랫 처리
-   - 묶음 제목줄 제거
-   - 좌우 여백 0
-   - 라운드 코너 0
-   ========================================================= */
+
 .ba-matrix-bundle{
-  margin-left:0!important;
-  margin-right:0!important;
-  padding-left:0!important;
-  padding-right:0!important;
-  border-radius:0!important;
+  margin:8px 8px 10px;
+  border:1px solid #dbe3ec;
+  
+  overflow:hidden;
+  background:#fff;
+
+  margin-left:0;
+  margin-right:0;
+  padding-left:0;
+  padding-right:0;
+  border-radius:0;
 }
 
-/* =========================================================
-   기본 설정 증감 버튼
-   ========================================================= */
+
 .ba-step-value-control{
   display:flex;
   align-items:stretch;
@@ -1913,12 +1416,12 @@ padding-bottom:7px!important;
   max-width:168px;
 }
 .ba-step-value-control>.ba-value-shell{
-  flex:0 0 142px!important;
-  width:142px!important;
-  min-width:142px!important;
-  max-width:142px!important;
-  border-top-right-radius:0!important;
-  border-bottom-right-radius:0!important;
+  flex:0 0 142px;
+  
+  
+  
+  border-top-right-radius:0;
+  border-bottom-right-radius:0;
 }
 .ba-setting-stepper{
   display:grid;
@@ -1965,69 +1468,52 @@ padding-bottom:7px!important;
   outline-offset:-2px;
 }
 
-/* 우측 기본설정 컬럼은 step 버튼 폭까지 수용 */
+
 .ba-settings-basic .ba-setting-column-right .ba-setting-field{
-  grid-template-columns:184px 168px!important;
+  grid-template-columns:184px 168px;
 }
 
-/* 증감 버튼이 있는 항목은 기존 공통 142px shell 강제를 wrapper 내부에만 적용 */
+
 .ba-settings-basic .ba-setting-column-right .ba-step-value-control{
   justify-self:start;
 }
 
-/* =========================================================
-   사업성 분석 RS 헤더 sticky
-   - 하단 중복 헤더 제거
-   - 상단 구분/RS 헤더가 세로 스크롤 시 유지
-   ========================================================= */
-
-/* 기존 반복 헤더 스타일은 더 이상 사용하지 않음 */
 
 
-/* 페이지 스크롤 중 RS 기준행 유지 */
-.ba-unified-matrix>.ba-matrix-head:first-child{
-  
-  
-  
-  background:#f7f9fb!important;
-  
-}
 
-/* sticky 셀 배경도 완전 불투명하게 */
+
 .ba-unified-matrix>.ba-matrix-head:first-child>.ba-matrix-label-head, 
 .ba-unified-matrix>.ba-matrix-head:first-child>.ba-rs-head{
-  background:#f7f9fb!important;
+  background:#f7f9fb;
 }
 
-/* 영업일수도 고정값 계열: 평상시 외곽선 없음, 포커스 시만 표시 */
+
 .ba-settings .ba-setting-field.is-fixed-assumption .ba-value-shell{
-  border-color:transparent!important;
-  box-shadow:none!important;
-  background:transparent!important;
+  border-color:transparent;
+  box-shadow:none;
+  background:transparent;
 }
 .ba-settings .ba-setting-field.is-fixed-assumption .ba-value-shell:focus-within{
-  border-color:#78a7d2!important;
-  background:#fff!important;
-  box-shadow:0 0 0 2px rgba(49,130,246,.13)!important;
+  border-color:#78a7d2;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(49,130,246,.13);
 }
 
-/* =========================================================
-   사업성 분석 RS 헤더 고정 보정
-   원인: overflow-x:auto 컨테이너 내부의 position:sticky는
-   페이지(body) 세로 스크롤 기준으로 안정적으로 고정되지 않음.
-   해결: 원본 헤더는 일반 흐름에 두고, 스크롤 구간에서만
-   viewport fixed 복제 헤더를 표시함.
-   ========================================================= */
 
-/* 기존 sticky 비활성화 */
 .ba-unified-matrix>.ba-matrix-head:first-child{
-  position:static!important;
-  top:auto!important;
-  z-index:auto!important;
-  box-shadow:none!important;
+  
+  
+  
+  background:#f7f9fb;
+  
+
+  position:static;
+  top:auto;
+  z-index:auto;
+  box-shadow:none;
 }
 
-/* 페이지 스크롤 시 나타나는 고정 RS 헤더 */
+
 .ba-rs-fixed-header{
   display:none;
   position:fixed;
@@ -2043,20 +1529,14 @@ padding-bottom:7px!important;
   display:block;
 }
 .ba-rs-fixed-track{
-  display:grid!important;
-  margin:0!important;
-  background:#f7f9fb!important;
+  display:grid;
+  margin:0;
+  background:#f7f9fb;
 }
 .ba-rs-fixed-track>.ba-matrix-label-head, 
 .ba-rs-fixed-track>.ba-rs-head{
-  background:#f7f9fb!important;
+  background:#f7f9fb;
 }
-
-/* =========================================================
-   계약 Diff 토글 / 3열 정렬 / 정산서 안내문 제거
-   ========================================================= */
-
-/* Diff 제목 + 우측 펼치기/접기 */
 
 
 .contract-diff-toggle:hover{
@@ -2068,13 +1548,13 @@ padding-bottom:7px!important;
   outline-offset:2px;
 }
 .contract-diff-collapsible[hidden]{
-  display:none!important;
+  display:none;
 }
 
-/* 파일명 헤더도 하단과 동일한 3열 구조 */
+
 .diff-doc-head{position:sticky;top:0;z-index:10;display:grid;border-bottom:1px solid var(--line);background:#fff;box-shadow:0 2px 6px rgba(23,57,95,.05);
 
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px;
 
 }
 .diff-doc-head .reflection-file-head{
@@ -2083,49 +1563,22 @@ padding-bottom:7px!important;
   background:#fbfcfe;
 }
 
-/* 상단 안내문 자체를 제거했으므로 잔여 여백 방지 */
-
-
-/* =========================================================
-   재계약 검토 헤더 단순화
-   - 기존 Hero 카드 제거
-   - 사업성 분석 / 용역비 정산서와 동일한 제목형 헤더
-   ========================================================= */
-
-
-/* Hero 전용 잔여 효과 차단 */
-
-
-/* =========================================================
-   재계약 검토 → 대시보드 패널 UI 통일
-   - 거대한 문서형 흰 배경 제거
-   - 사업성 분석과 동일한 좌우선/간격/패널 헤더 체계
-   ========================================================= */
-
-/* Contract 페이지 자체는 layout wrapper 역할만 */
-
 
 .app-view-contract main>section{
-  margin:0!important;
+  margin:0;
 }
 
-/* 페이지 헤더: BA/ST와 동일한 시작선·밀도 */
 
-
-/* Contract도 기존 dashboard panel token을 공유 */
-
-
-/* 01/02/03 공통 패널 헤더 */
 .contract-panel-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  
+  
+  
+  
   min-height:42px;
   padding:7px 10px;
-  border-bottom:1px solid #dbe3eb;
-  background:#f4f7fa;
-  box-sizing:border-box;
+  
+  
+  
 }
 .contract-panel-title{
   display:flex;
@@ -2146,69 +1599,59 @@ padding-bottom:7px!important;
   font-weight:900;
 }
 .contract-panel-title h2{
-  margin:0!important;
-  color:#17395f!important;
-  font-size:12px!important;
-  line-height:1.25!important;
-  font-weight:900!important;
-}
-.contract-panel-actions{
-  flex:0 0 auto;
-  margin:0!important;
+  margin:0;
+  color:#17395f;
+  font-size:12px;
+  line-height:1.25;
+  font-weight:900;
 }
 
-/* 01 반영 현황 */
+
 .contract-panel-implementation .contract-panel-head{
   min-height:46px;
 }
 .contract-panel-implementation .downloads{
-  display:flex!important;
-  align-items:center!important;
-  gap:6px!important;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 .contract-panel-implementation .download{
-  margin:0!important;
-  padding:6px 9px!important;
-  border-radius:6px!important;
-  font-size:11px!important;
+  margin:0;
+  padding:6px 9px;
+  
+  
 }
 .contract-panel-table{
-  margin:0!important;
-  border:0!important;
-  border-radius:0!important;
-  overflow-x:auto!important;
-}
-.contract-panel-table table{
-  border-radius:0!important;
-}
-.contract-panel-table thead th{
-  background:#f8fafc!important;
+  margin:0;
+  border:0;
+  border-radius:0;
+  overflow-x:auto;
 }
 
-/* 02 주요 변경 요약 */
+.contract-panel-table thead th{
+  background:#f8fafc;
+}
+
+
 .contract-changes-body{
-  padding:9px!important;
+  padding:9px;
 }
-.contract-panel-changes .change-grid{
-  width:100%!important;
-  grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  gap:7px!important;
-}
+
 .contract-panel-changes .change-card{
-  min-width:0!important;
-  padding:9px 10px!important;
-  border-radius:6px!important;
-  box-shadow:none!important;
+  min-width:0;
+  padding:9px 10px;
+  border-radius:6px;
+  box-shadow:none;
 }
 .contract-panel-changes .change-card strong{
-  font-size:12px!important;
+  font-size:12px;
 }
 .contract-panel-changes .change-card p{
-  font-size:11px!important;
-  line-height:1.45!important;
+  font-size:11px;
+  line-height:1.45;
 }
 
-/* 03 Diff: 접힌 상태에서도 정확히 한 줄 패널 */
+
 .contract-panel-diff .contract-panel-head{
   min-height:46px;
   border-bottom:0;
@@ -2221,194 +1664,206 @@ padding-bottom:7px!important;
   
   
   padding:0 11px;
-  border:1px solid #cfd8e2;
   
-  background:#fff;
-  color:#35506d;
   
-  font-weight:900;
-  cursor:pointer;
+  
+  
+  
+  
+  
 
 
-  min-width:64px!important;
-  height:28px!important;
-  border-radius:6px!important;
-  font-size:11px!important;
+  min-width:64px;
+  height:28px;
+  
+  
 
 }
-.contract-diff-body{
-  margin:0!important;
-  padding:0!important;
-}
+
 .contract-diff-body>.lead{
-  margin:0!important;
-  padding:8px 11px!important;
+  margin:0;
+  padding:8px 11px;
   border-bottom:1px solid #dbe3eb;
   background:#fbfcfe;
 }
 .contract-panel-diff .diff-shell{
-  margin:0!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-
-/* 기존 문서형 section kicker/외부 제목 흔적 차단 */
-
-.app-view-contract main>.contract-panel>h2{
-  display:none!important;
+  margin:0;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 
 
-/* =========================================================
-   2차 리팩토링 · Dashboard Foundation
-   역할: Page / Header / Panel / Control 기준 공통화
-   ========================================================= */
-
-
-/* fixed 1920 shell */
-html, body{min-width:var(--dash-layout-w)!important;}
-.app-shell{display:block!important;width:var(--dash-layout-w)!important;min-width:var(--dash-layout-w)!important;min-height:100vh!important;margin:0!important;}
+html{scroll-behavior:smooth;
+  min-width:var(--dash-layout-w);
+}
+body.app-dashboard{
+  min-width:var(--dash-layout-w);
+  background:var(--dash-page-bg);
+  overflow-x:auto;
+}
+.app-shell{
+  display:block;
+  width:var(--dash-layout-w);
+  min-width:var(--dash-layout-w);
+  min-height:100vh;
+  margin:0;
+}
 .app-sidebar{
-  position:fixed!important;
-  inset:0 auto 0 0!important;
-  width:var(--dash-sidebar-w)!important;
-  height:100vh!important;
-  min-height:100vh!important;
-  transform:none!important;
-  opacity:1!important;
-  visibility:visible!important;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:80;
+  display:flex;
+  width:var(--dash-sidebar-w);
+  height:100vh;
+  min-height:100vh;
+  flex-direction:column;
+  overflow:hidden;
+  border-right:1px solid var(--app-sidebar-border);
+  border-left:0;
+  background:var(--app-sidebar-bg);
+  box-shadow:none;
 }
 .app-content{
-  display:block!important;
-  width:var(--dash-content-w)!important;
-  min-width:var(--dash-content-w)!important;
-  max-width:var(--dash-content-w)!important;
-  margin-left:var(--dash-sidebar-w)!important;
-  margin-right:0!important;
-  padding:0!important;
+  display:block;
+  width:var(--dash-content-w);
+  min-width:var(--dash-content-w);
+  max-width:var(--dash-content-w);
+  min-height:100vh;
+  margin-left:var(--dash-sidebar-w);
+  margin-right:0;
+  padding:0;
 }
 
-/* shared page */
 
 .dashboard-view-host{
-  width:100%!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  background:transparent!important;
-  box-sizing:border-box!important;
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-sizing:border-box;
 }
 
 
+/* Shared dashboard foundation */
 .dashboard-page{
-  width:100%!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-  padding:var(--dash-page-pad-top) var(--dash-page-pad-x) var(--dash-page-pad-bottom)!important;
-  background:var(--dash-page-bg)!important;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  padding:var(--dash-page-pad-top) var(--dash-page-pad-x) var(--dash-page-pad-bottom);
+  background:var(--dash-page-bg);
 }
 .dashboard-page-inner{
-  width:100%!important;
-  max-width:none!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  box-sizing:border-box!important;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  box-sizing:border-box;
 }
 .dashboard-page-stack, 
 .dashboard-section-stack{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr)!important;
-  gap:var(--dash-section-gap)!important;
-  width:100%!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:var(--dash-section-gap);
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:0;
 }
 
-/* shared page header */
+
 .dashboard-page-header{
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:flex-end!important;
-  justify-content:space-between!important;
-  gap:18px!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0 2px 12px!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  box-sizing:border-box!important;
+  display:flex;
+  flex-direction:row;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  min-width:0;
+  margin:0;
+  padding:0 2px 12px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  box-sizing:border-box;
 }
-.dashboard-page-title{min-width:0!important;}
+.dashboard-page-title{min-width:0;}
 .dashboard-page-kicker{
-  margin:0 0 2px!important;
-  color:var(--dash-color-accent)!important;
-  font-size:var(--dash-font-kicker)!important;
-  line-height:1.2!important;
-  font-weight:900!important;
-  letter-spacing:.08em!important;
+  margin:0 0 2px;
+  color:var(--dash-color-accent);
+  font-size:var(--dash-font-kicker);
+  line-height:1.2;
+  font-weight:900;
+  letter-spacing:.08em;
 }
 .dashboard-page-header h1{
-  margin:0!important;
-  color:var(--dash-color-title)!important;
-  font-size:var(--dash-font-page-title)!important;
-  line-height:1.15!important;
-  letter-spacing:-.025em!important;
-  font-weight:900!important;
+  margin:0;
+  color:var(--dash-color-title);
+  font-size:var(--dash-font-page-title);
+  line-height:1.15;
+  letter-spacing:-.025em;
+  font-weight:900;
 }
 .dashboard-page-actions{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-end!important;
-  gap:6px!important;
-  flex:0 0 auto!important;
-  margin:0!important;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+  flex:0 0 auto;
+  margin:0;
 }
 
-/* shared panel */
+
+.contract-panel-title h2,
+.ba-panel-title h2,
+.ba-reference-title-line h2,
+.st-overview-panel-title h2,
+.st-document-title h2{
+  letter-spacing:-.02em;
+}
+
+
 .dashboard-panel{
-  width:100%!important;
-  max-width:none!important;
-  min-width:0!important;
-  box-sizing:border-box!important;
-  border:1px solid var(--dash-panel-border)!important;
-  border-radius:var(--dash-panel-radius)!important;
-  background:var(--dash-panel-bg)!important;
-  box-shadow:var(--dash-panel-shadow)!important;
-  overflow:hidden!important;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  box-sizing:border-box;
+  border:1px solid var(--dash-panel-border);
+  border-radius:var(--dash-panel-radius);
+  background:var(--dash-panel-bg);
+  box-shadow:var(--dash-panel-shadow);
+  overflow:hidden;
 }
 .dashboard-panel-head{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-  box-sizing:border-box!important;
-  border-bottom-color:var(--dash-line)!important;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-sizing:border-box;
+  border-bottom-color:var(--dash-line);
+}
+.dashboard-panel-head--soft{
+  border-bottom:1px solid var(--dash-line);
+  background:var(--dash-panel-head-bg);
+}
+.dashboard-panel-head--standard{
+  min-height:54px;
+  padding:9px 11px;
+  border-bottom:1px solid var(--dash-line);
+  background:var(--dash-panel-bg);
 }
 
-/* 정보량이 다른 panel head는 높이/배경 modifier 유지 */
-.contract-panel-head, 
-.ba-settings-head{
-  background:var(--dash-panel-head-bg)!important;
-}
-.ba-panel-head, 
-.ba-reference-head{
-  background:var(--dash-panel-bg)!important;
-}
-.st-document-head{
-  background:linear-gradient(180deg,#fbfcfd,#f7f9fb)!important;
-}
 
-/* shared button */
+
+
+
 .dashboard-button{
   display:inline-flex;
   align-items:center;
@@ -2425,6 +1880,12 @@ html, body{min-width:var(--dash-layout-w)!important;}
   white-space:nowrap;
   cursor:pointer;
 }
+
+.dashboard-button--compact{
+  border-radius:6px;
+  font-size:11px;
+}
+
 .dashboard-button:hover{
   border-color:#91a8bf;
   background:#f5f8fb;
@@ -2435,18 +1896,18 @@ html, body{min-width:var(--dash-layout-w)!important;}
 }
 .dashboard-button--primary, 
 .contract-panel-implementation .download.is-primary-pdf{
-  border-color:var(--dash-color-title)!important;
-  background:var(--dash-color-title)!important;
-  color:#fff!important;
-  box-shadow:0 1px 2px rgba(23,57,95,.18)!important;
+  border-color:var(--dash-color-title);
+  background:var(--dash-color-title);
+  color:#fff;
+  box-shadow:0 1px 2px rgba(23,57,95,.18);
 }
 .dashboard-button--primary:hover, 
 .contract-panel-implementation .download.is-primary-pdf:hover{
-  border-color:#0f2f50!important;
-  background:#0f2f50!important;
+  border-color:#0f2f50;
+  background:#0f2f50;
 }
 
-/* 초기화: 공통 button + 크기 modifier */
+
 .ba-reset-button{
   min-height:34px;
   padding:6px 11px;
@@ -2457,42 +1918,37 @@ html, body{min-width:var(--dash-layout-w)!important;}
   width:15px;
   height:15px;
 }
-.ba-reset-icon svg{
-  display:block;
-  width:100%;
-  height:100%;
-}
 
-/* shared input */
+
 .dashboard-input{
-  box-sizing:border-box!important;
-  font-family:inherit!important;
-  font-variant-numeric:tabular-nums!important;
+  box-sizing:border-box;
+  font-family:inherit;
+  font-variant-numeric:tabular-nums;
 }
 .dashboard-input--ghost{
-  border-color:transparent!important;
-  background:transparent!important;
+  border-color:transparent;
+  background:transparent;
 }
 .dashboard-input--ghost:focus{
-  border-color:#8fb0d0!important;
-  background:#fff!important;
+  border-color:#8fb0d0;
+  background:#fff;
 }
 
-/* cross-view vertical alignment */
+
 .app-view-contract .page, 
 .ba-page-inner, 
 .st-page-inner{
   
   
-  margin-left:0!important;
-  margin-right:0!important;
-  box-sizing:border-box!important;
+  margin-left:0;
+  margin-right:0;
+  box-sizing:border-box;
 
 
-  width:100%!important;
-  max-width:none!important;
-  min-width:0!important;
-  margin:0!important;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  margin:0;
 
 }
 .app-view-contract main, 
@@ -2501,27 +1957,11 @@ html, body{min-width:var(--dash-layout-w)!important;}
 .ba-reference-grid, 
 .st-summary, 
 .st-document{
-  margin-top:0!important;
-  margin-bottom:0!important;
+  margin-top:0;
+  margin-bottom:0;
 }
 
-/* =========================================================
-   용역비 정산 Overview
-   Dashboard foundation / settlement KPI / panel token 재사용
-   ========================================================= */
-.st-overview-summary{
-  margin:0!important;
-}
-.st-overview-panel{
-  margin-top:0!important;
-  margin-bottom:0!important;
-}
-.st-overview-panel-head{
-  min-height:54px!important;
-  padding:9px 11px!important;
-  border-bottom:1px solid var(--dash-line)!important;
-  background:var(--dash-panel-bg)!important;
-}
+
 .st-overview-panel-title h2{
   margin:0;
   color:var(--dash-color-title);
@@ -2626,9 +2066,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
   font-weight:900;
   letter-spacing:.025em;
 }
-.st-overview-group:first-of-type{
-  border-top:0;
-}
+
 .st-overview-row{
   min-height:34px;
   border-bottom:1px solid #eef1f4;
@@ -2695,15 +2133,40 @@ html, body{min-width:var(--dash-layout-w)!important;}
   background:#edf7f2;
 }
 
-/* 사업성 분석 Matrix · RS 열 hover */
-.ba-unified-matrix [data-ba-rs-index].is-rs-column-hover{
-  background:var(--ba-matrix-column-hover-bg)!important;
+
+.ba-unified-matrix [data-ba-rs-index].is-rs-column-hover,
+.ba-rs-fixed-header [data-ba-rs-index].is-rs-column-hover{
+  background:var(--ba-matrix-column-hover-bg);
 }
-.ba-unified-matrix>.ba-matrix-head:first-child>.ba-rs-head[data-ba-rs-index].is-rs-column-hover{
-  background:var(--ba-matrix-column-hover-bg)!important;
-}
-.ba-rs-fixed-header .ba-rs-fixed-track>.ba-rs-head[data-ba-rs-index].is-rs-column-hover{
-  background:var(--ba-matrix-column-hover-bg)!important;
+
+
+@media print{
+  html,
+  body,
+  body.app-dashboard{
+    min-width:0;
+  }
+  .app-shell{
+    width:auto;
+    min-width:0;
+    min-height:0;
+    margin:0;
+  }
+  .app-sidebar{
+    display:none;
+  }
+  .app-content{
+    width:100%;
+    min-width:0;
+    max-width:none;
+    min-height:0;
+    margin-left:0;
+    margin-right:0;
+    padding:0;
+  }
+  .app-view:not(.is-active){
+    display:none;
+  }
 }
 </style>
 </head>
@@ -2769,7 +2232,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </div>
 </header>
 <main class="dashboard-section-stack">
-<section class="contract-panel contract-panel-implementation dashboard-panel"><div class="contract-panel-head dashboard-panel-head"><div class="contract-panel-title"><span class="contract-panel-index">01</span><h2>반영 현황</h2></div><div class="implementation-downloads downloads contract-panel-actions"><a class="download dashboard-button" href="260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf" rel="noopener noreferrer" target="_blank">종전계약 PDF ↗</a><a class="download is-primary-pdf dashboard-button dashboard-button--primary" href="20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf" rel="noopener noreferrer" target="_blank">재계약안 PDF ↗</a></div></div>
+<section class="contract-panel contract-panel-implementation dashboard-panel"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">01</span><h2>반영 현황</h2></div><div class="implementation-downloads downloads contract-panel-actions"><a class="download dashboard-button dashboard-button--compact" href="260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf" rel="noopener noreferrer" target="_blank">종전계약 PDF ↗</a><a class="download is-primary-pdf dashboard-button dashboard-button--primary dashboard-button--compact" href="20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf" rel="noopener noreferrer" target="_blank">재계약안 PDF ↗</a></div></div>
 <div class="table-wrap contract-panel-table"><table><thead><tr><th style="width:42px">No.</th><th>반영사항</th><th style="width:118px">계약조항</th><th>반영내용</th><th style="width:86px">상태</th></tr></thead><tbody>
 <tr><td>1</td><td><strong>두 영업장을 계약범위에 반영</strong></td><td>제1·3·6조</td><td>사업구조 개편에 맞춰 창릉 프리미어 골프존과 힐링밥상을 이지벤처스의 대상 영업장으로 명시하고 업무범위를 연결.</td><td><span class="status-pill done">반영 완료</span></td></tr>
 <tr><td>2</td><td><strong>위탁운영 수수료와 용역비 구분</strong></td><td>제2·7조</td><td>위탁인 귀속 수수료와 공제 후 수탁인에게 지급되는 용역비의 성격·귀속방향을 구분.</td><td><span class="status-pill done">반영 완료</span></td></tr>
@@ -2782,7 +2245,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 <tr><td>9</td><td><strong>운영 점검·관리 범위 확대</strong></td><td>제9조</td><td>시설뿐 아니라 매출·정산, 주류 재고, 민원, 품질, 안전·위생, 개인정보, 계정, 가맹규정·인허가까지 확인·자료요구·시정·개선 근거를 확대.</td><td><span class="status-pill done">반영 완료</span></td></tr>
 </tbody></table></div>
 </section>
-<section class="contract-panel contract-panel-changes dashboard-panel"><div class="contract-panel-head dashboard-panel-head"><div class="contract-panel-title"><span class="contract-panel-index">02</span><h2>주요 변경 요약</h2></div></div>
+<section class="contract-panel contract-panel-changes dashboard-panel"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">02</span><h2>주요 변경 요약</h2></div></div>
 <div class="contract-panel-body contract-changes-body"><div class="change-grid">
 <div class="change-card"><strong>사업구조</strong><p>골프존 단일 운영범위에서 골프존·힐링밥상 운영범위로 확장.</p></div>
 <div class="change-card"><strong>매출·정산</strong><p>힐링밥상 주류 매출 및 증빙된 주류 매입비를 정산구조에 연결.</p></div>
@@ -2793,7 +2256,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 <div class="change-card"><strong>금전채무 회수</strong><p>용역비·정산금 우선공제 → 보증금 충당 → 보충 및 지급유보 구조를 명시.</p></div>
 <div class="change-card"><strong>종전계약 대체</strong><p>재계약 효력일부터 종전계약·부속합의서 대체, 기존 채권·채무·보증금 승계.</p></div>
 </div></div></section>
-<section class="contract-panel contract-panel-diff dashboard-panel" id="contract-diff"><div class="contract-panel-head dashboard-panel-head"><div class="contract-panel-title"><span class="contract-panel-index">03</span><h2>종전계약 ↔ 재계약 조문 Diff</h2></div><button aria-controls="contract-diff-collapsible" aria-expanded="false" class="contract-diff-toggle contract-panel-actions dashboard-button" data-contract-diff-toggle="" type="button">펼치기</button></div><div class="contract-diff-collapsible contract-panel-body contract-diff-body" hidden="" id="contract-diff-collapsible"><p class="lead" style="margin-bottom:9px">삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p><div class="diff-shell">
+<section class="contract-panel contract-panel-diff dashboard-panel" id="contract-diff"><div class="contract-panel-head dashboard-panel-head dashboard-panel-head--soft"><div class="contract-panel-title"><span class="contract-panel-index">03</span><h2>종전계약 ↔ 재계약 조문 Diff</h2></div><button aria-controls="contract-diff-collapsible" aria-expanded="false" class="contract-diff-toggle contract-panel-actions dashboard-button dashboard-button--compact" data-contract-diff-toggle="" type="button">펼치기</button></div><div class="contract-diff-collapsible contract-panel-body contract-diff-body" hidden="" id="contract-diff-collapsible"><p class="lead">삭제·변경된 문구는 적색, 신설·변경된 문구는 녹색으로 표시합니다.</p><div class="diff-shell">
 <div class="diff-toolbar"><div class="toolbar-top"><div class="toolbar-actions"><button aria-pressed="false" class="toggle-btn" data-filter="all" type="button">전체 항목</button><button aria-pressed="true" class="toggle-btn active" data-filter="changed" type="button">변경 항목만</button></div><div class="legend"><span><i class="lg-del"></i>종전 문구 삭제·변경</span><span><i class="lg-add"></i>재계약 신설·변경</span><span>17/24 항목 변경</span></div></div></div>
 <div class="diff-doc-head"><div class="old">종전계약<small>260301_260701_골프존운영위탁용역계약서및부속합의서(합본).pdf</small><span class="amendment-note">※ 2026.07.22 부속합의서 제2조(위탁운영 수수료 변경) 반영</span></div><div class="new">재계약안<small>20260908_용역계약서_이지벤처스_힐링스토리_재계약v1_clean.pdf</small></div><div aria-hidden="true" class="reflection-file-head"></div></div>
 <article class="diff-section hidden-by-filter" data-changed="false" id="diff-1">
@@ -2914,7 +2377,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </header>
 <section aria-label="사업성 분석 설정" class="ba-settings">
 <article class="ba-settings-card ba-settings-basic dashboard-panel">
-<div class="ba-settings-head dashboard-panel-head">
+<div class="ba-settings-head dashboard-panel-head dashboard-panel-head--soft">
 <div>
 <span class="ba-settings-no">01</span>
 <strong>기본 설정</strong>
@@ -2967,7 +2430,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </span><div aria-label="추가 수수료율 증감" class="ba-setting-stepper" role="group"><button aria-label="추가 수수료율 1% 증가" class="ba-setting-step-button is-up" data-ba-setting-step="additionalFeeRate" data-ba-step="0.01" data-ba-step-direction="1" title="1% 증가" type="button">▲</button><button aria-label="추가 수수료율 1% 감소" class="ba-setting-step-button is-down" data-ba-setting-step="additionalFeeRate" data-ba-step="0.01" data-ba-step-direction="-1" title="1% 감소" type="button">▼</button></div></div></div></div></div>
 </article>
 <article class="ba-settings-card ba-settings-labor dashboard-panel">
-<div class="ba-settings-head dashboard-panel-head">
+<div class="ba-settings-head dashboard-panel-head dashboard-panel-head--soft">
 <div>
 <span class="ba-settings-no">02</span>
 <strong>인건비 및 소모품비</strong>
@@ -2993,7 +2456,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </div>
 </article>
 <article class="ba-settings-card ba-settings-assumption dashboard-panel">
-<div class="ba-settings-head dashboard-panel-head">
+<div class="ba-settings-head dashboard-panel-head dashboard-panel-head--soft">
 <div>
 <span class="ba-settings-no">03</span>
 <strong>산정 기준</strong>
@@ -3068,7 +2531,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </section>
 <section aria-label="사업성 분석 비교" class="ba-analysis-grid ba-analysis-grid-unified">
 <article class="ba-analysis-panel ba-analysis-unified dashboard-panel">
-<header class="ba-panel-head ba-unified-head dashboard-panel-head">
+<header class="ba-panel-head ba-unified-head dashboard-panel-head dashboard-panel-head--standard">
 <div class="ba-panel-title">
 <div>
 <h2>사업성 분석 비교</h2>
@@ -3094,7 +2557,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </article>
 </section><section aria-label="사업성 분석 참고자료" class="ba-reference-grid">
 <article class="ba-reference-card ba-labor-card dashboard-panel">
-<header class="ba-reference-head dashboard-panel-head">
+<header class="ba-reference-head dashboard-panel-head dashboard-panel-head--standard">
 <div>
 <p class="ba-reference-kicker">REFERENCE 01</p>
 <div class="ba-reference-title-line">
@@ -3127,7 +2590,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </div>
 </article>
 <article class="ba-reference-card ba-upgrade-card dashboard-panel">
-<header class="ba-reference-head dashboard-panel-head">
+<header class="ba-reference-head dashboard-panel-head dashboard-panel-head--standard">
 <div>
 <p class="ba-reference-kicker">REFERENCE 02</p>
 <div class="ba-reference-title-line">
@@ -3202,7 +2665,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </article>
 </section>
 <section class="st-overview-panel dashboard-panel">
-<header class="st-overview-panel-head dashboard-panel-head">
+<header class="st-overview-panel-head dashboard-panel-head dashboard-panel-head--standard">
 <div class="st-overview-panel-title">
 <h2>월별 정산 현황</h2>
 </div>
@@ -4408,8 +3871,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
       const groupText=shift.group==='weekday'?'평일':'주말';
       html+=`<div class="ba-labor-row" data-ba-labor-index="${index}">
         <div class="ba-ref-label"><small>${groupText} · 주${shift.daysPerWeek}일</small><span>${shift.label}</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-labor-field="hours" value="${formatNumber(shift.hours,2)}"><span class="ba-ref-input-unit">시간</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-labor-field="people" value="${formatNumber(shift.people,2)}"><span class="ba-ref-input-unit">명</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="hours" value="${formatNumber(shift.hours,2)}"><span class="ba-ref-input-unit">시간</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-labor-field="people" value="${formatNumber(shift.people,2)}"><span class="ba-ref-input-unit">명</span></div>
         <div class="ba-ref-value">${formatMoney(shift.gross)}원</div>
         <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.socialInsurance)+'원':'—'}</div>
         <div class="ba-ref-value ${shift.benefits?'':'is-muted'}">${shift.benefits?formatMoney(shift.retirement)+'원':'—'}</div>
@@ -4438,8 +3901,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
       const isSub=item.key==='ambidextrous'||item.key==='projectorFloor';
       html+=`<div class="ba-upgrade-row" data-ba-upgrade-index="${index}">
         <div class="ba-ref-label ${isSub?'is-sub':''}"><span>${item.label}</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-upgrade-field="unitCost" value="${formatNumber(item.unitCost)}"><span class="ba-ref-input-unit">원</span></div>
-        <div class="ba-ref-input-shell"><input class="ba-ref-input" type="text" inputmode="decimal" data-ba-upgrade-field="qty" value="${formatNumber(item.qty,2)}"></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="unitCost" value="${formatNumber(item.unitCost)}"><span class="ba-ref-input-unit">원</span></div>
+        <div class="ba-ref-input-shell"><input class="ba-ref-input dashboard-input" type="text" inputmode="decimal" data-ba-upgrade-field="qty" value="${formatNumber(item.qty,2)}"></div>
         <div class="ba-ref-value">${formatMoney(item.total)}원</div>
         <div class="ba-ref-value">${formatMoney(item.monthlyInterestFree)}원</div>
       </div>`;
