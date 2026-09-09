@@ -1589,7 +1589,6 @@
     if(label) label.textContent='생성 중…';
 
     let stage=null;
-    let svgUrl=null;
     let downloadUrl=null;
 
     try{
@@ -1622,7 +1621,7 @@
       const serialized=new XMLSerializer().serializeToString(clone);
       const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style><![CDATA[${css.replace(/]]>/g,']]]]><![CDATA[>')}]]></style>${serialized}</div></foreignObject></svg>`;
 
-      svgUrl=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const svgUrl=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
       const image=await loadSnapshotImage(svgUrl);
 
       const scale=Math.min(2,Math.max(1,window.devicePixelRatio||1));
@@ -1648,7 +1647,6 @@
       window.alert('사업성 분석 스냅샷을 생성하지 못했습니다. 다시 시도해 주세요.');
     }finally{
       stage?.remove();
-      if(svgUrl?.startsWith('blob:')) URL.revokeObjectURL(svgUrl);
       if(downloadUrl) setTimeout(()=>URL.revokeObjectURL(downloadUrl),0);
       snapshotButton.disabled=false;
       snapshotButton.removeAttribute('aria-busy');
