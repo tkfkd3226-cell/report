@@ -672,7 +672,6 @@ p{
 
 .ba-matrix-head, .ba-metric-row{
   display:grid;
-  grid-template-columns:172px repeat(var(--ba-rs-count),minmax(var(--ba-rs-col),1fr));
   align-items:stretch;
 }
 
@@ -2419,7 +2418,7 @@ p{
 
 /* Narrow Tablet: rebalance the lower settings cards before the Phone stack. */
 @media screen and (min-width:761px) and (max-width:860px){
-  .ba-settings{
+  .app-view-business:not(.is-ba-snapshot) .ba-settings{
     grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   }
 }
@@ -3532,11 +3531,7 @@ body.app-dashboard{
   font-weight:900;
 }
 
-.st-overview-row.is-final .st-overview-cell:not(.is-average){
-  background:var(--st-result-bg);
-}
-
-.st-overview-row.is-final .st-overview-cell.is-average{
+.st-overview-row.is-final .st-overview-cell{
   background:var(--st-result-bg);
 }
 

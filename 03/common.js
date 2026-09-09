@@ -1169,11 +1169,17 @@
     }
   };
 
+  // Invalid drafts stay in the input until blur; they never replace calculation state.
   const parseInput=input=>{
     const raw=String(input.value??'').replace(/,/g,'').trim();
+    if(!raw) return null;
     const n=Number(raw);
     if(!Number.isFinite(n)) return null;
-    return input.dataset.baMode==='percent'?n/100:n;
+    const value=input.dataset.baMode==='percent'?n/100:n;
+    if(value<0) return null;
+    if(input.dataset.baMode==='percent'&&value>1) return null;
+    if(input.dataset.baSetting==='upgradeInstallmentMonths'&&value===0) return null;
+    return value;
   };
 
   const formatSettingInput=input=>{
@@ -1320,7 +1326,7 @@
     }
     html+='</section>';
 
-    // 공통 계산 진입 전에 RS 기준 헤더를 다시 표시
+    // 공통 계산도 상단 RS 헤더와 동일한 컬럼을 사용한다.
 
     html+='<section class="ba-matrix-bundle is-common">';
 
@@ -1336,6 +1342,29 @@
 
     matrix.innerHTML=html;
     applyRsView();
+  };
+
+  // Preserve editable nodes so change/blur cannot remove the next focus target.
+  const syncReferenceTable=(table,html)=>{
+    if(!table.firstElementChild){
+      table.innerHTML=html;
+      return;
+    }
+    const template=document.createElement('template');
+    template.innerHTML=html;
+    [...template.content.children].forEach((nextRow,rowIndex)=>{
+      const row=table.children[rowIndex];
+      [...nextRow.children].forEach((nextCell,cellIndex)=>{
+        const cell=row.children[cellIndex];
+        const input=cell.querySelector('.ba-ref-input');
+        cell.className=nextCell.className;
+        if(input){
+          if(document.activeElement!==input) input.value=nextCell.querySelector('input').value;
+        }else{
+          cell.innerHTML=nextCell.innerHTML;
+        }
+      });
+    });
   };
 
   const renderLaborReference=()=>{
@@ -1355,7 +1384,7 @@
       </div>`;
     });
 
-    laborTable.innerHTML=html;
+    syncReferenceTable(laborTable,html);
 
     const setText=(selector,text)=>{
       const el=root.querySelector(selector);
@@ -1384,7 +1413,7 @@
       </div>`;
     });
 
-    upgradeTable.innerHTML=html;
+    syncReferenceTable(upgradeTable,html);
 
     const setText=(selector,text)=>{
       const el=root.querySelector(selector);
@@ -1720,7 +1749,12 @@
   root.addEventListener('focusout',event=>{
     const input=event.target.closest('.ba-ref-input');
     if(!input) return;
-    queueMicrotask(()=>renderReferences());
+    const laborRow=input.closest('[data-ba-labor-index]');
+    const upgradeRow=input.closest('[data-ba-upgrade-index]');
+    const field=input.dataset.baLaborField||input.dataset.baUpgradeField;
+    const item=laborRow?state.settings.laborShifts[Number(laborRow.dataset.baLaborIndex)]:
+      state.upgradeItems[Number(upgradeRow?.dataset.baUpgradeIndex)];
+    if(item&&field in item) input.value=formatNumber(item[field],field==='unitCost'?0:2);
   });
 
   root.addEventListener('keydown',event=>{
@@ -1734,9 +1768,9 @@
       const row=laborInput.closest('[data-ba-labor-index]');
       const index=Number(row?.dataset.baLaborIndex);
       const field=laborInput.dataset.baLaborField;
-      const value=Number(String(laborInput.value).replace(/,/g,'').trim());
+      const value=parseInput(laborInput);
 
-      if(Number.isFinite(index)&&Number.isFinite(value)&&state.settings.laborShifts[index]){
+      if(Number.isInteger(index)&&value!==null&&['hours','people'].includes(field)&&state.settings.laborShifts[index]){
         state.settings.laborShifts[index]={...state.settings.laborShifts[index],[field]:value};
       }
       renderAll();
@@ -1748,9 +1782,9 @@
       const row=upgradeInput.closest('[data-ba-upgrade-index]');
       const index=Number(row?.dataset.baUpgradeIndex);
       const field=upgradeInput.dataset.baUpgradeField;
-      const value=Number(String(upgradeInput.value).replace(/,/g,'').trim());
+      const value=parseInput(upgradeInput);
 
-      if(Number.isFinite(index)&&Number.isFinite(value)&&state.upgradeItems[index]){
+      if(Number.isInteger(index)&&value!==null&&['unitCost','qty'].includes(field)&&state.upgradeItems[index]){
         state.upgradeItems[index]={...state.upgradeItems[index],[field]:value};
       }
       renderReferences();
@@ -1758,8 +1792,10 @@
   });
 
 
+  let pinnedTooltip=null;
   const positionTooltip=button=>{
     if(!tooltip||!button) return;
+    if(!button.classList.contains('is-open')) hideTooltip();
     tooltip.textContent=button.dataset.baTooltip||'';
     tooltip.classList.add('is-visible');
     tooltip.setAttribute('aria-hidden','false');
@@ -1789,6 +1825,7 @@
   };
 
   const hideTooltip=()=>{
+    pinnedTooltip=null;
     if(!tooltip) return;
     tooltip.classList.remove('is-visible','is-below');
     tooltip.setAttribute('aria-hidden','true');
@@ -1803,7 +1840,7 @@
   root.addEventListener('pointerout',event=>{
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
     if(!button||event.pointerType==='touch') return;
-    if(!button.contains(event.relatedTarget)) hideTooltip();
+    if(!button.contains(event.relatedTarget)&&pinnedTooltip!==button&&document.activeElement!==button) hideTooltip();
   });
   root.addEventListener('focusin',event=>{
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
@@ -1816,9 +1853,12 @@
     const button=event.target.closest('.ba-info-button[data-ba-tooltip]');
     if(!button) return;
     event.preventDefault();
-    const isOpen=button.classList.contains('is-open')&&tooltip?.classList.contains('is-visible');
+    const wasPinned=pinnedTooltip===button;
     hideTooltip();
-    if(!isOpen) positionTooltip(button);
+    if(!wasPinned){
+      positionTooltip(button);
+      pinnedTooltip=button;
+    }
   });
   document.addEventListener('click',event=>{
     if(!event.target.closest('.ba-info-button[data-ba-tooltip]')) hideTooltip();
