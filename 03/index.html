@@ -2819,7 +2819,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
 .st-overview-matrix{
   --st-overview-month-count:6;
   width:100%;
-  min-width:calc(220px + var(--st-overview-month-count) * 150px + 170px);
+  min-width:calc(220px + var(--st-overview-month-count) * 150px + 340px);
   font-variant-numeric:tabular-nums;
 }
 .st-overview-head,
@@ -2828,6 +2828,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
   grid-template-columns:
     220px
     repeat(var(--st-overview-month-count),minmax(150px,1fr))
+    170px
     170px;
   align-items:stretch;
 }
@@ -2838,7 +2839,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
 }
 .st-overview-label-head,
 .st-overview-month-head,
-.st-overview-total-head{
+.st-overview-total-head,
+.st-overview-average-head{
   display:flex;
   align-items:center;
   box-sizing:border-box;
@@ -2869,7 +2871,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
   outline:2px solid rgba(49,130,246,.22);
   outline-offset:-2px;
 }
-.st-overview-total-head{
+.st-overview-total-head,
+.st-overview-average-head{
   justify-content:flex-end;
   border-left:1px solid var(--dash-line);
   background:#f4f7fa;
@@ -2928,7 +2931,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
   color:#a3adb8;
   font-weight:700;
 }
-.st-overview-cell.is-total{
+.st-overview-cell.is-total,
+.st-overview-cell.is-average{
   border-left-color:var(--dash-line);
   background:#fafbfd;
   color:var(--dash-color-title);
@@ -2952,7 +2956,8 @@ html, body{min-width:var(--dash-layout-w)!important;}
   color:#137454;
   font-weight:900;
 }
-.st-overview-row.is-final .st-overview-cell.is-total{
+.st-overview-row.is-final .st-overview-cell.is-total,
+.st-overview-cell.is-average{
   background:#edf7f2;
 }
 </style>
@@ -4158,6 +4163,12 @@ html, body{min-width:var(--dash-layout-w)!important;}
       : null;
   };
 
+  const averageValues=values=>{
+    if(!months.length) return null;
+    const total=totalValues(values);
+    return total===null ? null : total/months.length;
+  };
+
   const operatingLabels=[];
   months.forEach(month=>{
     rowsFor(month).forEach(item=>{
@@ -4208,6 +4219,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
   const rowHtml=spec=>{
     const values=months.map(month=>amountBySpec(month,spec));
     const total=totalValues(values);
+    const average=averageValues(values);
     const classes=['st-overview-row'];
     if(spec.kind==='subtotal') classes.push('is-subtotal');
     if(spec.kind==='final') classes.push('is-final');
@@ -4221,6 +4233,9 @@ html, body{min-width:var(--dash-layout-w)!important;}
         </div>`).join('')}
       <div class="st-overview-cell is-total" data-st-overview-total>
         ${total===null?'—':formatNumber(total)}
+      </div>
+      <div class="st-overview-cell is-average" data-st-overview-average>
+        ${average===null?'—':formatNumber(average)}
       </div>
     </div>`;
   };
@@ -4242,6 +4257,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
             ${escapeHtml(month)}
           </button>`).join('')}
         <div class="st-overview-total-head">누계</div>
+        <div class="st-overview-average-head">평균</div>
       </div>
       ${groups.map(group=>`
         <div class="st-overview-group">${escapeHtml(group.title)}</div>
@@ -4298,6 +4314,12 @@ html, body{min-width:var(--dash-layout-w)!important;}
         deductions:deductionTotal,
         operating:operatingTotal,
         result:resultTotal
+      }),
+      averages:Object.freeze({
+        sales:salesTotal/months.length,
+        deductions:deductionTotal/months.length,
+        operating:operatingTotal/months.length,
+        result:resultTotal/months.length
       })
     });
   };
