@@ -24,7 +24,7 @@
   --ba-border-soft:#e8edf2;
   --dash-color-positive:#137454;
   --dash-tooltip-bg:#17243a;
-  /* Canonical report dimensions; the live shell is fluid. */
+  /* Canonical Desktop max dimensions; the shell is fluid only below 1920px. */
   --dash-layout-w:1920px;
   --dash-sidebar-w:218px;
   --dash-content-w:calc(var(--dash-layout-w) - var(--dash-sidebar-w));
@@ -2632,8 +2632,15 @@ p{
     font-size:var(--dash-font-caption);
   }
 
-  .diff-document>.new-title, .diff-document>.new-cell, .diff-reflection-cell{
+  .diff-document>.new-title, .diff-document>.new-cell{
     border-left:0;
+  }
+
+  .diff-reflection-cell{
+    margin:var(--dash-panel-gap);
+    border:1px solid var(--contract-line);
+    border-radius:var(--dash-control-radius);
+    background:#fbfcfe;
   }
 
   .diff-document>.old-title, .diff-document>.new-title, .diff-document>.doc-cell{
@@ -2731,6 +2738,7 @@ body.app-dashboard{
 .app-shell{
   display:block;
   width:100%;
+  max-width:var(--dash-layout-w);
   min-width:0;
   min-height:100vh;
   margin:0;
@@ -2755,6 +2763,7 @@ body.app-dashboard{
 .app-content{
   display:block;
   width:calc(100% - var(--dash-sidebar-w));
+  max-width:var(--dash-content-w);
   min-width:0;
   min-height:100vh;
   margin-left:var(--dash-sidebar-w);
