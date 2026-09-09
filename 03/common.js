@@ -33,8 +33,10 @@
 })();
 (()=>{
   'use strict';
-  // Move the existing cells, retaining row parents for exact Web alignment restoration.
+  // Keep paired old/new cells in the same .diff-row on Tablet so every clause remains aligned.
+  // Only Phone stacks the two documents vertically; reflection moves below the pair on Tablet/Phone.
   const compact=window.matchMedia('(max-width:1100px)');
+  const phone=window.matchMedia('(max-width:760px)');
   const print=window.matchMedia('print');
   const sections=[...document.querySelectorAll('.diff-section')].map(section=>{
     const body=section.querySelector('.diff-body');
@@ -53,33 +55,51 @@
     });
     return {body,titles,oldTitle,newTitle,reflectionTitle,reflection,rows,groups:null};
   });
-  const arrange=stacked=>sections.forEach(item=>{
-    if(stacked===Boolean(item.groups)) return;
-    if(stacked){
-      const groups=['old','new'].map(kind=>{
-        const group=document.createElement('div');
-        group.className='diff-document';
-        group.setAttribute('role','group');
-        group.setAttribute('aria-label',kind==='old'?'종전계약':'재계약안');
-        return group;
-      });
-      groups[0].append(item.oldTitle);
-      groups[1].append(item.newTitle);
-      item.rows.forEach(({cells})=>cells.forEach((cell,index)=>groups[index].append(cell)));
-      item.body.append(...groups);
-      item.reflection.prepend(item.reflectionTitle);
-      item.groups=groups;
-    }else{
-      item.titles.append(item.oldTitle,item.newTitle,item.reflectionTitle);
-      item.rows.forEach(({row,cells})=>row.append(...cells));
-      item.groups.forEach(group=>group.remove());
-      item.groups=null;
-    }
+
+  const restoreRows=item=>{
+    if(!item.groups) return;
+    item.titles.append(item.oldTitle,item.newTitle);
+    item.rows.forEach(({row,cells})=>row.append(...cells));
+    item.groups.forEach(group=>group.remove());
+    item.groups=null;
+  };
+
+  const stackPhone=item=>{
+    if(item.groups) return;
+    const groups=['old','new'].map(kind=>{
+      const group=document.createElement('div');
+      group.className='diff-document';
+      group.setAttribute('role','group');
+      group.setAttribute('aria-label',kind==='old'?'종전계약':'재계약안');
+      return group;
+    });
+    groups[0].append(item.oldTitle);
+    groups[1].append(item.newTitle);
+    item.rows.forEach(({cells})=>cells.forEach((cell,index)=>groups[index].append(cell)));
+    item.body.append(...groups);
+    item.groups=groups;
+  };
+
+  const arrange=mode=>sections.forEach(item=>{
+    if(mode==='phone') stackPhone(item);
+    else restoreRows(item);
+
+    if(mode==='desktop') item.titles.append(item.reflectionTitle);
+    else item.reflection.prepend(item.reflectionTitle);
   });
-  const sync=()=>arrange(compact.matches&&!print.matches);
+
+  const currentMode=()=>{
+    if(print.matches) return 'desktop';
+    if(phone.matches) return 'phone';
+    if(compact.matches) return 'tablet';
+    return 'desktop';
+  };
+  const sync=()=>arrange(currentMode());
+
   compact.addEventListener('change',sync);
+  phone.addEventListener('change',sync);
   print.addEventListener('change',sync);
-  window.addEventListener('beforeprint',()=>arrange(false));
+  window.addEventListener('beforeprint',()=>arrange('desktop'));
   window.addEventListener('afterprint',sync);
   sync();
 })();
@@ -489,7 +509,7 @@
   setSettlementOpen(Boolean(settlementSubnav?.classList.contains('is-open')));
   window.addEventListener('beforeprint',()=>setMenuOpen(false));
 
-  const setView=(view,{month=null}={})=>{
+  const setView=(view,{month=null,keepMenuOpen=false}={})=>{
     views.forEach(panel=>{
       panel.classList.toggle('is-active',panel.dataset.appView===view);
     });
@@ -536,7 +556,7 @@
       detail:Object.freeze({view,month})
     }));
 
-    setMenuOpen(false);
+    if(!keepMenuOpen) setMenuOpen(false);
     window.scrollTo({top:0,left:0,behavior:'auto'});
   };
 
@@ -545,7 +565,7 @@
   });
 
   settlementParent?.addEventListener('click',()=>{
-    setView('settlement-overview');
+    setView('settlement-overview',{keepMenuOpen:compactMenu.matches});
   });
 
   monthItems.forEach(item=>{
@@ -880,7 +900,7 @@
         <div class="st-overview-average-head">평균</div>
       </div>
       ${groups.map(group=>`
-        <div class="st-overview-group">${escapeHtml(group.title)}</div>
+        <div class="st-overview-group"><span class="st-overview-group-label">${escapeHtml(group.title)}</span></div>
         ${group.rows.map(rowHtml).join('')}
       `).join('')}
     `;
@@ -977,7 +997,6 @@
   const tooltip=document.getElementById('baFloatingTooltip');
   const rsStepButtons=[...root.querySelectorAll('[data-ba-rs-step]')];
   const compactRs=window.matchMedia('(max-width:1100px)');
-  const phoneRs=window.matchMedia('(max-width:760px)');
   const printRs=window.matchMedia('print');
   let compactRsStep=1;
   let printingRs=false;
@@ -1064,7 +1083,7 @@
     clone.style.gridTemplateColumns=computed.gridTemplateColumns;
     clone.style.transform=`translateX(${-matrixScroll.scrollLeft}px)`;
     const label=clone.querySelector('.ba-matrix-label-head');
-    if(label) label.style.transform=phoneRs.matches?`translateX(${matrixScroll.scrollLeft}px)`:'none';
+    if(label) label.style.transform=`translateX(${matrixScroll.scrollLeft}px)`;
 
 
     fixedRsHeader.style.left=`${Math.round(scrollRect.left)}px`;
@@ -1293,7 +1312,7 @@
 
     for(const group of compareGroups){
       html+=`<div class="ba-compare-block">`;
-      html+=`<div class="ba-compare-title"><strong>${group.title}</strong>${group.note?`<small>${group.note}</small>`:''}</div>`;
+      html+=`<div class="ba-compare-title"><span class="ba-matrix-section-label"><strong>${group.title}</strong>${group.note?`<small>${group.note}</small>`:''}</span></div>`;
       for(const metric of group.rows){
         html+=metricRowHtml(metric,fixed,share);
       }
@@ -1307,7 +1326,7 @@
 
     for(const group of commonGroups){
       html+=`<div class="ba-common-block">`;
-      html+=`<div class="ba-group-title">${group.title}</div>`;
+      html+=`<div class="ba-group-title"><span class="ba-matrix-section-label">${group.title}</span></div>`;
       for(const metric of group.rows){
         html+=metricRowHtml(metric,fixed,share);
       }
