@@ -2774,6 +2774,187 @@ html, body{min-width:var(--dash-layout-w)!important;}
   margin-top:0!important;
   margin-bottom:0!important;
 }
+
+/* =========================================================
+   용역비 정산 Overview
+   Dashboard foundation / settlement KPI / panel token 재사용
+   ========================================================= */
+.st-overview-summary{
+  margin:0!important;
+}
+.st-overview-panel-head{
+  min-height:54px!important;
+  padding:9px 11px!important;
+  border-bottom:1px solid var(--dash-line)!important;
+  background:var(--dash-panel-bg)!important;
+}
+.st-overview-panel-title h2{
+  margin:0;
+  color:var(--dash-color-title);
+  font-size:13.5px;
+  line-height:1.2;
+  font-weight:900;
+}
+.st-overview-panel-meta{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  color:var(--dash-color-muted);
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:800;
+}
+.st-overview-panel-meta span+span{
+  padding-left:10px;
+  border-left:1px solid var(--dash-line);
+}
+.st-overview-scroll{
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#cbd5df transparent;
+}
+.st-overview-matrix{
+  --st-overview-month-count:6;
+  width:100%;
+  min-width:calc(220px + var(--st-overview-month-count) * 150px + 170px);
+  font-variant-numeric:tabular-nums;
+}
+.st-overview-head,
+.st-overview-row{
+  display:grid;
+  grid-template-columns:
+    220px
+    repeat(var(--st-overview-month-count),minmax(150px,1fr))
+    170px;
+  align-items:stretch;
+}
+.st-overview-head{
+  min-height:36px;
+  border-bottom:1px solid var(--dash-panel-border);
+  background:#fff;
+}
+.st-overview-label-head,
+.st-overview-month-head,
+.st-overview-total-head{
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-width:0;
+  padding:7px 10px;
+  color:#526174;
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:900;
+}
+.st-overview-label-head{
+  color:#7b8796;
+}
+.st-overview-month-head{
+  justify-content:center;
+  border:0;
+  border-left:1px solid #edf0f3;
+  background:transparent;
+  font-family:inherit;
+  cursor:pointer;
+}
+.st-overview-month-head:hover,
+.st-overview-month-head:focus-visible{
+  background:#f4f8fc;
+  color:var(--dash-color-accent);
+}
+.st-overview-month-head:focus-visible{
+  outline:2px solid rgba(49,130,246,.22);
+  outline-offset:-2px;
+}
+.st-overview-total-head{
+  justify-content:flex-end;
+  border-left:1px solid var(--dash-line);
+  background:#f4f7fa;
+  color:var(--dash-color-title);
+}
+.st-overview-group{
+  display:flex;
+  align-items:center;
+  min-height:31px;
+  padding:6px 10px;
+  border-top:1px solid var(--dash-panel-border);
+  border-bottom:1px solid var(--dash-line);
+  background:#f7f9fb;
+  color:var(--dash-color-title);
+  font-size:11px;
+  line-height:1.2;
+  font-weight:900;
+  letter-spacing:.025em;
+}
+.st-overview-group:first-of-type{
+  border-top:0;
+}
+.st-overview-row{
+  min-height:34px;
+  border-bottom:1px solid #eef1f4;
+  background:#fff;
+}
+.st-overview-row:hover{
+  background:#fbfcfd;
+}
+.st-overview-row-label,
+.st-overview-cell{
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-width:0;
+  padding:6px 10px;
+}
+.st-overview-row-label{
+  color:#596779;
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:700;
+}
+.st-overview-cell{
+  justify-content:flex-end;
+  border-left:1px solid #f0f2f5;
+  color:#263548;
+  font-size:10.8px;
+  line-height:1.2;
+  font-weight:800;
+  text-align:right;
+  white-space:nowrap;
+}
+.st-overview-cell.is-missing{
+  color:#a3adb8;
+  font-weight:700;
+}
+.st-overview-cell.is-total{
+  border-left-color:var(--dash-line);
+  background:#fafbfd;
+  color:var(--dash-color-title);
+  font-weight:900;
+}
+.st-overview-row.is-subtotal{
+  background:#fbfcfe;
+}
+.st-overview-row.is-subtotal .st-overview-row-label,
+.st-overview-row.is-subtotal .st-overview-cell{
+  color:var(--dash-color-title);
+  font-weight:900;
+}
+.st-overview-row.is-final{
+  border-top:1px solid #bfd7ca;
+  border-bottom:0;
+  background:#f4faf7;
+}
+.st-overview-row.is-final .st-overview-row-label,
+.st-overview-row.is-final .st-overview-cell{
+  color:#137454;
+  font-weight:900;
+}
+.st-overview-row.is-final .st-overview-cell.is-total{
+  background:#edf7f2;
+}
 </style>
 </head>
 <body class="app-dashboard">
@@ -3239,7 +3420,54 @@ html, body{min-width:var(--dash-layout-w)!important;}
 </div>
 <div aria-hidden="true" class="ba-floating-tooltip" id="baFloatingTooltip" role="tooltip"></div>
 </section>
-<section class="app-view app-view-settlement dashboard-page" data-app-view="settlement">
+<section class="app-view app-view-settlement-overview dashboard-page" data-app-view="settlement-overview">
+<div class="st-overview-page dashboard-view-host">
+<div class="st-overview-inner dashboard-page-inner dashboard-page-stack">
+<header class="st-overview-header dashboard-page-header">
+<div class="dashboard-page-title">
+<p class="st-kicker dashboard-page-kicker">MONTHLY SETTLEMENT</p>
+<h1>용역비 정산서</h1>
+</div>
+<div class="st-overview-header-meta dashboard-page-actions">
+<span class="st-month-badge" data-st-overview-range="">—</span>
+<span class="st-vat-badge">VAT 별도</span>
+</div>
+</header>
+<section aria-label="정산 누계 요약" class="st-summary st-overview-summary">
+<article>
+<span>누계 매출액</span>
+<strong data-st-overview-sales="">—</strong>
+</article>
+<article>
+<span>누계 공제항목</span>
+<strong data-st-overview-deductions="">—</strong>
+</article>
+<article>
+<span>누계 운영비</span>
+<strong data-st-overview-operating="">—</strong>
+</article>
+<article class="is-result">
+<span>누계 용역비</span>
+<strong data-st-overview-result="">—</strong>
+</article>
+</section>
+<section class="st-overview-panel dashboard-panel">
+<header class="st-overview-panel-head dashboard-panel-head">
+<div class="st-overview-panel-title">
+<h2>월별 정산 현황</h2>
+</div>
+<div class="st-overview-panel-meta">
+<span data-st-overview-period="">—</span>
+<span>단위: 원</span>
+</div>
+</header>
+<div class="st-overview-scroll">
+<div class="st-overview-matrix" data-st-overview-matrix=""></div>
+</div>
+</section>
+</div>
+</div>
+</section><section class="app-view app-view-settlement dashboard-page" data-app-view="settlement">
 <div class="st-page dashboard-view-host">
 <div class="st-page-inner dashboard-page-inner dashboard-page-stack">
 <header class="st-header dashboard-page-header">
@@ -3716,7 +3944,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
       else item.removeAttribute('aria-current');
     });
 
-    const settlementActive=view==='settlement';
+    const settlementActive=view==='settlement'||view==='settlement-overview';
     settlementParent?.classList.toggle('is-active',settlementActive);
 
     if(settlementParent){
@@ -3734,7 +3962,11 @@ html, body{min-width:var(--dash-layout-w)!important;}
           if(active) item.setAttribute('aria-current','page');
           else item.removeAttribute('aria-current');
         });
-
+      }else{
+        monthItems.forEach(item=>{
+          item.classList.remove('is-active');
+          item.removeAttribute('aria-current');
+        });
       }
     }else{
       monthItems.forEach(item=>{
@@ -3755,7 +3987,7 @@ html, body{min-width:var(--dash-layout-w)!important;}
   });
 
   settlementParent?.addEventListener('click',()=>{
-    setSettlementOpen(settlementParent.getAttribute('aria-expanded')!=='true');
+    setView('settlement-overview');
   });
 
   monthItems.forEach(item=>{
@@ -3871,6 +4103,214 @@ html, body{min-width:var(--dash-layout-w)!important;}
   render('2026-03');
 
   window.SettlementRenderer=Object.freeze({render});
+})();
+</script><script id="settlement-overview-renderer">
+(()=>{
+  'use strict';
+
+  const root=document.querySelector('[data-app-view="settlement-overview"]');
+  const data=window.SettlementData;
+  if(!root||!data) return;
+
+  const months=Object.keys(data).sort();
+  const matrix=root.querySelector('[data-st-overview-matrix]');
+
+  const normalizeLabel=value=>String(value??'')
+    .replace(/롤스크린유지보수/g,'롤스크린 유지보수')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const escapeHtml=value=>String(value??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+
+  const formatNumber=value=>{
+    if(value===null||value===undefined) return '—';
+    return new Intl.NumberFormat('ko-KR',{maximumFractionDigits:0}).format(Number(value));
+  };
+
+  const formatWon=value=>{
+    if(value===null||value===undefined) return '—';
+    return `${formatNumber(value)}원`;
+  };
+
+  const rowsFor=month=>data[month]?.rows||[];
+
+  const findAmount=(month,field,label)=>{
+    const target=normalizeLabel(label);
+    const row=rowsFor(month).find(item=>
+      normalizeLabel(item?.[field])===target
+    );
+    return row&&row.amount!==null&&row.amount!==undefined
+      ? Number(row.amount)
+      : null;
+  };
+
+  const amountBySpec=(month,spec)=>
+    findAmount(month,spec.field,spec.source||spec.label);
+
+  const totalValues=values=>{
+    const present=values.filter(value=>value!==null&&value!==undefined);
+    return present.length
+      ? present.reduce((sum,value)=>sum+Number(value),0)
+      : null;
+  };
+
+  const operatingLabels=[];
+  months.forEach(month=>{
+    rowsFor(month).forEach(item=>{
+      if(!item.subdetail||item.amount===null||item.amount===undefined) return;
+      const label=normalizeLabel(item.subdetail);
+      if(label==='운영비 계') return;
+      if(!operatingLabels.includes(label)) operatingLabels.push(label);
+    });
+  });
+
+  const groups=[
+    {
+      title:'매출',
+      rows:[
+        {label:'실제 매출',field:'detail'},
+        {label:'차감액',field:'detail'},
+        {label:'실제 매출 - 차감액',field:'detail'},
+        {label:'월별 매출액',field:'detail',kind:'subtotal'}
+      ]
+    },
+    {
+      title:'공제항목',
+      rows:[
+        {label:'위탁운영 수수료',field:'detail'},
+        {label:'카드수수료',field:'detail'},
+        {label:'결제수단수수료',field:'detail'},
+        {label:'현금 정산 차액',field:'detail'},
+        {label:'골프존 유지보수비',field:'detail'},
+        {label:'관리비',field:'detail'}
+      ]
+    },
+    {
+      title:'운영비',
+      rows:[
+        ...operatingLabels.map(label=>({label,field:'subdetail'})),
+        {label:'운영비 계',field:'subdetail',kind:'subtotal'}
+      ]
+    },
+    {
+      title:'정산결과',
+      rows:[
+        {label:'공제항목 합계',field:'category',kind:'subtotal'},
+        {label:'용역비',field:'category',kind:'final'}
+      ]
+    }
+  ];
+
+  const rowHtml=spec=>{
+    const values=months.map(month=>amountBySpec(month,spec));
+    const total=totalValues(values);
+    const classes=['st-overview-row'];
+    if(spec.kind==='subtotal') classes.push('is-subtotal');
+    if(spec.kind==='final') classes.push('is-final');
+
+    return `<div class="${classes.join(' ')}" data-st-overview-row="${escapeHtml(spec.label)}">
+      <div class="st-overview-row-label">${escapeHtml(spec.label)}</div>
+      ${values.map((value,index)=>`
+        <div class="st-overview-cell ${value===null?'is-missing':''}"
+             data-st-overview-value="${escapeHtml(months[index])}">
+          ${value===null?'—':formatNumber(value)}
+        </div>`).join('')}
+      <div class="st-overview-cell is-total" data-st-overview-total>
+        ${total===null?'—':formatNumber(total)}
+      </div>
+    </div>`;
+  };
+
+  const render=()=>{
+    if(!matrix||!months.length) return;
+
+    matrix.style.setProperty('--st-overview-month-count',String(months.length));
+
+    matrix.innerHTML=`
+      <div class="st-overview-head">
+        <div class="st-overview-label-head">구분</div>
+        ${months.map(month=>`
+          <button type="button"
+                  class="st-overview-month-head"
+                  data-st-overview-month="${escapeHtml(month)}"
+                  title="${escapeHtml(month)} 상세 정산서 보기"
+                  aria-label="${escapeHtml(month)} 상세 정산서 보기">
+            ${escapeHtml(month)}
+          </button>`).join('')}
+        <div class="st-overview-total-head">누계</div>
+      </div>
+      ${groups.map(group=>`
+        <div class="st-overview-group">${escapeHtml(group.title)}</div>
+        ${group.rows.map(rowHtml).join('')}
+      `).join('')}
+    `;
+
+    const salesTotal=totalValues(
+      months.map(month=>findAmount(month,'detail','월별 매출액'))
+    );
+    const deductionTotal=totalValues(
+      months.map(month=>findAmount(month,'category','공제항목 합계'))
+    );
+    const operatingTotal=totalValues(
+      months.map(month=>findAmount(month,'subdetail','운영비 계'))
+    );
+    const resultTotal=totalValues(
+      months.map(month=>findAmount(month,'category','용역비'))
+    );
+
+    const setText=(selector,text)=>{
+      const el=root.querySelector(selector);
+      if(el) el.textContent=text;
+    };
+
+    const first=months[0];
+    const last=months[months.length-1];
+    setText('[data-st-overview-range]',`${first} ~ ${last}`);
+    setText('[data-st-overview-period]',`${months.length}개월`);
+    setText('[data-st-overview-sales]',formatWon(salesTotal));
+    setText('[data-st-overview-deductions]',formatWon(deductionTotal));
+    setText('[data-st-overview-operating]',formatWon(operatingTotal));
+    setText('[data-st-overview-result]',formatWon(resultTotal));
+
+    const monthlyIdentity=months.every(month=>{
+      const sales=findAmount(month,'detail','월별 매출액');
+      const deductions=findAmount(month,'category','공제항목 합계');
+      const result=findAmount(month,'category','용역비');
+      return sales!==null&&deductions!==null&&result!==null&&
+        Math.abs((sales-deductions)-result)<0.5;
+    });
+
+    window.SettlementOverviewQA=Object.freeze({
+      passed:
+        monthlyIdentity&&
+        salesTotal!==null&&deductionTotal!==null&&resultTotal!==null&&
+        Math.abs((salesTotal-deductionTotal)-resultTotal)<0.5,
+      months:Object.freeze([...months]),
+      monthCount:months.length,
+      matrixRowCount:groups.reduce((sum,group)=>sum+group.rows.length,0),
+      operatingRowCount:operatingLabels.length,
+      totals:Object.freeze({
+        sales:salesTotal,
+        deductions:deductionTotal,
+        operating:operatingTotal,
+        result:resultTotal
+      })
+    });
+  };
+
+  root.addEventListener('click',event=>{
+    const button=event.target.closest('[data-st-overview-month]');
+    if(!button||!root.contains(button)) return;
+    window.AppNavigation?.setView('settlement',{
+      month:button.dataset.stOverviewMonth
+    });
+  });
+
+  render();
 })();
 </script><script id="business-analysis-ui">
 (()=>{
