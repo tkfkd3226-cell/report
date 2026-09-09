@@ -23,6 +23,7 @@
   --ba-border:#d8e0e8;
   --ba-border-soft:#e8edf2;
   --dash-color-positive:#137454;
+  --st-result-bg:#f4faf7;
   --dash-tooltip-bg:#17243a;
   /* Canonical Desktop max dimensions; the shell is fluid only below 1920px. */
   --dash-layout-w:1920px;
@@ -49,6 +50,7 @@
   --dash-page-pad-top-compact:14px;
   --dash-font-page-title:25px;
   --dash-font-kicker:10.5px;
+  --dash-font-table-head:11px;
   --dash-font-value:12px;
   --dash-font-label:11.5px;
   --dash-font-caption:10.5px;
@@ -720,7 +722,6 @@ p{
   gap:3px;
   min-width:0;
   color:#596779;
-  font-weight:700;
 }
 
 .ba-metric-label strong{
@@ -736,8 +737,6 @@ p{
   min-width:0;
   border-left:1px solid #f0f2f5;
   color:#263548;
-  font-weight:800;
-  line-height:1.15;
   text-align:right;
   font-variant-numeric:tabular-nums;
   white-space:nowrap;
@@ -976,7 +975,7 @@ p{
 
 .st-summary .is-result{
   border-color:#bfd7ca;
-  background:#f4faf7;
+  background:var(--st-result-bg);
 }
 
 .st-summary .is-result span{
@@ -1217,11 +1216,11 @@ p{
   border-radius:var(--dash-panel-radius);
 }
 
-.ba-setting-input, .ba-metric-cell, .ba-ref-input, .ba-ref-value, .st-row-amount{
+.ba-setting-input, .ba-ref-input, .ba-ref-value, .st-row-amount{
   font-size:var(--dash-font-value);
 }
 
-.ba-setting-label, .ba-metric-label, .ba-ref-label{
+.ba-setting-label, .ba-ref-label{
   font-size:var(--dash-font-label);
 }
 
@@ -1322,8 +1321,38 @@ p{
   margin-right:0;
 }
 
-.ba-matrix-label-head, .ba-rs-head{
-  font-size:11px;
+/* Shared data-table typography: Business comparison + Settlement monthly overview. */
+.ba-matrix-label-head,
+.ba-rs-head,
+.st-overview-label-head,
+.st-overview-month-head,
+.st-overview-total-head,
+.st-overview-average-head{
+  font-size:var(--dash-font-table-head);
+  line-height:1.48;
+  font-weight:900;
+}
+
+.ba-matrix-bundle.is-compare .ba-compare-title strong,
+.ba-matrix-bundle.is-common .ba-group-title,
+.st-overview-group{
+  font-size:var(--dash-font-section);
+  line-height:1.48;
+  font-weight:900;
+}
+
+.ba-metric-label,
+.st-overview-row-label{
+  font-size:var(--dash-font-label);
+  line-height:1.48;
+  font-weight:700;
+}
+
+.ba-metric-cell,
+.st-overview-cell{
+  font-size:var(--dash-font-value);
+  line-height:1.15;
+  font-weight:800;
 }
 
 .ba-metric-row{
@@ -2038,8 +2067,6 @@ p{
 
 .ba-matrix-bundle.is-compare .ba-compare-title strong{
   color:#28435f;
-  font-size:12px;
-  font-weight:900;
 }
 
 .ba-matrix-bundle.is-compare .ba-compare-block .ba-metric-row:last-child{
@@ -2071,8 +2098,6 @@ p{
   border-bottom:1px solid #e2e8ee;
   background:#eef3f7;
   color:#29445f;
-  font-size:12px;
-  font-weight:900;
 }
 
 .ba-matrix-bundle.is-common .ba-common-block:first-child .ba-group-title{
@@ -3396,9 +3421,6 @@ body.app-dashboard{
   min-width:0;
   padding:7px 10px;
   color:#526174;
-  font-size:10.5px;
-  line-height:1.2;
-  font-weight:900;
 }
 
 .st-overview-label-head{
@@ -3440,9 +3462,6 @@ body.app-dashboard{
   border-bottom:1px solid var(--dash-line);
   background:#f7f9fb;
   color:var(--dash-color-title);
-  font-size:11px;
-  line-height:1.2;
-  font-weight:900;
   letter-spacing:.025em;
 }
 
@@ -3470,18 +3489,12 @@ body.app-dashboard{
 
 .st-overview-row-label{
   color:#596779;
-  font-size:10.5px;
-  line-height:1.2;
-  font-weight:700;
 }
 
 .st-overview-cell{
   justify-content:flex-end;
   border-left:1px solid #f0f2f5;
   color:#263548;
-  font-size:10.8px;
-  line-height:1.2;
-  font-weight:800;
   text-align:right;
   white-space:nowrap;
 }
@@ -3510,16 +3523,21 @@ body.app-dashboard{
 .st-overview-row.is-final{
   border-top:1px solid #bfd7ca;
   border-bottom:0;
-  background:#f4faf7;
+  background:var(--st-result-bg);
 }
 
-.st-overview-row.is-final .st-overview-row-label, .st-overview-row.is-final .st-overview-cell{
+.st-overview-row.is-final .st-overview-row-label,
+.st-overview-row.is-final .st-overview-cell{
   color:var(--dash-color-positive);
   font-weight:900;
 }
 
-.st-overview-row.is-final .st-overview-cell.is-total, .st-overview-cell.is-average{
-  background:#edf7f2;
+.st-overview-row.is-final .st-overview-cell:not(.is-average){
+  background:var(--st-result-bg);
+}
+
+.st-overview-row.is-final .st-overview-cell.is-average{
+  background:var(--st-result-bg);
 }
 
 /* Settlement responsive layout and note disclosure. */

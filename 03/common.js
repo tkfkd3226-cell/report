@@ -1394,7 +1394,7 @@
     setText('[data-ba-upgrade-total-summary]',formatMoney(result.total)+'원');
     setText('[data-ba-upgrade-monthly]',formatMoney(result.monthlyInterestFree)+'원');
     setText('[data-ba-upgrade-interest-total]',formatMoney(result.totalWithInterest)+'원');
-    setText('[data-ba-upgrade-interest-monthly]',formatNumber(result.monthlyWithInterest,1)+'원');
+    setText('[data-ba-upgrade-interest-monthly]',formatNumber(Math.ceil(result.monthlyWithInterest))+'원');
   };
 
   const renderReferences=()=>{
@@ -1553,7 +1553,7 @@
   const downloadBusinessSnapshot=async()=>{
     if(!snapshotButton||snapshotButton.disabled) return;
 
-    const label=snapshotButton.querySelector('span');
+    const label=snapshotButton.querySelector('.ba-button-icon + span');
     const originalLabel=label?.textContent||'스냅샷';
     snapshotButton.disabled=true;
     snapshotButton.setAttribute('aria-busy','true');
