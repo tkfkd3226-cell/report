@@ -439,7 +439,7 @@
   const compactMenu=window.matchMedia('(max-width:1100px)');
   let menuOpen=false;
   const menuItems=()=>[...sidebar.querySelectorAll('button,a[href],[tabindex="0"]')]
-    .filter(item=>!item.disabled&&item.getClientRects().length);
+    .filter(item=>!item.disabled&&!item.closest('[inert]')&&item.getClientRects().length);
 
   const setMenuOpen=(requested,{restoreFocus=true}={})=>{
     const wasOpen=menuOpen;
@@ -483,7 +483,11 @@
   const setSettlementOpen=open=>{
     settlementParent?.setAttribute('aria-expanded',String(open));
     settlementSubnav?.classList.toggle('is-open',open);
+    if(settlementSubnav) settlementSubnav.inert=!open;
   };
+
+  setSettlementOpen(Boolean(settlementSubnav?.classList.contains('is-open')));
+  window.addEventListener('beforeprint',()=>setMenuOpen(false));
 
   const setView=(view,{month=null}={})=>{
     views.forEach(panel=>{
