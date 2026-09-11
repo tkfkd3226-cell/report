@@ -1,35 +1,38 @@
 
 (()=>{
   'use strict';
-  const button=document.querySelector('[data-contract-diff-toggle]');
-  const panel=document.getElementById('contract-diff-collapsible');
-  if(!button||!panel) return;
+  document.querySelectorAll('[data-contract-diff-toggle]').forEach(button=>{
+    const panel=document.getElementById(button.getAttribute('aria-controls'));
+    if(!panel) return;
 
-  const setExpanded=expanded=>{
-    panel.hidden=!expanded;
-    button.setAttribute('aria-expanded',String(expanded));
-    button.textContent=expanded?'접기':'펼치기';
-  };
+    const setExpanded=expanded=>{
+      panel.hidden=!expanded;
+      button.setAttribute('aria-expanded',String(expanded));
+      button.textContent=expanded?'접기':'펼치기';
+    };
 
-  button.addEventListener('click',()=>{
-    setExpanded(button.getAttribute('aria-expanded')!=='true');
+    button.addEventListener('click',()=>{
+      setExpanded(button.getAttribute('aria-expanded')!=='true');
+    });
+
+    setExpanded(false);
   });
-
-  setExpanded(false);
 })();
 (()=>{
- const buttons=[...document.querySelectorAll('.toggle-btn')];
- const sections=[...document.querySelectorAll('.diff-section')];
- const applyFilter=(filter)=>{
-   buttons.forEach(b=>{
-     const active=b.dataset.filter===filter;
-     b.classList.toggle('active',active);
-     b.setAttribute('aria-pressed',String(active));
-   });
-   sections.forEach(s=>s.classList.toggle('hidden-by-filter', filter==='changed' && s.dataset.changed!=='true'));
- };
- buttons.forEach(btn=>btn.addEventListener('click',()=>applyFilter(btn.dataset.filter)));
- applyFilter('changed');
+  document.querySelectorAll('.contract-panel-diff').forEach(root=>{
+    const buttons=[...root.querySelectorAll('.toggle-btn')];
+    const sections=[...root.querySelectorAll('.diff-section')];
+    const applyFilter=(filter)=>{
+      buttons.forEach(b=>{
+        const active=b.dataset.filter===filter;
+        b.classList.toggle('active',active);
+        b.setAttribute('aria-pressed',String(active));
+      });
+      sections.forEach(s=>s.classList.toggle('hidden-by-filter', filter==='changed' && s.dataset.changed!=='true'));
+    };
+    buttons.forEach(btn=>btn.addEventListener('click',()=>applyFilter(btn.dataset.filter)));
+    applyFilter('changed');
+  });
 })();
 (()=>{
   'use strict';
@@ -39,6 +42,9 @@
   const phone=window.matchMedia('(max-width:760px)');
   const print=window.matchMedia('print');
   const sections=[...document.querySelectorAll('.diff-section')].map(section=>{
+    const diffPanel=section.closest('.contract-panel-diff');
+    const oldLabel=diffPanel?.dataset.oldLabel||'종전계약';
+    const newLabel=diffPanel?.dataset.newLabel||'재계약안';
     const body=section.querySelector('.diff-body');
     const titles=section.querySelector('.article-title-row');
     const oldTitle=titles.querySelector('.old-title');
@@ -53,7 +59,7 @@
       });
       return {row,cells};
     });
-    return {body,titles,oldTitle,newTitle,reflectionTitle,reflection,rows,groups:null};
+    return {body,titles,oldTitle,newTitle,reflectionTitle,reflection,rows,groups:null,oldLabel,newLabel};
   });
 
   const restoreRows=item=>{
@@ -70,7 +76,7 @@
       const group=document.createElement('div');
       group.className='diff-document';
       group.setAttribute('role','group');
-      group.setAttribute('aria-label',kind==='old'?'종전계약':'재계약안');
+      group.setAttribute('aria-label',kind==='old'?item.oldLabel:item.newLabel);
       return group;
     });
     groups[0].append(item.oldTitle);
@@ -447,9 +453,14 @@
 
   const views=[...document.querySelectorAll('[data-app-view]')];
   const topItems=[...document.querySelectorAll('.app-nav-item[data-view]')];
+  const contractParent=document.querySelector('.app-nav-parent[data-parent="contract"]');
+  const contractSubnav=document.querySelector('[data-subnav="contract"]');
+  const contractVersionItems=[...document.querySelectorAll('.app-subnav-item[data-contract-version]')];
+  const contractVersionPanels=[...document.querySelectorAll('[data-contract-version-panel]')];
   const settlementParent=document.querySelector('.app-nav-parent[data-parent="settlement"]');
   const settlementSubnav=document.querySelector('[data-subnav="settlement"]');
   const monthItems=[...document.querySelectorAll('.app-subnav-item[data-month]')];
+  let currentContractVersion='v2';
 
   // One sidebar DOM serves both fixed Web navigation and the small-screen overlay.
   const sidebar=document.getElementById('appSidebar');
@@ -500,12 +511,34 @@
   });
   setMenuOpen(false,{restoreFocus:false});
 
+  const setContractOpen=open=>{
+    contractParent?.setAttribute('aria-expanded',String(open));
+    contractSubnav?.classList.toggle('is-open',open);
+    if(contractSubnav) contractSubnav.inert=!open;
+  };
+
+  const setContractVersion=version=>{
+    if(!contractVersionPanels.some(panel=>panel.dataset.contractVersionPanel===version)) return;
+    currentContractVersion=version;
+    contractVersionPanels.forEach(panel=>{
+      panel.hidden=panel.dataset.contractVersionPanel!==version;
+    });
+    contractVersionItems.forEach(item=>{
+      const active=item.dataset.contractVersion===version;
+      item.classList.toggle('is-active',active);
+      if(active) item.setAttribute('aria-current','page');
+      else item.removeAttribute('aria-current');
+    });
+  };
+
   const setSettlementOpen=open=>{
     settlementParent?.setAttribute('aria-expanded',String(open));
     settlementSubnav?.classList.toggle('is-open',open);
     if(settlementSubnav) settlementSubnav.inert=!open;
   };
 
+  setContractVersion(currentContractVersion);
+  setContractOpen(Boolean(contractSubnav?.classList.contains('is-open')));
   setSettlementOpen(Boolean(settlementSubnav?.classList.contains('is-open')));
   window.addEventListener('beforeprint',()=>setMenuOpen(false));
 
@@ -520,6 +553,10 @@
       if(active) item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
+
+    const contractActive=view==='contract';
+    contractParent?.classList.toggle('is-active',contractActive);
+    if(contractActive) setContractOpen(true);
 
     const settlementActive=view==='settlement'||view==='settlement-overview';
     settlementParent?.classList.toggle('is-active',settlementActive);
@@ -564,6 +601,18 @@
     item.addEventListener('click',()=>setView(item.dataset.view));
   });
 
+  contractParent?.addEventListener('click',()=>{
+    setContractVersion('v2');
+    setView('contract',{keepMenuOpen:compactMenu.matches});
+  });
+
+  contractVersionItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+      setContractVersion(item.dataset.contractVersion);
+      setView('contract');
+    });
+  });
+
   settlementParent?.addEventListener('click',()=>{
     setView('settlement-overview',{keepMenuOpen:compactMenu.matches});
   });
@@ -574,7 +623,7 @@
     });
   });
 
-  window.AppNavigation=Object.freeze({setView,setSettlementOpen});
+  window.AppNavigation=Object.freeze({setView,setContractOpen,setContractVersion,setSettlementOpen});
 })();
 
 (()=>{
