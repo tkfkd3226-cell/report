@@ -556,7 +556,15 @@
 
     const contractActive=view==='contract';
     contractParent?.classList.toggle('is-active',contractActive);
-    if(contractActive) setContractOpen(true);
+    if(contractActive){
+      setContractOpen(true);
+      setContractVersion(currentContractVersion);
+    }else{
+      contractVersionItems.forEach(item=>{
+        item.classList.remove('is-active');
+        item.removeAttribute('aria-current');
+      });
+    }
 
     const settlementActive=view==='settlement'||view==='settlement-overview';
     settlementParent?.classList.toggle('is-active',settlementActive);
